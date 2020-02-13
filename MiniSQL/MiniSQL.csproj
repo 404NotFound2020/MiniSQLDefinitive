@@ -46,10 +46,11 @@
     <Compile Include="Clases\Database.cs" />
     <Compile Include="Clases\Row.cs" />
     <Compile Include="Clases\Table.cs" />
+    <Compile Include="Interfaces\IParser.cs" />
+    <Compile Include="Parsers\ParserFactory.cs" />
+    <Compile Include="Parsers\XMLParser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Interfaces\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
