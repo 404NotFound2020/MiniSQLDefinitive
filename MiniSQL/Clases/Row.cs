@@ -6,10 +6,13 @@ public class Row
 	public Row()
 	{
 	}
-	public void insertRow()
+	public void addRow(Row r)
 	{
 	}
-	public void deleteRow()
+	public void setRow(Row r)
+	{
+	}
+	public void deleteRow(Row r)
 	{
 	}
 	public Row getRow()
