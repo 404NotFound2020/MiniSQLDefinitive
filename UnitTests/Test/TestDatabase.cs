@@ -1,10 +1,10 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace UnitTests
+namespace UnitTests.Test
 {
     [TestClass]
-    public class UnitTest1
+    public class TestDatabase
     {
         [TestMethod]
         public void TestMethod1()
