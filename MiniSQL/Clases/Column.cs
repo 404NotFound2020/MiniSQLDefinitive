@@ -8,4 +8,18 @@ public class Column
 	public Column()
 	{
 	}
+
+	public void AddColumn() { 
+	
+	}
+
+	public void GetColumn() { 
+	
+	}
+
+	public void SetColumn() { 
+	
+	}
+
+
 }
