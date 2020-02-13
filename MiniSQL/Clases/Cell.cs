@@ -3,10 +3,11 @@ using System.Collections.Generic;
 public class Cell
 {
 
-	private Column column;
-	
+	public Column column;
+	public string data;
 
 	public Cell()
 	{
+
 	}
 }
