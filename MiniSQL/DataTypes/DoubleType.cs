@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MiniSQL.DataTypes
 {
-    class DoubleType : IDataType
+    public class DoubleType : IDataType
     {
 
         private static DoubleType doubleType;

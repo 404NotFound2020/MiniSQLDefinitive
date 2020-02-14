@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MiniSQL.Interfaces
 {
-    interface IDataType
+    public interface IDataType
     {
         bool IsAValidDataType(string value);
 

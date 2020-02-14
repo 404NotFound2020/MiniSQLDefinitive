@@ -1,34 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
 
-
-public class Row
+namespace MiniSQL.Classes
 {
-	private Dictionary<string, Cell> cells;
-
-	public Row()
+	public class Row
 	{
+		private Dictionary<string, Cell> cells;
+
+		public Row()
+		{
+
+		}
+
+		public void AddCell(Cell cell)
+		{
+
+		}
+
+
+		public void GetCell(string columnName)
+		{
+
+		}
 
 	}
-
-	public void AddCell(Cell cell)
-	{
-
-	}
-
-
-	public void GetCell(string columnName) 
-	{ 	
-	
-	}
-
-
-
-
-
-
-
-
-
-
 }

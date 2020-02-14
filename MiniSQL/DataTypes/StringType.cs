@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MiniSQL.Clases
 {
-    class StringType : IDataType
+    public class StringType : IDataType
     {
 
         private static StringType stringType;

@@ -1,32 +1,35 @@
 ﻿using System;
 using System.Collections.Generic;
 
-
-public class Cell
+namespace MiniSQL.Classes
 {
 
-	public Column column;
-	public string data;
-	public Row row;
-
-	public Cell(Column column, string data, Row row)
+	public class Cell
 	{
 
+		public Column column;
+		public string data;
+		public Row row;
+
+		public Cell(Column column, string data, Row row)
+		{
+
+		}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }

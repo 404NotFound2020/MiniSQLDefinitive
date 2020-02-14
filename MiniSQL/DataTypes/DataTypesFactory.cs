@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace MiniSQL.DataTypes
 {
-    class DataTypesFactory
+    public class DataTypesFactory
     {
         private static DataTypesFactory dataTypesFactory;
         private Dictionary<string, IDataType> dataTypes;

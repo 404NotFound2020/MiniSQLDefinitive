@@ -1,4 +1,5 @@
-﻿using MiniSQL.Interfaces;
+﻿using MiniSQL.Classes;
+using MiniSQL.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,5 +24,6 @@ namespace MiniSQL.Parsers
         {
             throw new NotImplementedException();
         }
+
     }
 }
