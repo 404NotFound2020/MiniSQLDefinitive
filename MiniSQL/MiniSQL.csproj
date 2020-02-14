@@ -41,12 +41,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Clases\Cell.cs" />
-    <Compile Include="Clases\Column.cs" />
-    <Compile Include="Clases\Database.cs" />
-    <Compile Include="Clases\Row.cs" />
-    <Compile Include="Clases\Table.cs" />
+    <Compile Include="Classes\Cell.cs" />
+    <Compile Include="Classes\Column.cs" />
+    <Compile Include="Classes\Database.cs" />
+    <Compile Include="Classes\Row.cs" />
+    <Compile Include="DataTypes\DataTypesFactory.cs" />
+    <Compile Include="DataTypes\DoubleType.cs" />
+    <Compile Include="DataTypes\IntType.cs" />
+    <Compile Include="DataTypes\StringType.cs" />
+    <Compile Include="Classes\Table.cs" />
+    <Compile Include="Interfaces\IDataType.cs" />
     <Compile Include="Interfaces\IParser.cs" />
+    <Compile Include="MiniSQLLauncher.cs" />
     <Compile Include="Parsers\ParserFactory.cs" />
     <Compile Include="Parsers\XMLParser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
