@@ -24,7 +24,7 @@ namespace MiniSQL.Classes
 
 		}
 
-		public Row GetRow(string columnName)
+		public Column GetColumn(string columnName)
 		{
 			return null;
 		}

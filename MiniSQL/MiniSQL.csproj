@@ -41,7 +41,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Constants\ParserVersions.cs" />
     <Compile Include="Constants\TypesKeyConstants.cs" />
+    <Compile Include="Constants\UbicationVersions.cs" />
+    <Compile Include="Constants\XMLSaveDataFormatVersions.cs" />
     <Compile Include="Interfaces\DataType.cs" />
     <Compile Include="Classes\Cell.cs" />
     <Compile Include="Classes\Column.cs" />
@@ -52,16 +55,18 @@
     <Compile Include="DataTypes\IntType.cs" />
     <Compile Include="DataTypes\StringType.cs" />
     <Compile Include="Classes\Table.cs" />
-    <Compile Include="Interfaces\IParser.cs" />
+    <Compile Include="Interfaces\AbstractParser.cs" />
     <Compile Include="Interfaces\ISaveDataFormatManager.cs" />
+    <Compile Include="Interfaces\IUbicationManager.cs" />
     <Compile Include="MiniSQLLauncher.cs" />
-    <Compile Include="Parsers\ParserFactory.cs" />
+    <Compile Include="Parsers\ParserBuilder.cs" />
+    <Compile Include="Parsers\ParserBuilderFactory.cs" />
     <Compile Include="Parsers\XMLParser.cs" />
+    <Compile Include="Parsers\XMLParserBuilder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SaveDataFormatManagers\NothingToDoManager.cs" />
+    <Compile Include="UbicationManagers\FirstUbicationManager.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="ConfigurationClasses\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -1,6 +1,4 @@
-﻿using MiniSQL.Classes;
-using MiniSQL.Interfaces;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,25 +6,21 @@ using System.Threading.Tasks;
 
 namespace MiniSQL.Parsers
 {
-    class XMLParser : AbstractParser
+    public class XMLParserBuilder : ParserBuilder
     {
 
-        public override Database LoadDatabase(string databaseName)
+        public XMLParserBuilder() {
+            
+        }
+
+        public override void SetDataFormatManager(string dataFormatManagerVersion)
         {
             throw new NotImplementedException();
         }
 
-        public override bool SaveDatabase(string databaseName)
+        public override void SetUbicationManager(string ubicationManager)
         {
             throw new NotImplementedException();
         }
-
-
-
-
-
-
-
-
     }
 }
