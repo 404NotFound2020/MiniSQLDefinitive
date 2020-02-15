@@ -6,7 +6,7 @@ namespace MiniSQL.Classes
 	public class Database
 	{
 
-		private string databaseName;
+		public string databaseName;
 		private Dictionary<string, Table> tables;
 		public string user;
 		public string password;

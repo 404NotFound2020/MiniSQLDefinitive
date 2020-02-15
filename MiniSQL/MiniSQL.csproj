@@ -41,6 +41,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Constants\TypesKeyConstants.cs" />
+    <Compile Include="Interfaces\DataType.cs" />
     <Compile Include="Classes\Cell.cs" />
     <Compile Include="Classes\Column.cs" />
     <Compile Include="Classes\Database.cs" />
@@ -50,12 +52,13 @@
     <Compile Include="DataTypes\IntType.cs" />
     <Compile Include="DataTypes\StringType.cs" />
     <Compile Include="Classes\Table.cs" />
-    <Compile Include="Interfaces\IDataType.cs" />
     <Compile Include="Interfaces\IParser.cs" />
+    <Compile Include="Interfaces\ISaveDataFormatManager.cs" />
     <Compile Include="MiniSQLLauncher.cs" />
     <Compile Include="Parsers\ParserFactory.cs" />
     <Compile Include="Parsers\XMLParser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SaveDataFormatManagers\NothingToDoManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="ConfigurationClasses\" />

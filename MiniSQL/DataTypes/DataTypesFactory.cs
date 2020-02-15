@@ -1,4 +1,5 @@
 ﻿using MiniSQL.Clases;
+using MiniSQL.Constants;
 using MiniSQL.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -11,14 +12,14 @@ namespace MiniSQL.DataTypes
     public class DataTypesFactory
     {
         private static DataTypesFactory dataTypesFactory;
-        private Dictionary<string, IDataType> dataTypes;
+        private Dictionary<string, DataType> dataTypes;
 
         private DataTypesFactory() 
         {
-            this.dataTypes = new Dictionary<string, IDataType>();
-            this.dataTypes.Add("IntType", IntType.GetIntType());
-            this.dataTypes.Add("StringType", StringType.GetStringType());
-            this.dataTypes.Add("DoubleType", DoubleType.GetDoubleType());
+            this.dataTypes = new Dictionary<string, DataType>();
+            this.dataTypes.Add(TypesKeyConstants.IntTypeKey, IntType.GetIntType());
+            this.dataTypes.Add(TypesKeyConstants.StringTypeKey, StringType.GetStringType());
+            this.dataTypes.Add(TypesKeyConstants.DoubleTypeKey, DoubleType.GetDoubleType());
         }
 
         public static DataTypesFactory GetDataTypesFactory() 
@@ -29,7 +30,7 @@ namespace MiniSQL.DataTypes
             return dataTypesFactory;
         }
 
-        public IDataType GetDataType(string dataTypeKey) 
+        public DataType GetDataType(string dataTypeKey) 
         {
             return this.dataTypes[dataTypeKey];
         }

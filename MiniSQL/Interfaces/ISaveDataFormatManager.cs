@@ -6,9 +6,11 @@ using System.Threading.Tasks;
 
 namespace MiniSQL.Interfaces
 {
-    public interface IDataType
+    public interface ISaveDataFormatManager
     {
-        bool IsAValidDataType(string value);
+        string ParseFromLoad(string data);
+        string ParseToSave(string data);
+
 
     }
 }

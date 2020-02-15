@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MiniSQL.Clases
 {
-    public class StringType : IDataType
+    public class StringType : DataType
     {
 
         private static StringType stringType;
@@ -25,8 +25,7 @@ namespace MiniSQL.Clases
             return stringType;        
         }
 
-
-        public bool IsAValidDataType(string value)
+        public override bool IsAValidDataType(string value)
         {
             throw new NotImplementedException();
         }

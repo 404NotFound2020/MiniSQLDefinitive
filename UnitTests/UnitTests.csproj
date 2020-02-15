@@ -59,6 +59,9 @@
     <Compile Include="Test\DataTypes\TestIntType.cs" />
     <Compile Include="Test\DataTypes\TestDoubleType.cs" />
     <Compile Include="Test\DataTypes\TestStringType.cs" />
+    <Compile Include="Test\TestObjectsContructor\EnviromentTestSetup.cs" />
+    <Compile Include="Test\TestObjectsContructor\ObjectConstructor.cs" />
+    <Compile Include="Test\TestObjectsContructor\VariousFunctions.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -6,11 +6,11 @@ namespace MiniSQL.Classes
 {
 	public class Column
 	{
-		private string columnName;
+		public string columnName;
 		private Dictionary<string, List<Cell>> cells;
-		private IDataType dataType;
+		public DataType dataType;
 
-		public Column()
+		public Column(string columnName, DataType tdataType)
 		{
 
 
@@ -23,10 +23,17 @@ namespace MiniSQL.Classes
 
 		}
 
+		public bool ExistCells(string cellData) 
+		{
+			return false;
+		}
+
 		public List<Cell> GetCells(string data)
 		{
 			return null;
 		}
+
+
 
 
 	}

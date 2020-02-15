@@ -5,7 +5,7 @@ namespace MiniSQL.Classes
 {
 	public class Table
 	{
-		private string tableName;
+		public string tableName;
 		private Dictionary<string, Column> columns;
 		private List<Row> rows;
 
