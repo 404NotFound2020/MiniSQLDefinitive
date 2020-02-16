@@ -18,9 +18,9 @@ namespace MiniSQL.Classes
 		}
 
 
-		public void GetCell(string columnName)
+		public Cell GetCell(string columnName)
 		{
-
+			return null;
 		}
 
 	}

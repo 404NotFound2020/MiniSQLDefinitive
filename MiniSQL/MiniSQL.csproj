@@ -59,7 +59,7 @@
     <Compile Include="Interfaces\ISaveDataFormatManager.cs" />
     <Compile Include="Interfaces\IUbicationManager.cs" />
     <Compile Include="MiniSQLLauncher.cs" />
-    <Compile Include="Parsers\ParserBuilder.cs" />
+    <Compile Include="Interfaces\ParserBuilder.cs" />
     <Compile Include="Parsers\ParserBuilderFactory.cs" />
     <Compile Include="Parsers\XMLParser.cs" />
     <Compile Include="Parsers\XMLParserBuilder.cs" />

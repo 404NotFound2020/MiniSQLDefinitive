@@ -16,7 +16,11 @@ namespace MiniSQL.Classes
 
 		public void AddRow(Row row)
 		{
+			
+		}
 
+		public Row CreateRowDefinition() {
+			return null;
 		}
 
 		public void AddColumn(Column column)

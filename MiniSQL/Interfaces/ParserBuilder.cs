@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MiniSQL.Parsers
+namespace MiniSQL.Interfaces
 {
     public abstract class ParserBuilder
     {

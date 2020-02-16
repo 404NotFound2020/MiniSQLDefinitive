@@ -16,21 +16,22 @@ namespace MiniSQL.Classes
 
 		}
 
+		public bool ExistTable(string tableName)
+		{
+			return false;
+		}
+
 		public void AddTable(Table table)
 		{
 
 		}
 
-
-		public Table GetTable()
+		public Table GetTable(string tableName)
 		{
 			return null;
 		}
 
-		public bool ExistTable(string tableName)
-		{
-			return false;
-		}
+	
 
 
 

@@ -10,5 +10,20 @@ namespace UnitTests.Test
         public void TestMethod1()
         {
         }
+
+
+        /**
+         * ExistCells_Exist_ReturnTrue_StrType()
+         * public void AddCell(Cell cell)
+		{
+
+		}
+
+
+		public void GetCell(string columnName)
+		{
+
+		}
+         */
     }
 }
