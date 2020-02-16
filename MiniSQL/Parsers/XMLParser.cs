@@ -18,8 +18,8 @@ namespace MiniSQL.Parsers
 
         public XMLParser() 
         {
-            this.GetPkFunction = document => {return PKNoActivated.GetPKNoActivated();};
-            this.GetFkFunction = document => {return FKNoActivated.GetFKNoActivated();};
+            //this.GetPkFunction = document => {return PKNoActivated.GetPKNoActivated();};
+            //this.GetFkFunction = document => {return FKNoActivated.GetFKNoActivated();};
         }
 
         public override bool DeleteDatabase(string databaseName)
@@ -49,14 +49,7 @@ namespace MiniSQL.Parsers
 
         public override bool SaveTable(Database database, Table table)
         {
-            XmlDocument structureXML = new XmlDocument();
-            XmlElement rootElement = structureXML.CreateElement("table");
-            Column column = table.topColumn;
-            while(column != null)
-            {
-                this.CreateColumnStructNodes(structureXML, rootElement, column);
-                column = column.nextColumn;
-            }
+
             return false;
         }
 

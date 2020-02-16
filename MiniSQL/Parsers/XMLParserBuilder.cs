@@ -12,33 +12,26 @@ namespace MiniSQL.Parsers
     public class XMLParserBuilder : ParserBuilder
     {
 
-        public XMLParserBuilder() {
+        public XMLParserBuilder()
+        {
             this.SetParser(new XMLParser());
         }
 
         public override void SetDataFormatManager(string dataFormatManagerVersion)
         {
-            
+
+        }
+
+        public override void SetIndexationVersion(string indexationVersion)
+        {
+            throw new NotImplementedException();
         }
 
         public override void SetUbicationManager(string ubicationManager)
         {
-            
-        }
-
-        public override void SetPKActivationState(string state) 
-        {
-            if(state == ParserVersions.PKsIsActivated)
-            {
-
-            }
-        }
-        public override void SetFKActivationState(string state) 
-        {
-            if (state == ParserVersions.FKsIsActivated)
-            {
-
-            }
 
         }
+
+
+    }
 }

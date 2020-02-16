@@ -8,7 +8,7 @@ namespace MiniSQL.Classes
 		public string tableName;
 		private Dictionary<string, Column> columns;
 		private List<Row> rows;
-		public Column topColumn;
+		private List<Column> columnsOrdened;
 
 		public Table(string tableName)
 		{
@@ -37,6 +37,10 @@ namespace MiniSQL.Classes
 		public bool ExistColumn(string columnName)
 		{
 			return false;
+		}
+
+		public IEnumerator<Column> GetOrdenedColumnEnumeration() {
+			return this.columnsOrdened.GetEnumerator();
 		}
 
 

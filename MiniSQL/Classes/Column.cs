@@ -11,7 +11,6 @@ namespace MiniSQL.Classes
 		private Dictionary<string, List<Cell>> cells;
 		public DataType dataType;
 		public ColumnBehaviour columnBehaviour;
-		public Column nextColumn;
 
 		public Column(string columnName, DataType tdataType)
 		{

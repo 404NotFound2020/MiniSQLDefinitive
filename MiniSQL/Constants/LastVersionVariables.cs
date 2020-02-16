@@ -11,8 +11,8 @@ namespace MiniSQL.Constants
         public const string ParserVersion = ParserVersions.XMLParserVersion;
         public const string UbicationVersion = UbicationVersions.FirstUbicationVersion;
         public const string SaveDataFormatVersion = SaveDataFormatVersions.NothingToDoDataFormatManagerVersion;
-        public const string PKsActivated = ParserVersions.PKsIsNotActivated;
-        public const string FKsActivated = ParserVersions.FKsIsNotActivated;
+        public const string ActualIndexationVersion = ParserVersions.IndexationVersion;
+
 
 
     }

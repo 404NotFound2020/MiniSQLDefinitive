@@ -7,18 +7,17 @@ namespace UnitTests.Test.DataTypes
     public class TestStringType
     {
         [TestMethod]
-        public void TestIsAValidDataType()
+        public void TestIsAValidDataType_AlwaysReturnTrue()
         {
-
-
 
         }
 
         [TestMethod]
-        public void TestGetStringType()
-        { 
-        
+        public void TestGetSimpleTextValue()
+        {
+
         }
+
 
 
 

@@ -16,8 +16,7 @@ namespace MiniSQL.Initializer
         private const string ParserVersionDelimitatorWord = "PS_Version";
         private const string UbicationVersionDelimitatorWord = "UB_Version";
         private const string DataFormatVersionDelimitatorWord = "DTF_Version";
-        private const string PKActivatedDelimitatorWord = "PK";
-        private const string FKActivatedDelimitatorWord = "FK";
+        private const string IndexationVersionDelimitatorWord = "INX_Version";
 
         private string compositePath;
 
@@ -51,8 +50,7 @@ namespace MiniSQL.Initializer
             writer.WriteLine(ParserVersionDelimitatorWord + "=" + LastVersionVariables.ParserVersion);
             writer.WriteLine(UbicationVersionDelimitatorWord + "=" + LastVersionVariables.UbicationVersion);
             writer.WriteLine(DataFormatVersionDelimitatorWord + "=" + LastVersionVariables.SaveDataFormatVersion);
-            writer.WriteLine(PKActivatedDelimitatorWord + "=" + LastVersionVariables.PKsActivated);
-            writer.WriteLine(FKActivatedDelimitatorWord + "=" + LastVersionVariables.FKsActivated);
+            writer.WriteLine(IndexationVersionDelimitatorWord+ "=" + LastVersionVariables.ActualIndexationVersion);
             writer.Close();
             fileSteam.Close();                            
         }

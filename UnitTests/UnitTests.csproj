@@ -66,6 +66,8 @@
     <Compile Include="Test\Parsers\TestXMLParser.cs" />
     <Compile Include="Test\Parsers\TestParserBuilderFactory.cs" />
     <Compile Include="Test\Parsers\TestXMLParserBuilder.cs" />
+    <Compile Include="Test\SaveDataFormatManagers\TestNothingToDoManager.cs" />
+    <Compile Include="Test\SaveDataFormatManagers\StringEscapedManager.cs" />
     <Compile Include="Test\TestObjectsContructor\EnviromentTestSetup.cs" />
     <Compile Include="Test\TestObjectsContructor\ObjectConstructor.cs" />
     <Compile Include="Test\TestObjectsContructor\VariousFunctions.cs" />

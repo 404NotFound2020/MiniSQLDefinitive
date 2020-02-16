@@ -37,9 +37,9 @@ namespace UnitTests.Test.DataTypes
         }
 
         [TestMethod]
-        public void TestGetIntType()
-        { 
-        
+        public void TestGetSimpleTextValue()
+        {
+
         }
 
         public static IntType CreateIntType() 
