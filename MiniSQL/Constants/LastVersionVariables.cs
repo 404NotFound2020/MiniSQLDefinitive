@@ -1,0 +1,19 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace MiniSQL.Constants
+{
+    class LastVersionVariables
+    {
+        public const string ParserVersion = ParserVersions.XMLParserVersion;
+        public const string UbicationVersion = UbicationVersions.FirstUbicationVersion;
+        public const string SaveDataFormatVersion = SaveDataFormatVersions.NothingToDoDataFormatManagerVersion;
+        public const string PKsActivated = ParserVersions.PKsIsNotActivated;
+        public const string FKsActivated = ParserVersions.FKsIsNotActivated;
+
+
+    }
+}

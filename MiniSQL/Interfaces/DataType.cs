@@ -12,6 +12,7 @@ namespace MiniSQL.Interfaces
         private ISaveDataFormatManager saveDataFormatManager;
 
         public abstract bool IsAValidDataType(string value);
+        public abstract string GetSimpleTextValue();
 
         public void SetDataFormatManager(ISaveDataFormatManager format) 
         { 

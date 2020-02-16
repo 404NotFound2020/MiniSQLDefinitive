@@ -1,6 +1,7 @@
 ﻿using MiniSQL.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,25 +10,37 @@ namespace MiniSQL.UbicationManagers
 {
     public class FirstUbicationManager : IUbicationManager
     {
+        private static FirstUbicationManager firstUbicationManager;
+        private const string additionalPath = "data";
 
-        public void CreateDatabaseDirectory(string databaseName)
+        private FirstUbicationManager() 
         {
-            throw new NotImplementedException();
+            if(!Directory.Exists(additionalPath)) Directory.CreateDirectory(additionalPath);           
         }
 
-        public void CreateTableFiles(string tableName)
-        {
-            throw new NotImplementedException();
+        public static FirstUbicationManager GetFirstUbicationManager() 
+        { 
+            if(firstUbicationManager == null) 
+            {
+                firstUbicationManager = new FirstUbicationManager();
+            }
+            return firstUbicationManager;
         }
 
-        public void DeleteDatabaseDirectory(string databaseName)
+
+        public string GetDatabaseFilePath(string databaseName)
         {
-            throw new NotImplementedException();
+            return additionalPath+databaseName;
         }
 
-        public void DeleteTableFiles(string tableName)
+        public string GetTableDataFilePath(string tableName)
         {
-            throw new NotImplementedException();
+            return tableName;
+        }
+
+        public string GetTableStructureFilePath(string tableName)
+        {
+            return tableName + "STR";
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using MiniSQL.Interfaces;
+﻿using MiniSQL.Constants;
+using MiniSQL.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,6 +24,11 @@ namespace MiniSQL.DataTypes
                 intType = new IntType();
             }
             return intType;        
+        }
+
+        public override string GetSimpleTextValue()
+        {
+            return TypesKeyConstants.IntTypeKey;
         }
 
         public override bool IsAValidDataType(string value)

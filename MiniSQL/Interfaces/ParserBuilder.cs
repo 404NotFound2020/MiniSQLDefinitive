@@ -13,7 +13,9 @@ namespace MiniSQL.Interfaces
         
         public abstract void SetDataFormatManager(string dataFormatManagerVersion);
         public abstract void SetUbicationManager(string ubicationManager);
-        
+        public abstract void SetPKActivationState(string state);
+        public abstract void SetFKActivationState(string state);
+
         protected void SetParser(AbstractParser parser) 
         { 
         

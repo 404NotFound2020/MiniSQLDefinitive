@@ -8,10 +8,9 @@ namespace MiniSQL.Interfaces
 {
     public interface IUbicationManager
     {
-        void CreateDatabaseDirectory(string databaseName);
-        void CreateTableFiles(string tableName);
-        void DeleteDatabaseDirectory(string databaseName);
-        void DeleteTableFiles(string tableName);
+        string GetDatabaseFilePath(string databaseName);
+        string GetTableStructureFilePath(string tableName);
+        string GetTableDataFilePath(string tableName);
 
     }
 }

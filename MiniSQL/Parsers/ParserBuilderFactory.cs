@@ -1,4 +1,6 @@
-﻿using System;
+﻿using MiniSQL.Constants;
+using MiniSQL.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,8 +10,34 @@ namespace MiniSQL.Parsers
 {
     class ParserBuilderFactory
     {
+        private static ParserBuilderFactory parserBuilderFactory;
 
+        private ParserBuilderFactory() 
+        { 
+        
+        }
 
+        public static ParserBuilderFactory GetParserBuilderFactory() 
+        { 
+            if(parserBuilderFactory == null) 
+            {
+                parserBuilderFactory = new ParserBuilderFactory();
+            }
+            return parserBuilderFactory;
+        }
+
+        public ParserBuilder GetParserBuilder(string parserVersion) 
+        {
+            ParserBuilder parserBuilder = null;
+            switch (parserVersion) 
+            {
+                case ParserVersions.XMLParserVersion:
+                    parserBuilder = new XMLParserBuilder();
+                    break;           
+            }
+            return parserBuilder;
+        
+        }
 
 
     }
