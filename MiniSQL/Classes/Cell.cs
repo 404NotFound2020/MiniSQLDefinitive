@@ -16,20 +16,5 @@ namespace MiniSQL.Classes
 
 		}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 	}
 }
