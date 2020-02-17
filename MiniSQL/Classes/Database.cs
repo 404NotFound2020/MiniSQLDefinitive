@@ -13,22 +13,24 @@ namespace MiniSQL.Classes
 
 		public Database(string databaseName, string user, string password)
 		{
-
+			this.databaseName = databaseName;
+			this.user = user;
+			this.password = password;
 		}
 
 		public bool ExistTable(string tableName)
 		{
-			return false;
+			return tables.ContainsKey(tableName);
 		}
 
 		public void AddTable(Table table)
 		{
-
+			tables.Add(table.tableName,table);
 		}
 
 		public Table GetTable(string tableName)
 		{
-			return null;
+			return tables[tableName];
 		}
 
 	
