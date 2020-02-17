@@ -33,7 +33,7 @@ namespace MiniSQL.DataTypes
 
         public override bool IsAValidDataType(string value)
         {
-            throw new NotImplementedException();
+            return double.TryParse(value, out double waste);
         }
     }
 }
