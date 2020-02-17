@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MiniSQL.Constants
 {
-    class LastVersionVariables
+    public class LastVersionVariables
     {
         public const string ParserVersion = ParserVersions.XMLParserVersion;
         public const string UbicationVersion = UbicationVersions.FirstUbicationVersion;

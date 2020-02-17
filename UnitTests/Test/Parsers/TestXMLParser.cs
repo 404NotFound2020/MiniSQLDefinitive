@@ -1,11 +1,26 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using MiniSQL.Classes;
+using UnitTests.Test.TestObjectsContructor;
+using MiniSQL.Parsers;
+using MiniSQL.Interfaces;
+using MiniSQL.Constants;
 
 namespace UnitTests.Test.Parsers
 {
     [TestClass]
     public class TestXMLParser
     {
+        [TestMethod]
+        public void SaveDatabase()
+        {
+            AbstractParser xmlParser = CreateXMLParser();
+            Database testDatabase = ObjectConstructor.CreateDatabaseFull();
+            xmlParser.SaveDatabase(testDatabase);
+            Database loadedDatabase = xmlParser.LoadDatabase(testDatabase.databaseName);
+            Assert.IsTrue(CompareDatabase(testDatabase, loadedDatabase));
+        }
+
         [TestMethod]
         public void LoadDatabase()
         {
@@ -36,46 +51,22 @@ namespace UnitTests.Test.Parsers
 
         }
 
-        [TestMethod]
-        public void SaveDatabase()
+        public static bool CompareDatabase(Database database1, Database database2) 
         {
+            bool b = false;
 
+
+            return b;
         }
 
-
-
-        /**
-        public override bool DeleteDatabase(string databaseName)
+        public static AbstractParser CreateXMLParser() 
         {
-            throw new NotImplementedException();
+            ParserBuilder builder = ParserBuilderFactory.GetParserBuilderFactory().GetParserBuilder(ParserVersions.XMLParserVersion);
+            builder.SetUbicationManager(LastVersionVariables.UbicationVersion);
+            builder.SetIndexationVersion(LastVersionVariables.ActualIndexationVersion);
+            builder.SetDataFormatManager(LastVersionVariables.SaveDataFormatVersion);
+            return builder.GetParser();       
         }
-
-        public override bool DeleteTable(string tableName)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override Database LoadDatabase(string databaseName)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override Table LoadTable(string tableName)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override bool SaveDatabase(Database database)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override bool SaveTable(Table table)
-        {
-            throw new NotImplementedException();
-        }
-         *
-         */
 
     }
 }

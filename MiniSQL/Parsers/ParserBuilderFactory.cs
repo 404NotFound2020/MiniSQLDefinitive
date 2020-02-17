@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace MiniSQL.Parsers
 {
-    class ParserBuilderFactory
+    public class ParserBuilderFactory
     {
         private static ParserBuilderFactory parserBuilderFactory;
 
