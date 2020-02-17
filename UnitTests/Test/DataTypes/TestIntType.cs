@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using MiniSQL.Constants;
 using MiniSQL.DataTypes;
 
 namespace UnitTests.Test.DataTypes
@@ -36,15 +37,9 @@ namespace UnitTests.Test.DataTypes
             Assert.IsFalse(intType.IsAValidDataType(textDouble));
         }
 
-        [TestMethod]
-        public void TestGetSimpleTextValue()
-        {
-
-        }
-
         public static IntType CreateIntType() 
         {
-            return IntType.GetIntType();
+            return (IntType)DataTypesFactory.GetDataTypesFactory().GetDataType(TypesKeyConstants.IntTypeKey);
         }
 
 
