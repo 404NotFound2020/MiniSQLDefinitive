@@ -35,8 +35,9 @@ namespace MiniSQL.Classes
 			return null;
 		}
 
-
-
-
-	}
+        public bool ExistColumn(string v)
+        {
+            throw new NotImplementedException();
+        }
+    }
 }
