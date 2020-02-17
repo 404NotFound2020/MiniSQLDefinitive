@@ -55,10 +55,6 @@
     <Compile Include="Test\Classes\TestDatabase.cs" />
     <Compile Include="Test\Classes\TestRow.cs" />
     <Compile Include="Test\Classes\TestTable.cs" />
-    <Compile Include="Test\ColumnBehaviour\TestFKNoActivated.cs" />
-    <Compile Include="Test\ColumnBehaviour\TestPKNoActivated.cs" />
-    <Compile Include="Test\ColumnBehaviour\TestPKActivated.cs" />
-    <Compile Include="Test\ColumnBehaviour\TestFKActivated.cs" />
     <Compile Include="Test\DataTypes\TestDataTypesFactory.cs" />
     <Compile Include="Test\DataTypes\TestIntType.cs" />
     <Compile Include="Test\DataTypes\TestDoubleType.cs" />
