@@ -13,7 +13,9 @@ namespace MiniSQL.Classes
 
 		public Database(string databaseName, string user, string password)
 		{
-			Database db = new Database(databaseName,user,password);
+			this.databaseName = databaseName;
+			this.user = user;
+			this.password = password;
 		}
 
 		public bool ExistTable(string tableName)
