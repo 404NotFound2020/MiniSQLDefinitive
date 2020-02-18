@@ -5,6 +5,7 @@ using UnitTests.Test.TestObjectsContructor;
 using MiniSQL.Parsers;
 using MiniSQL.Interfaces;
 using MiniSQL.Constants;
+using MiniSQL.Comparers;
 
 namespace UnitTests.Test.Parsers
 {
@@ -12,25 +13,37 @@ namespace UnitTests.Test.Parsers
     public class TestXMLParser
     {
         [TestMethod]
-        public void SaveDatabase()
+        public void SaveAndLoadDatabase()
         {
             AbstractParser xmlParser = CreateXMLParser();
             Database testDatabase = ObjectConstructor.CreateDatabaseFull();
             xmlParser.SaveDatabase(testDatabase);
             Database loadedDatabase = xmlParser.LoadDatabase(testDatabase.databaseName);
-            Assert.IsTrue(CompareDatabase(testDatabase, loadedDatabase));
+            Assert.IsTrue(new DatabaseComparer().Equals(testDatabase, loadedDatabase));
         }
 
         [TestMethod]
-        public void LoadDatabase()
+        public void DeleteDatabase_DatabaseExist_DoTheThingsOK()
         {
-
+            AbstractParser xmlParser = CreateXMLParser();
+            Database testDatabase = ObjectConstructor.CreateDatabaseFull();
+            xmlParser.SaveDatabase(testDatabase);
+            Assert.IsTrue(xmlParser.ExistDatabase(testDatabase.databaseName));
+            xmlParser.DeleteDatabase(testDatabase.databaseName);
+            Assert.IsFalse(xmlParser.ExistDatabase(testDatabase.databaseName));
         }
 
         [TestMethod]
-        public void DeleteDatabase()
+        [ExpectedException(typeof(Exception), "")]    
+        public void DeleteDatabase_DatabaseDoesntExist_ThrowException()
         {
-
+            AbstractParser xmlParser = CreateXMLParser();
+            string randomDatabaseName = VariousFunctions.GenerateRandomString(6);
+            while (xmlParser.ExistDatabase(randomDatabaseName))
+            {
+                randomDatabaseName = VariousFunctions.GenerateRandomString(10);
+            }
+            xmlParser.LoadDatabase(randomDatabaseName);
         }
 
         [TestMethod]
@@ -49,14 +62,6 @@ namespace UnitTests.Test.Parsers
         public void SaveTable()
         {
 
-        }
-
-        public static bool CompareDatabase(Database database1, Database database2) 
-        {
-            bool b = false;
-
-
-            return b;
         }
 
         public static AbstractParser CreateXMLParser() 

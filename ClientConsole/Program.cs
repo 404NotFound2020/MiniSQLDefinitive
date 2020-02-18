@@ -11,8 +11,6 @@ namespace ClientConsole
         static void Main(string[] args)
         {
 
-            MiniSQL.MiniSQLLauncher.Start();
-
         }
     }
 }

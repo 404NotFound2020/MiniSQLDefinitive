@@ -2,6 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MiniSQL.Constants;
 using MiniSQL.DataTypes;
+using MiniSQL.Interfaces;
 
 namespace UnitTests.Test.DataTypes
 {

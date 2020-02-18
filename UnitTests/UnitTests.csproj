@@ -55,6 +55,13 @@
     <Compile Include="Test\Classes\TestDatabase.cs" />
     <Compile Include="Test\Classes\TestRow.cs" />
     <Compile Include="Test\Classes\TestTable.cs" />
+    <Compile Include="Test\Comparers\TestCellComparer.cs" />
+    <Compile Include="Test\Comparers\TestRowComparer.cs" />
+    <Compile Include="Test\Comparers\TestDatabaseComparer.cs" />
+    <Compile Include="Test\Comparers\TestTableComparer.cs" />
+    <Compile Include="Test\Comparers\TestColumnComparer.cs" />
+    <Compile Include="Test\Comparers\TestDictionaryComparer.cs" />
+    <Compile Include="Test\Comparers\TestListComparer.cs" />
     <Compile Include="Test\DataTypes\TestDataTypesFactory.cs" />
     <Compile Include="Test\DataTypes\TestIntType.cs" />
     <Compile Include="Test\DataTypes\TestDoubleType.cs" />

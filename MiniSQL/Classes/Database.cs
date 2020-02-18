@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace MiniSQL.Classes
 {
@@ -33,7 +34,11 @@ namespace MiniSQL.Classes
 			return tables[tableName];
 		}
 
-	
+		public ReadOnlyDictionary<string, Table> ReadTables()
+		{
+			return new ReadOnlyDictionary<string, Table>(this.tables);
+		}
+
 
 
 

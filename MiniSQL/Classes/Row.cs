@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace MiniSQL.Classes
 {
@@ -22,6 +23,18 @@ namespace MiniSQL.Classes
 		{
 			return null;
 		}
+
+		public void SetCellValue(string columnKey, string value) 
+		{ 
+			
+		}
+
+		public ReadOnlyDictionary<string, Cell> ReadCells() 
+		{
+			return new ReadOnlyDictionary<string, Cell>(this.cells);
+		}
+		
+
 
 	}
 }

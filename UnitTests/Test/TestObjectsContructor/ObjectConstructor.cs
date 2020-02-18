@@ -51,7 +51,44 @@ namespace UnitTests.Test.TestObjectsContructor
             return database;
         }
 
+        public static List<string> CreateStringTypeRandomCellData(int lengthOfData, int numberOfData) 
+        {
+            List<string> data = new List<string>();
+            for (int i = 0; i < numberOfData; i++) 
+            {
+                data.Add(VariousFunctions.GenerateRandomString(lengthOfData));
+            }
+            return data;        
+        }
 
+        public static Row CreateRow(List<string> cellData, List<Column> columns) 
+        {
+            Row row = new Row();
+            for(int i = 0; i < cellData.Count; i++) 
+            {
+                row.AddCell(new Cell(columns[i], cellData[i], null));
+            }
+            return row;
+        }
+
+        public static Table CreateFullTable(string tableName, List<Column> columns, List<List<string>> cellData) {
+            Table table = new Table(tableName);
+            for (int i = 0; i < columns.Count; i++) 
+            {
+                table.AddColumn(columns[i]);
+            }
+            Row row;
+            for(int i = 0; i < cellData.Count; i++) 
+            {
+                row = table.CreateRowDefinition();
+                for(int j = 0; j < cellData[i].Count; j++) 
+                {
+                    row.SetCellValue(columns[j].columnName, cellData[i][j]);
+                }
+                table.AddRow(row);
+            }
+            return table;
+        }
 
     }
 }

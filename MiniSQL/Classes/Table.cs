@@ -39,8 +39,10 @@ namespace MiniSQL.Classes
 			return false;
 		}
 
-		public IEnumerator<Column> GetOrdenedColumnEnumeration() {
-			return this.columnsOrdened.GetEnumerator();
+		public List<Column> GetColumnList() {
+			List<Column> copyList = new List<Column>();
+			this.columnsOrdened.ForEach((Column column) => copyList.Add(column));
+			return copyList;
 		}
 
 

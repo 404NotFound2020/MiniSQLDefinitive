@@ -46,6 +46,13 @@
     <Compile Include="ColumnBehaviours\FKNoActivated.cs" />
     <Compile Include="ColumnBehaviours\PKActivated.cs" />
     <Compile Include="ColumnBehaviours\PKNoActivated.cs" />
+    <Compile Include="Comparers\CellComparer.cs" />
+    <Compile Include="Comparers\ColumnComparer.cs" />
+    <Compile Include="Comparers\DatabaseComparer.cs" />
+    <Compile Include="Comparers\DictionaryComparer.cs" />
+    <Compile Include="Comparers\ListComparer.cs" />
+    <Compile Include="Comparers\RowComparer.cs" />
+    <Compile Include="Comparers\TableComparer.cs" />
     <Compile Include="Constants\LastVersionVariables.cs" />
     <Compile Include="Constants\ParserVersions.cs" />
     <Compile Include="Constants\TypesKeyConstants.cs" />

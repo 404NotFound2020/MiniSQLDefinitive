@@ -32,6 +32,16 @@ namespace MiniSQL.Parsers
             throw new NotImplementedException();
         }
 
+        public override bool ExistDatabase(string databaseName)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override bool ExistTable(string databaseName, string tableName)
+        {
+            throw new NotImplementedException();
+        }
+
         public override Database LoadDatabase(string databaseName)
         {
             throw new NotImplementedException();

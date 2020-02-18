@@ -2,6 +2,7 @@
 using MiniSQL.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace MiniSQL.Classes
 {
@@ -39,5 +40,12 @@ namespace MiniSQL.Classes
         {
             throw new NotImplementedException();
         }
-    }
+
+
+		public ReadOnlyDictionary<string, List<Cell>> ReadCells()
+		{
+			return new ReadOnlyDictionary<string, List<Cell>>(this.cells);
+		}
+
+	}
 }
