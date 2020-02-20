@@ -23,8 +23,14 @@ namespace MiniSQL.Classes
 			rows.Add(row);
 		}
 
-		public Row CreateRowDefinition() {
-			return null;
+		public Row CreateRowDefinition() {			
+			Row r = new Row();			
+			foreach (Column c in columnsOrdened)
+			{
+				Cell cl = new Cell(c, null, r);
+				r.AddCell(cl);
+			}
+			return r;			
 		}
 
 		public void AddColumn(Column column)
@@ -34,9 +40,7 @@ namespace MiniSQL.Classes
 
 		public Column GetColumn(string columnName)
 		{
-			Column c= null;
-			c = columns[columnName];
-			return c;
+			return columns[columnName];
 		}
 
 		public bool ExistColumn(string columnName)
