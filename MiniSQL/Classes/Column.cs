@@ -24,7 +24,16 @@ namespace MiniSQL.Classes
 
 		public void AddCell(Cell cell)
 		{
-			cells[cell.data].Add(cell);
+			if (cells.ContainsKey(cell.data))
+			{
+				cells[cell.data].Add(cell);
+			}
+			else
+			{
+				List<Cell> list = new List<Cell>();
+				list.Add(cell);
+				cells.Add(cell.data, list);
+			}
 		}
 
 		public bool ExistCells(string cellData) 
