@@ -10,23 +10,23 @@ namespace MiniSQL.Classes
 
 		public Row()
 		{
-
+			cells = new Dictionary<string, Cell>();
 		}
 
 		public void AddCell(Cell cell)
 		{
-
+			cells.Add(cell.column.columnName, cell);
 		}
 
 
 		public Cell GetCell(string columnName)
 		{
-			return null;
+			return cells[columnName];
 		}
 
 		public void SetCellValue(string columnKey, string value) 
-		{ 
-			
+		{
+			cells[columnKey].data = value;
 		}
 
 		public ReadOnlyDictionary<string, Cell> ReadCells() 
