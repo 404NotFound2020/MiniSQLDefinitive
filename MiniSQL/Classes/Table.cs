@@ -12,12 +12,15 @@ namespace MiniSQL.Classes
 
 		public Table(string tableName)
 		{
-
+			this.tableName = tableName;
+			columns = new Dictionary<string, Column>;
+			rows = new List<Row>;
+			columnsOrdened = new List<Column>;
 		}
 
 		public void AddRow(Row row)
 		{
-			
+			rows.Add(row);
 		}
 
 		public Row CreateRowDefinition() {
@@ -26,17 +29,28 @@ namespace MiniSQL.Classes
 
 		public void AddColumn(Column column)
 		{
-
+			columns.Add(column.columnName,column);
 		}
 
 		public Column GetColumn(string columnName)
-		{			
-			return null;
+		{
+			Column c= null;
+			c = columns[columnName];
+			return c;
 		}
 
 		public bool ExistColumn(string columnName)
 		{
-			return false;
+			Column c = null;
+			c = GetColumn(columnName);
+			if (c == null)
+			{
+				return false;
+			}
+			else
+			{
+				return true;
+			}		
 		}
 
 		public List<Column> GetColumnList() {
@@ -44,7 +58,5 @@ namespace MiniSQL.Classes
 			this.columnsOrdened.ForEach((Column column) => copyList.Add(column));
 			return copyList;
 		}
-
-
 	}
 }
