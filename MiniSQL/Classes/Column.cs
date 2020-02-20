@@ -28,19 +28,13 @@ namespace MiniSQL.Classes
 
 		public bool ExistCells(string cellData) 
 		{
-			return false;
+			return cells.ContainsKey(cellData);		
 		}
 
 		public List<Cell> GetCells(string data)
 		{
 			return cells[data];
 		}
-
-        public bool ExistColumn(string v)
-        {
-            throw new NotImplementedException();
-        }
-
 
 		public ReadOnlyDictionary<string, List<Cell>> ReadCells()
 		{
