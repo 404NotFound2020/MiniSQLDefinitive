@@ -13,17 +13,17 @@ namespace MiniSQL.Classes
 		public DataType dataType;
 		public ColumnBehaviour columnBehaviour;
 
-		public Column(string columnName, DataType tdataType)
+		public Column(string columnName, DataType dataType)
 		{
-
-
+			this.columnName = columnName;
+			this.dataType = dataType;
 
 		}
 
 
 		public void AddCell(Cell cell)
 		{
-
+			cells[cell.data].Add(cell);
 		}
 
 		public bool ExistCells(string cellData) 
@@ -33,7 +33,7 @@ namespace MiniSQL.Classes
 
 		public List<Cell> GetCells(string data)
 		{
-			return null;
+			return cells[data];
 		}
 
         public bool ExistColumn(string v)
