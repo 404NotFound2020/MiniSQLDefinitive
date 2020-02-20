@@ -30,7 +30,7 @@ namespace UnitTests.Test
             Table table = createTable();
             Database db = createDatabase();
             db.AddTable(table);
-            if (db.ExistTable(table.tableName))
+            if (!db.ExistTable(table.tableName))
             {
                 Assert.AreEqual(false,true);
             }
@@ -78,8 +78,9 @@ namespace UnitTests.Test
         {
             Table table = createTable();
             Database db = createDatabase();
+            db.AddTable(table);
             Table tb2 = db.GetTable(table.tableName);
-            if (table.Equals(tb2))
+            if (!table.Equals(tb2))
             {
                 Assert.AreEqual(false, true);
             }
@@ -100,10 +101,6 @@ namespace UnitTests.Test
            Database db = new Database("db1","u1","p1");
            return db;
         }
-
-
-
-
 
 
     }

@@ -13,7 +13,9 @@ namespace MiniSQL.Classes
 
 		public Cell(Column column, string data, Row row)
 		{
-
+			this.column = column;
+			this.data = data;
+			this.row = row;
 		}
 
 
