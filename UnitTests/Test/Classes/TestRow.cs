@@ -4,6 +4,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MiniSQL.Clases;
 using MiniSQL.Classes;
 using MiniSQL.Constants;
+using MiniSQL.Interfaces;
 using UnitTests.Test.TestObjectsContructor;
 
 namespace UnitTests.Test
@@ -37,8 +38,9 @@ namespace UnitTests.Test
             Assert.IsNotNull(row.GetCell("P1"));
         }
         [TestMethod]
-        public void AddCell(Cell cell)
+        public void AddCell()
         {
+            Cell cell = createCell();
             Row row = new Row();
             row = TestRow.CreateStringCellData(row);
             row.AddCell(cell);
@@ -56,6 +58,12 @@ namespace UnitTests.Test
             row.AddCell(new Cell(t.GetColumn("P1"), "D1", row));
 
             Assert.IsNotNull(row.GetCell(columnName));
+        }
+
+        public static Cell createCell()
+        {
+            return null;
+            //return new Cell(new Column("columnName",),"data", new Row());
         }
 
     }
