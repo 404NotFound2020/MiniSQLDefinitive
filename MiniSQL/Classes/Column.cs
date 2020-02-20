@@ -17,6 +17,7 @@ namespace MiniSQL.Classes
 		{
 			this.columnName = columnName;
 			this.dataType = dataType;
+			cells = new Dictionary<string, List<Cell>>();
 
 		}
 
