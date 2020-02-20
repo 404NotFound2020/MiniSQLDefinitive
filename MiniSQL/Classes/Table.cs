@@ -12,7 +12,10 @@ namespace MiniSQL.Classes
 
 		public Table(string tableName)
 		{
-
+			this.tableName = tableName;
+			columns = new Dictionary<string, Column>();
+			rows = new List<Row>();
+			columnsOrdened = new List<Column>();
 		}
 
 		public void AddRow(Row row)
