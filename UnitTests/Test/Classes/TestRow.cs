@@ -49,13 +49,11 @@ namespace UnitTests.Test
         [TestMethod]
         public void GetCell(string columnName)
         {
+
             Row row = new Row();
             List<string> dataToWork = TestColumn.CreateStringCellData();
-            Table t = new Table("Test");
             Column column = ObjectConstructor.CreateColumn(dataToWork, TypesKeyConstants.StringTypeKey, columnName);
-            t.AddColumn(column);
-            t.AddRow(row);
-            row.AddCell(new Cell(t.GetColumn("P1"), "D1", row));
+            row.AddCell(new Cell(column, "D1" , row));
 
             Assert.IsNotNull(row.GetCell(columnName));
         }
