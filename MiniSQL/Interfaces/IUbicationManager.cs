@@ -11,6 +11,6 @@ namespace MiniSQL.Interfaces
         string GetDatabaseFilePath(string databaseName);
         string GetTableStructureFilePath(string databaseName, string tableName);
         string GetTableDataFilePath(string databaseName, string tableName);
-
+        string GetDatabaseTableListFile(string databaseName);
     }
 }
