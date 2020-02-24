@@ -64,6 +64,5 @@ namespace UnitTests.Test
         {   
             return new Cell(new Column("columnName", (DoubleType)DataTypesFactory.GetDataTypesFactory().GetDataType(TypesKeyConstants.DoubleTypeKey)),"data", null);
         }
-
     }
 }
