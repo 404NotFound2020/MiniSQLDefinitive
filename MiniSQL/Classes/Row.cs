@@ -33,7 +33,10 @@ namespace MiniSQL.Classes
 		{
 			return new ReadOnlyDictionary<string, Cell>(this.cells);
 		}
-		
+		public bool ExistCells(string cellData)
+		{
+			return cells.ContainsKey(cellData);
+		}
 
 
 	}
