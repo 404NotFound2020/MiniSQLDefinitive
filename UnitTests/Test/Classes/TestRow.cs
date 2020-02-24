@@ -43,7 +43,6 @@ namespace UnitTests.Test
         {
             Cell cell = createCell();
             Row row = new Row();
-            row = TestRow.CreateStringCellData(row);
             row.AddCell(cell);
             Assert.IsNotNull(row.GetCell(cell.column.columnName));
         }
