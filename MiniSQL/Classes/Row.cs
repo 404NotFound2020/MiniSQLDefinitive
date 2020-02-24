@@ -18,7 +18,6 @@ namespace MiniSQL.Classes
 			cells.Add(cell.column.columnName, cell);
 		}
 
-
 		public Cell GetCell(string columnName)
 		{
 			return cells[columnName];
@@ -29,15 +28,20 @@ namespace MiniSQL.Classes
 			cells[columnKey].data = value;
 		}
 
-		public ReadOnlyDictionary<string, Cell> ReadCells() 
-		{
-			return new ReadOnlyDictionary<string, Cell>(this.cells);
-		}
 		public bool ExistCell(Cell cell)
 		{
 			return cells.ContainsKey(cell.column.columnName);
 		}
 
+		public IDictionary<string, Cell> ReadCells()
+		{
+			return new ReadOnlyDictionary<string, Cell>(this.cells);
+		}
+
+		public IEnumerator<Cell> GetCellEnumerator()
+		{
+			return this.cells.Values.GetEnumerator();
+		}
 
 	}
 }

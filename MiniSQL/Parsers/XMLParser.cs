@@ -1,5 +1,4 @@
 ﻿using MiniSQL.Classes;
-using MiniSQL.ColumnBehaviours;
 using MiniSQL.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -65,15 +64,14 @@ namespace MiniSQL.Parsers
 
         public override bool SaveTable(Database database, Table table)
         {
-            XmlDocument tableStruct = SaveTableStruct(table);
-            tableStruct.Save(this.GetUbicationManager().GetTableStructureFilePath(database.databaseName, table.tableName) + ".xml");
+            this.SaveTableStruct(table).Save(this.GetUbicationManager().GetTableStructureFilePath(database.databaseName, table.tableName) + ".xml");
+            this.SaveTableData(table).Save(this.GetUbicationManager().GetTableDataFilePath(database.databaseName, table.tableName) + ".xml");
             return false;
         }
 
         private XmlDocument SaveTableStruct(Table table) 
         {
-            XmlDocument tableStructureXML = new XmlDocument();
-            //tableStructureXML.InsertBefore(tableStructureXML.CreateXmlDeclaration(this.xmlDeclaration[0], this.xmlDeclaration[1], this.xmlDeclaration[2]), rootElement);
+            XmlDocument tableStructureXML = new XmlDocument();            
             XmlElement tableElement = tableStructureXML.CreateElement("table");
             IEnumerator<Column> enumerator = table.GetColumnList().GetEnumerator();
             XmlElement column;
@@ -85,7 +83,33 @@ namespace MiniSQL.Parsers
                 tableElement.AppendChild(column);
             }
             tableStructureXML.AppendChild(tableElement);
+            tableStructureXML.InsertBefore(tableStructureXML.CreateXmlDeclaration(this.xmlDeclaration[0], this.xmlDeclaration[1], this.xmlDeclaration[2]), tableElement);
             return tableStructureXML;
+        }
+
+        private XmlDocument SaveTableData(Table table) 
+        {
+            XmlDocument tableData = new XmlDocument();
+            XmlElement tableElement = tableData.CreateElement("data");
+            XmlElement rowElement;
+            XmlElement cellElement;
+            IEnumerator<Row> rowEnumerator = table.GetRowEnumerator();
+            IEnumerator<Cell> cellEnumerator;
+            while (rowEnumerator.MoveNext()) 
+            {
+                rowElement = tableData.CreateElement("row");
+                cellEnumerator = rowEnumerator.Current.GetCellEnumerator();
+                while (cellEnumerator.MoveNext()) 
+                {
+                    cellElement = this.CreateSimpleNode(tableData, "cell", cellEnumerator.Current.column.dataType.ParseToSaveData(cellEnumerator.Current.data));
+                    cellElement.SetAttribute("columnName", cellEnumerator.Current.column.columnName);
+                    rowElement.AppendChild(cellElement);
+                }
+                tableElement.AppendChild(rowElement);
+            }
+            tableData.AppendChild(tableElement);
+            tableData.InsertBefore(tableData.CreateXmlDeclaration(this.xmlDeclaration[0], this.xmlDeclaration[1], this.xmlDeclaration[2]), tableElement);
+            return tableData;
         }
 
         private XmlElement CreateSimpleNode(XmlDocument xmlDocument, string nodeName, string nodeText) 

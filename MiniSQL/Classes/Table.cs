@@ -20,6 +20,11 @@ namespace MiniSQL.Classes
 
 		public void AddRow(Row row)
 		{
+			IEnumerator<Column> columnEnumerator = this.columnsOrdened.GetEnumerator();
+			while (columnEnumerator.MoveNext()) 
+			{
+				columnEnumerator.Current.AddCell(row.GetCell(columnEnumerator.Current.columnName));
+			}
 			rows.Add(row);
 		}
 
@@ -53,6 +58,11 @@ namespace MiniSQL.Classes
 			List<Column> copyList = new List<Column>();
 			this.columnsOrdened.ForEach((Column column) => copyList.Add(column));
 			return copyList;
+		}
+
+		public IEnumerator<Row> GetRowEnumerator() 
+		{
+			return this.rows.GetEnumerator();
 		}
 	}
 }

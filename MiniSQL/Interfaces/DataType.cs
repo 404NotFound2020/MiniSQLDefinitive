@@ -15,8 +15,8 @@ namespace MiniSQL.Interfaces
         public abstract string GetSimpleTextValue();
 
         public void SetDataFormatManager(ISaveDataFormatManager format) 
-        { 
-        
+        {
+            this.saveDataFormatManager = format;
         }
 
         public string ParseLoadData(string data) 

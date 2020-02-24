@@ -53,6 +53,7 @@
     <Compile Include="Constants\TypesKeyConstants.cs" />
     <Compile Include="Constants\UbicationVersions.cs" />
     <Compile Include="Constants\SaveDataFormatVersions.cs" />
+    <Compile Include="Constants\XMLTagsConstants.cs" />
     <Compile Include="Initializer\System.cs" />
     <Compile Include="Initializer\VersionReader.cs" />
     <Compile Include="Interfaces\DataType.cs" />
@@ -80,8 +81,6 @@
     <Compile Include="SaveDataFormatManagers\StringEscapedManager.cs" />
     <Compile Include="UbicationManagers\FirstUbicationManager.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="ColumnBehaviours\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

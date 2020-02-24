@@ -21,16 +21,8 @@ namespace MiniSQL.Classes
 
 		public void AddCell(Cell cell)
 		{
-			if (cells.ContainsKey(cell.data))
-			{
-				cells[cell.data].Add(cell);
-			}
-			else
-			{
-				List<Cell> list = new List<Cell>();
-				list.Add(cell);
-				cells.Add(cell.data, list);
-			}
+			if (!cells.ContainsKey(cell.data)) cells.Add(cell.data, new List<Cell>());
+			cells[cell.data].Add(cell);
 		}
 
 		public bool ExistCells(string cellData) 
@@ -43,7 +35,7 @@ namespace MiniSQL.Classes
 			return cells[data];
 		}
 
-		public ReadOnlyDictionary<string, List<Cell>> ReadCells()
+		public IDictionary<string, List<Cell>> ReadCells()
 		{
 			return new ReadOnlyDictionary<string, List<Cell>>(this.cells);
 		}
