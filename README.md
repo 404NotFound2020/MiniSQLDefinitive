@@ -62,4 +62,4 @@
 ╚══════════════════════════════════════════════════════════════════════════════════════════════════════════════╝
 ```
 
-<h1 align="center">If you are here without are in our team, you can assume you are a dead man/women, motherfucker</h1>
+<h1 align="center">If you are here without being in our team, you can assume you are a dead man/woman, motherfucker</h1>
