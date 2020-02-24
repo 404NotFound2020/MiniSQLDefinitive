@@ -47,13 +47,12 @@ namespace UnitTests.Test
             Assert.IsNotNull(row.GetCell(cell.column.columnName));
         }
         [TestMethod]
-        public void GetCell(string columnName)
+        public void GetCell()
         {
-
+            String columnName = "C1"; 
             Row row = new Row();
-            List<string> dataToWork = TestColumn.CreateStringCellData();
-            Column column = ObjectConstructor.CreateColumn(dataToWork, TypesKeyConstants.StringTypeKey, columnName);
-            row.AddCell(new Cell(column, "D1" , row));
+            Cell c = new Cell(new Column(columnName, (DoubleType)DataTypesFactory.GetDataTypesFactory().GetDataType(TypesKeyConstants.DoubleTypeKey)), "data", null);
+            row.AddCell(c);
 
             Assert.IsNotNull(row.GetCell(columnName));
         }
