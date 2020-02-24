@@ -61,8 +61,8 @@ namespace UnitTests.Test
         }
 
         public static Cell createCell()
-        {
-            return null;
+        {    
+          return null;
             //return new Cell(new Column("columnName",),"data", new Row());
         }
 
