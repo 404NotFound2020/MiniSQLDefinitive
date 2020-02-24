@@ -4,6 +4,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MiniSQL.Clases;
 using MiniSQL.Classes;
 using MiniSQL.Constants;
+using MiniSQL.DataTypes;
 using MiniSQL.Interfaces;
 using UnitTests.Test.TestObjectsContructor;
 
@@ -61,9 +62,8 @@ namespace UnitTests.Test
         }
 
         public static Cell createCell()
-        {    
-          return null;
-            //return new Cell(new Column("columnName",),"data", new Row());
+        {   
+            return new Cell(new Column("columnName", (DoubleType)DataTypesFactory.GetDataTypesFactory().GetDataType(TypesKeyConstants.DoubleTypeKey)),"data", null);
         }
 
     }

@@ -45,16 +45,7 @@ namespace MiniSQL.Classes
 
 		public bool ExistColumn(string columnName)
 		{
-			Column c = null;
-			c = GetColumn(columnName);
-			if (c == null)
-			{
-				return false;
-			}
-			else
-			{
-				return true;
-			}		
+			return this.columns.ContainsKey(columnName);	
 		}
 
 		public List<Column> GetColumnList() {
