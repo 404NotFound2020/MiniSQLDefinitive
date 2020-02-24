@@ -17,13 +17,13 @@ namespace MiniSQL.Interfaces
   
 
         protected void SetParser(AbstractParser parser) 
-        { 
-        
+        {
+            this.parser = parser;
         }
 
         public AbstractParser GetParser() 
         {
-            return null;
+            return parser;
         }
 
 

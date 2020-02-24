@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using MiniSQL.ColumnBehaviours;
 using MiniSQL.Constants;
 using MiniSQL.Interfaces;
+using MiniSQL.UbicationManagers;
 
 namespace MiniSQL.Parsers
 {
@@ -22,17 +23,25 @@ namespace MiniSQL.Parsers
 
         public override void SetDataFormatManager(string dataFormatManagerVersion)
         {
-
+            
         }
 
         public override void SetIndexationVersion(string indexationVersion)
         {
-            throw new NotImplementedException();
+            
         }
 
         public override void SetUbicationManager(string ubicationManager)
         {
+            switch (ubicationManager) 
+            {
+                case UbicationVersions.FirstUbicationVersion:
+                    this.GetParser().SetUbicationManager(FirstUbicationManager.GetFirstUbicationManager());
+                    break;
+            
+            }
 
+            
         }
 
 

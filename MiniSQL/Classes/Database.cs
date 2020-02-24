@@ -17,7 +17,7 @@ namespace MiniSQL.Classes
 			this.databaseName = databaseName;
 			this.user = user;
 			this.password = password;
-			tables = new Dictionary<string, Table>();
+			this.tables = new Dictionary<string, Table>();
 		}
 
 		public bool ExistTable(string tableName)
