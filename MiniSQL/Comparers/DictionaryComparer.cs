@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MiniSQL.Comparers
 {
-    public class DictionaryComparer<KeyTipe, ValueType> : IEqualityComparer<IReadOnlyDictionary<KeyTipe, ValueType>>
+    public class DictionaryComparer<KeyTipe, ValueType> : IEqualityComparer<IDictionary<KeyTipe, ValueType>>
     {
         private IEqualityComparer<ValueType> valueComparator;
 
@@ -15,7 +15,7 @@ namespace MiniSQL.Comparers
             this.valueComparator = internalValueComparator;
         }
        
-        public bool Equals(IReadOnlyDictionary<KeyTipe, ValueType> x, IReadOnlyDictionary<KeyTipe, ValueType> y)
+        public bool Equals(IDictionary<KeyTipe, ValueType> x, IDictionary<KeyTipe, ValueType> y)
         {
             if (x.Count != y.Count)
                 return false;
@@ -29,7 +29,7 @@ namespace MiniSQL.Comparers
             return true;
         }
 
-        public int GetHashCode(IReadOnlyDictionary<KeyTipe, ValueType> obj)
+        public int GetHashCode(IDictionary<KeyTipe, ValueType> obj)
         {
             throw new NotImplementedException();
         }

@@ -9,8 +9,8 @@ namespace MiniSQL.Interfaces
     public interface IUbicationManager
     {
         string GetDatabaseFilePath(string databaseName);
-        string GetTableStructureFilePath(string tableName);
-        string GetTableDataFilePath(string tableName);
+        string GetTableStructureFilePath(string databaseName, string tableName);
+        string GetTableDataFilePath(string databaseName, string tableName);
 
     }
 }

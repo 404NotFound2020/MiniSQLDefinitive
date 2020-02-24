@@ -17,25 +17,25 @@ namespace MiniSQL.Classes
 			this.databaseName = databaseName;
 			this.user = user;
 			this.password = password;
-			tables = new Dictionary<string, Table>();
+			this.tables = new Dictionary<string, Table>();
 		}
 
 		public bool ExistTable(string tableName)
 		{
-			return tables.ContainsKey(tableName);
+			return this.tables.ContainsKey(tableName);
 		}
 
 		public void AddTable(Table table)
 		{
-			tables.Add(table.tableName,table);
+			this.tables.Add(table.tableName,table);
 		}
 
 		public Table GetTable(string tableName)
 		{
-			return tables[tableName];
+			return this.tables[tableName];
 		}
 
-		public ReadOnlyDictionary<string, Table> ReadTables()
+		public IDictionary<string, Table> ReadTables()
 		{
 			return new ReadOnlyDictionary<string, Table>(this.tables);
 		}

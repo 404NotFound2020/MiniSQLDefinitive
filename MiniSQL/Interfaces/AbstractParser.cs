@@ -22,9 +22,13 @@ namespace MiniSQL.Interfaces
 
 
         public void SetUbicationManager(IUbicationManager ubicationManager) 
-        { 
-        
-        
+        {
+            this.ubicationManager = ubicationManager;        
+        }
+
+        protected IUbicationManager GetUbicationManager() 
+        {
+            return this.ubicationManager;
         }
 
     }

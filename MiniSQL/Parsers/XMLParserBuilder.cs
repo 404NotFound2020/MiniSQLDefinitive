@@ -13,27 +13,10 @@ namespace MiniSQL.Parsers
     {
 
         public XMLParserBuilder()
-        {
-            XMLParser parser = new XMLParser();
-            parser.GetPkFunction = document => {return PKNoActivated.GetPKNoActivated();};
-            parser.GetFkFunction = document => {return FKNoActivated.GetFKNoActivated();};            
-            this.SetParser(parser);
+        {      
+            this.SetParser(new XMLParser());
         }
 
-        public override void SetDataFormatManager(string dataFormatManagerVersion)
-        {
-
-        }
-
-        public override void SetIndexationVersion(string indexationVersion)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override void SetUbicationManager(string ubicationManager)
-        {
-
-        }
 
 
     }

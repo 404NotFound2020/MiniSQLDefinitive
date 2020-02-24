@@ -21,12 +21,12 @@ namespace MiniSQL.Interfaces
 
         public string ParseLoadData(string data) 
         {
-            return null;
+            return this.saveDataFormatManager.ParseFromLoad(data);
         }
 
         public string ParseToSaveData(string data) 
         {
-            return null;        
+            return this.saveDataFormatManager.ParseFromLoad(data);        
         }
 
 

@@ -3,6 +3,7 @@ using MiniSQL.ColumnBehaviours;
 using MiniSQL.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,14 +13,11 @@ namespace MiniSQL.Parsers
 {
     class XMLParser : AbstractParser
     {
-
-        public Func<XmlDocument, IPK> GetPkFunction;
-        public Func<XmlDocument, IFK> GetFkFunction;
+        private string[] xmlDeclaration;
 
         public XMLParser() 
         {
-            //this.GetPkFunction = document => {return PKNoActivated.GetPKNoActivated();};
-            //this.GetFkFunction = document => {return FKNoActivated.GetFKNoActivated();};
+            this.xmlDeclaration = new string[] { "1.0", "ISO-8859-1", null };
         }
 
         public override bool DeleteDatabase(string databaseName)
@@ -54,35 +52,49 @@ namespace MiniSQL.Parsers
 
         public override bool SaveDatabase(Database database)
         {
-            throw new NotImplementedException();
+            IUbicationManager ubicationManager = this.GetUbicationManager();
+            string databasePath = ubicationManager.GetDatabaseFilePath(database.databaseName);
+            if (!Directory.Exists(databasePath)) Directory.CreateDirectory(databasePath);
+            IEnumerator<KeyValuePair<string, Table>> enumerator = database.ReadTables().GetEnumerator();
+            while (enumerator.MoveNext()) 
+            {
+                this.SaveTable(database, enumerator.Current.Value);
+            }           
+            return false;
         }
 
         public override bool SaveTable(Database database, Table table)
         {
-
+            XmlDocument tableStruct = SaveTableStruct(table);
+            tableStruct.Save(this.GetUbicationManager().GetTableStructureFilePath(database.databaseName, table.tableName) + ".xml");
             return false;
         }
 
-        private void CreateColumnStructNodes(XmlDocument structureXML, XmlElement xmlElement, Column column) 
+        private XmlDocument SaveTableStruct(Table table) 
         {
-            //Escap the strings.
+            XmlDocument tableStructureXML = new XmlDocument();
+            //tableStructureXML.InsertBefore(tableStructureXML.CreateXmlDeclaration(this.xmlDeclaration[0], this.xmlDeclaration[1], this.xmlDeclaration[2]), rootElement);
+            XmlElement tableElement = tableStructureXML.CreateElement("table");
+            IEnumerator<Column> enumerator = table.GetColumnList().GetEnumerator();
+            XmlElement column;
+            while (enumerator.MoveNext())
+            {
+                column = tableStructureXML.CreateElement("column");
+                column.AppendChild(this.CreateSimpleNode(tableStructureXML, "columnName", enumerator.Current.columnName));
+                column.AppendChild(this.CreateSimpleNode(tableStructureXML, "columnDataType", enumerator.Current.dataType.GetSimpleTextValue()));
+                tableElement.AppendChild(column);
+            }
+            tableStructureXML.AppendChild(tableElement);
+            return tableStructureXML;
         }
-        
 
-        /**
-         * <table>
-                <column>
-	            <columnName></columnName>
-	            <columnDataType></columnType>
-	            <unique></unique>
-	            <references>
-
-	            </references>
-            </column>
-
-
-        </table>
-    **/
+        private XmlElement CreateSimpleNode(XmlDocument xmlDocument, string nodeName, string nodeText) 
+        {
+            XmlElement element = xmlDocument.CreateElement(nodeName);
+            XmlText textNode = xmlDocument.CreateTextNode(nodeText);
+            element.AppendChild(textNode);
+            return element;
+        }
 
     }
 }

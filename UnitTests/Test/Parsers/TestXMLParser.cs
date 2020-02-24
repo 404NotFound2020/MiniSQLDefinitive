@@ -68,7 +68,7 @@ namespace UnitTests.Test.Parsers
         {
             ParserBuilder builder = ParserBuilderFactory.GetParserBuilderFactory().GetParserBuilder(ParserVersions.XMLParserVersion);
             builder.SetUbicationManager(LastVersionVariables.UbicationVersion);
-            builder.SetIndexationVersion(LastVersionVariables.ActualIndexationVersion);
+           // builder.SetIndexationVersion(LastVersionVariables.ActualIndexationVersion);
             builder.SetDataFormatManager(LastVersionVariables.SaveDataFormatVersion);
             return builder.GetParser();       
         }

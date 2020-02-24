@@ -1,5 +1,4 @@
-﻿using MiniSQL.ColumnBehaviours;
-using MiniSQL.Interfaces;
+﻿using MiniSQL.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -11,7 +10,6 @@ namespace MiniSQL.Classes
 		public string columnName;
 		private Dictionary<string, List<Cell>> cells;
 		public DataType dataType;
-		public ColumnBehaviour columnBehaviour;
 
 		public Column(string columnName, DataType dataType)
 		{
@@ -20,7 +18,6 @@ namespace MiniSQL.Classes
 			cells = new Dictionary<string, List<Cell>>();
 
 		}
-
 
 		public void AddCell(Cell cell)
 		{

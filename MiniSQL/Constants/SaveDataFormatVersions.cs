@@ -9,7 +9,7 @@ namespace MiniSQL.Constants
     public class SaveDataFormatVersions
     {
         public const string NothingToDoDataFormatManagerVersion = "1.0";
-
+        public const string StringEscapedFormatManagerVersion = "2.0";
 
     }
 }

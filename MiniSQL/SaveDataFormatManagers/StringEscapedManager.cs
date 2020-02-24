@@ -9,6 +9,22 @@ namespace MiniSQL.SaveDataFormatManagers
 {
     class StringEscapedManager : ISaveDataFormatManager
     {
+        private static StringEscapedManager stringEscapedManager;
+
+        private StringEscapedManager()
+        {
+
+        }
+
+        public static StringEscapedManager GetStringEscapedManager() 
+        { 
+            if(stringEscapedManager == null) 
+            {
+                stringEscapedManager = new StringEscapedManager();
+            }
+            return stringEscapedManager;
+        }
+
         public string ParseFromLoad(string data)
         {
             return data.Substring(1, data.Length - 2);

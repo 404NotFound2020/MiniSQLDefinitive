@@ -35,7 +35,8 @@ namespace MiniSQL.Classes
 
 		public void AddColumn(Column column)
 		{
-			columns.Add(column.columnName,column);
+			columns.Add(column.columnName, column);
+			columnsOrdened.Add(column);
 		}
 
 		public Column GetColumn(string columnName)

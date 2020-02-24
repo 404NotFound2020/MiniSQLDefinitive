@@ -48,6 +48,7 @@ namespace UnitTests.Test.TestObjectsContructor
             row1.GetCell("Column3").data = "1.6";
             row1.GetCell("Column4").data = "1";
             table.AddRow(row1);
+            database.AddTable(table);
             return database;
         }
 

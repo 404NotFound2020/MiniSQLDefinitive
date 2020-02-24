@@ -41,11 +41,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ColumnBehaviours\ColumnBehaviour.cs" />
-    <Compile Include="ColumnBehaviours\FKActivated.cs" />
-    <Compile Include="ColumnBehaviours\FKNoActivated.cs" />
-    <Compile Include="ColumnBehaviours\PKActivated.cs" />
-    <Compile Include="ColumnBehaviours\PKNoActivated.cs" />
     <Compile Include="Comparers\CellComparer.cs" />
     <Compile Include="Comparers\ColumnComparer.cs" />
     <Compile Include="Comparers\DatabaseComparer.cs" />
@@ -71,13 +66,13 @@
     <Compile Include="DataTypes\StringType.cs" />
     <Compile Include="Classes\Table.cs" />
     <Compile Include="Interfaces\AbstractParser.cs" />
-    <Compile Include="Interfaces\IFK.cs" />
-    <Compile Include="Interfaces\IPK.cs" />
     <Compile Include="Interfaces\ISaveDataFormatManager.cs" />
     <Compile Include="Interfaces\IUbicationManager.cs" />
     <Compile Include="MiniSQLLauncher.cs" />
     <Compile Include="Interfaces\ParserBuilder.cs" />
+    <Compile Include="Parsers\DataFormatFactory.cs" />
     <Compile Include="Parsers\ParserBuilderFactory.cs" />
+    <Compile Include="Parsers\UbicationManagerFactory.cs" />
     <Compile Include="Parsers\XMLParser.cs" />
     <Compile Include="Parsers\XMLParserBuilder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -85,6 +80,8 @@
     <Compile Include="SaveDataFormatManagers\StringEscapedManager.cs" />
     <Compile Include="UbicationManagers\FirstUbicationManager.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="ColumnBehaviours\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
