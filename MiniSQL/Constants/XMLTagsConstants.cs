@@ -11,6 +11,7 @@ namespace MiniSQL.Constants
 
         public const string DatabasePropertiesRootElementTag_WR = "database";
         public const string DatabasePropertiesTableElementTag_WR = "table";
+        public const string DatabasePropertiesTableElementNameTag_WR = "name";
 
         public const string TableStructureRootElementTag_WR = "table";
         public const string TableStructureColumnElementTag_WR = "column";

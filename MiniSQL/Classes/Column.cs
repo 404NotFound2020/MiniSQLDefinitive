@@ -41,6 +41,16 @@ namespace MiniSQL.Classes
 			return new ColumnComparer();
 		}
 
+
+
+
+
+
+
+
+
+
+
 		private class ColumnComparer : IEqualityComparer<Column>
 		{
 			public bool Equals(Column x, Column y)

@@ -41,7 +41,7 @@ namespace UnitTests.Test.Comparers
             database2.AddTable(TestTableComparer.CreateTableModel3(tableNames[2]));
             Assert.IsFalse(databaseComparer.Equals(database1, database2));
         }
-
+        /**
         [TestMethod]
         public void Equals_TwoNoEqualDatabaseDiferencesInUser_ReturnFalse()
         {
@@ -58,7 +58,8 @@ namespace UnitTests.Test.Comparers
             database2.AddTable(TestTableComparer.CreateTableModel3(tableNames[2]));
             Assert.IsFalse(databaseComparer.Equals(database1, database2));
         }
-
+        **/
+        /**
         [TestMethod]
         public void Equals_TwoNoEqualDatabaseDiferencesInPassword_ReturnFalse()
         {
@@ -75,7 +76,7 @@ namespace UnitTests.Test.Comparers
             database2.AddTable(TestTableComparer.CreateTableModel3(tableNames[2]));
             Assert.IsFalse(databaseComparer.Equals(database1, database2));
         }
-
+        **/
         [TestMethod]
         public void Equals_TwoNoEqualDatabaseDiferencesInTablesContent_ReturnFalse()
         {

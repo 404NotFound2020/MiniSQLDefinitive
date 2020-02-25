@@ -23,6 +23,15 @@ namespace MiniSQL.Classes
 		}
 
 
+
+
+
+
+
+
+
+
+
 		private class CellComparer : IEqualityComparer<Cell>
 		{
 			public bool Equals(Cell x, Cell y)

@@ -46,6 +46,15 @@ namespace MiniSQL.Classes
 			return new DatabaseComparer();
 		}
 
+
+
+
+
+
+
+
+
+
 		private class DatabaseComparer : IEqualityComparer<Database>
 		{
 			public bool Equals(Database x, Database y)

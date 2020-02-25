@@ -16,6 +16,7 @@ namespace MiniSQL.Parsers
     class XMLParser : AbstractParser
     {
         private string[] xmlDeclaration;
+        private const string extension = ".xml";
 
         public XMLParser() 
         {
@@ -24,34 +25,59 @@ namespace MiniSQL.Parsers
 
         public override void DeleteDatabase(string databaseName)
         {
-            throw new NotImplementedException();
+            if (this.ExistDatabase(databaseName))
+            {
+                Directory.Delete(this.GetUbicationManager().GetDatabaseFilePath(databaseName), true);
+            }
+            else
+            {
+                throw new Exception("U mongol");
+            }
+            
         }
 
         public override void DeleteTable(string databaseName, string tableName)
         {
-            throw new NotImplementedException();
+            string propertiesPath = this.GetUbicationManager().GetDatabasePropertiesFilePath(databaseName) + extension;
+            XmlDocument databaseProperties = new XmlDocument();
+            databaseProperties.Load(propertiesPath);
+            XmlNode tablePropertiesNode = databaseProperties.SelectSingleNode("//" + XMLTagsConstants.DatabasePropertiesTableElementTag_WR + "[" + XMLTagsConstants.DatabasePropertiesTableElementNameTag_WR + "='" + tableName + "']");
+            if(tablePropertiesNode != null) 
+            {
+                IUbicationManager ubicationManager = this.GetUbicationManager();
+                databaseProperties.DocumentElement.RemoveChild(tablePropertiesNode);
+                File.Delete(ubicationManager.GetTableDataFilePath(databaseName, tableName) + extension);
+                File.Delete(ubicationManager.GetTableStructureFilePath(databaseName, tableName) + extension);
+                databaseProperties.Save(propertiesPath);
+            }
+            else
+            {
+                throw new Exception("U retarded exception"); //probablemente, el propio sistema soltara su excepcion, sin embargo, no sabemos de que tipo, por eso quiza mejor controlar nosotros el lanzamiento de la excepcion
+            }
         }
 
         public override bool ExistDatabase(string databaseName)
         {
-            throw new NotImplementedException();
+            return Directory.Exists(this.GetUbicationManager().GetDatabaseFilePath(databaseName));
         }
 
         public override bool ExistTable(string databaseName, string tableName)
         {
-            throw new NotImplementedException();
+            XmlDocument databaseProperties = new XmlDocument();
+            databaseProperties.Load(this.GetUbicationManager().GetDatabasePropertiesFilePath(databaseName) + extension);
+            return databaseProperties.SelectSingleNode("//" + XMLTagsConstants.DatabasePropertiesTableElementTag_WR + "[" + XMLTagsConstants.DatabasePropertiesTableElementNameTag_WR + "='" + tableName + "']") != null;
         }
 
         public override Database LoadDatabase(string databaseName)
         {
             Database database = new Database(databaseName, null, null);
             XmlDocument databaseProperties = new XmlDocument();
-            databaseProperties.Load(this.GetUbicationManager().GetDatabasePropertiesFilePath(databaseName) + ".xml");
+            databaseProperties.Load(this.GetUbicationManager().GetDatabasePropertiesFilePath(databaseName) + extension);
             XmlNodeList tableNodes = databaseProperties.GetElementsByTagName(XMLTagsConstants.DatabasePropertiesTableElementTag_WR);
             IEnumerator tableNodesEnumerator = tableNodes.GetEnumerator();
             while (tableNodesEnumerator.MoveNext())
             {
-                database.AddTable(this.LoadTable(database.databaseName, ((XmlNode)tableNodesEnumerator.Current).InnerText));
+                database.AddTable(this.LoadTable(database.databaseName, ((XmlNode)tableNodesEnumerator.Current).SelectSingleNode(XMLTagsConstants.DatabasePropertiesTableElementNameTag_WR).InnerText));
             }
             return database;
         }
@@ -67,12 +93,11 @@ namespace MiniSQL.Parsers
         {
             Table table = new Table(tableName);
             XmlDocument tableStructDocument = new XmlDocument();
-            tableStructDocument.Load(this.GetUbicationManager().GetTableStructureFilePath(databaseName, tableName) + ".xml");
+            tableStructDocument.Load(this.GetUbicationManager().GetTableStructureFilePath(databaseName, tableName) + extension);
             IEnumerator enumerator = tableStructDocument.GetElementsByTagName(XMLTagsConstants.TableStructureColumnElementTag_WR).GetEnumerator();
             XmlNode xmlNode;
             while (enumerator.MoveNext())
             {
-                //https://www.w3schools.com/xml/xpath_syntax.asp ostia tu que guapo
                 xmlNode = (XmlNode)enumerator.Current;
                 table.AddColumn(new Column(xmlNode.SelectSingleNode(XMLTagsConstants.TableStructureColumnNameTag_WR).InnerText, DataTypesFactory.GetDataTypesFactory().GetDataType(xmlNode.SelectSingleNode(XMLTagsConstants.TableStructureColumnDataTypeTag_WR).InnerText)));
             }
@@ -82,7 +107,7 @@ namespace MiniSQL.Parsers
         private void LoadTableData(string databaseName, Table table)
         {
             XmlDocument tableDataDocument = new XmlDocument();
-            tableDataDocument.Load(this.GetUbicationManager().GetTableDataFilePath(databaseName, table.tableName) + ".xml");
+            tableDataDocument.Load(this.GetUbicationManager().GetTableDataFilePath(databaseName, table.tableName) + extension);
             IEnumerator rowEnumerator = tableDataDocument.GetElementsByTagName(XMLTagsConstants.TableDataRowElementTag_WR).GetEnumerator();
             IEnumerator cellEnumerator;
             XmlNode xmlCellNode;
@@ -108,20 +133,23 @@ namespace MiniSQL.Parsers
             string databasePath = ubicationManager.GetDatabaseFilePath(database.databaseName);
             if (!Directory.Exists(databasePath)) Directory.CreateDirectory(databasePath);
             IEnumerator<Table> enumerator = database.GetTableEnumerator();
+            XmlElement tableElement;
             while (enumerator.MoveNext()) 
             {
-                databaseElement.AppendChild(this.CreateSimpleNode(databaseProperties, XMLTagsConstants.DatabasePropertiesTableElementTag_WR, enumerator.Current.tableName));
+                tableElement = databaseProperties.CreateElement(XMLTagsConstants.DatabasePropertiesTableElementTag_WR);
+                tableElement.AppendChild(this.CreateSimpleNode(databaseProperties, XMLTagsConstants.DatabasePropertiesTableElementNameTag_WR, enumerator.Current.tableName));
+                databaseElement.AppendChild(tableElement);
                 this.SaveTable(database, enumerator.Current);
             }
             databaseProperties.AppendChild(databaseElement);
             databaseProperties.InsertBefore(databaseProperties.CreateXmlDeclaration(this.xmlDeclaration[0], this.xmlDeclaration[1], this.xmlDeclaration[2]), databaseElement);
-            databaseProperties.Save(ubicationManager.GetDatabasePropertiesFilePath(database.databaseName) + ".xml");
+            databaseProperties.Save(ubicationManager.GetDatabasePropertiesFilePath(database.databaseName) + extension);
         }
 
         public override void SaveTable(Database database, Table table)
         {
-            this.SaveTableStruct(table).Save(this.GetUbicationManager().GetTableStructureFilePath(database.databaseName, table.tableName) + ".xml");
-            this.SaveTableData(table).Save(this.GetUbicationManager().GetTableDataFilePath(database.databaseName, table.tableName) + ".xml");
+            this.SaveTableStruct(table).Save(this.GetUbicationManager().GetTableStructureFilePath(database.databaseName, table.tableName) + extension);
+            this.SaveTableData(table).Save(this.GetUbicationManager().GetTableDataFilePath(database.databaseName, table.tableName) + extension);
         }
 
         private XmlDocument SaveTableStruct(Table table) 
@@ -177,4 +205,5 @@ namespace MiniSQL.Parsers
 
     }
 }
+
 //Delimitator version

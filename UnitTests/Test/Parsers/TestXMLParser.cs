@@ -14,17 +14,51 @@ namespace UnitTests.Test.Parsers
     public class TestXMLParser
     {
         [TestMethod]
+        [DoNotParallelize]
         public void SaveAndLoadDatabase()
         {
             AbstractParser xmlParser = CreateXMLParser();
             Database testDatabase = ObjectConstructor.CreateDatabaseFull();
             xmlParser.SaveDatabase(testDatabase);
-            Database loadedDatabase = xmlParser.LoadDatabase(testDatabase.databaseName);
-            //Assert.IsTrue(new DictionaryComparer<string, Table>(Table.GetTableComparer()).Equals(testDatabase.ReadTables(), loadedDatabase.ReadTables()));
+            Database loadedDatabase = xmlParser.LoadDatabase(testDatabase.databaseName);           
             Assert.IsTrue(Database.GetDatabaseComparer().Equals(testDatabase, loadedDatabase));
         }
 
         [TestMethod]
+        [DoNotParallelize]
+        public void ExistTable_TableExist_ReturnTrue() 
+        {
+            AbstractParser xmlParser = CreateXMLParser();
+            Database testDatabase = ObjectConstructor.CreateDatabaseFull();
+            xmlParser.SaveDatabase(testDatabase);
+            IEnumerator<Table> enumerator = testDatabase.GetTableEnumerator();
+            if (enumerator.MoveNext()) {
+                Assert.IsTrue(xmlParser.ExistTable(testDatabase.databaseName, enumerator.Current.tableName));
+            }
+            else
+            {
+                Assert.Fail("there is no tables idiot!");
+            }            
+        }
+
+        [TestMethod]
+        [DoNotParallelize]
+        public void ExistTable_TableNoExist_ReturnFalse()
+        {
+            AbstractParser xmlParser = CreateXMLParser();
+            Database testDatabase = ObjectConstructor.CreateDatabaseFull();
+            xmlParser.SaveDatabase(testDatabase);
+            string randomTableName = VariousFunctions.GenerateRandomString(6);
+            while (testDatabase.ExistTable(randomTableName)) 
+            { 
+                randomTableName = VariousFunctions.GenerateRandomString(6);
+            }
+            Assert.IsFalse(xmlParser.ExistTable(testDatabase.databaseName, randomTableName));
+
+        }
+
+        [TestMethod]
+        [DoNotParallelize]
         public void DeleteDatabase_DatabaseExist_DoTheThingsOK()
         {
             AbstractParser xmlParser = CreateXMLParser();
@@ -36,7 +70,8 @@ namespace UnitTests.Test.Parsers
         }
 
         [TestMethod]
-        [ExpectedException(typeof(Exception), "")]    
+        [DoNotParallelize]
+        [ExpectedException(typeof(Exception))]    
         public void DeleteDatabase_DatabaseDoesntExist_ThrowException()
         {
             AbstractParser xmlParser = CreateXMLParser();
@@ -45,27 +80,51 @@ namespace UnitTests.Test.Parsers
             {
                 randomDatabaseName = VariousFunctions.GenerateRandomString(10);
             }
-            xmlParser.LoadDatabase(randomDatabaseName);
+            Assert.IsFalse(xmlParser.ExistDatabase(randomDatabaseName));
+            xmlParser.DeleteDatabase(randomDatabaseName);
         }
 
         [TestMethod]
-        public void DeleteTable()
+        [DoNotParallelize]
+        public void DeleteTable_TableExist_DeleteThen()
         {
-
-        }
-
-        [TestMethod]
-        public void LoadTable()
-        {
+            AbstractParser xmlParser = CreateXMLParser();
             Database testDatabase = ObjectConstructor.CreateDatabaseFull();
-            //Table table1 = testDatabase.
+            xmlParser.SaveDatabase(testDatabase);
+            IEnumerator<Table> enumerator = testDatabase.GetTableEnumerator();
+            if (enumerator.MoveNext())
+            {
+                Assert.IsTrue(xmlParser.ExistTable(testDatabase.databaseName, enumerator.Current.tableName));
+                xmlParser.DeleteTable(testDatabase.databaseName, enumerator.Current.tableName);
+                Assert.IsFalse(xmlParser.ExistTable(testDatabase.databaseName, enumerator.Current.tableName));
+            }
+            else
+            {
+                Assert.Fail("there is no tables idiot!");
+            }
         }
 
         [TestMethod]
-        public void SaveTable()
+        [DoNotParallelize]
+        [ExpectedException(typeof(Exception))]    
+        public void DeleteTable_TableNoExist_ThrowException()
         {
-
+            AbstractParser xmlParser = CreateXMLParser();
+            Database testDatabase = ObjectConstructor.CreateDatabaseFull();
+            xmlParser.SaveDatabase(testDatabase);
+            string randomTableName = VariousFunctions.GenerateRandomString(6);
+            while (testDatabase.ExistTable(randomTableName))
+            {
+                randomTableName = VariousFunctions.GenerateRandomString(6);
+            }
+            Assert.IsFalse(xmlParser.ExistTable(testDatabase.databaseName, randomTableName));
+            xmlParser.DeleteTable(testDatabase.databaseName, randomTableName);
         }
+
+
+
+
+
 
         public static AbstractParser CreateXMLParser() 
         {
