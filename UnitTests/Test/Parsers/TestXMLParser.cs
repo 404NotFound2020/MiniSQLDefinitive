@@ -6,6 +6,7 @@ using MiniSQL.Parsers;
 using MiniSQL.Interfaces;
 using MiniSQL.Constants;
 using MiniSQL.Comparers;
+using System.Collections.Generic;
 
 namespace UnitTests.Test.Parsers
 {
@@ -19,8 +20,8 @@ namespace UnitTests.Test.Parsers
             Database testDatabase = ObjectConstructor.CreateDatabaseFull();
             xmlParser.SaveDatabase(testDatabase);
             Database loadedDatabase = xmlParser.LoadDatabase(testDatabase.databaseName);
-            Assert.IsTrue(new DictionaryComparer<string, Table>(new TableComparer()).Equals(testDatabase.ReadTables(), loadedDatabase.ReadTables()));
-            Assert.IsTrue(new DatabaseComparer().Equals(testDatabase, loadedDatabase));
+            //Assert.IsTrue(new DictionaryComparer<string, Table>(Table.GetTableComparer()).Equals(testDatabase.ReadTables(), loadedDatabase.ReadTables()));
+            Assert.IsTrue(Database.GetDatabaseComparer().Equals(testDatabase, loadedDatabase));
         }
 
         [TestMethod]
@@ -56,7 +57,8 @@ namespace UnitTests.Test.Parsers
         [TestMethod]
         public void LoadTable()
         {
-
+            Database testDatabase = ObjectConstructor.CreateDatabaseFull();
+            //Table table1 = testDatabase.
         }
 
         [TestMethod]

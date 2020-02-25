@@ -1,4 +1,5 @@
-﻿using MiniSQL.Interfaces;
+﻿using MiniSQL.Comparers;
+using MiniSQL.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -35,10 +36,36 @@ namespace MiniSQL.Classes
 			return cells[data];
 		}
 
-		public IDictionary<string, List<Cell>> ReadCells()
+		public static IEqualityComparer<Column> GetColumnComparer()
 		{
-			return new ReadOnlyDictionary<string, List<Cell>>(this.cells);
+			return new ColumnComparer();
 		}
 
+		private class ColumnComparer : IEqualityComparer<Column>
+		{
+			public bool Equals(Column x, Column y)
+			{
+				if (!x.columnName.Equals(y.columnName))
+					return false;
+				if (!x.dataType.Equals(y.dataType))
+					return false;
+				return new DictionaryComparer<string, List<Cell>>(new ListComparer<Cell>(Cell.GetCellComparer())).Equals(x.cells, y.cells);
+			}
+
+			public int GetHashCode(Column obj)
+			{
+				throw new NotImplementedException();
+			}
+		}
+
+
+
+
+
+
+
 	}
+
+
+
 }

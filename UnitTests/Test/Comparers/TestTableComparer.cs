@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MiniSQL.Classes;
-using MiniSQL.Comparers;
 using MiniSQL.Constants;
 using UnitTests.Test.TestObjectsContructor;
 
@@ -14,7 +13,7 @@ namespace UnitTests.Test.Comparers
         [TestMethod]
         public void Equals_TwoEqualTable_ReturnTrue()
         {
-            TableComparer tableComparer = CreateTableComparer();
+            IEqualityComparer<Table> tableComparer = CreateTableComparer();
             Table table1 = CreateTableModel1("SameTable");
             Table table2 = CreateTableModel1("SameTable");
             Assert.IsTrue(tableComparer.Equals(table1, table2));
@@ -23,7 +22,7 @@ namespace UnitTests.Test.Comparers
         [TestMethod]
         public void Equals_TwoNoEqualTableDiferencesOnlyInName_ReturnFalse()
         {
-            TableComparer tableComparer = CreateTableComparer();
+            IEqualityComparer<Table> tableComparer = CreateTableComparer();
             Table table1 = CreateTableModel1("SameTable");
             Table table2 = CreateTableModel1("NoTheSameTable");
             Assert.IsFalse(tableComparer.Equals(table1, table2));
@@ -32,7 +31,7 @@ namespace UnitTests.Test.Comparers
         [TestMethod]
         public void Equals_TwoNoEqualTableDiferencesOnlyInContent_ReturnFalse()
         {
-            TableComparer tableComparer = CreateTableComparer();
+            IEqualityComparer<Table> tableComparer = CreateTableComparer();
             Table table1 = CreateTableModel1("SameTable");
             Table table2 = CreateTableModel4("SameTable");
             Assert.IsFalse(tableComparer.Equals(table1, table2));
@@ -41,7 +40,7 @@ namespace UnitTests.Test.Comparers
         [TestMethod]
         public void Equals_TwoNoEqualTableSameContentWithDiferentColumns_ReturnFalse()
         {
-            TableComparer tableComparer = CreateTableComparer();
+            IEqualityComparer<Table> tableComparer = CreateTableComparer();
             Table table1 = CreateTableModel1("SameTable");
             Table table2 = CreateTableModel2("SameTable");
             Assert.IsFalse(tableComparer.Equals(table1, table2));
@@ -116,9 +115,9 @@ namespace UnitTests.Test.Comparers
             return ObjectConstructor.CreateFullTable(tableName, columnList, cellDatas);
         }
 
-        public static TableComparer CreateTableComparer()
+        public static IEqualityComparer<Table> CreateTableComparer()
         {
-            return new TableComparer();
+            return Table.GetTableComparer();
         }
 
     }

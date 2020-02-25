@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MiniSQL.Classes;
-using MiniSQL.Comparers;
 using MiniSQL.Constants;
 using UnitTests.Test.TestObjectsContructor;
 
@@ -14,7 +13,7 @@ namespace UnitTests.Test.Comparers
         [TestMethod]
         public void Equals_TwoEqualColumn_ReturnTrue()
         {
-            ColumnComparer columnComparer = CreateColumnComparer();
+            IEqualityComparer<Column> columnComparer = CreateColumnComparer();
             List<string> cellData = ObjectConstructor.CreateStringTypeRandomCellData(5, 5);
             string columnName = "columnX";
             Column column1 = ObjectConstructor.CreateColumn(cellData, TypesKeyConstants.StringTypeKey, columnName);
@@ -25,7 +24,7 @@ namespace UnitTests.Test.Comparers
         [TestMethod]
         public void Equals_TwoNoEqualColumnDiferencesInName_ReturnFalse()
         {
-            ColumnComparer columnComparer = CreateColumnComparer();
+            IEqualityComparer<Column> columnComparer = CreateColumnComparer();
             List<string> cellData = ObjectConstructor.CreateStringTypeRandomCellData(5, 5);
             string columnName1 = "columnX";
             string columnName2 = "columnY";
@@ -38,7 +37,7 @@ namespace UnitTests.Test.Comparers
         [TestMethod]
         public void Equals_TwoNoEqualColumnDiferencesInContent_ReturnFalse() 
         {
-            ColumnComparer columnComparer = CreateColumnComparer();
+            IEqualityComparer<Column> columnComparer = CreateColumnComparer();
             List<string> cellData1 = new List<string>();
             cellData1.Add("aa2");
             List<string> cellData2 = new List<string>();
@@ -52,9 +51,9 @@ namespace UnitTests.Test.Comparers
         }
 
 
-        public static ColumnComparer CreateColumnComparer()
+        public static IEqualityComparer<Column> CreateColumnComparer()
         {
-            return new ColumnComparer();
+            return Column.GetColumnComparer();
         }
 
     }

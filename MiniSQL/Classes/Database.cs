@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MiniSQL.Comparers;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
@@ -35,11 +36,32 @@ namespace MiniSQL.Classes
 			return this.tables[tableName];
 		}
 
-		public IDictionary<string, Table> ReadTables()
+		public IEnumerator<Table> GetTableEnumerator()
 		{
-			return new ReadOnlyDictionary<string, Table>(this.tables);
+			return this.tables.Values.GetEnumerator();
 		}
 
+		public static IEqualityComparer<Database> GetDatabaseComparer()
+		{
+			return new DatabaseComparer();
+		}
+
+		private class DatabaseComparer : IEqualityComparer<Database>
+		{
+			public bool Equals(Database x, Database y)
+			{
+				if (!x.databaseName.Equals(y.databaseName))
+					return false;
+				if (!(x.user.Equals(y.user) && x.password.Equals(y.password)))
+					return false;
+				return new DictionaryComparer<string, Table>(Table.GetTableComparer()).Equals(x.tables, y.tables);
+			}
+
+			public int GetHashCode(Database obj)
+			{
+				throw new NotImplementedException();
+			}
+		}
 
 
 

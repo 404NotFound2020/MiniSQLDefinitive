@@ -107,11 +107,11 @@ namespace MiniSQL.Parsers
             IUbicationManager ubicationManager = this.GetUbicationManager();
             string databasePath = ubicationManager.GetDatabaseFilePath(database.databaseName);
             if (!Directory.Exists(databasePath)) Directory.CreateDirectory(databasePath);
-            IEnumerator<KeyValuePair<string, Table>> enumerator = database.ReadTables().GetEnumerator();
+            IEnumerator<Table> enumerator = database.GetTableEnumerator();
             while (enumerator.MoveNext()) 
             {
-                databaseElement.AppendChild(this.CreateSimpleNode(databaseProperties, XMLTagsConstants.DatabasePropertiesTableElementTag_WR, enumerator.Current.Value.tableName));
-                this.SaveTable(database, enumerator.Current.Value);
+                databaseElement.AppendChild(this.CreateSimpleNode(databaseProperties, XMLTagsConstants.DatabasePropertiesTableElementTag_WR, enumerator.Current.tableName));
+                this.SaveTable(database, enumerator.Current);
             }
             databaseProperties.AppendChild(databaseElement);
             databaseProperties.InsertBefore(databaseProperties.CreateXmlDeclaration(this.xmlDeclaration[0], this.xmlDeclaration[1], this.xmlDeclaration[2]), databaseElement);
@@ -128,7 +128,7 @@ namespace MiniSQL.Parsers
         {
             XmlDocument tableStructureXML = new XmlDocument();            
             XmlElement tableElement = tableStructureXML.CreateElement(XMLTagsConstants.TableStructureRootElementTag_WR);
-            IEnumerator<Column> enumerator = table.GetColumnList().GetEnumerator();
+            IEnumerator<Column> enumerator = table.GetColumnEnumerator();
             XmlElement column;
             while (enumerator.MoveNext())
             {

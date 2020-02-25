@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MiniSQL.Classes;
-using MiniSQL.Comparers;
 using MiniSQL.Constants;
 using UnitTests.Test.TestObjectsContructor;
 
@@ -14,7 +13,7 @@ namespace UnitTests.Test.Comparers
         [TestMethod]
         public void Equals_TwoEqualRow_ReturnTrue()
         {
-            RowComparer rowComparer = CreateRowComparer();
+            IEqualityComparer<Row> rowComparer = CreateRowComparer();
             List<string> sameCellData = ObjectConstructor.CreateStringTypeRandomCellData(5, 2);
             List<Column> columnList1 = new List<Column>();
             List<Column> columnList2 = new List<Column>();
@@ -32,7 +31,7 @@ namespace UnitTests.Test.Comparers
         [TestMethod]
         public void Equals_TwoNoEqualRowSameColumnDiferentData_ReturnFalse()
         {
-            RowComparer rowComparer = CreateRowComparer();
+            IEqualityComparer<Row> rowComparer = CreateRowComparer();
             List<string> rowData1 = new List<string>();
             List<string> rowData2 = new List<string>();
             rowData1.Add("aa");
@@ -53,7 +52,7 @@ namespace UnitTests.Test.Comparers
         [TestMethod]
         public void Equals_TwoNoEqualRowSameDataWithDiferentColumns_ReturnFalse()
         {
-            RowComparer rowComparer = CreateRowComparer();
+            IEqualityComparer<Row> rowComparer = CreateRowComparer();
             List<string> sameCellData = ObjectConstructor.CreateStringTypeRandomCellData(5, 2);
             List<Column> columnList1 = new List<Column>();
             List<Column> columnList2 = new List<Column>();
@@ -66,9 +65,9 @@ namespace UnitTests.Test.Comparers
             Assert.IsFalse(rowComparer.Equals(row1, row2));
         }
 
-        public static RowComparer CreateRowComparer()
+        public static IEqualityComparer<Row> CreateRowComparer()
         {
-            return new RowComparer();
+            return Row.GetRowComparer();
         }
     }
 }

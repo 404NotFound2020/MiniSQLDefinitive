@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MiniSQL.Comparers;
+using System;
 using System.Collections.Generic;
 
 namespace MiniSQL.Classes
@@ -54,15 +55,36 @@ namespace MiniSQL.Classes
 			return this.columns.ContainsKey(columnName);	
 		}
 
-		public List<Column> GetColumnList() {
-			List<Column> copyList = new List<Column>();
-			this.columnsOrdened.ForEach((Column column) => copyList.Add(column));
-			return copyList;
+		public IEnumerator<Column> GetColumnEnumerator()
+		{
+			return this.columnsOrdened.GetEnumerator();
 		}
 
 		public IEnumerator<Row> GetRowEnumerator() 
 		{
 			return this.rows.GetEnumerator();
 		}
+
+		public static IEqualityComparer<Table> GetTableComparer()
+		{
+			return new TableComparer();
+		}
+
+		private class TableComparer : IEqualityComparer<Table>
+		{
+			public bool Equals(Table x, Table y)
+			{
+				if (!x.tableName.Equals(y.tableName))
+					return false;
+				return new ListComparer<Column>(Column.GetColumnComparer()).Equals(x.columnsOrdened, y.columnsOrdened);
+			}
+
+			public int GetHashCode(Table obj)
+			{
+				throw new NotImplementedException();
+			}
+		}
+
+
 	}
 }

@@ -18,7 +18,25 @@ namespace MiniSQL.Classes
 			this.row = row;
 		}
 
+		public static IEqualityComparer<Cell> GetCellComparer() {
+			return new CellComparer();
+		}
 
+
+		private class CellComparer : IEqualityComparer<Cell>
+		{
+			public bool Equals(Cell x, Cell y)
+			{
+				return x.data.Equals(y.data);
+			}
+
+			public int GetHashCode(Cell obj)
+			{
+				throw new NotImplementedException();
+			}
+		}
 
 	}
+
+	
 }

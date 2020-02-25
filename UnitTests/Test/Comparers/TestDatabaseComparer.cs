@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MiniSQL.Classes;
-using MiniSQL.Comparers;
 
 namespace UnitTests.Test.Comparers
 {
@@ -12,7 +11,7 @@ namespace UnitTests.Test.Comparers
         [TestMethod]
         public void Equals_TwoEqualDatabase_ReturnTrue()
         {
-            DatabaseComparer databaseComparer = CreateDatabaseComparer();
+            IEqualityComparer<Database> databaseComparer = CreateDatabaseComparer();
             string[] databaseAtributes = { "aaaa", "user1", "password1" };
             string[] tableNames = { "table1", "table2", "table3" };
             Database database1 = new Database(databaseAtributes[0], databaseAtributes[1], databaseAtributes[2]);
@@ -29,7 +28,7 @@ namespace UnitTests.Test.Comparers
         [TestMethod]
         public void Equals_TwoNoEqualDatabaseDiferencesInName_ReturnFalse()
         {
-            DatabaseComparer databaseComparer = CreateDatabaseComparer();
+            IEqualityComparer<Database> databaseComparer = CreateDatabaseComparer();
             string[] databaseAtributes = { "aaaa", "user1", "password1" };
             string[] tableNames = { "table1", "table2", "table3" };
             Database database1 = new Database(databaseAtributes[0], databaseAtributes[1], databaseAtributes[2]);
@@ -46,7 +45,7 @@ namespace UnitTests.Test.Comparers
         [TestMethod]
         public void Equals_TwoNoEqualDatabaseDiferencesInUser_ReturnFalse()
         {
-            DatabaseComparer databaseComparer = CreateDatabaseComparer();
+            IEqualityComparer<Database> databaseComparer = CreateDatabaseComparer();
             string[] databaseAtributes = { "aaaa", "user1", "password1" };
             string[] tableNames = { "table1", "table2", "table3" };
             Database database1 = new Database(databaseAtributes[0], databaseAtributes[1], databaseAtributes[2]);
@@ -63,7 +62,7 @@ namespace UnitTests.Test.Comparers
         [TestMethod]
         public void Equals_TwoNoEqualDatabaseDiferencesInPassword_ReturnFalse()
         {
-            DatabaseComparer databaseComparer = CreateDatabaseComparer();
+            IEqualityComparer<Database> databaseComparer = CreateDatabaseComparer();
             string[] databaseAtributes = { "aaaa", "user1", "password1" };
             string[] tableNames = { "table1", "table2", "table3" };
             Database database1 = new Database(databaseAtributes[0], databaseAtributes[1], databaseAtributes[2]);
@@ -80,7 +79,7 @@ namespace UnitTests.Test.Comparers
         [TestMethod]
         public void Equals_TwoNoEqualDatabaseDiferencesInTablesContent_ReturnFalse()
         {
-            DatabaseComparer databaseComparer = CreateDatabaseComparer();
+            IEqualityComparer<Database> databaseComparer = CreateDatabaseComparer();
             string[] databaseAtributes = { "aaaa", "user1", "password1" };
             string[] tableNames = { "table1", "table2", "table3" };
             Database database1 = new Database(databaseAtributes[0], databaseAtributes[1], databaseAtributes[2]);
@@ -97,7 +96,7 @@ namespace UnitTests.Test.Comparers
         [TestMethod]
         public void Equals_TwoNoEqualDatabaseDiferencesInTableNames_ReturnFalse()
         {
-            DatabaseComparer databaseComparer = CreateDatabaseComparer();
+            IEqualityComparer<Database> databaseComparer = CreateDatabaseComparer();
             string[] databaseAtributes = { "aaaa", "user1", "password1" };
             string[] tableNames = { "table1", "table2", "table3" };
             Database database1 = new Database(databaseAtributes[0], databaseAtributes[1], databaseAtributes[2]);
@@ -113,9 +112,9 @@ namespace UnitTests.Test.Comparers
 
 
 
-        public static DatabaseComparer CreateDatabaseComparer()
+        public static IEqualityComparer<Database> CreateDatabaseComparer()
         {
-            return new DatabaseComparer();
+            return Database.GetDatabaseComparer();
         }
 
     }
