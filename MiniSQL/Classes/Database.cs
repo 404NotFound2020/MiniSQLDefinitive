@@ -15,8 +15,8 @@ namespace MiniSQL.Classes
 		public Database(string databaseName, string user, string password)
 		{
 			this.databaseName = databaseName;
-			this.user = user;
-			this.password = password;
+			this.user = "aa";
+			this.password = "aa";
 			this.tables = new Dictionary<string, Table>();
 		}
 

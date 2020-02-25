@@ -40,13 +40,15 @@ namespace UnitTests.Test.Comparers
         {
             ColumnComparer columnComparer = CreateColumnComparer();
             List<string> cellData1 = new List<string>();
+            cellData1.Add("aa2");
             List<string> cellData2 = new List<string>();
+            cellData2.Add("bb");
             string columnName = "columnX";
             Column column1 = ObjectConstructor.CreateColumn(cellData1, TypesKeyConstants.StringTypeKey, columnName);
             Column column2 = ObjectConstructor.CreateColumn(cellData2, TypesKeyConstants.StringTypeKey, columnName);
             Assert.IsTrue(cellData1.Count == 1 && cellData2.Count == 1);
             Assert.IsFalse(cellData1[0].Equals(cellData2[0]));
-            Assert.IsTrue(columnComparer.Equals(column1, column2));
+            Assert.IsFalse(columnComparer.Equals(column1, column2));
         }
 
 

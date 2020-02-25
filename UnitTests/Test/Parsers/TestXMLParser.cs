@@ -19,6 +19,7 @@ namespace UnitTests.Test.Parsers
             Database testDatabase = ObjectConstructor.CreateDatabaseFull();
             xmlParser.SaveDatabase(testDatabase);
             Database loadedDatabase = xmlParser.LoadDatabase(testDatabase.databaseName);
+            Assert.IsTrue(new DictionaryComparer<string, Table>(new TableComparer()).Equals(testDatabase.ReadTables(), loadedDatabase.ReadTables()));
             Assert.IsTrue(new DatabaseComparer().Equals(testDatabase, loadedDatabase));
         }
 

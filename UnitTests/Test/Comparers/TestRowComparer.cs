@@ -36,7 +36,7 @@ namespace UnitTests.Test.Comparers
             List<string> rowData1 = new List<string>();
             List<string> rowData2 = new List<string>();
             rowData1.Add("aa");
-            rowData2.Add("cc");
+            rowData1.Add("cc");
             rowData2.Add("bb");
             rowData2.Add("dd");
             List<Column> columnList1 = new List<Column>();

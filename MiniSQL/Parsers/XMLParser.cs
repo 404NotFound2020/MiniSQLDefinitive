@@ -19,7 +19,7 @@ namespace MiniSQL.Parsers
 
         public XMLParser() 
         {
-            this.xmlDeclaration = new string[] { "1.0", "ISO-8859-1", null };
+            this.xmlDeclaration = new string[] { "1.0", null, null };
         }
 
         public override void DeleteDatabase(string databaseName)
@@ -45,7 +45,15 @@ namespace MiniSQL.Parsers
         public override Database LoadDatabase(string databaseName)
         {
             Database database = new Database(databaseName, null, null);
-            //Directory databaseDirectory = Directory.GetFiles
+            XmlDocument databaseProperties = new XmlDocument();
+            databaseProperties.Load(this.GetUbicationManager().GetDatabasePropertiesFilePath(databaseName) + ".xml");
+            XmlNodeList tableNodes = databaseProperties.GetElementsByTagName(XMLTagsConstants.DatabasePropertiesTableElementTag_WR);
+            IEnumerator tableNodesEnumerator = tableNodes.GetEnumerator();
+            while (tableNodesEnumerator.MoveNext())
+            {
+                database.AddTable(this.LoadTable(database.databaseName, ((XmlNode)tableNodesEnumerator.Current).InnerText));
+            }
+            return database;
         }
 
         public override Table LoadTable(string databaseName, string tableName)
@@ -55,16 +63,59 @@ namespace MiniSQL.Parsers
             return table;            
         }
 
+        private Table LoadTableStructure(string databaseName, string tableName)
+        {
+            Table table = new Table(tableName);
+            XmlDocument tableStructDocument = new XmlDocument();
+            tableStructDocument.Load(this.GetUbicationManager().GetTableStructureFilePath(databaseName, tableName) + ".xml");
+            IEnumerator enumerator = tableStructDocument.GetElementsByTagName(XMLTagsConstants.TableStructureColumnElementTag_WR).GetEnumerator();
+            XmlNode xmlNode;
+            while (enumerator.MoveNext())
+            {
+                //https://www.w3schools.com/xml/xpath_syntax.asp ostia tu que guapo
+                xmlNode = (XmlNode)enumerator.Current;
+                table.AddColumn(new Column(xmlNode.SelectSingleNode(XMLTagsConstants.TableStructureColumnNameTag_WR).InnerText, DataTypesFactory.GetDataTypesFactory().GetDataType(xmlNode.SelectSingleNode(XMLTagsConstants.TableStructureColumnDataTypeTag_WR).InnerText)));
+            }
+            return table;
+        }
+
+        private void LoadTableData(string databaseName, Table table)
+        {
+            XmlDocument tableDataDocument = new XmlDocument();
+            tableDataDocument.Load(this.GetUbicationManager().GetTableDataFilePath(databaseName, table.tableName) + ".xml");
+            IEnumerator rowEnumerator = tableDataDocument.GetElementsByTagName(XMLTagsConstants.TableDataRowElementTag_WR).GetEnumerator();
+            IEnumerator cellEnumerator;
+            XmlNode xmlCellNode;
+            Row row;
+            while (rowEnumerator.MoveNext())
+            {
+                row = table.CreateRowDefinition();
+                cellEnumerator = ((XmlNode)rowEnumerator.Current).SelectNodes(XMLTagsConstants.TableDataCellElementTag_WR).GetEnumerator();
+                while (cellEnumerator.MoveNext())
+                {
+                    xmlCellNode = (XmlNode)cellEnumerator.Current;
+                    row.GetCell(xmlCellNode.Attributes.GetNamedItem(XMLTagsConstants.TableDataCellColumnNameAtributeTag_WR).InnerText).data = xmlCellNode.InnerText;
+                }
+                table.AddRow(row);
+            }
+        }
+
         public override void SaveDatabase(Database database)
         {
+            XmlDocument databaseProperties = new XmlDocument();
+            XmlElement databaseElement = databaseProperties.CreateElement(XMLTagsConstants.DatabasePropertiesRootElementTag_WR);
             IUbicationManager ubicationManager = this.GetUbicationManager();
             string databasePath = ubicationManager.GetDatabaseFilePath(database.databaseName);
             if (!Directory.Exists(databasePath)) Directory.CreateDirectory(databasePath);
             IEnumerator<KeyValuePair<string, Table>> enumerator = database.ReadTables().GetEnumerator();
             while (enumerator.MoveNext()) 
             {
+                databaseElement.AppendChild(this.CreateSimpleNode(databaseProperties, XMLTagsConstants.DatabasePropertiesTableElementTag_WR, enumerator.Current.Value.tableName));
                 this.SaveTable(database, enumerator.Current.Value);
-            }           
+            }
+            databaseProperties.AppendChild(databaseElement);
+            databaseProperties.InsertBefore(databaseProperties.CreateXmlDeclaration(this.xmlDeclaration[0], this.xmlDeclaration[1], this.xmlDeclaration[2]), databaseElement);
+            databaseProperties.Save(ubicationManager.GetDatabasePropertiesFilePath(database.databaseName) + ".xml");
         }
 
         public override void SaveTable(Database database, Table table)
@@ -114,43 +165,6 @@ namespace MiniSQL.Parsers
             tableData.AppendChild(tableElement);
             tableData.InsertBefore(tableData.CreateXmlDeclaration(this.xmlDeclaration[0], this.xmlDeclaration[1], this.xmlDeclaration[2]), tableElement);
             return tableData;
-        }
-
-        private Table LoadTableStructure(string databaseName, string tableName) 
-        {
-            Table table = new Table(tableName);
-            XmlDocument tableStructDocument = new XmlDocument();
-            tableStructDocument.LoadXml(this.GetUbicationManager().GetTableStructureFilePath(databaseName, tableName));
-            IEnumerator enumerator = tableStructDocument.GetElementsByTagName(XMLTagsConstants.TableStructureColumnElementTag_WR).GetEnumerator();
-            XmlNode xmlNode;
-            while (enumerator.MoveNext()) 
-            {
-                //https://www.w3schools.com/xml/xpath_syntax.asp ostia tu que guapo
-                xmlNode = (XmlNode) enumerator.Current;
-                table.AddColumn(new Column(xmlNode.SelectSingleNode(XMLTagsConstants.TableStructureColumnNameTag_WR).InnerText, DataTypesFactory.GetDataTypesFactory().GetDataType(xmlNode.SelectSingleNode(XMLTagsConstants.TableStructureColumnDataTypeTag_WR).InnerText)));
-            }
-            return table;
-        }
-
-        private void LoadTableData(string databaseName, Table table) 
-        {
-            XmlDocument tableDataDocument = new XmlDocument();
-            tableDataDocument.LoadXml(this.GetUbicationManager().GetTableDataFilePath(databaseName, table.tableName));
-            IEnumerator rowEnumerator = tableDataDocument.GetElementsByTagName(XMLTagsConstants.TableDataRowElementTag_WR).GetEnumerator();
-            IEnumerator cellEnumerator;
-            XmlNode xmlCellNode;
-            Row row;
-            while (rowEnumerator.MoveNext()) 
-            {
-                row = table.CreateRowDefinition();
-                cellEnumerator = ((XmlNode)rowEnumerator.Current).SelectNodes(XMLTagsConstants.TableDataCellElementTag_WR).GetEnumerator();
-                while (cellEnumerator.MoveNext()) 
-                {
-                    xmlCellNode = (XmlNode)cellEnumerator.Current;
-                    row.GetCell(xmlCellNode.Attributes.GetNamedItem(XMLTagsConstants.TableDataCellColumnNameAtributeTag_WR).InnerText).data = xmlCellNode.InnerText;
-                }
-                table.AddRow(row);
-            }
         }
 
         private XmlElement CreateSimpleNode(XmlDocument xmlDocument, string nodeName, string nodeText) 

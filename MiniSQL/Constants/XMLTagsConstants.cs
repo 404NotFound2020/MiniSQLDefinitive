@@ -8,6 +8,10 @@ namespace MiniSQL.Constants
 {
     public class XMLTagsConstants
     {
+
+        public const string DatabasePropertiesRootElementTag_WR = "database";
+        public const string DatabasePropertiesTableElementTag_WR = "table";
+
         public const string TableStructureRootElementTag_WR = "table";
         public const string TableStructureColumnElementTag_WR = "column";
         public const string TableStructureColumnNameTag_WR = "columnName";

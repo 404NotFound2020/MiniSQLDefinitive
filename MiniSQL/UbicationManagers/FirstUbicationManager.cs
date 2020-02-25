@@ -43,9 +43,9 @@ namespace MiniSQL.UbicationManagers
             return this.GetDatabaseFilePath(databaseName) + "\\" + tableName + "STR";
         }
 
-        public string GetDatabaseTableListFile(string databaseName)
+        public string GetDatabasePropertiesFilePath(string databaseName)
         {
-            return additionalPath + "\\" + databaseName + "Tables.xml";
+            return this.GetDatabaseFilePath(databaseName) + "\\" + databaseName;
         }
     }
 }
