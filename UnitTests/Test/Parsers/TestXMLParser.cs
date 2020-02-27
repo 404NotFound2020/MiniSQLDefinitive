@@ -101,7 +101,7 @@ namespace UnitTests.Test.Parsers
             }
             else
             {
-                Assert.Fail("there is no tables idiot!");
+                Assert.Fail("there are no tables idiot!");
             }
         }
 

@@ -52,7 +52,7 @@ namespace MiniSQL.Parsers
             }
             else
             {
-                throw new Exception("U retarded exception"); //probablemente, el propio sistema soltara su excepcion, sin embargo, no sabemos de que tipo, por eso quiza mejor controlar nosotros el lanzamiento de la excepcion
+                throw new Exception("U retarded exception"); //probably, the own system will throw the exception, however, we dont know what type it will be, thats why we decide what exception will be thrown                         
             }
         }
 

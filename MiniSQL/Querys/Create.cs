@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MiniSQL.Querys
 {
-    class Select
+    class Create
     {
     }
 }
