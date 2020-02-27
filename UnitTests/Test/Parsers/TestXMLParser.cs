@@ -11,6 +11,7 @@ using System.Collections.Generic;
 namespace UnitTests.Test.Parsers
 {
     [TestClass]
+    [DoNotParallelize]
     public class TestXMLParser
     {
         [TestMethod]
