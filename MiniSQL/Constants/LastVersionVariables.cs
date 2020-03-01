@@ -12,7 +12,10 @@ namespace MiniSQL.Constants
         public const string UbicationVersion = UbicationVersions.FirstUbicationVersion;
         public const string SaveDataFormatVersion = SaveDataFormatVersions.NothingToDoDataFormatManagerVersion;
         public const string ActualIndexationVersion = ParserVersions.IndexationVersion;
-
+        public const bool IsSetActiveDatabaseTimeInterval = true;
+        public const int ActiveDatabaseTimeInterval = 15;
+        
+    
 
 
     }

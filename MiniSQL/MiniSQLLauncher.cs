@@ -13,7 +13,7 @@ namespace MiniSQL
     {
         public static void Start()
         {
-            VersionReader.GetVersionReader();
+            ConfigurationParser.GetConfigurationParser();
 
         }
 
