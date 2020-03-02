@@ -14,9 +14,7 @@ namespace MiniSQL.Querys
             throw new NotImplementedException();
         }
 
-        public override string GetResult()
-        {
-            throw new NotImplementedException();
-        }
+
+
     }
 }

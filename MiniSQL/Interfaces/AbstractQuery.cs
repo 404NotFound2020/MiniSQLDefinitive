@@ -10,7 +10,15 @@ namespace MiniSQL.Interfaces
     {
         private string result;
         public abstract void Execute(IDatabaseContainer container);
-        public abstract string GetResult();
+        public string GetResult() 
+        {
+            return result;    
+        }
+
+        protected void SetResult(string result) 
+        { 
+               
+        }
 
 
     }
