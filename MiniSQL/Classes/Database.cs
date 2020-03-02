@@ -57,8 +57,6 @@ namespace MiniSQL.Classes
 			{
 				if (!x.databaseName.Equals(y.databaseName))
 					return false;
-				if (!(x.user.Equals(y.user) && x.password.Equals(y.password)))
-					return false;
 				return new DictionaryComparer<string, Table>(Table.GetTableComparer()).Equals(x.tables, y.tables);
 			}
 
