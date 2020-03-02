@@ -12,10 +12,9 @@ namespace UnitTests.Test.Comparers
         public void Equals_TwoEqualDatabase_ReturnTrue()
         {
             IEqualityComparer<Database> databaseComparer = CreateDatabaseComparer();
-            string[] databaseAtributes = { "aaaa", "user1", "password1" };
             string[] tableNames = { "table1", "table2", "table3" };
-            Database database1 = new Database(databaseAtributes[0], databaseAtributes[1], databaseAtributes[2]);
-            Database database2 = new Database(databaseAtributes[0], databaseAtributes[1], databaseAtributes[2]);
+            Database database1 = new Database("aaaa");
+            Database database2 = new Database("aaaa");
             database1.AddTable(TestTableComparer.CreateTableModel1(tableNames[0]));
             database1.AddTable(TestTableComparer.CreateTableModel2(tableNames[1]));
             database1.AddTable(TestTableComparer.CreateTableModel3(tableNames[2]));
@@ -29,10 +28,9 @@ namespace UnitTests.Test.Comparers
         public void Equals_TwoNoEqualDatabaseDiferencesInName_ReturnFalse()
         {
             IEqualityComparer<Database> databaseComparer = CreateDatabaseComparer();
-            string[] databaseAtributes = { "aaaa", "user1", "password1" };
             string[] tableNames = { "table1", "table2", "table3" };
-            Database database1 = new Database(databaseAtributes[0], databaseAtributes[1], databaseAtributes[2]);
-            Database database2 = new Database(databaseAtributes[0] + "b", databaseAtributes[1], databaseAtributes[2]);
+            Database database1 = new Database("aaaa");
+            Database database2 = new Database("aaaa" + "b");
             database1.AddTable(TestTableComparer.CreateTableModel1(tableNames[0]));
             database1.AddTable(TestTableComparer.CreateTableModel2(tableNames[1]));
             database1.AddTable(TestTableComparer.CreateTableModel3(tableNames[2]));
@@ -81,10 +79,9 @@ namespace UnitTests.Test.Comparers
         public void Equals_TwoNoEqualDatabaseDiferencesInTablesContent_ReturnFalse()
         {
             IEqualityComparer<Database> databaseComparer = CreateDatabaseComparer();
-            string[] databaseAtributes = { "aaaa", "user1", "password1" };
             string[] tableNames = { "table1", "table2", "table3" };
-            Database database1 = new Database(databaseAtributes[0], databaseAtributes[1], databaseAtributes[2]);
-            Database database2 = new Database(databaseAtributes[0], databaseAtributes[1], databaseAtributes[2]);
+            Database database1 = new Database("aaaa");
+            Database database2 = new Database("aaaa");
             database1.AddTable(TestTableComparer.CreateTableModel1(tableNames[0]));
             database1.AddTable(TestTableComparer.CreateTableModel2(tableNames[1]));
             database1.AddTable(TestTableComparer.CreateTableModel3(tableNames[2]));
@@ -98,10 +95,9 @@ namespace UnitTests.Test.Comparers
         public void Equals_TwoNoEqualDatabaseDiferencesInTableNames_ReturnFalse()
         {
             IEqualityComparer<Database> databaseComparer = CreateDatabaseComparer();
-            string[] databaseAtributes = { "aaaa", "user1", "password1" };
             string[] tableNames = { "table1", "table2", "table3" };
-            Database database1 = new Database(databaseAtributes[0], databaseAtributes[1], databaseAtributes[2]);
-            Database database2 = new Database(databaseAtributes[0], databaseAtributes[1], databaseAtributes[2]);
+            Database database1 = new Database("aaaa");
+            Database database2 = new Database("aaaa");
             database1.AddTable(TestTableComparer.CreateTableModel1(tableNames[0]));
             database1.AddTable(TestTableComparer.CreateTableModel2(tableNames[1]));
             database1.AddTable(TestTableComparer.CreateTableModel3(tableNames[2]));
