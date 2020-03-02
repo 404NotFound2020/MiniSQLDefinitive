@@ -70,7 +70,7 @@ namespace MiniSQL.Parsers
 
         public override Database LoadDatabase(string databaseName)
         {
-            Database database = new Database(databaseName, null, null);
+            Database database = new Database(databaseName);
             XmlDocument databaseProperties = new XmlDocument();
             databaseProperties.Load(this.GetUbicationManager().GetDatabasePropertiesFilePath(databaseName) + extension);
             XmlNodeList tableNodes = databaseProperties.GetElementsByTagName(XMLTagsConstants.DatabasePropertiesTableElementTag_WR);

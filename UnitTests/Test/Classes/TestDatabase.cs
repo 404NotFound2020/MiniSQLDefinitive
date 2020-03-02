@@ -98,7 +98,7 @@ namespace UnitTests.Test
 
         public static Database createDatabase()
         { 
-           Database db = new Database("db1","u1","p1");
+           Database db = new Database("db1");
            return db;
         }
 

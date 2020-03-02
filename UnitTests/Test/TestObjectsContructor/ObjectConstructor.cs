@@ -36,7 +36,7 @@ namespace UnitTests.Test.TestObjectsContructor
         }
 
         public static Database CreateDatabaseFull() {
-            Database database = new Database("Database1", "user", "user");
+            Database database = new Database("Database1");
             Table table = new Table("Table1");
             table.AddColumn(new Column("Column1", DataTypesFactory.GetDataTypesFactory().GetDataType(TypesKeyConstants.StringTypeKey)));
             table.AddColumn(new Column("Column2", DataTypesFactory.GetDataTypesFactory().GetDataType(TypesKeyConstants.StringTypeKey)));
