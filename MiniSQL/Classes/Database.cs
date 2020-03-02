@@ -10,14 +10,10 @@ namespace MiniSQL.Classes
 
 		public string databaseName;
 		private Dictionary<string, Table> tables;
-		public string user;
-		public string password;
 
-		public Database(string databaseName, string user, string password)
+		public Database(string databaseName)
 		{
 			this.databaseName = databaseName;
-			this.user = "aa";
-			this.password = "aa";
 			this.tables = new Dictionary<string, Table>();
 		}
 
