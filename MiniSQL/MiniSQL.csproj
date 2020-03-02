@@ -47,6 +47,7 @@
     <Compile Include="ConfigurationClasses\SystemConfiguration.cs" />
     <Compile Include="Constants\LastVersionVariables.cs" />
     <Compile Include="Constants\ParserVersions.cs" />
+    <Compile Include="Constants\QuerysStringResultConstants.cs" />
     <Compile Include="Constants\TypesKeyConstants.cs" />
     <Compile Include="Constants\UbicationVersions.cs" />
     <Compile Include="Constants\SaveDataFormatVersions.cs" />
@@ -54,6 +55,7 @@
     <Compile Include="Initializer\ConfigDelimitator.cs" />
     <Compile Include="Initializer\System.cs" />
     <Compile Include="Initializer\ConfigurationParser.cs" />
+    <Compile Include="Interfaces\AbstractQuery.cs" />
     <Compile Include="Interfaces\DataType.cs" />
     <Compile Include="Classes\Cell.cs" />
     <Compile Include="Classes\Column.cs" />
@@ -65,7 +67,6 @@
     <Compile Include="DataTypes\StringType.cs" />
     <Compile Include="Classes\Table.cs" />
     <Compile Include="Interfaces\AbstractParser.cs" />
-    <Compile Include="Interfaces\IQuery.cs" />
     <Compile Include="Interfaces\ISaveDataFormatManager.cs" />
     <Compile Include="Interfaces\IDatabaseContainer.cs" />
     <Compile Include="Interfaces\IUbicationManager.cs" />
