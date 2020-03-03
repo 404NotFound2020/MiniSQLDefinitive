@@ -56,6 +56,7 @@
     <Compile Include="Initializer\System.cs" />
     <Compile Include="Initializer\ConfigurationParser.cs" />
     <Compile Include="Interfaces\AbstractQuery.cs" />
+    <Compile Include="Interfaces\DataDefinitionQuery.cs" />
     <Compile Include="Interfaces\DataType.cs" />
     <Compile Include="Classes\Cell.cs" />
     <Compile Include="Classes\Column.cs" />
@@ -70,6 +71,7 @@
     <Compile Include="Interfaces\ISaveDataFormatManager.cs" />
     <Compile Include="Interfaces\IDatabaseContainer.cs" />
     <Compile Include="Interfaces\IUbicationManager.cs" />
+    <Compile Include="Interfaces\DataManipulationQuery.cs" />
     <Compile Include="MiniSQLLauncher.cs" />
     <Compile Include="Interfaces\ParserBuilder.cs" />
     <Compile Include="Parsers\DataFormatFactory.cs" />
@@ -81,10 +83,13 @@
     <Compile Include="Querys\Create.cs" />
     <Compile Include="Querys\Drop.cs" />
     <Compile Include="Querys\Delete.cs" />
+    <Compile Include="Querys\Operator.cs" />
+    <Compile Include="Querys\OperatorFactory.cs" />
     <Compile Include="Querys\QueryFactory.cs" />
     <Compile Include="Querys\Update.cs" />
     <Compile Include="Querys\Insert.cs" />
     <Compile Include="Querys\Select.cs" />
+    <Compile Include="Querys\Where.cs" />
     <Compile Include="SaveDataFormatManagers\NothingToDoManager.cs" />
     <Compile Include="SaveDataFormatManagers\StringEscapedManager.cs" />
     <Compile Include="UbicationManagers\FirstUbicationManager.cs" />

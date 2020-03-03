@@ -1,5 +1,6 @@
 ﻿using MiniSQL.Constants;
 using MiniSQL.Interfaces;
+using MiniSQL.Querys;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,6 +25,11 @@ namespace MiniSQL.DataTypes
                 doubleType = new DoubleType();
             }
             return doubleType;       
+        }
+
+        public override bool Evaluate(Operator opera, string data1, string data2)
+        {
+            return opera.evaluate(double.Parse(data1), double.Parse(data2));
         }
 
         public override string GetSimpleTextValue()

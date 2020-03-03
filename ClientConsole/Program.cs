@@ -16,9 +16,15 @@ namespace ClientConsole
             StreamWriter standardOutput = new StreamWriter(Console.OpenStandardOutput());
             standardOutput.AutoFlush = true;
             Console.SetOut(standardOutput);
-            standardOutput.WriteLine("eeee");
-            Console.ReadLine();
+            //standardOutput.WriteLine("eeee");
+            
             ConfigurationParser.GetConfigurationParser();
+            Dictionary<string, string> dic = new Dictionary<string, string>();
+            dic.Add("a", "b");
+            dic.Add("a", "c");
+            standardOutput.WriteLine(dic.Count());
+            
+            Console.ReadLine();
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MiniSQL.Querys;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -26,8 +27,10 @@ namespace MiniSQL.Interfaces
 
         public string ParseToSaveData(string data) 
         {
-            return this.saveDataFormatManager.ParseFromLoad(data);        
+            return this.saveDataFormatManager.ParseToSave(data);        
         }
+
+        public abstract bool Evaluate(Operator opera, string data1, string data2);
 
 
 

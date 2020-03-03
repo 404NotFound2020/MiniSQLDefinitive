@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MiniSQL.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +7,27 @@ using System.Threading.Tasks;
 
 namespace MiniSQL.Querys
 {
-    class QueryFactory
+    public class QueryFactory
     {
+        private static QueryFactory queryFactory;
+
+        private QueryFactory() 
+        { 
+        
+        }
+
+        public static QueryFactory GetQueryFactory() 
+        {
+            if (queryFactory == null) queryFactory = new QueryFactory();
+            return queryFactory;
+        }
+
+
+        public AbstractQuery GetQuery(string protocole) 
+        {
+            return null;
+        }
+
+
     }
 }

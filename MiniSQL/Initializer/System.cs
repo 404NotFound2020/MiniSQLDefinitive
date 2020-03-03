@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace MiniSQL.Initializer
 {
-    public class System
+    public class System : IDatabaseContainer
     {
 
         private Dictionary<string, Database> activeDatabases;        
@@ -26,6 +26,24 @@ namespace MiniSQL.Initializer
             return system;
         }
 
- 
+        public Database GetDatabase(string databaseName)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool ExistDatabase(string databaseName)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void AddDatabase(Database database)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void RemoveDatabase(string databaseName)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

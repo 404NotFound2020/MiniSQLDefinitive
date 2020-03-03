@@ -112,6 +112,7 @@ namespace MiniSQL.Parsers
             IEnumerator cellEnumerator;
             XmlNode xmlCellNode;
             Row row;
+            Cell cell;
             while (rowEnumerator.MoveNext())
             {
                 row = table.CreateRowDefinition();
@@ -119,7 +120,8 @@ namespace MiniSQL.Parsers
                 while (cellEnumerator.MoveNext())
                 {
                     xmlCellNode = (XmlNode)cellEnumerator.Current;
-                    row.GetCell(xmlCellNode.Attributes.GetNamedItem(XMLTagsConstants.TableDataCellColumnNameAtributeTag_WR).InnerText).data = xmlCellNode.InnerText;
+                    cell = row.GetCell(xmlCellNode.Attributes.GetNamedItem(XMLTagsConstants.TableDataCellColumnNameAtributeTag_WR).InnerText);
+                    cell.data = cell.column.dataType.ParseLoadData(xmlCellNode.InnerText);
                 }
                 table.AddRow(row);
             }

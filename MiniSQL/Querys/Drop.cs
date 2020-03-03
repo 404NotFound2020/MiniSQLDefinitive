@@ -7,14 +7,22 @@ using System.Threading.Tasks;
 
 namespace MiniSQL.Querys
 {
-    public class Drop : AbstractQuery
+    public class Drop : DataDefinitionQuery
     {
-        public override void Execute(IDatabaseContainer container)
+
+        public Drop(IDatabaseContainer container) : base(container)
+        { 
+        
+        }
+
+        public override void Execute()
         {
             throw new NotImplementedException();
         }
 
-
-
+        public override bool ValidateParameters()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

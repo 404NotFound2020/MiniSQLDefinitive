@@ -7,6 +7,8 @@ using MiniSQL.Interfaces;
 using MiniSQL.Constants;
 using MiniSQL.Comparers;
 using System.Collections.Generic;
+using Xunit;
+[assembly: CollectionBehavior(CollectionBehavior.CollectionPerAssembly)]
 
 namespace UnitTests.Test.Parsers
 {
@@ -19,7 +21,7 @@ namespace UnitTests.Test.Parsers
         public void SaveAndLoadDatabase()
         {
             AbstractParser xmlParser = CreateXMLParser();
-            Database testDatabase = ObjectConstructor.CreateDatabaseFull();
+            Database testDatabase = ObjectConstructor.CreateDatabaseFull("test1");
             xmlParser.SaveDatabase(testDatabase);
             Database loadedDatabase = xmlParser.LoadDatabase(testDatabase.databaseName);           
             Assert.IsTrue(Database.GetDatabaseComparer().Equals(testDatabase, loadedDatabase));
@@ -30,7 +32,7 @@ namespace UnitTests.Test.Parsers
         public void ExistTable_TableExist_ReturnTrue() 
         {
             AbstractParser xmlParser = CreateXMLParser();
-            Database testDatabase = ObjectConstructor.CreateDatabaseFull();
+            Database testDatabase = ObjectConstructor.CreateDatabaseFull("test2");
             xmlParser.SaveDatabase(testDatabase);
             IEnumerator<Table> enumerator = testDatabase.GetTableEnumerator();
             if (enumerator.MoveNext()) {
@@ -47,7 +49,7 @@ namespace UnitTests.Test.Parsers
         public void ExistTable_TableNoExist_ReturnFalse()
         {
             AbstractParser xmlParser = CreateXMLParser();
-            Database testDatabase = ObjectConstructor.CreateDatabaseFull();
+            Database testDatabase = ObjectConstructor.CreateDatabaseFull("test3");
             xmlParser.SaveDatabase(testDatabase);
             string randomTableName = VariousFunctions.GenerateRandomString(6);
             while (testDatabase.ExistTable(randomTableName)) 
@@ -55,7 +57,6 @@ namespace UnitTests.Test.Parsers
                 randomTableName = VariousFunctions.GenerateRandomString(6);
             }
             Assert.IsFalse(xmlParser.ExistTable(testDatabase.databaseName, randomTableName));
-
         }
 
         [TestMethod]
@@ -63,7 +64,7 @@ namespace UnitTests.Test.Parsers
         public void DeleteDatabase_DatabaseExist_DoTheThingsOK()
         {
             AbstractParser xmlParser = CreateXMLParser();
-            Database testDatabase = ObjectConstructor.CreateDatabaseFull();
+            Database testDatabase = ObjectConstructor.CreateDatabaseFull("test4");
             xmlParser.SaveDatabase(testDatabase);
             Assert.IsTrue(xmlParser.ExistDatabase(testDatabase.databaseName));
             xmlParser.DeleteDatabase(testDatabase.databaseName);
@@ -90,7 +91,7 @@ namespace UnitTests.Test.Parsers
         public void DeleteTable_TableExist_DeleteThen()
         {
             AbstractParser xmlParser = CreateXMLParser();
-            Database testDatabase = ObjectConstructor.CreateDatabaseFull();
+            Database testDatabase = ObjectConstructor.CreateDatabaseFull("test5");
             xmlParser.SaveDatabase(testDatabase);
             IEnumerator<Table> enumerator = testDatabase.GetTableEnumerator();
             if (enumerator.MoveNext())
@@ -111,13 +112,9 @@ namespace UnitTests.Test.Parsers
         public void DeleteTable_TableNoExist_ThrowException()
         {
             AbstractParser xmlParser = CreateXMLParser();
-            Database testDatabase = ObjectConstructor.CreateDatabaseFull();
+            Database testDatabase = ObjectConstructor.CreateDatabaseFull("test6");
             xmlParser.SaveDatabase(testDatabase);
-            string randomTableName = VariousFunctions.GenerateRandomString(6);
-            while (testDatabase.ExistTable(randomTableName))
-            {
-                randomTableName = VariousFunctions.GenerateRandomString(6);
-            }
+            string randomTableName = "uhhbidsnfisd";
             Assert.IsFalse(xmlParser.ExistTable(testDatabase.databaseName, randomTableName));
             xmlParser.DeleteTable(testDatabase.databaseName, randomTableName);
         }

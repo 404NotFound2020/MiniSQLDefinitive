@@ -1,6 +1,8 @@
 ﻿using MiniSQL.Classes;
 using MiniSQL.Constants;
 using MiniSQL.DataTypes;
+using MiniSQL.Initializer;
+using MiniSQL.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -35,19 +37,24 @@ namespace UnitTests.Test.TestObjectsContructor
             return new Cell(column, data, row);       
         }
 
-        public static Database CreateDatabaseFull() {
-            Database database = new Database("Database1");
+        public static Database CreateDatabaseFull(string databaseName) {
+            Database database = new Database(databaseName);
             Table table = new Table("Table1");
             table.AddColumn(new Column("Column1", DataTypesFactory.GetDataTypesFactory().GetDataType(TypesKeyConstants.StringTypeKey)));
             table.AddColumn(new Column("Column2", DataTypesFactory.GetDataTypesFactory().GetDataType(TypesKeyConstants.StringTypeKey)));
             table.AddColumn(new Column("Column3", DataTypesFactory.GetDataTypesFactory().GetDataType(TypesKeyConstants.DoubleTypeKey)));
             table.AddColumn(new Column("Column4", DataTypesFactory.GetDataTypesFactory().GetDataType(TypesKeyConstants.IntTypeKey)));
-            Row row1 = table.CreateRowDefinition();
-            row1.GetCell("Column1").data = "AAA";
-            row1.GetCell("Column2").data = "AAA";
-            row1.GetCell("Column3").data = "1.6";
-            row1.GetCell("Column4").data = "1";
-            table.AddRow(row1);
+            int j = 200;
+            Row row;
+            for(int i = 0; i < j; i++) 
+            {
+                row = table.CreateRowDefinition();
+                row.GetCell("Column1").data = VariousFunctions.GenerateRandomString(8);
+                row.GetCell("Column2").data = VariousFunctions.GenerateRandomString(8);
+                row.GetCell("Column3").data = i + ".6";
+                row.GetCell("Column4").data = i + "";
+                table.AddRow(row);
+            }
             database.AddTable(table);
             return database;
         }
@@ -89,6 +96,11 @@ namespace UnitTests.Test.TestObjectsContructor
                 table.AddRow(row);
             }
             return table;
+        }
+
+        public static IDatabaseContainer CreateDatabaseContainer() 
+        {
+            return new DatabaseContainer();
         }
 
     }
