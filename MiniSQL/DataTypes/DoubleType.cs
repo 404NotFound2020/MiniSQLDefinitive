@@ -41,5 +41,10 @@ namespace MiniSQL.DataTypes
         {
             return double.TryParse(value, out double waste);
         }
+
+        public override string GetDataTypeDefaultValue()
+        {
+            return "0.0";
+        }
     }
 }

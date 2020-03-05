@@ -98,6 +98,16 @@ namespace UnitTests.Test.TestObjectsContructor
             return table;
         }
 
+        public static Table CreateTableWithAColumnOfEachDataType()
+        {
+            List<string> colNames = new List<string>(){ "c1", "c2", "c3" };
+            Table table = new Table("aaaa");
+            table.AddColumn(new Column(colNames[0], DataTypesFactory.GetDataTypesFactory().GetDataType(TypesKeyConstants.StringTypeKey)));
+            table.AddColumn(new Column(colNames[1], DataTypesFactory.GetDataTypesFactory().GetDataType(TypesKeyConstants.DoubleTypeKey)));
+            table.AddColumn(new Column(colNames[2], DataTypesFactory.GetDataTypesFactory().GetDataType(TypesKeyConstants.IntTypeKey)));
+            return table;
+        }
+
         public static IDatabaseContainer CreateDatabaseContainer() 
         {
             return new DatabaseContainer();
