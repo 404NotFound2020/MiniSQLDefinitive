@@ -1,4 +1,6 @@
-# MiniSQLDefinitive
+[![Build Status](https://dev.azure.com/iguanamanolo/MiniSQLDefinitive/_apis/build/status/404NotFound2020.MiniSQLDefinitive?branchName=master)](https://dev.azure.com/iguanamanolo/MiniSQLDefinitive/_build/latest?definitionId=1&branchName=master)
+
+MiniSQLDefinitive
 ```
 ╔══════════════════════════════════════════════════════════════════════════════════════════════════════════════╗
 ║══════════════════════════════════════════════════════════════════════════════════════════════════════════════║
