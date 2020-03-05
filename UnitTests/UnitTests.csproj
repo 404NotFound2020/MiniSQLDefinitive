@@ -84,6 +84,10 @@
     <Compile Include="Test\Querys\TestDrop.cs" />
     <Compile Include="Test\Querys\TestCreate.cs" />
     <Compile Include="Test\Querys\TestInsert.cs" />
+    <Compile Include="Test\Querys\TestWhere.cs" />
+    <Compile Include="Test\Querys\TestOperators.cs" />
+    <Compile Include="Test\Querys\TestQueryFactory.cs" />
+    <Compile Include="Test\Querys\TestOperatorFactory.cs" />
     <Compile Include="Test\SaveDataFormatManagers\TestNothingToDoManager.cs" />
     <Compile Include="Test\SaveDataFormatManagers\StringEscapedManager.cs" />
     <Compile Include="Test\TestObjectsContructor\DatabaseContainer.cs" />
