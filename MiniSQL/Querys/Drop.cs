@@ -12,7 +12,7 @@ namespace MiniSQL.Querys
 
         public Drop(IDatabaseContainer container) : base(container)
         { 
-        
+            
         }
 
         public override void Execute()
