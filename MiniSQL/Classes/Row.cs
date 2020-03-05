@@ -44,18 +44,6 @@ namespace MiniSQL.Classes
 			return new RowComparer();
 		}
 
-
-
-
-
-
-
-
-
-
-
-
-
 		private class RowComparer : IEqualityComparer<Row>
 		{
 			public bool Equals(Row x, Row y)

@@ -71,15 +71,6 @@ namespace MiniSQL.Classes
 		}
 
 
-
-
-
-
-
-
-
-
-
 		private class TableComparer : IEqualityComparer<Table>
 		{
 			public bool Equals(Table x, Table y)
