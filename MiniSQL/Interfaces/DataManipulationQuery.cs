@@ -11,7 +11,6 @@ namespace MiniSQL.Interfaces
 {
     public abstract class DataManipulationQuery : AbstractQuery
     {
-        public string targetTableName;
         private IList<Row> afectedRows;
         public Where whereClause;
 

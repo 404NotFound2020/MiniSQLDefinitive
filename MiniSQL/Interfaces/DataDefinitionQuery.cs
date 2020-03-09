@@ -8,9 +8,7 @@ namespace MiniSQL.Interfaces
 {
     public abstract class DataDefinitionQuery : AbstractQuery
     {
-        public string tableName;
-        public string databaseName;
-        public IDatabaseContainer container;
+
         public DataDefinitionQuery(IDatabaseContainer container) : base(container)
         {
             
