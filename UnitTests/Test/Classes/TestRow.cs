@@ -20,7 +20,7 @@ namespace UnitTests.Test
             Cell cell = createCell();
             Row row = new Row();
             row.AddCell(cell);
-            Assert.IsTrue(row.ExistCell(cell));
+            Assert.IsTrue(row.ExistCell(cell.column.columnName));
         }
         [TestMethod]
         public void AddCell()

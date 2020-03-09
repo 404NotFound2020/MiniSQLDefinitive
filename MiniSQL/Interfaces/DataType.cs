@@ -30,6 +30,8 @@ namespace MiniSQL.Interfaces
             return this.saveDataFormatManager.ParseToSave(data);        
         }
 
+        public abstract string GetDataTypeDefaultValue(); 
+
         public abstract bool Evaluate(Operator opera, string data1, string data2);
 
 

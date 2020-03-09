@@ -33,7 +33,7 @@ namespace MiniSQL.Classes
 			Row r = new Row();			
 			foreach (Column c in columnsOrdened)
 			{
-				Cell cl = new Cell(c, null, r);
+				Cell cl = new Cell(c, c.dataType.GetDataTypeDefaultValue(), r);
 				r.AddCell(cl);
 			}
 			return r;			
