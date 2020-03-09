@@ -48,7 +48,7 @@ namespace MiniSQL.Interfaces
                 }
                 else
                 {
-                    this.SetResult(this.GetResult() + QuerysStringResultConstants.TableDoesNotExist + "\n");
+                    this.SetResult(this.GetResult() + QuerysStringResultConstants.TableDoensExist(this.targetDatabase, this.targetTableName) + "\n");
                     this.IncrementErrorCount();
                 }
             }
