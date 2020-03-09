@@ -9,20 +9,37 @@ namespace MiniSQL.Querys
 {
     public class Drop : DataDefinitionQuery
     {
-
-        public Drop(IDatabaseContainer container) : base(container)
-        { 
         
+        public Drop(IDatabaseContainer container) : base(container)
+        {
+           
         }
 
         public override void Execute()
         {
-            throw new NotImplementedException();
+            this.container.GetDatabase(this.databaseName).DropTable(this.tableName);
         }
 
         public override bool ValidateParameters()
         {
-            throw new NotImplementedException();
+            if (this.container.ExistDatabase(this.databaseName))
+            {
+                if (this.container.GetDatabase(databaseName).ExistTable(tableName))
+                {
+                    return true;
+                }
+                else
+                {
+                    this.IncrementErrorCount();
+                    return false;
+                }
+            }
+            else
+            {
+                this.IncrementErrorCount();
+                return false;
+            }
         }
+
     }
 }
