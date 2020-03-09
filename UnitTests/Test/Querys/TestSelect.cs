@@ -22,6 +22,7 @@ namespace UnitTests.Test.Querys
             select.targetTableName = table.tableName;
             select.selectedAllColumns = true;
             select.whereClause = new Where();
+            select.whereClause.AddCritery(new Tuple<string, string>("Column3", "180.5"), Operator.higher);
             select.ValidateParameters();
             select.Execute();
             Console.WriteLine(select.GetResult());
