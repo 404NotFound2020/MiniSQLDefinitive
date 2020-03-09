@@ -26,4 +26,4 @@ namespace MiniSQL.Querys
             throw new NotImplementedException();
         }
     }
-}
+} 
