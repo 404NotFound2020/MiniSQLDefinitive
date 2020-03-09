@@ -58,6 +58,20 @@ namespace UnitTests.Test
 			Assert.IsTrue(b);
 		}
 
+		[TestMethod]
+		public void DeleteRow_RowNumberIsLogic_DeleteTheRow() 
+		{
+			Table table = ObjectConstructor.CreateTable();
+			table.AddColumn(ObjectConstructor.CreateColumn(new List<string>(), TypesKeyConstants.StringTypeKey, "c2"));
+			int rowCountBeforeAdittion = table.GetRowCount();
+			Row row = table.CreateRowDefinition();
+			row.GetCell("c2").data = "aa";
+			table.AddRow(row);
+			Assert.IsTrue(rowCountBeforeAdittion == table.GetRowCount() - 1);
+			int rowCountAfterAdittion = table.GetRowCount();
+			Assert.IsTrue(table.DestroyRow(rowCountAfterAdittion - 1));
+			Assert.IsTrue(table.GetRowCount() == rowCountAfterAdittion - 1);
+		}
 
 		[TestMethod]
 		public void CreateRowDefinition_ReturnWellFormedRowDefinition()

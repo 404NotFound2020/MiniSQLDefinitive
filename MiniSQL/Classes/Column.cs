@@ -26,6 +26,29 @@ namespace MiniSQL.Classes
 			cells[cell.data].Add(cell);
 		}
 
+		public bool DestroyCell(Cell cell) 
+		{
+			bool b = false;
+			if (this.ExistCells(cell.data))
+			{
+				List<Cell> cellList = this.cells[cell.data];
+				IEqualityComparer<Row> rowComparer = Row.GetRowComparer();
+				for (int i = 0; i < cellList.Count && b == false; i++)
+				{
+					b = rowComparer.Equals(cell.row, cellList[i].row);
+					if (b)
+					{
+						cellList.RemoveAt(i);
+						if (cellList.Count == 0)
+						{
+							this.cells.Remove(cell.data);
+						}
+					}
+				}
+			}
+			return b;
+		}
+
 		public bool ExistCells(string cellData) 
 		{
 			return cells.ContainsKey(cellData);		
