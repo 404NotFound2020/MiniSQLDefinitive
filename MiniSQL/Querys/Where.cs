@@ -21,8 +21,9 @@ namespace MiniSQL.Querys
         }
 
         public void AddCritery(Tuple<string, string> critery, Operator op) 
-        { 
-        
+        {
+            this.filterCriteries.Add(critery);
+            this.operators.Add(op);
         }
 
         public IEnumerator<Tuple<string, string>> GetCriteriesEnumerator() 
