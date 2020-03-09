@@ -26,9 +26,11 @@ namespace MiniSQL.Querys
         {
             
             Row row = table.CreateRowDefinition();
-            //FALTA CÓDIGO
-
-
+            for (int i = 0; i< selectedColumnNames.Count; i++)
+            {
+                row.GetCell(selectedColumnNames[i]).data = insertedDate[i];
+            }
+            table.AddRow(row);
             
         }
 
