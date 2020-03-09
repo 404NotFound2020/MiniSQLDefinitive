@@ -28,22 +28,25 @@ namespace MiniSQL.Initializer
 
         public Database GetDatabase(string databaseName)
         {
-            throw new NotImplementedException();
+            return activeDatabases[databaseName];
         }
 
         public bool ExistDatabase(string databaseName)
         {
-            throw new NotImplementedException();
+            if (activeDatabases.ContainsKey(databaseName))
+                return true;
+            else
+                return false;
         }
 
         public void AddDatabase(Database database)
         {
-            throw new NotImplementedException();
+            activeDatabases.Add(database.databaseName,database);
         }
 
         public void RemoveDatabase(string databaseName)
         {
-            throw new NotImplementedException();
+            activeDatabases.Remove(databaseName);
         }
     }
 }
