@@ -17,14 +17,14 @@ namespace MiniSQL.Querys
 
         public override void Execute()
         {
-            this.GetContainer().GetDatabase(this.targetDatabaseName).DropTable(this.targetTableName);
+            this.GetContainer().GetDatabase(this.targetDatabase).DropTable(this.targetTableName);
         }
 
         public override bool ValidateParameters()
         {
-            if (this.GetContainer().ExistDatabase(this.targetDatabaseName))
+            if (this.GetContainer().ExistDatabase(this.targetDatabase))
             {
-                if (this.GetContainer().GetDatabase(this.targetDatabaseName).ExistTable(this.targetTableName))
+                if (this.GetContainer().GetDatabase(this.targetDatabase).ExistTable(this.targetTableName))
                 {
                     return true;
                 }

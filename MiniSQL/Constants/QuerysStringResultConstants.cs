@@ -57,5 +57,10 @@ namespace MiniSQL.Constants
             return "The column " + columnName + " which was selected, doenst exits"; 
         }
 
+        public static string ColumnsAndDataTypesError(string columnName, string dataType) 
+        {
+            return "The data of the column " + columnName + "is " + dataType;
+        }
+
     }
 }

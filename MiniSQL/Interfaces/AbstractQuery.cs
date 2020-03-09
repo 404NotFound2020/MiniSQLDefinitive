@@ -13,7 +13,6 @@ namespace MiniSQL.Interfaces
         public string targetDatabase;
         private int errorCount;
         public string targetTableName;
-        public string targetDatabaseName;
 
         public AbstractQuery(IDatabaseContainer container) 
         {
