@@ -47,7 +47,7 @@ namespace MiniSQL.Classes
 			return new DatabaseComparer();
 		}
 
-
+		
 
 
 

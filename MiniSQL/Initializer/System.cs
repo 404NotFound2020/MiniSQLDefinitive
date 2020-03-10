@@ -48,5 +48,10 @@ namespace MiniSQL.Initializer
         {
             activeDatabases.Remove(databaseName);
         }
+
+        public int GetNumbersOfDatabases()
+        {
+            return this.activeDatabases.Count;
+        }
     }
 }
