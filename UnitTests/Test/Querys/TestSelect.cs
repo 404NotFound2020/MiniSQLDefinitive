@@ -21,11 +21,32 @@ namespace UnitTests.Test.Querys
             IDatabaseContainer databaseContainer = ObjectConstructor.CreateDatabaseContainer();
             databaseContainer.AddDatabase(database);
             Select select = CreateSelect(databaseContainer, database.databaseName, table.tableName, true);
-            select.whereClause = new Where();
             select.whereClause.AddCritery(new Tuple<string, string>("Column3", table.GetColumn("Column3").dataType.GetDataTypeDefaultValue()), Operator.equal);
             Assert.IsTrue(select.ValidateParameters());
             select.Execute();
             Assert.IsTrue(select.GetNumberOfResults() > 0);
+        }
+
+        [TestMethod]
+        public void Select_SelectAColumnExplicitelyGoodArguments_ShouldFindResults()
+        {
+            IDatabaseContainer databaseContainer = ObjectConstructor.CreateDatabaseContainer();
+            Database database = new Database("aa");
+            Table table = new Table("table1");
+            string columnName = "c1";
+            Column column = new Column(columnName, DataTypesFactory.GetDataTypesFactory().GetDataType(TypesKeyConstants.StringTypeKey));
+            table.AddColumn(column);
+            Row row = table.CreateRowDefinition();
+            row.GetCell(columnName).data = "aaaa";
+            table.AddRow(row);
+            database.AddTable(table);
+            databaseContainer.AddDatabase(database);
+            Select select = CreateSelect(databaseContainer, database.databaseName, table.tableName, true);
+            select.whereClause.AddCritery(new Tuple<string, string>(columnName, row.GetCell(columnName).data), Operator.equal);
+            Assert.IsTrue(select.ValidateParameters());
+            select.Execute();
+            Assert.IsTrue(select.GetNumberOfResults() > 0);
+            Console.WriteLine(select.GetResult());
         }
 
         [TestMethod]
@@ -39,7 +60,6 @@ namespace UnitTests.Test.Querys
             table.AddColumn(column);
             database.AddTable(table);
             Select select = CreateSelect(databaseContainer, database.databaseName, table.tableName, true);
-            select.whereClause = new Where();
             select.whereClause.AddCritery(new Tuple<string, string>(column.columnName, table.GetColumn(column.columnName).dataType.GetDataTypeDefaultValue()), Operator.equal);
             Assert.IsTrue(select.ValidateParameters());
             Assert.IsTrue(table.GetRowCount() == 0); //Maybe assert.equal
@@ -48,12 +68,12 @@ namespace UnitTests.Test.Querys
         }
 
         [TestMethod]
-        public void Select_BadArguments_TableDoesntExist_NotifiedInValidateParameters()
+        public void Select_BadArguments_TableDoesntExist_NoticedInValidateParameters()
         {
             IDatabaseContainer databaseContainer = ObjectConstructor.CreateDatabaseContainer();
             Database database = ObjectConstructor.CreateDatabaseFull("test1");
-            string noInDatabaseTableName = VariousFunctions.GenerateRandomString(10); //Do while instead of while is okkkkk
             databaseContainer.AddDatabase(database);
+            string noInDatabaseTableName = VariousFunctions.GenerateRandomString(10); //Do while instead of while is okkkkk            
             while (database.ExistTable(noInDatabaseTableName)) 
             { 
                 noInDatabaseTableName = VariousFunctions.GenerateRandomString(10);
@@ -66,15 +86,71 @@ namespace UnitTests.Test.Querys
         }
 
         [TestMethod]
-        public void Select_BadArguments_SelectedColumnsDontExist_NotifiedWithInResult()
+        public void Select_BadArguments_SelectedColumnsDontExist_NoticedInValidateParameters()
         {
-
+            IDatabaseContainer databaseContainer = ObjectConstructor.CreateDatabaseContainer();
+            Database database = new Database("aa");            
+            Table table = new Table("table1");
+            Column column = new Column("c1", DataTypesFactory.GetDataTypesFactory().GetDataType(TypesKeyConstants.StringTypeKey));
+            table.AddColumn(column);
+            database.AddTable(table);
+            databaseContainer.AddDatabase(database); 
+            string noInTableColumnName = VariousFunctions.GenerateRandomString(10);
+            while (table.ExistColumn(noInTableColumnName)) 
+            {
+                noInTableColumnName = VariousFunctions.GenerateRandomString(10);
+            }
+            Select select = CreateSelect(databaseContainer, database.databaseName, table.tableName, false);
+            select.AddSelectedColumnName(noInTableColumnName);
+            Assert.IsFalse(select.ValidateParameters());
+            select.Execute();
+            Assert.AreEqual(0, select.GetNumberOfResults());
+            Console.WriteLine(select.GetResult());
         }
 
         [TestMethod]
-        public void Select_BadArguments_WhereClauseColumnsDontExist_NotifiedInResult()
+        public void Select_BadArguments_WhereClauseColumnsDontExist_NoticedInValidateParameters()
         {
+            IDatabaseContainer databaseContainer = ObjectConstructor.CreateDatabaseContainer();
+            Database database = new Database("aa");
+            Table table = new Table("table1");
+            Column column = new Column("c1", DataTypesFactory.GetDataTypesFactory().GetDataType(TypesKeyConstants.StringTypeKey));
+            table.AddColumn(column);
+            database.AddTable(table);
+            databaseContainer.AddDatabase(database);
+            string noInTableColumnName = VariousFunctions.GenerateRandomString(10);
+            while (table.ExistColumn(noInTableColumnName))
+            {
+                noInTableColumnName = VariousFunctions.GenerateRandomString(10);
+            }
+            Select select = CreateSelect(databaseContainer, database.databaseName, table.tableName, true);
+            select.whereClause.AddCritery(new Tuple<string, string>(noInTableColumnName, "a"), Operator.equal);
+            Assert.IsFalse(select.ValidateParameters());
+            select.Execute();
+            Assert.AreEqual(0, select.GetNumberOfResults());
+            Console.WriteLine(select.GetResult());
+        }
 
+        [TestMethod]
+        public void Select_BadArguments_WhereClauseColumnsWithABadDataTypeData_NoticedInValidateParameters()
+        {
+            IDatabaseContainer databaseContainer = ObjectConstructor.CreateDatabaseContainer();
+            Database database = new Database("aa");
+            Table table = new Table("table1");
+            string columnName = "c1";
+            Column column = new Column(columnName, DataTypesFactory.GetDataTypesFactory().GetDataType(TypesKeyConstants.IntTypeKey));
+            table.AddColumn(column);
+            Row row = table.CreateRowDefinition();
+            row.GetCell(columnName).data = "1";
+            table.AddRow(row);
+            database.AddTable(table);
+            databaseContainer.AddDatabase(database);
+            Select select = CreateSelect(databaseContainer, database.databaseName, table.tableName, true);
+            select.whereClause.AddCritery(new Tuple<string, string>(columnName, "a"), Operator.equal);
+            Assert.IsFalse(select.ValidateParameters());
+            select.Execute();
+            Assert.AreEqual(0, select.GetNumberOfResults());
+            Console.WriteLine(select.GetResult());
         }
 
         public static Select CreateSelect(IDatabaseContainer databaseContainer, string databaseName, string tableName, bool selectedAll)

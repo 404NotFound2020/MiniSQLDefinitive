@@ -17,6 +17,7 @@ namespace MiniSQL.Interfaces
         public DataManipulationQuery(IDatabaseContainer container) : base(container)
         {
             this.afectedRows = new List<Row>();
+            this.whereClause = new Where();
         }
 
         protected void AddAfectedRow(Row row) 
