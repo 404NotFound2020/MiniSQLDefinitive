@@ -32,7 +32,7 @@ namespace MiniSQL.Querys
          * select.selectedAllColumns = true;
          * select.ExecuteParticularQueryAction(Table table) (con la table que se le pasa)
          * Una vez hecho esto, el objeto select almacena una coleccion de Row que es el resultado de las filas obtenidas 
-         * por la consulta, se puede obtener un enumerado mediante select.GetSelectedRows();
+         * por la consulta, se puede obtener un enumerado mediante select.GetAfectedRowEnum();
          * 
          * 
          * Una vez hecho eso, se recorre el enumerador en un while, y dentro de ese while se obtiene otro enumerador de

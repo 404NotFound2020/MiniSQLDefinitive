@@ -30,6 +30,11 @@ namespace MiniSQL.Interfaces
             return this.afectedRows.GetEnumerator();
         }
 
+        public int GetAfectedRowCount() 
+        {
+            return this.afectedRows.Count();
+        }
+
         public override void Execute()
         {
             if(this.GetErrorCount() == 0) this.ExecuteParticularQueryAction(this.GetContainer().GetDatabase(this.targetDatabase).GetTable(this.targetTableName));                

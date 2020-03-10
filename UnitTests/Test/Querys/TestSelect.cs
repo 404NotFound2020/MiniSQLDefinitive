@@ -24,7 +24,7 @@ namespace UnitTests.Test.Querys
             select.whereClause.AddCritery(new Tuple<string, string>("Column3", table.GetColumn("Column3").dataType.GetDataTypeDefaultValue()), Operator.equal);
             Assert.IsTrue(select.ValidateParameters());
             select.Execute();
-            Assert.IsTrue(select.GetNumberOfResults() > 0);
+            Assert.IsTrue(select.GetAfectedRowCount() > 0);
         }
 
         [TestMethod]
@@ -45,7 +45,7 @@ namespace UnitTests.Test.Querys
             select.whereClause.AddCritery(new Tuple<string, string>(columnName, row.GetCell(columnName).data), Operator.equal);
             Assert.IsTrue(select.ValidateParameters());
             select.Execute();
-            Assert.IsTrue(select.GetNumberOfResults() > 0);
+            Assert.IsTrue(select.GetAfectedRowCount() > 0);
             Console.WriteLine(select.GetResult());
         }
 
@@ -64,7 +64,7 @@ namespace UnitTests.Test.Querys
             Assert.IsTrue(select.ValidateParameters());
             Assert.IsTrue(table.GetRowCount() == 0); //Maybe assert.equal
             select.Execute();
-            Assert.IsTrue(select.GetNumberOfResults() == 0);
+            Assert.IsTrue(select.GetAfectedRowCount() == 0);
         }
 
         [TestMethod]
@@ -81,7 +81,7 @@ namespace UnitTests.Test.Querys
             Select select = CreateSelect(databaseContainer, database.databaseName, noInDatabaseTableName, true);
             Assert.IsFalse(select.ValidateParameters());            
             select.Execute();
-            Assert.AreEqual(0, select.GetNumberOfResults());
+            Assert.AreEqual(0, select.GetAfectedRowCount());
             Console.WriteLine(select.GetResult()); //It is only to see the message not to trace execution
         }
 
@@ -104,7 +104,7 @@ namespace UnitTests.Test.Querys
             select.AddSelectedColumnName(noInTableColumnName);
             Assert.IsFalse(select.ValidateParameters());
             select.Execute();
-            Assert.AreEqual(0, select.GetNumberOfResults());
+            Assert.AreEqual(0, select.GetAfectedRowCount());
             Console.WriteLine(select.GetResult());
         }
 
@@ -127,7 +127,7 @@ namespace UnitTests.Test.Querys
             select.whereClause.AddCritery(new Tuple<string, string>(noInTableColumnName, "a"), Operator.equal);
             Assert.IsFalse(select.ValidateParameters());
             select.Execute();
-            Assert.AreEqual(0, select.GetNumberOfResults());
+            Assert.AreEqual(0, select.GetAfectedRowCount());
             Console.WriteLine(select.GetResult());
         }
 
@@ -149,7 +149,7 @@ namespace UnitTests.Test.Querys
             select.whereClause.AddCritery(new Tuple<string, string>(columnName, "a"), Operator.equal);
             Assert.IsFalse(select.ValidateParameters());
             select.Execute();
-            Assert.AreEqual(0, select.GetNumberOfResults());
+            Assert.AreEqual(0, select.GetAfectedRowCount());
             Console.WriteLine(select.GetResult());
         }
 

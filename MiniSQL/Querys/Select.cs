@@ -13,13 +13,11 @@ namespace MiniSQL.Querys
     {
         private List<string> selectedColumnNames;
         public bool selectedAllColumns;
-        private List<Row> selectedRows;
         private List<int> selectedRowsIndexInTable;
              
         public Select(IDatabaseContainer container) : base(container)
         {
             this.selectedColumnNames = new List<string>();
-            this.selectedRows = new List<Row>();
             this.selectedRowsIndexInTable = new List<int>();
         }
 
@@ -31,7 +29,8 @@ namespace MiniSQL.Querys
             {
                 if (this.whereClause.IsSelected(rowEnumerator.Current)) 
                 {
-                    this.selectedRows.Add(rowEnumerator.Current);
+                    this.AddAfectedRow(rowEnumerator.Current);
+                    //this.selectedRows.Add(rowEnumerator.Current);
                     this.SetResult(this.GetResult() + this.GenerateStringResult(rowEnumerator.Current) + "\n");
                     this.selectedRowsIndexInTable.Add(i);
                 }
@@ -99,21 +98,12 @@ namespace MiniSQL.Querys
                 this.selectedColumnNames.Add(columnEnumerator.Current.columnName);            
             }
         }
-
-        public IEnumerator<Row> GetSelectedRows() 
-        {
-            return this.selectedRows.GetEnumerator();
-        }
-
+ 
         public IEnumerator<int> GetSelectedRowsIndex()
         {
             return this.selectedRowsIndexInTable.GetEnumerator();
         }
 
-        public int GetNumberOfResults() 
-        {
-            return this.selectedRows.Count;
-        }
 
     }
 }
