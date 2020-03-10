@@ -46,6 +46,7 @@
     <Compile Include="ConcurrenceClasses\ClientThread.cs" />
     <Compile Include="ConfigurationClasses\SystemConfiguration.cs" />
     <Compile Include="Constants\LastVersionVariables.cs" />
+    <Compile Include="Constants\OperatorKeys.cs" />
     <Compile Include="Constants\ParserVersions.cs" />
     <Compile Include="Constants\QuerysStringResultConstants.cs" />
     <Compile Include="Constants\TypesKeyConstants.cs" />

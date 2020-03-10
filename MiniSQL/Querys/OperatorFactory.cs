@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MiniSQL.Constants;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -26,13 +27,13 @@ namespace MiniSQL.Querys
             Operator op = null;
             switch (operatorKey) 
             {
-                case "=":
+                case OperatorKeys.EqualKey:
                     op = Operator.equal;
                     break;
-                case "<":
+                case OperatorKeys.LessKey:
                     op = Operator.less;
                     break;
-                case ">":
+                case OperatorKeys.HigherKey:
                     op = Operator.higher;
                     break;                      
             }
