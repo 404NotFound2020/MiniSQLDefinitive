@@ -60,7 +60,7 @@ namespace MiniSQL.Interfaces
             }
             else 
             {
-                this.SetResult(this.GetResult() + QuerysStringResultConstants.DatabaseDoesNotExist + "\n");
+                this.SetResult(this.GetResult() + QuerysStringResultConstants.DatabaseDoesntExist(this.targetDatabase) + "\n");
                 this.IncrementErrorCount();
             }
             return this.GetIsValidQuery();

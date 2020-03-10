@@ -153,6 +153,30 @@ namespace UnitTests.Test.Querys
             Console.WriteLine(select.GetResult());
         }
 
+        [TestMethod]
+        public void Select_BadArgument_DatabaseDoesntExit_NoticedInValidateParameters() 
+        {
+            IDatabaseContainer databaseContainer = ObjectConstructor.CreateDatabaseContainer();
+            Database database = new Database("aa");
+            Table table = new Table("table1");
+            string columnName = "c1";
+            Column column = new Column(columnName, DataTypesFactory.GetDataTypesFactory().GetDataType(TypesKeyConstants.IntTypeKey));
+            table.AddColumn(column);
+            Row row = table.CreateRowDefinition();
+            row.GetCell(columnName).data = "1";
+            table.AddRow(row);
+            database.AddTable(table);
+            databaseContainer.AddDatabase(database);
+            string notValidDatabaseName = "bb";
+            Assert.IsFalse(databaseContainer.ExistDatabase(notValidDatabaseName));
+            Select select = CreateSelect(databaseContainer, notValidDatabaseName, table.tableName, true);
+            Assert.IsFalse(select.ValidateParameters());
+            select.Execute();
+            Assert.AreEqual(0, select.GetAfectedRowCount());
+            Console.WriteLine(select.GetResult());
+        }
+
+
         public static Select CreateSelect(IDatabaseContainer databaseContainer, string databaseName, string tableName, bool selectedAll)
         {
             Select select = new Select(databaseContainer);

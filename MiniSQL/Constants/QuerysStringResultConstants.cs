@@ -54,7 +54,7 @@ namespace MiniSQL.Constants
 
         public static string SelectedColumnDoenstExistError(string columnName) 
         {
-            return "The column " + columnName + " which was selected, doenst exist"; 
+            return "The column " + columnName + " which was selected, doesnt exist"; 
         }
 
         public static string ColumnsAndDataTypesError(string columnName, string dataType) 
@@ -64,7 +64,12 @@ namespace MiniSQL.Constants
 
         public static string TableDoensExist(string databaseName, string tableName) 
         {
-            return "The table " + tableName + " doenst exist in the " + databaseName + " database";
+            return "The table " + tableName + " doesnt exist in the " + databaseName + " database";
+        }
+
+        public static string DatabaseDoesntExist(string databaseName) 
+        {
+            return "The database " + databaseName + " doesnt exit";
         }
 
     }
