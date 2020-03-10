@@ -82,5 +82,10 @@ namespace MiniSQL.Constants
             return "The column " + columnName + " already defined";
         }
 
+        public static string TableWasCreated(string database, string tablename) 
+        {
+            return "Table " + tablename + " was sucefully created in database " + database;
+        }
+
     }
 }
