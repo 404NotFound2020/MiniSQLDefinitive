@@ -72,5 +72,15 @@ namespace MiniSQL.Constants
             return "The database " + databaseName + " doesnt exit";
         }
 
+        public static string TheTableAlreadyExists(string tableName) 
+        {
+            return "The table " + tableName + " already exist";
+        }
+
+        public static string TheColumnAlreadyDefined(string columnName) 
+        {
+            return "The column " + columnName + " already defined";
+        }
+
     }
 }

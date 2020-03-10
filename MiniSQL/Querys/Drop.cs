@@ -15,7 +15,7 @@ namespace MiniSQL.Querys
            
         }
 
-        public override void Execute()
+        public override void ExecuteParticularQueryAction()
         {
             this.GetContainer().GetDatabase(this.targetDatabase).DropTable(this.targetTableName);
         }
