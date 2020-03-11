@@ -58,7 +58,7 @@ namespace UnitTests.Test.ConsoleTest
         public void TestInsertPattern() 
         {
             string insertPattern = (QueryVerifier.insertPattern);
-            Regex regularExpression = new Regex(insertPattern);
+            Regex regularExpression = new Regex(@insertPattern);
             //GOODS
             Assert.IsTrue(regularExpression.Matches("INSERT INTO aaa VALUES(1);").Count == 1);
             Assert.IsTrue(regularExpression.Matches("INSERT INTO aaa VALUES(1,2);").Count == 1);
@@ -74,9 +74,31 @@ namespace UnitTests.Test.ConsoleTest
             Assert.IsTrue(regularExpression.Matches("INSERT INTO aaa(a,b) VALUES(1,)").Count == 0);
             Assert.IsTrue(regularExpression.Matches("INSERT INTO aaa VALUES();").Count == 0);
             Assert.IsTrue(regularExpression.Matches("INSERT INTO").Count == 0);
+            Assert.IsTrue(regularExpression.Matches("INSERT INTO a<aa(a,b) VALUES(1,2);").Count == 0);
+            Assert.IsTrue(regularExpression.Matches("INSERT INTO aaa(a>,b) VALUES(1,2);").Count == 0);
+            Assert.IsTrue(regularExpression.Matches("INSERT INTO aaa(a,b) a VALUES(1,2);").Count == 0);
+            Assert.IsTrue(regularExpression.Matches("INSERT INTO aaa(a,b) a VALUES(1=,2);").Count == 0);
+            Assert.IsTrue(regularExpression.Matches("INSERT INTO aa=a(a,b) a VALUES(1,2);").Count == 0);
+            Assert.IsTrue(regularExpression.Matches("INSERT INTO aaa(a,b) VALUES(aaaa,2) ;").Count == 0);
         }
 
-
+        [TestMethod]
+        public void TestDropPattern() 
+        {
+            string dropPattern = (QueryVerifier.dropPattern);
+            Regex regularExpression = new Regex(dropPattern);
+            //GOODS
+            Assert.IsTrue(regularExpression.Matches("DROP TABLE aaa;").Count == 1);
+            Assert.IsTrue(regularExpression.Matches("DROP TABLE aaaZA3;").Count == 1);
+            //BADS
+            Assert.IsTrue(regularExpression.Matches("DROP TABLE aaa").Count == 0);
+            Assert.IsTrue(regularExpression.Matches("DROP TABLE aaa=").Count == 0);
+            Assert.IsTrue(regularExpression.Matches("DROP TABLE aaa>").Count == 0);
+            Assert.IsTrue(regularExpression.Matches("DROP TABLE aaa<").Count == 0);
+            Assert.IsTrue(regularExpression.Matches("DROP TABLE aaa(").Count == 0);
+            Assert.IsTrue(regularExpression.Matches("DROP TABLE aaa)").Count == 0);
+            Assert.IsTrue(regularExpression.Matches("DROP TABLE aaa ;").Count == 0);
+        }
 
 
     }

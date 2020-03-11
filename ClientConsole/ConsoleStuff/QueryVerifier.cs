@@ -25,6 +25,12 @@ namespace ClientConsole.ConsoleStuff
         public static string selectPattern = "^SELECT (?:(\\*)|(" + selectedColumnGroup + NAINCG + "+)(?:,(" + selectedColumnGroup + NAINCG + "+))*) " + fromPattern + ";$";
         //^INSERT INTO (?<table>[^\* ,<=>\(\)]+)(?:\((?<selectedColumn>[^\* ,<=>\(\)]+)(?:,(?<selectedColumn>[^\* ,<=>\(\)]+))*\))? VALUES\((?<value>[^\* ,<=>\(\)]+)(?:,(?<value>[^\* ,<=>\(\)]+))*\);$                                                                                        
         public static string insertPattern = "^INSERT INTO (" + tableGroup + NAINCG + "+)(?:\\((" + selectedColumnGroup + NAINCG +"+)(?:,(" + selectedColumnGroup + NAINCG + "+))*\\))? VALUES\\((" + valueGroup + NAINCG + "+)(?:,(" + valueGroup + NAINCG + "+))*\\);$";
+        //^DROP TABLE (?<table>[^\* ,<=>\(\)]+);$
+        public static string dropPattern = "^DROP TABLE (" + tableGroup + NAINCG + "+);$";
+        public static string deletePattern;
+        public static string updatePattern;
+        public static string createPattern;
+
 
         private QueryVerifier() 
         {
