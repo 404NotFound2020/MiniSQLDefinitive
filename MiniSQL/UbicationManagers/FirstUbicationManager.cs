@@ -11,7 +11,7 @@ namespace MiniSQL.UbicationManagers
     public class FirstUbicationManager : IUbicationManager
     {
         private static FirstUbicationManager firstUbicationManager;
-        private const string additionalPath = "BD";
+        private string additionalPath = "BD";
 
         private FirstUbicationManager() 
         {
@@ -46,6 +46,11 @@ namespace MiniSQL.UbicationManagers
         public string GetDatabasePropertiesFilePath(string databaseName)
         {
             return this.GetDatabaseFilePath(databaseName) + "\\" + databaseName;
+        }
+
+        public string GetRootDirectoryPath()
+        {
+            return this.additionalPath;
         }
     }
 }

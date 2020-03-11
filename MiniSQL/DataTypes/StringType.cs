@@ -41,5 +41,9 @@ namespace MiniSQL.Clases
         {
             return true;
         }
+        public override string GetDataTypeDefaultValue()
+        {
+            return "null";
+        }
     }
 }

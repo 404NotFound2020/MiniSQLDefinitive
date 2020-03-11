@@ -33,10 +33,27 @@ namespace MiniSQL.Classes
 			Row r = new Row();			
 			foreach (Column c in columnsOrdened)
 			{
-				Cell cl = new Cell(c, null, r);
+				Cell cl = new Cell(c, c.dataType.GetDataTypeDefaultValue(), r);
 				r.AddCell(cl);
 			}
 			return r;			
+		}
+
+		public bool DestroyRow(int rowNumber) 
+		{
+			bool b = false;
+			if (rowNumber < this.GetRowCount())
+			{
+				Row row = this.rows[rowNumber];
+				IEnumerator<Cell> cellEnumerator = row.GetCellEnumerator();
+				while (cellEnumerator.MoveNext())
+				{
+					cellEnumerator.Current.column.DestroyCell(cellEnumerator.Current);
+				}
+				this.rows.RemoveAt(rowNumber);
+				b = true;
+			}
+			return b;
 		}
 
 		public void AddColumn(Column column)
@@ -70,14 +87,10 @@ namespace MiniSQL.Classes
 			return new TableComparer();
 		}
 
-
-
-
-
-
-
-
-
+		public int GetRowCount() 
+		{
+			return this.rows.Count;
+		}
 
 
 		private class TableComparer : IEqualityComparer<Table>

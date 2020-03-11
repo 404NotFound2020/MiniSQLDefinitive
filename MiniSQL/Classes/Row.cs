@@ -29,9 +29,9 @@ namespace MiniSQL.Classes
 			cells[columnKey].data = value;
 		}
 
-		public bool ExistCell(Cell cell)
+		public bool ExistCell(string columnName)
 		{
-			return cells.ContainsKey(cell.column.columnName);
+			return cells.ContainsKey(columnName);
 		}
 
 		public IEnumerator<Cell> GetCellEnumerator()
@@ -43,18 +43,6 @@ namespace MiniSQL.Classes
 		{
 			return new RowComparer();
 		}
-
-
-
-
-
-
-
-
-
-
-
-
 
 		private class RowComparer : IEqualityComparer<Row>
 		{

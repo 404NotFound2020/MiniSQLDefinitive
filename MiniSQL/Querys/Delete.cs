@@ -1,5 +1,4 @@
 ﻿using MiniSQL.Classes;
-using MiniSQL.Constants;
 using MiniSQL.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -11,33 +10,23 @@ namespace MiniSQL.Querys
 {
     public class Delete : DataManipulationQuery
     {
-        private Dictionary<string, string> columnsNameAndDataValues;
+        private List<string> selectedColumnNames;
+        private List<Row> selectedRows;
 
         public Delete(IDatabaseContainer container) : base(container) 
-        { 
-        
+        {
+            this.selectedColumnNames = new List<string>();
+            this.selectedRows = new List<Row>();
         }
 
         public override void ExecuteParticularQueryAction(Table table)
         {
-            throw new NotImplementedException();
+            
         }
 
         protected override void ValidateParameters(Table table)
         {
-            IEnumerator<string> enumerator = columnsNameAndDataValues.Keys.GetEnumerator();
-            while (enumerator.MoveNext())
-            {
-                if (!table.ExistColumn(enumerator.Current))
-                {
-                    this.SetResult(this.GetResult() + QuerysStringResultConstants.SelectedColumnDoenstExistError(enumerator.Current) + "\n");
-                    this.IncrementErrorCount();
-                }
-                else if (!table.GetColumn(enumerator.Current).dataType.IsAValidDataType(this.columnsNameAndDataValues[enumerator.Current]))
-                {
-                    this.IncrementErrorCount();
-                }
-            }
+           
         }
     }
-}
+} 

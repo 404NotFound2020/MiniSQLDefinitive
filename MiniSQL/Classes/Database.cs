@@ -22,6 +22,11 @@ namespace MiniSQL.Classes
 			return this.tables.ContainsKey(tableName);
 		}
 
+		public void DropTable(string tableName)
+		{
+			tables.Remove(tableName);
+		}
+
 		public void AddTable(Table table)
 		{
 			this.tables.Add(table.tableName,table);
@@ -42,7 +47,7 @@ namespace MiniSQL.Classes
 			return new DatabaseComparer();
 		}
 
-
+		
 
 
 

@@ -20,7 +20,7 @@ namespace MiniSQL.Parsers
 
         public XMLParser() 
         {
-            this.xmlDeclaration = new string[] { "1.0", null, null };
+            this.xmlDeclaration = new string[] { "1.0", null, null };           
         }
 
         public override void DeleteDatabase(string databaseName)
@@ -205,6 +205,21 @@ namespace MiniSQL.Parsers
             return element;
         }
 
+        public override string[] GetDatabasesNames()
+        {            
+            IEnumerable<string> databasesPaths = Directory.EnumerateDirectories(this.GetUbicationManager().GetRootDirectoryPath());
+            string[] names = new string[databasesPaths.Count()];
+            IEnumerator<string> enumerator = databasesPaths.GetEnumerator();
+            int i = 0;
+            string[] split;            
+            while (enumerator.MoveNext()) 
+            {
+                split = enumerator.Current.Split('\\');
+                names[i] = split[split.Length - 1];
+                i = i + 1;
+            }
+            return names;
+        }
     }
 }
 

@@ -41,5 +41,12 @@ namespace MiniSQL.DataTypes
         {
             return int.TryParse(value, out int waste);
         }
+
+        public override string GetDataTypeDefaultValue()
+        {
+            return "0";
+        }
+
+
     }
 }

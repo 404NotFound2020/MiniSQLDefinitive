@@ -46,6 +46,7 @@
     <Compile Include="ConcurrenceClasses\ClientThread.cs" />
     <Compile Include="ConfigurationClasses\SystemConfiguration.cs" />
     <Compile Include="Constants\LastVersionVariables.cs" />
+    <Compile Include="Constants\OperatorKeys.cs" />
     <Compile Include="Constants\ParserVersions.cs" />
     <Compile Include="Constants\QuerysStringResultConstants.cs" />
     <Compile Include="Constants\TypesKeyConstants.cs" />
@@ -53,9 +54,10 @@
     <Compile Include="Constants\SaveDataFormatVersions.cs" />
     <Compile Include="Constants\XMLTagsConstants.cs" />
     <Compile Include="Initializer\ConfigDelimitator.cs" />
-    <Compile Include="Initializer\System.cs" />
+    <Compile Include="Initializer\Systeme.cs" />
     <Compile Include="Initializer\ConfigurationParser.cs" />
     <Compile Include="Interfaces\AbstractQuery.cs" />
+    <Compile Include="Interfaces\DataChangeQuery.cs" />
     <Compile Include="Interfaces\DataDefinitionQuery.cs" />
     <Compile Include="Interfaces\DataType.cs" />
     <Compile Include="Classes\Cell.cs" />
@@ -92,6 +94,7 @@
     <Compile Include="Querys\Where.cs" />
     <Compile Include="SaveDataFormatManagers\NothingToDoManager.cs" />
     <Compile Include="SaveDataFormatManagers\StringEscapedManager.cs" />
+    <Compile Include="ServerFacade\FakeServer.cs" />
     <Compile Include="UbicationManagers\FirstUbicationManager.cs" />
   </ItemGroup>
   <ItemGroup />

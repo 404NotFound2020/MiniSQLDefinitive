@@ -16,16 +16,20 @@ namespace UnitTests.Test.TestObjectsContructor
 
         public static Column CreateColumn(List<string> cellData, string dataType, string columnName)
         {
+            Row row;
+            Cell cell;
             Column column = new Column(columnName, DataTypesFactory.GetDataTypesFactory().GetDataType(dataType));
             for (int i = 0; i < cellData.Count; i++) {
-                column.AddCell(ObjectConstructor.CreateCell(column, cellData[i], null));
+                row = new Row();
+                cell = ObjectConstructor.CreateCell(column, cellData[i], row);
+                column.AddCell(cell);
+                row.AddCell(cell);
             }
             return column;
         }
 
         public static Table CreateTable() 
         {
-
             Table  table = new Table("aaaa");
             table.AddColumn(CreateColumn(new List<string>(), TypesKeyConstants.StringTypeKey, "c1"));
             return table;
@@ -37,16 +41,23 @@ namespace UnitTests.Test.TestObjectsContructor
             return new Cell(column, data, row);       
         }
 
-        public static Database CreateDatabaseFull(string databaseName) {
+        public static Database CreateDatabaseFull(string databaseName)
+        {
+            return CreateDatabaseFull(databaseName, 200);
+        }
+
+
+
+
+        public static Database CreateDatabaseFull(string databaseName, int iterations) {
             Database database = new Database(databaseName);
             Table table = new Table("Table1");
             table.AddColumn(new Column("Column1", DataTypesFactory.GetDataTypesFactory().GetDataType(TypesKeyConstants.StringTypeKey)));
             table.AddColumn(new Column("Column2", DataTypesFactory.GetDataTypesFactory().GetDataType(TypesKeyConstants.StringTypeKey)));
             table.AddColumn(new Column("Column3", DataTypesFactory.GetDataTypesFactory().GetDataType(TypesKeyConstants.DoubleTypeKey)));
             table.AddColumn(new Column("Column4", DataTypesFactory.GetDataTypesFactory().GetDataType(TypesKeyConstants.IntTypeKey)));
-            int j = 200;
             Row row;
-            for(int i = 0; i < j; i++) 
+            for(int i = 0; i < iterations; i++) 
             {
                 row = table.CreateRowDefinition();
                 row.GetCell("Column1").data = VariousFunctions.GenerateRandomString(8);
@@ -95,6 +106,16 @@ namespace UnitTests.Test.TestObjectsContructor
                 }
                 table.AddRow(row);
             }
+            return table;
+        }
+
+        public static Table CreateTableWithAColumnOfEachDataType()
+        {
+            List<string> colNames = new List<string>(){ "c1", "c2", "c3" };
+            Table table = new Table("aaaa");
+            table.AddColumn(new Column(colNames[0], DataTypesFactory.GetDataTypesFactory().GetDataType(TypesKeyConstants.StringTypeKey)));
+            table.AddColumn(new Column(colNames[1], DataTypesFactory.GetDataTypesFactory().GetDataType(TypesKeyConstants.DoubleTypeKey)));
+            table.AddColumn(new Column(colNames[2], DataTypesFactory.GetDataTypesFactory().GetDataType(TypesKeyConstants.IntTypeKey)));
             return table;
         }
 

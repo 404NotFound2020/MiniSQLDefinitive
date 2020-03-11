@@ -11,13 +11,13 @@ namespace MiniSQL.Interfaces
 {
     public abstract class DataManipulationQuery : AbstractQuery
     {
-        public string targetTableName;
         private IList<Row> afectedRows;
         public Where whereClause;
 
         public DataManipulationQuery(IDatabaseContainer container) : base(container)
         {
             this.afectedRows = new List<Row>();
+            this.whereClause = new Where();
         }
 
         protected void AddAfectedRow(Row row) 
@@ -28,6 +28,11 @@ namespace MiniSQL.Interfaces
         public IEnumerator<Row> GetAfectedRowEnum() 
         {
             return this.afectedRows.GetEnumerator();
+        }
+
+        public int GetAfectedRowCount() 
+        {
+            return this.afectedRows.Count();
         }
 
         public override void Execute()
@@ -49,13 +54,13 @@ namespace MiniSQL.Interfaces
                 }
                 else
                 {
-                    this.SetResult(this.GetResult() + QuerysStringResultConstants.TableDoesNotExist + "\n");
+                    this.SetResult(this.GetResult() + QuerysStringResultConstants.TableDoensExist(this.targetDatabase, this.targetTableName) + "\n");
                     this.IncrementErrorCount();
                 }
             }
             else 
             {
-                this.SetResult(this.GetResult() + QuerysStringResultConstants.DatabaseDoesNotExist + "\n");
+                this.SetResult(this.GetResult() + QuerysStringResultConstants.DatabaseDoesntExist(this.targetDatabase) + "\n");
                 this.IncrementErrorCount();
             }
             return this.GetIsValidQuery();

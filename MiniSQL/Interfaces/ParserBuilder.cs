@@ -5,6 +5,7 @@ using MiniSQL.Interfaces;
 using MiniSQL.Parsers;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,7 +25,9 @@ namespace MiniSQL.Interfaces
 
         public void SetUbicationManager(string ubicationManager) 
         {
-            this.parser.SetUbicationManager(UbicationManagerFactory.GetUbicationManagerFactory().GetUbicationManager(ubicationManager));
+            IUbicationManager manager = UbicationManagerFactory.GetUbicationManagerFactory().GetUbicationManager(ubicationManager);
+            if (!Directory.Exists(manager.GetRootDirectoryPath())) Directory.CreateDirectory(manager.GetRootDirectoryPath());
+            this.parser.SetUbicationManager(manager);           
         }
 
         protected void SetParser(AbstractParser parser) 

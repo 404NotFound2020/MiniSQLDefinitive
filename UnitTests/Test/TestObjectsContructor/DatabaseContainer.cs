@@ -37,5 +37,14 @@ namespace UnitTests.Test.TestObjectsContructor
         {
             this.databases.Remove(databaseName);
         }
+        public int GetNumbersOfDatabases()
+        {
+            return this.databases.Count;
+        }
+
+        public void SaveData()
+        {
+            
+        }
     }
 }
