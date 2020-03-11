@@ -67,6 +67,7 @@
     <Compile Include="Test\Comparers\TestColumnComparer.cs" />
     <Compile Include="Test\Comparers\TestDictionaryComparer.cs" />
     <Compile Include="Test\Comparers\TestListComparer.cs" />
+    <Compile Include="Test\ConsoleTest\Patterns.cs" />
     <Compile Include="Test\DataTypes\TestDataTypesFactory.cs" />
     <Compile Include="Test\DataTypes\TestIntType.cs" />
     <Compile Include="Test\DataTypes\TestDoubleType.cs" />
@@ -100,6 +101,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ClientConsole\ClientConsole.csproj">
+      <Project>{397C992B-7BC7-4ED0-AC85-1448C488C12D}</Project>
+      <Name>ClientConsole</Name>
+    </ProjectReference>
     <ProjectReference Include="..\MiniSQL\MiniSQL.csproj">
       <Project>{1c28a0f7-f7b4-4c1e-82fc-9d1695d5804d}</Project>
       <Name>MiniSQL</Name>
