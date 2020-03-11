@@ -24,6 +24,8 @@ namespace UnitTests.Test.ConsoleTest
             Assert.IsTrue(regularExpression.Matches("SELECT * FROM ga WHERE z>1;").Count == 1);
             Assert.IsTrue(regularExpression.Matches("SELECT * FROM ga WHERE z<1;").Count == 1);
             //BADS
+            Assert.IsTrue(regularExpression.Matches("SELECT * FROM ga WHERE z<1").Count == 0);
+            Assert.IsTrue(regularExpression.Matches("SELECT * FROM ga").Count == 0);
             Assert.IsTrue(regularExpression.Matches("SELECT * FROM ga WHEREz=1;").Count == 0);
             Assert.IsTrue(regularExpression.Matches("SELECT* FROM ga WHERE z=1;").Count == 0);
             Assert.IsTrue(regularExpression.Matches("SELECT * FROMga WHERE z=1;").Count == 0);
@@ -46,8 +48,32 @@ namespace UnitTests.Test.ConsoleTest
             Assert.IsTrue(regularExpression.Matches("SELECT * FROM ga WHERE >").Count == 0);
             Assert.IsTrue(regularExpression.Matches("SELECT * FROM ga WHERE <").Count == 0);
             Assert.IsTrue(regularExpression.Matches("SELECT * FROM ga WHERE =").Count == 0);
+            Assert.IsTrue(regularExpression.Matches("SELECT * FROM ga(;").Count == 0);
+            Assert.IsTrue(regularExpression.Matches("SELECT a) FROM g;").Count == 0);
             Assert.IsTrue(regularExpression.Matches("SELECT *").Count == 0);
             Assert.IsTrue(regularExpression.Matches("SELECT").Count == 0);
+        }
+
+        [TestMethod]
+        public void TestInsertPattern() 
+        {
+            string insertPattern = (QueryVerifier.insertPattern);
+            Regex regularExpression = new Regex(insertPattern);
+            //GOODS
+            Assert.IsTrue(regularExpression.Matches("INSERT INTO aaa VALUES(1);").Count == 1);
+            Assert.IsTrue(regularExpression.Matches("INSERT INTO aaa VALUES(1,2);").Count == 1);
+            Assert.IsTrue(regularExpression.Matches("INSERT INTO aaa(a) VALUES(1,2);").Count == 1); //<->
+            Assert.IsTrue(regularExpression.Matches("INSERT INTO aaa(a,b) VALUES(1,2);").Count == 1);
+            Assert.IsTrue(regularExpression.Matches("INSERT INTO aaa(a,b) VALUES(1.2,2);").Count == 1);
+            Assert.IsTrue(regularExpression.Matches("INSERT INTO aaa(a,b) VALUES(aaaa,2);").Count == 1);
+            //BADS
+            Assert.IsTrue(regularExpression.Matches("INSERT INTO aaa").Count == 0);
+            Assert.IsTrue(regularExpression.Matches("INSERT INTO aaa() VALUES(1);").Count == 0);
+            Assert.IsTrue(regularExpression.Matches("INSERT INTO aaa VALUES(1,2)").Count == 0);
+            Assert.IsTrue(regularExpression.Matches("INSERT INTO aaa(a,) VALUES(1,2)").Count == 0);
+            Assert.IsTrue(regularExpression.Matches("INSERT INTO aaa(a,b) VALUES(1,)").Count == 0);
+            Assert.IsTrue(regularExpression.Matches("INSERT INTO aaa VALUES();").Count == 0);
+            Assert.IsTrue(regularExpression.Matches("INSERT INTO").Count == 0);
         }
 
 
