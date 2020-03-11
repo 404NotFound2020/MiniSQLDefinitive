@@ -20,6 +20,7 @@ namespace MiniSQL.Interfaces
         public abstract bool ExistDatabase(string databaseName);
         public abstract bool ExistTable(string databaseName, string tableName);
 
+        public abstract string[] GetDatabasesNames();
 
         public void SetUbicationManager(IUbicationManager ubicationManager) 
         {

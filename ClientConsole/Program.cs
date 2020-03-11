@@ -13,7 +13,7 @@ namespace ClientConsole
     {
         static void Main(string[] args)
         {
-            StreamWriter standardOutput = new StreamWriter(Console.OpenStandardOutput());
+            /**StreamWriter standardOutput = new StreamWriter(Console.OpenStandardOutput());
             standardOutput.AutoFlush = true;
             Console.SetOut(standardOutput);
             //standardOutput.WriteLine("eeee");
@@ -24,7 +24,8 @@ namespace ClientConsole
             dic.Add("a", "c");
             standardOutput.WriteLine(dic.Count());
             
-            Console.ReadLine();
+            Console.ReadLine();**/
+            MiniSQL.Initializer.Systeme.GetSystem().ChargeTheDatabases();
         }
     }
 }

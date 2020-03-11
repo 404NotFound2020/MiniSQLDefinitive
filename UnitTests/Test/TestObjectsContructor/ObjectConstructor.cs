@@ -41,16 +41,23 @@ namespace UnitTests.Test.TestObjectsContructor
             return new Cell(column, data, row);       
         }
 
-        public static Database CreateDatabaseFull(string databaseName) {
+        public static Database CreateDatabaseFull(string databaseName)
+        {
+            return CreateDatabaseFull(databaseName, 200);
+        }
+
+
+
+
+        public static Database CreateDatabaseFull(string databaseName, int iterations) {
             Database database = new Database(databaseName);
             Table table = new Table("Table1");
             table.AddColumn(new Column("Column1", DataTypesFactory.GetDataTypesFactory().GetDataType(TypesKeyConstants.StringTypeKey)));
             table.AddColumn(new Column("Column2", DataTypesFactory.GetDataTypesFactory().GetDataType(TypesKeyConstants.StringTypeKey)));
             table.AddColumn(new Column("Column3", DataTypesFactory.GetDataTypesFactory().GetDataType(TypesKeyConstants.DoubleTypeKey)));
             table.AddColumn(new Column("Column4", DataTypesFactory.GetDataTypesFactory().GetDataType(TypesKeyConstants.IntTypeKey)));
-            int j = 200;
             Row row;
-            for(int i = 0; i < j; i++) 
+            for(int i = 0; i < iterations; i++) 
             {
                 row = table.CreateRowDefinition();
                 row.GetCell("Column1").data = VariousFunctions.GenerateRandomString(8);

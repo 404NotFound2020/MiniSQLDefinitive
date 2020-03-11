@@ -42,5 +42,9 @@ namespace UnitTests.Test.TestObjectsContructor
             return this.databases.Count;
         }
 
+        public void SaveData()
+        {
+            
+        }
     }
 }

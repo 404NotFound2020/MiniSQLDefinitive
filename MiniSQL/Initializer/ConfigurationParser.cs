@@ -69,9 +69,9 @@ namespace MiniSQL.Initializer
                 lineSplit = line.Split(delimitator.ToCharArray());
                 if (this.delimitatorsWords.ContainsKey(lineSplit[0])) this.delimitatorsWords[lineSplit[0]].setValueToConfig.Invoke(new Tuple<SystemConfiguration, string>(systemConfiguration, lineSplit[1]));                
             }
-            //systemConfiguration.parserVersion = reader.;
-            return null;
-        
+            reader.Close();
+            fileSteam.Close();
+            return systemConfiguration;        
         }
 
         public void SaveSystemConfiguration(SystemConfiguration configuration) 
