@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Text.RegularExpressions;
-using ClientConsole.ConsoleStuff;
+using MiniSQL.Constants;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace UnitTests.Test.ConsoleTest
@@ -11,7 +11,7 @@ namespace UnitTests.Test.ConsoleTest
         [TestMethod]
         public void TestSelectPattern()
         {
-            string selectPattern = (QueryVerifier.selectPattern);
+            string selectPattern = (RequestAndRegexConstants.selectPattern);
             Regex regularExpression = new Regex(@selectPattern);
             //GOODS
             Assert.IsTrue(regularExpression.Matches("SELECT a FROM g;").Count == 1);
@@ -58,7 +58,7 @@ namespace UnitTests.Test.ConsoleTest
         [TestMethod]
         public void TestInsertPattern() 
         {
-            string insertPattern = (QueryVerifier.insertPattern);
+            string insertPattern = (RequestAndRegexConstants.insertPattern);
             Regex regularExpression = new Regex(@insertPattern);
             //GOODS
             Assert.IsTrue(regularExpression.Matches("INSERT INTO aaa VALUES(1);").Count == 1);
@@ -86,7 +86,7 @@ namespace UnitTests.Test.ConsoleTest
         [TestMethod]
         public void TestDropPattern() 
         {
-            string dropPattern = (QueryVerifier.dropPattern);
+            string dropPattern = (RequestAndRegexConstants.dropPattern);
             Regex regularExpression = new Regex(@dropPattern);
             //GOODS
             Assert.IsTrue(regularExpression.Matches("DROP TABLE aaa;").Count == 1);
@@ -104,7 +104,7 @@ namespace UnitTests.Test.ConsoleTest
         [TestMethod]
         public void TestDeletePattern() 
         {
-            string deletePattern = (QueryVerifier.deletePattern);
+            string deletePattern = (RequestAndRegexConstants.deletePattern);
             Regex regularExpression = new Regex(@deletePattern);
             //GOODS
             Assert.IsTrue(regularExpression.Matches("DELETE FROM A WHERE a=1;").Count == 1);
@@ -135,7 +135,7 @@ namespace UnitTests.Test.ConsoleTest
         [TestMethod]
         public void TestUpdate()
         {
-            string updatePattern = (QueryVerifier.updatePattern);
+            string updatePattern = (RequestAndRegexConstants.updatePattern);
             Regex regularExpression = new Regex(@updatePattern);
             //GOODS
             Assert.IsTrue(regularExpression.Matches("UPDATE a SET b=1 WHERE b=2;").Count == 1);
@@ -156,7 +156,7 @@ namespace UnitTests.Test.ConsoleTest
 
         [TestMethod]
         public void TestCreate() {
-            string createPattern = (QueryVerifier.createPattern);
+            string createPattern = (RequestAndRegexConstants.createPattern);
             Regex regularExpression = new Regex(@createPattern);
             //GOODS
             Assert.IsTrue(regularExpression.Matches("CREATE TABLE aaa (acaa TEXT);").Count == 1);

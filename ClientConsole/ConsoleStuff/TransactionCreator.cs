@@ -2,13 +2,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace ClientConsole.ConsoleStuff
 {
     public class TransactionCreator
-    {
-
+    {        
+        public static string CreateGroupDependingXML(Match match) 
+        {
+            return null;        
+        }
 
         /**
          * This is common structure for all of queryes

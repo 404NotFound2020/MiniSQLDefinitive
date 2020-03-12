@@ -1,4 +1,6 @@
-﻿using MiniSQL.Initializer;
+﻿using ClientConsole.ConsoleStuff;
+using MiniSQL.Initializer;
+using MiniSQL.ServerFacade;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -13,19 +15,29 @@ namespace ClientConsole
     {
         static void Main(string[] args)
         {
-            /**StreamWriter standardOutput = new StreamWriter(Console.OpenStandardOutput());
-            standardOutput.AutoFlush = true;
-            Console.SetOut(standardOutput);
-            //standardOutput.WriteLine("eeee");
-            
-            ConfigurationParser.GetConfigurationParser();
-            Dictionary<string, string> dic = new Dictionary<string, string>();
-            dic.Add("a", "b");
-            dic.Add("a", "c");
-            standardOutput.WriteLine(dic.Count());
-            
-            Console.ReadLine();**/
-            MiniSQL.Initializer.Systeme.GetSystem().ChargeTheDatabases();
+            Inicializate();
         }
+
+        private static void Inicializate() 
+        {
+            GetRegex();
+        
+        }
+
+        private static void GetRegex() 
+        {
+            string[] stringfiedRegex = FakeServer.GetFakeServer().ReturnRegex();
+            QueryVerifier queryVerifier = QueryVerifier.GetQueryVerifier();
+            for(int i = 0; i < stringfiedRegex.Length; i++) 
+            {
+                queryVerifier.AddPattern(stringfiedRegex[i]);
+            }        
+        }
+
+        private static void StartConsole() 
+        { 
+        
+        }
+
     }
 }

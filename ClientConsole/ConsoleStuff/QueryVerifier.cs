@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace ClientConsole.ConsoleStuff
@@ -9,61 +10,31 @@ namespace ClientConsole.ConsoleStuff
     public class QueryVerifier
     {
         private static QueryVerifier queryVerifier;
-        public List<Tuple<string, Func<string, string>>> protocolesAndTheirConsolePatterns;
-        //This parameters could be receibed from de "server" instead of having as a "constant" here
-        public static string tableGroup = "?<table>";
-        public static string selectedColumnGroup = "?<selectedColumn>";
-        public static string toEvaluateColumnGroup = "?<toEvalColumn>";
-        public static string valueGroup = "?<value>";
-        public static string updatedColumnGroup = "?<updatedColumn>";
-        public static string updatedvalueGroup = "?<toValue>";
-        public static string operatorGroup = "?<operator>";
-        public static string evalValue = "?<evalValue>";
-        public static string columnGroup = "?<column>";
-        public static string columnTypeGroup = "?<columnType>";
-        public static string columnsTypes = "INT|DOUBLE|TEXT";
-
-        //[^\* ,<=>\(\)]
-        public static string NAINCG = "[^\\* ,<=>\\(\\)]";
-
-        //WHERE (?<toEvalColumn>[^\* ,<=>\(\)]+)(?<operator>[<=>])(?<value>[^\* ,<=>\(\)]+)
-        public static string wherePatern = "WHERE (" + toEvaluateColumnGroup + NAINCG + "+)(" + operatorGroup + "[<=>])(" + evalValue + NAINCG + "+)";
-
-        //FROM (?<table>[^\* ,<=>\(\)]+)(?: WHERE (?<toEvalColumn>[^\* ,<=>\(\)]+)(?<operator>[<=>])(?<value>[^\* ,<=>\(\)]+))
-        public static string fromPattern = "FROM (" + tableGroup + NAINCG + "+)(?: " + wherePatern+")";
-
-        //^SELECT (?:(?<selectedColumn>\*)|(?<selectedColumn>[^\* ,<=>\(\)]+)(?:,(?<selectedColumn>[^\* ,<=>\(\)]+))*) FROM (?<table>[^\* ,<=>\(\)]+)(?: WHERE (?<toEvalColumn>[^\* ,<=>\(\)]+)(?<operator>[<=>])(?<evalValue>[^\* ,<=>\(\)]+))?;$
-        public static string selectPattern = "^SELECT (?:(\\*)|(" + selectedColumnGroup + NAINCG + "+)(?:,(" + selectedColumnGroup + NAINCG + "+))*) " + fromPattern + "?;$";
-
-        //^INSERT INTO (?<table>[^\* ,<=>\(\)]+)(?:\((?<selectedColumn>[^\* ,<=>\(\)]+)(?:,(?<selectedColumn>[^\* ,<=>\(\)]+))*\))? VALUES\((?<value>[^\* ,<=>\(\)]+)(?:,(?<value>[^\* ,<=>\(\)]+))*\);$                                                                                        
-        public static string insertPattern = "^INSERT INTO (" + tableGroup + NAINCG + "+)(?:\\((" + selectedColumnGroup + NAINCG +"+)(?:,(" + selectedColumnGroup + NAINCG + "+))*\\))? VALUES\\((" + valueGroup + NAINCG + "+)(?:,(" + valueGroup + NAINCG + "+))*\\);$";
-
-        //^DROP TABLE (?<table>[^\* ,<=>\(\)]+);$
-        public static string dropPattern = "^DROP TABLE (" + tableGroup + NAINCG + "+);$";
-
-        //^DELETE FROM (?<table>[^\* ,<=>\(\)]+)(?: WHERE (?<toEvalColumn>[^\* ,<=>\(\)]+)(?<operator>[<=>])(?<value>[^\* ,<=>\(\)]+))?$;
-        public static string deletePattern = "^DELETE " + fromPattern + "?;$";
-
-        //^UPDATE (?<table>[^\* ,<=>\(\)]+) SET (?<updatedColumn>[^\* ,<=>\(\)]+)=(?<toValue>[^\* ,<=>\(\)]+)(?:, (?<updatedColumn>[^\* ,<=>\(\)]+)=(?<toValue>[^\* ,<=>\(\)]+))* WHERE (?<toEvalColumn>[^\* ,<=>\(\)]+)(?<operator>[<=>])(?<value>[^\* ,<=>\(\)]+)$;
-        public static string updatePattern = "^UPDATE (" + tableGroup + NAINCG + "+) SET (" + updatedColumnGroup + NAINCG + ")=(" + updatedvalueGroup + NAINCG + "+)(?:, (" + updatedColumnGroup + NAINCG + ")=(" + updatedvalueGroup + NAINCG + "+))* " + wherePatern + ";$";
-
-        //^CREATE TABLE (?<table>[^\* ,<=>\(\)]+) \((?<column>[^\* ,<=>\(\)]+) (?<columnType>INT|DOUBLE|TEXT)(?:, (?<column>[^\* ,<=>\(\)]+) (?<columnType>INT|DOUBLE|TEXT))*\);$
-        public static string createPattern = "^CREATE TABLE (" + tableGroup + NAINCG + "+) \\((" + columnGroup + NAINCG + "+) (" + columnTypeGroup + columnsTypes + ")(?:, (" + columnGroup + NAINCG + "+) (" + columnTypeGroup + columnsTypes + "))*\\);$";
-
+        private List<Regex> querysPatterns;
+        public Match queryMatch;
 
         private QueryVerifier() 
         {
-            this.protocolesAndTheirConsolePatterns = new List<Tuple<string, Func<string, string>>>();        
+            this.querysPatterns = new List<Regex>();
         }
 
-        private void AddTheProtocolesFunctions() 
-        { 
-        
-        
+        public void AddPattern(string stringPattern) 
+        {
+            this.querysPatterns.Add(new Regex(stringPattern));
         }
 
-       
-
+        public bool EvaluateQuery(string stringfiedQuery) {
+            bool b = false;
+            Match match = null;
+            IEnumerator<Regex> enumerator = this.querysPatterns.GetEnumerator();            
+            while (enumerator.MoveNext() && !b) 
+            {
+                match = enumerator.Current.Match(stringfiedQuery);
+                b = match.Success;
+            }
+            if (b) this.queryMatch = match;
+            return b;
+        }
 
         public static QueryVerifier GetQueryVerifier() 
         {
