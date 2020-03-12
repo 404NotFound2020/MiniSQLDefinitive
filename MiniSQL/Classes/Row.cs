@@ -56,10 +56,5 @@ namespace MiniSQL.Classes
 				throw new NotImplementedException();
 			}
 		}
-
-        internal object GetCell(object p)
-        {
-            throw new NotImplementedException();
-        }
     }
 }
