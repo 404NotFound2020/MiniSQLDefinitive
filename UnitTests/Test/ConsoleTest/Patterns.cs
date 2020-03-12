@@ -131,5 +131,28 @@ namespace UnitTests.Test.ConsoleTest
             Assert.IsTrue(regularExpression.Matches("DELETE FROM A WHERE >a;").Count == 0);
             Assert.IsTrue(regularExpression.Matches("DELETE FROM A WHERE =a;").Count == 0);
         }
+
+        [TestMethod]
+        public void TestUpdate()
+        {
+            string updatePattern = (QueryVerifier.updatePattern);
+            Regex regularExpression = new Regex(@updatePattern);
+            //GOODS
+            Assert.IsTrue(regularExpression.Matches("UPDATE a SET b=1 WHERE b=2;").Count == 1);
+            Assert.IsTrue(regularExpression.Matches("UPDATE a SET b=1, c=1 WHERE b=2;").Count == 1);
+            Assert.IsTrue(regularExpression.Matches("UPDATE a SET b=1, c=1 WHERE b>2;").Count == 1);
+            Assert.IsTrue(regularExpression.Matches("UPDATE a SET b=1, c=1 WHERE b<2;").Count == 1);
+            Assert.IsTrue(regularExpression.Matches("UPDATE a SET b=1, c=1, h=a WHERE b<2;").Count == 1);
+            Assert.IsTrue(regularExpression.Matches("UPDATE a SET b=1.2 WHERE b<2;").Count == 1);
+            //BADS
+            Assert.IsTrue(regularExpression.Matches("UPDATE a SET b=1 WHERE b=2").Count == 0);
+            Assert.IsTrue(regularExpression.Matches("UPDATE a SET b=1;").Count == 0);
+            Assert.IsTrue(regularExpression.Matches("UPDATE a SET b=1 WHERE").Count == 0);
+            Assert.IsTrue(regularExpression.Matches("UPDATE a SET b=1, SET c=1 WHERE b=2;").Count == 0);
+            Assert.IsTrue(regularExpression.Matches("UPDATE a SET b=1, SET c=1 WHERE b;").Count == 0);
+            Assert.IsTrue(regularExpression.Matches("UPDATE a SET b WHERE b=2;").Count == 0);
+            Assert.IsTrue(regularExpression.Matches("UPDATE;").Count == 0);
+        }
+
     }
 }

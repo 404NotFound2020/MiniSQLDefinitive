@@ -15,6 +15,8 @@ namespace ClientConsole.ConsoleStuff
         public static string selectedColumnGroup = "?<selectedColumn>";
         public static string toEvaluateColumnGroup = "?<toEvalColumn>";
         public static string valueGroup = "?<value>";
+        public static string updatedColumnGroup = "?<updatedColumn>";
+        public static string updatedvalueGroup = "?<toValue>";
         public static string operatorGroup = "?<operator>";
         public static string evalValue = "?<evalValue>";
 
@@ -39,7 +41,9 @@ namespace ClientConsole.ConsoleStuff
         //^DELETE FROM (?<table>[^\* ,<=>\(\)]+)(?: WHERE (?<toEvalColumn>[^\* ,<=>\(\)]+)(?<operator>[<=>])(?<value>[^\* ,<=>\(\)]+))?$;
         public static string deletePattern = "^DELETE " + fromPattern + "?;$";
 
-        public static string updatePattern;
+        //^UPDATE (?<table>[^\* ,<=>\(\)]+) SET (?<updatedColumn>[^\* ,<=>\(\)]+)=(?<toValue>[^\* ,<=>\(\)]+)(?:, (?<updatedColumn>[^\* ,<=>\(\)]+)=(?<toValue>[^\* ,<=>\(\)]+))* WHERE (?<toEvalColumn>[^\* ,<=>\(\)]+)(?<operator>[<=>])(?<value>[^\* ,<=>\(\)]+)$;
+
+        public static string updatePattern = "^UPDATE (" + tableGroup + NAINCG + "+) SET (" + updatedColumnGroup + NAINCG + ")=(" + updatedvalueGroup + NAINCG + "+)(?:, (" + updatedColumnGroup + NAINCG + ")=(" + updatedvalueGroup + NAINCG + "+))* " + wherePatern + ";$";
         public static string createPattern;
 
 
