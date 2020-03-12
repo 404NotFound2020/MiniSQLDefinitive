@@ -154,5 +154,30 @@ namespace UnitTests.Test.ConsoleTest
             Assert.IsTrue(regularExpression.Matches("UPDATE;").Count == 0);
         }
 
+        [TestMethod]
+        public void TestCreate() {
+            string createPattern = (QueryVerifier.createPattern);
+            Regex regularExpression = new Regex(@createPattern);
+            //GOODS
+            Assert.IsTrue(regularExpression.Matches("CREATE TABLE aaa (acaa TEXT);").Count == 1);
+            Assert.IsTrue(regularExpression.Matches("CREATE TABLE aaa (acaa DOUBLE);").Count == 1);
+            Assert.IsTrue(regularExpression.Matches("CREATE TABLE aaa (acaa INT);").Count == 1);
+            Assert.IsTrue(regularExpression.Matches("CREATE TABLE aaa (acaa INT, b TEXT);").Count == 1);
+            Assert.IsTrue(regularExpression.Matches("CREATE TABLE aaa (acaa INT, b DOUBLE);").Count == 1);
+            Assert.IsTrue(regularExpression.Matches("CREATE TABLE aaa (acaa INT, b INT);").Count == 1);
+            Assert.IsTrue(regularExpression.Matches("CREATE TABLE aaa (acaa INT, b INT, c DOUBLE);").Count == 1);
+            //BADS
+            Assert.IsTrue(regularExpression.Matches("CREATE TABLE aaa (acaa TEXT)").Count == 0);
+            Assert.IsTrue(regularExpression.Matches("CREATE TABLE aaa (acaa YF);").Count == 0);
+            Assert.IsTrue(regularExpression.Matches("CREATE TABLE aaa (acaa);").Count == 0);
+            Assert.IsTrue(regularExpression.Matches("CREATE TABLE (acaa TEXT);").Count == 0);
+            Assert.IsTrue(regularExpression.Matches("CREATE TABLE aaa (acaa TEXT, sss f);").Count == 0);
+            Assert.IsTrue(regularExpression.Matches("CREATE TABLE aaa (acaa TEXT, sss);").Count == 0);
+            Assert.IsTrue(regularExpression.Matches("CREATE TABLE aaa (acaa TEXT,);").Count == 0);
+            Assert.IsTrue(regularExpression.Matches("CREATE TABLE aaa (acaa TEXT, );").Count == 0);
+            Assert.IsTrue(regularExpression.Matches("CREATE TABLE aaa acaa TEXT;").Count == 0);
+            Assert.IsTrue(regularExpression.Matches("CREATE TABLE aaa;").Count == 0);
+            Assert.IsTrue(regularExpression.Matches("CREATE TABLE;").Count == 0);
+        }
     }
 }

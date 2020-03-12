@@ -10,7 +10,7 @@ namespace ClientConsole.ConsoleStuff
     {
         private static QueryVerifier queryVerifier;
         public List<Tuple<string, Func<string, string>>> protocolesAndTheirConsolePatterns;
-        
+        //This parameters could be receibed from de "server" instead of having as a "constant" here
         public static string tableGroup = "?<table>";
         public static string selectedColumnGroup = "?<selectedColumn>";
         public static string toEvaluateColumnGroup = "?<toEvalColumn>";
@@ -19,6 +19,9 @@ namespace ClientConsole.ConsoleStuff
         public static string updatedvalueGroup = "?<toValue>";
         public static string operatorGroup = "?<operator>";
         public static string evalValue = "?<evalValue>";
+        public static string columnGroup = "?<column>";
+        public static string columnTypeGroup = "?<columnType>";
+        public static string columnsTypes = "INT|DOUBLE|TEXT";
 
         //[^\* ,<=>\(\)]
         public static string NAINCG = "[^\\* ,<=>\\(\\)]";
@@ -42,9 +45,10 @@ namespace ClientConsole.ConsoleStuff
         public static string deletePattern = "^DELETE " + fromPattern + "?;$";
 
         //^UPDATE (?<table>[^\* ,<=>\(\)]+) SET (?<updatedColumn>[^\* ,<=>\(\)]+)=(?<toValue>[^\* ,<=>\(\)]+)(?:, (?<updatedColumn>[^\* ,<=>\(\)]+)=(?<toValue>[^\* ,<=>\(\)]+))* WHERE (?<toEvalColumn>[^\* ,<=>\(\)]+)(?<operator>[<=>])(?<value>[^\* ,<=>\(\)]+)$;
-
         public static string updatePattern = "^UPDATE (" + tableGroup + NAINCG + "+) SET (" + updatedColumnGroup + NAINCG + ")=(" + updatedvalueGroup + NAINCG + "+)(?:, (" + updatedColumnGroup + NAINCG + ")=(" + updatedvalueGroup + NAINCG + "+))* " + wherePatern + ";$";
-        public static string createPattern;
+
+        //^CREATE TABLE (?<table>[^\* ,<=>\(\)]+) \((?<column>[^\* ,<=>\(\)]+) (?<columnType>INT|DOUBLE|TEXT)(?:, (?<column>[^\* ,<=>\(\)]+) (?<columnType>INT|DOUBLE|TEXT))*\);$
+        public static string createPattern = "^CREATE TABLE (" + tableGroup + NAINCG + "+) \\((" + columnGroup + NAINCG + "+) (" + columnTypeGroup + columnsTypes + ")(?:, (" + columnGroup + NAINCG + "+) (" + columnTypeGroup + columnsTypes + "))*\\);$";
 
 
         private QueryVerifier() 
