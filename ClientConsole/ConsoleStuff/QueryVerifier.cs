@@ -61,10 +61,10 @@ namespace ClientConsole.ConsoleStuff
         
         
         }
-
-       
-
-
+ 
+        
+        
+        
         public static QueryVerifier GetQueryVerifier() 
         {
             if (queryVerifier == null) queryVerifier = new QueryVerifier();
