@@ -32,18 +32,20 @@ namespace UnitTests.Test.Querys
             Assert.IsFalse(database.ExistTable(table.tableName));
         }
 
-        //[TestMethod] para que pase en azure (me irrita que salga la aspa)
+        [TestMethod] //para que pase en azure (me irrita que salga la aspa)
         public void GoodArguments_ShouldFindResult()
         {
-            bool parametros = false, tablaBorrada = false;
+            bool parametros, tablaBorrada = false;
+            IDatabaseContainer container = ObjectConstructor.CreateDatabaseContainer();
             Database db = ObjectConstructor.CreateDatabaseFull("db1");
             List<Column> columnas = new List<Column>();
             List<List<string>> celdas = new List<List<string>>();
             Table t = ObjectConstructor.CreateFullTable("table1",columnas,celdas);
             db.AddTable(t);
-            IDatabaseContainer container = ObjectConstructor.CreateDatabaseContainer();
-            Drop drop = CreateDrop(container, null, null);
+            container.AddDatabase(db);
+            Drop drop = CreateDrop(container, db.databaseName, t.tableName);
             parametros = drop.ValidateParameters();
+            Assert.IsTrue(drop.ValidateParameters());
             if (parametros)
             {
                 drop.Execute();
@@ -54,17 +56,18 @@ namespace UnitTests.Test.Querys
             Assert.AreEqual(tablaBorrada, true);
         }
 
-        //[TestMethod]
+        [TestMethod]
         public void GoodArguments_ShouldntFindResults()
         {
-            bool parametros = false, tablaBorrada = false;
+            bool parametros, tablaBorrada = false;
             Database db = ObjectConstructor.CreateDatabaseFull("db1");
             List<Column> columnas = new List<Column>();
             List<List<string>> celdas = new List<List<string>>();
             Table t = ObjectConstructor.CreateFullTable("table1", columnas, celdas);
             db.AddTable(t);
             IDatabaseContainer container = ObjectConstructor.CreateDatabaseContainer();
-            Drop drop = CreateDrop(container, null, null);
+            container.AddDatabase(db);
+            Drop drop = CreateDrop(container, db.databaseName, t.tableName);
             parametros = drop.ValidateParameters();
             if (parametros)
             {
@@ -76,16 +79,16 @@ namespace UnitTests.Test.Querys
             Assert.AreEqual(tablaBorrada, false);
         }
 
-        //[TestMethod] 
+        [TestMethod] 
         public void WrongArguments_TableDoesntExist_True()
         {
-            bool parametros = false, tablaBorrada = false;
+            bool parametros, tablaBorrada = false;
             Database db = ObjectConstructor.CreateDatabaseFull("db1");
             List<Column> columnas = new List<Column>();
             List<List<string>> celdas = new List<List<string>>();
             Table t = ObjectConstructor.CreateFullTable("table1", columnas, celdas);
             IDatabaseContainer container = ObjectConstructor.CreateDatabaseContainer();
-            Drop drop = CreateDrop(container, null, null);
+            Drop drop = CreateDrop(container, db.databaseName, t.tableName);
             parametros = drop.ValidateParameters();
             if (parametros)
             {
