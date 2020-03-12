@@ -10,7 +10,7 @@ namespace ClientConsole.ConsoleStuff
     {
         private static QueryVerifier queryVerifier;
         public List<Tuple<string, Func<string, string>>> protocolesAndTheirConsolePatterns;
-        //[^\* ,<=>\(\)]
+        
         public static string tableGroup = "?<table>";
         public static string selectedColumnGroup = "?<selectedColumn>";
         public static string toEvaluateColumnGroup = "?<toEvalColumn>";
@@ -18,16 +18,27 @@ namespace ClientConsole.ConsoleStuff
         public static string operatorGroup = "?<operator>";
         public static string evalValue = "?<evalValue>";
 
+        //[^\* ,<=>\(\)]
         public static string NAINCG = "[^\\* ,<=>\\(\\)]";
+
+        //WHERE (?<toEvalColumn>[^\* ,<=>\(\)]+)(?<operator>[<=>])(?<value>[^\* ,<=>\(\)]+)
         public static string wherePatern = "WHERE (" + toEvaluateColumnGroup + NAINCG + "+)(" + operatorGroup + "[<=>])(" + evalValue + NAINCG + "+)";
-        public static string fromPattern = "FROM (?:(" + tableGroup + NAINCG + "+)|(?:(" + tableGroup + NAINCG + "+) "+ wherePatern+"))";
-        //^SELECT (?:(?<selectedColumn>\*)|(?<selectedColumn>[^\* ,<=>\(\)]+)(?:,(?<selectedColumn>[^\* ,<=>\(\)]+))*) FROM (?:(?<table>[^\* ,<=>\(\)]+)|(?:(?<table>[^\* ,<=>\(\)]+) WHERE (?<toEvalColumn>[^\* ,<=>\(\)]+)(?<operator>[<=>])(?<evalValue>[^\* ,<=>\(\)]+));)$
-        public static string selectPattern = "^SELECT (?:(\\*)|(" + selectedColumnGroup + NAINCG + "+)(?:,(" + selectedColumnGroup + NAINCG + "+))*) " + fromPattern + ";$";
+
+        //FROM (?<table>[^\* ,<=>\(\)]+)(?: WHERE (?<toEvalColumn>[^\* ,<=>\(\)]+)(?<operator>[<=>])(?<value>[^\* ,<=>\(\)]+))
+        public static string fromPattern = "FROM (" + tableGroup + NAINCG + "+)(?: " + wherePatern+")";
+
+        //^SELECT (?:(?<selectedColumn>\*)|(?<selectedColumn>[^\* ,<=>\(\)]+)(?:,(?<selectedColumn>[^\* ,<=>\(\)]+))*) FROM (?<table>[^\* ,<=>\(\)]+)(?: WHERE (?<toEvalColumn>[^\* ,<=>\(\)]+)(?<operator>[<=>])(?<evalValue>[^\* ,<=>\(\)]+))?;$
+        public static string selectPattern = "^SELECT (?:(\\*)|(" + selectedColumnGroup + NAINCG + "+)(?:,(" + selectedColumnGroup + NAINCG + "+))*) " + fromPattern + "?;$";
+
         //^INSERT INTO (?<table>[^\* ,<=>\(\)]+)(?:\((?<selectedColumn>[^\* ,<=>\(\)]+)(?:,(?<selectedColumn>[^\* ,<=>\(\)]+))*\))? VALUES\((?<value>[^\* ,<=>\(\)]+)(?:,(?<value>[^\* ,<=>\(\)]+))*\);$                                                                                        
         public static string insertPattern = "^INSERT INTO (" + tableGroup + NAINCG + "+)(?:\\((" + selectedColumnGroup + NAINCG +"+)(?:,(" + selectedColumnGroup + NAINCG + "+))*\\))? VALUES\\((" + valueGroup + NAINCG + "+)(?:,(" + valueGroup + NAINCG + "+))*\\);$";
+
         //^DROP TABLE (?<table>[^\* ,<=>\(\)]+);$
         public static string dropPattern = "^DROP TABLE (" + tableGroup + NAINCG + "+);$";
-        public static string deletePattern;
+
+        //^DELETE FROM (?<table>[^\* ,<=>\(\)]+)(?: WHERE (?<toEvalColumn>[^\* ,<=>\(\)]+)(?<operator>[<=>])(?<value>[^\* ,<=>\(\)]+))?$;
+        public static string deletePattern = "^DELETE " + fromPattern + "?;$";
+
         public static string updatePattern;
         public static string createPattern;
 

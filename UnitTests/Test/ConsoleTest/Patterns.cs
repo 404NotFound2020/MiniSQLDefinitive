@@ -25,6 +25,7 @@ namespace UnitTests.Test.ConsoleTest
             Assert.IsTrue(regularExpression.Matches("SELECT * FROM ga WHERE z<1;").Count == 1);
             //BADS
             Assert.IsTrue(regularExpression.Matches("SELECT * FROM ga WHERE z<1").Count == 0);
+            Assert.IsTrue(regularExpression.Matches("SELECT * FROM ga aaa WHERE z<1").Count == 0);
             Assert.IsTrue(regularExpression.Matches("SELECT * FROM ga").Count == 0);
             Assert.IsTrue(regularExpression.Matches("SELECT * FROM ga WHEREz=1;").Count == 0);
             Assert.IsTrue(regularExpression.Matches("SELECT* FROM ga WHERE z=1;").Count == 0);
@@ -86,7 +87,7 @@ namespace UnitTests.Test.ConsoleTest
         public void TestDropPattern() 
         {
             string dropPattern = (QueryVerifier.dropPattern);
-            Regex regularExpression = new Regex(dropPattern);
+            Regex regularExpression = new Regex(@dropPattern);
             //GOODS
             Assert.IsTrue(regularExpression.Matches("DROP TABLE aaa;").Count == 1);
             Assert.IsTrue(regularExpression.Matches("DROP TABLE aaaZA3;").Count == 1);
@@ -100,6 +101,35 @@ namespace UnitTests.Test.ConsoleTest
             Assert.IsTrue(regularExpression.Matches("DROP TABLE aaa ;").Count == 0);
         }
 
-
+        [TestMethod]
+        public void TestDeletePattern() 
+        {
+            string deletePattern = (QueryVerifier.deletePattern);
+            Regex regularExpression = new Regex(@deletePattern);
+            //GOODS
+            Assert.IsTrue(regularExpression.Matches("DELETE FROM A WHERE a=1;").Count == 1);
+            Assert.IsTrue(regularExpression.Matches("DELETE FROM A;").Count == 1);
+            Assert.IsTrue(regularExpression.Matches("DELETE FROM a1;").Count == 1);
+            Assert.IsTrue(regularExpression.Matches("DELETE FROM a1 WHERE ab=1;").Count == 1);
+            Assert.IsTrue(regularExpression.Matches("DELETE FROM a1 WHERE ab>1;").Count == 1);
+            Assert.IsTrue(regularExpression.Matches("DELETE FROM a1 WHERE ab<1;").Count == 1);
+            Assert.IsTrue(regularExpression.Matches("DELETE FROM a1 WHERE ab=a;").Count == 1);
+            Assert.IsTrue(regularExpression.Matches("DELETE FROM a1 WHERE ab<a;").Count == 1);
+            Assert.IsTrue(regularExpression.Matches("DELETE FROM a1 WHERE ab>a;").Count == 1);
+            Assert.IsTrue(regularExpression.Matches("DELETE FROM a1 WHERE ab=1.2;").Count == 1);
+            Assert.IsTrue(regularExpression.Matches("DELETE FROM a1 WHERE ab<1.2;").Count == 1);
+            Assert.IsTrue(regularExpression.Matches("DELETE FROM a1 WHERE ab>1.2;").Count == 1);
+            //BADS
+            Assert.IsTrue(regularExpression.Matches("DELETE FROM A WHERE a=1").Count == 0);
+            Assert.IsTrue(regularExpression.Matches("DELETE FROM A WHER a=1;").Count == 0);
+            Assert.IsTrue(regularExpression.Matches("DELETE FROM;").Count == 0);
+            Assert.IsTrue(regularExpression.Matches("DELETE FROM ;").Count == 0);
+            Assert.IsTrue(regularExpression.Matches("DELETE FROM A WHERE a=;").Count == 0);
+            Assert.IsTrue(regularExpression.Matches("DELETE FROM A WHERE a>;").Count == 0);
+            Assert.IsTrue(regularExpression.Matches("DELETE FROM A WHERE a<;").Count == 0);
+            Assert.IsTrue(regularExpression.Matches("DELETE FROM A WHERE <a;").Count == 0);
+            Assert.IsTrue(regularExpression.Matches("DELETE FROM A WHERE >a;").Count == 0);
+            Assert.IsTrue(regularExpression.Matches("DELETE FROM A WHERE =a;").Count == 0);
+        }
     }
 }
