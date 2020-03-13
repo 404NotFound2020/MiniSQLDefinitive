@@ -73,7 +73,7 @@ namespace UnitTests.Test
             Assert.IsTrue(column.ExistCells(dataToWork[index]));
             List<Cell> cells = column.GetCells(dataToWork[index]);
             int cellsNumberBeforeDestroy = cells.Count;
-            Assert.IsTrue(column.DestroyCell(cells[0]));
+            Assert.IsTrue(column.DestroyCell(cells[0])); 
             Assert.IsTrue(cells.Count == cellsNumberBeforeDestroy - 1);
             if (cellsNumberBeforeDestroy == 1) Assert.IsFalse(column.ExistCells(dataToWork[index]));             
         }
