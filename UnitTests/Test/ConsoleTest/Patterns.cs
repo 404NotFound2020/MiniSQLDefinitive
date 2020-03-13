@@ -64,11 +64,11 @@ namespace UnitTests.Test.ConsoleTest
             //GOODS
             Assert.IsTrue(regularExpression.Matches("INSERT INTO a.aaa VALUES(1);").Count == 1);
             Assert.IsTrue(regularExpression.Matches("INSERT INTO a.aaa VALUES(1,2);").Count == 1);
-            Assert.IsTrue(regularExpression.Matches("INSERT INTO a.aaa(a) VALUES(1,2);").Count == 1); //<->
-            Assert.IsTrue(regularExpression.Matches("INSERT INTO a.aaa(a,b) VALUES(1,2);").Count == 1);
-            Assert.IsTrue(regularExpression.Matches("INSERT INTO a.aaa(a,b) VALUES(1.2,2);").Count == 1);
-            Assert.IsTrue(regularExpression.Matches("INSERT INTO a.aaa(a,b) VALUES(aaaa,2);").Count == 1);
             //BADS
+            Assert.IsTrue(regularExpression.Matches("INSERT INTO a.aaa(a) VALUES(1,2);").Count == 0); //<->
+            Assert.IsTrue(regularExpression.Matches("INSERT INTO a.aaa(a,b) VALUES(1,2);").Count == 0);
+            Assert.IsTrue(regularExpression.Matches("INSERT INTO a.aaa(a,b) VALUES(1.2,2);").Count == 0);
+            Assert.IsTrue(regularExpression.Matches("INSERT INTO a.aaa(a,b) VALUES(aaaa,2);").Count == 0);
             Assert.IsTrue(regularExpression.Matches("INSERT INTO a.aaa").Count == 0);
             Assert.IsTrue(regularExpression.Matches("INSERT INTO a.aaa() VALUES(1);").Count == 0);
             Assert.IsTrue(regularExpression.Matches("INSERT INTO a.aaa VALUES(1,2)").Count == 0);

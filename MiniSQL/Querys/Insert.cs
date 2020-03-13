@@ -9,48 +9,56 @@ using System.Threading.Tasks;
 
 namespace MiniSQL.Querys
 {
-    public class Insert : DataChangeQuery
+    public class Insert : DataManipulationQuery
     {
+        private List<string> values;
 
         public Insert(IDatabaseContainer container) : base(container)
         {
-
+            this.values = new List<string>();
         }
 
-        /**
-         * Los nombres de las columnas y los datos que se quieren almacenar en ellas estan en la coleccion List<Tuple<string, string>> afectedColumnsAndValues de la clase
-         * DataChangeQuery (en el paquete interfaces)
-         * 
-         * Me he dado cuenta, que la validacion, tanto para update como para insert, es la misma, y que ambas necesitan guardar datos de las columnas en las que se quiere
-         * insertar/modificar datos, es por ello, que he creado la clase esa de DataChangeQuery, en la cual estan los metodos de validar parametros y añadir los nombres
-         * de las columnas con los datos a meter.
-         * 
-         * Realmente, tal y como lo tenemos ahora mismo, la unica diferencia entre update e insert es que en update no se crea nueva fila.
-         * 
-         * Lo que se debe de hacer en la insert es
-         * 1. Crear nueva fila con lo de create row definition
-         * 2. Obtener un enumerador de tuplas de afectedColumnsAndValues. Cada tupla tiene dos elementos (mister obvius), el primer elemento representa el nombre de la columna
-         * mientras que el segundo representa el dato a insertar, estos se obtienen mediante enumerator.Current.Item1 y enumerator.Current.Item2. El enumerador se consigue con
-         * this.GetColumnAndDataEnumerator();
-         * 3. Ir recorriendo el enumerador, recogiendo el objeto celda de la row creada, y modificando su data con el valor de enumerator.Current.Item2
-         * 4. Se finaliza el bucle, y se inserta en la tabla 
-         * 
-         * Realmente asi es como estaba, pero con eso de que se me olvidan las cosas y que en clase no me concentro del todo y no me empano de lo que tenia en mente, ahora al hacer
-         * esa modificacion, he cambiado lo de el tipo de coleccion de los nombres de las columnas y los datos (perdon por tanto marear) (comente el codigo para que no haya errores de
-         * compilacion)
-         */
+        protected override void ValidateParameters(Table table)
+        {
+            if(this.values.Count > table.GetColumnCount()) 
+            {
+                this.SetResult(this.GetResult() + QuerysStringResultConstants.TooMuchValues + "\n");
+                this.IncrementErrorCount();
+            }
+            else 
+            {
+                IEnumerator<string> valuesEnumerator = this.values.GetEnumerator();
+                IEnumerator<Column> columnEnumerator = table.GetColumnEnumerator();
+                while(valuesEnumerator.MoveNext()) 
+                {
+                    columnEnumerator.MoveNext();
+                    if (!columnEnumerator.Current.dataType.IsAValidDataType(valuesEnumerator.Current)) 
+                    {
+                        this.IncrementErrorCount();
+                        this.SetResult(this.GetResult() + QuerysStringResultConstants.ColumnsAndDataTypesError(columnEnumerator.Current.columnName, columnEnumerator.Current.dataType.GetSimpleTextValue()) + "\n");
+                    }
+                }
+            }
+
+        }
 
         public override void ExecuteParticularQueryAction(Table table)
         {
-            
-            /**Row row = table.CreateRowDefinition();
-            for (int i = 0; i< selectedColumnNames.Count; i++)
+            IEnumerator<string> valuesEnumerator = values.GetEnumerator();
+            IEnumerator<Column> columnEnumerator = table.GetColumnEnumerator();
+            Row newRow = table.CreateRowDefinition();
+            while(valuesEnumerator.MoveNext() && columnEnumerator.MoveNext()) 
             {
-                row.GetCell(selectedColumnNames[i]).data = insertedDate[i];
+                newRow.GetCell(columnEnumerator.Current.columnName).data = valuesEnumerator.Current;
             }
-            table.AddRow(row);*/
-            
+            table.AddRow(newRow);
         }
-  
+
+        public void AddValue(string value) 
+        {
+            this.values.Add(value);        
+        }
+
+
     }
 }

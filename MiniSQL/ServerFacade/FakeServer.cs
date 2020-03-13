@@ -33,7 +33,7 @@ namespace MiniSQL.ServerFacade
 
         public string ReceiveRequest(string request) {
             AbstractQuery query = QueryFactory.GetQueryFactory().GetQuery(new Request(request));
-            if(query.ValidateParameters()) query.Execute(); //The if can be omited, because the same query controls if validateParameter return true            
+            query.Execute();        
             return query.GetResult();        
         }
 

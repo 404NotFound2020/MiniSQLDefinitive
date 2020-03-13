@@ -36,6 +36,7 @@ namespace MiniSQL.Constants
         public const string SecurityUserAlreadyExists = Error + "Security user already exists"; 
         public const string SecurityProfileDoesNotExist = Error + "Security profile does not exist"; 
         public const string SecurityUserDoesNotExist = Error + "Security user does not exist";
+        public const string TooMuchValues = Error + "Too much values";
 
         public static string ColumnSelectedTwice(string columnName) 
         {
@@ -86,6 +87,6 @@ namespace MiniSQL.Constants
         {
             return "Table " + tablename + " was sucefully created in database " + database;
         }
-
+  
     }
 }

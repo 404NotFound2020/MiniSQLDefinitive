@@ -92,6 +92,10 @@ namespace MiniSQL.Classes
 			return this.rows.Count;
 		}
 
+		public int GetColumnCount() 
+		{
+			return this.columnsOrdened.Count;
+		}
 
 		private class TableComparer : IEqualityComparer<Table>
 		{

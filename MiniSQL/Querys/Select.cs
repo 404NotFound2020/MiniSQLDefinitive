@@ -30,7 +30,6 @@ namespace MiniSQL.Querys
                 if (this.whereClause.IsSelected(rowEnumerator.Current)) 
                 {
                     this.AddAfectedRow(rowEnumerator.Current);
-                    //this.selectedRows.Add(rowEnumerator.Current);
                     this.SetResult(this.GetResult() + this.GenerateStringResult(rowEnumerator.Current) + "\n");
                     this.selectedRowsIndexInTable.Add(i);
                 }
@@ -66,8 +65,14 @@ namespace MiniSQL.Querys
         }
 
         public void AddSelectedColumnName(string columnName)
-        {            
-            selectedColumnNames.Add(columnName);
+        {
+            if (!columnName.Equals("*"))
+            {
+                this.selectedColumnNames.Add(columnName);
+            }
+            else {
+                this.selectedAllColumns = true; 
+            }
         }
 
         protected override void ValidateParameters(Table table)
