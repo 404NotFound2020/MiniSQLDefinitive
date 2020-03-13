@@ -16,7 +16,6 @@ namespace UnitTests.Test.Initializer
         public void TestIfTheDatabasesAreLoad()
         {            
             Systeme system = Systeme.GetSystem();
-            system.ChargeTheDatabases();
             SystemConfiguration configuration = ConfigurationParser.GetConfigurationParser().GetSystemConfiguration();
             AbstractParser parser = GetTheParser(configuration);           
             bool okLoad = true;

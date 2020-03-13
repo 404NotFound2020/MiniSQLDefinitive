@@ -15,7 +15,7 @@ namespace UnitTests.Test.TestObjectsContructor
             string randomString = "";
             if(random == null) random = new Random();           
             for (int i = 0; i < size; i++) {
-               randomString = randomString + (char) random.Next(48, 126);            
+               randomString = randomString + (char) random.Next(48, 90);            
             }
 
             return randomString;

@@ -49,6 +49,7 @@
     <Compile Include="Constants\OperatorKeys.cs" />
     <Compile Include="Constants\ParserVersions.cs" />
     <Compile Include="Constants\QuerysStringResultConstants.cs" />
+    <Compile Include="Constants\RequestAndRegexConstants.cs" />
     <Compile Include="Constants\TypesKeyConstants.cs" />
     <Compile Include="Constants\UbicationVersions.cs" />
     <Compile Include="Constants\SaveDataFormatVersions.cs" />
@@ -95,6 +96,7 @@
     <Compile Include="SaveDataFormatManagers\NothingToDoManager.cs" />
     <Compile Include="SaveDataFormatManagers\StringEscapedManager.cs" />
     <Compile Include="ServerFacade\FakeServer.cs" />
+    <Compile Include="ServerFacade\Request.cs" />
     <Compile Include="UbicationManagers\FirstUbicationManager.cs" />
   </ItemGroup>
   <ItemGroup />

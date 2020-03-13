@@ -22,6 +22,7 @@ namespace MiniSQL.Initializer
         {
             this.activeDatabases = new Dictionary<string, Database>();
             this.ChargeTheSystem();
+            this.ChargeTheDatabases();
         }
 
         private void ChargeTheSystem() 
@@ -35,7 +36,7 @@ namespace MiniSQL.Initializer
 
         public void ChargeTheDatabases() 
         {
-            string[] databasesNames = this.parser.GetDatabasesNames();
+            string[] databasesNames = this.parser.GetDatabasesNames();           
             Database database;
             for(int i = 0; i < databasesNames.Length; i++) 
             {
@@ -79,8 +80,13 @@ namespace MiniSQL.Initializer
             IEnumerator<Database> enumerator = this.activeDatabases.Values.GetEnumerator();
             while (enumerator.MoveNext()) 
             {
-                this.parser.SaveDatabase(enumerator.Current);
+                this.SaveData(enumerator.Current);
             }
+        }
+
+        public void SaveData(Database database)
+        {
+            this.parser.SaveDatabase(database);
         }
     }
 }

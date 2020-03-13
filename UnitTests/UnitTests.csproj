@@ -79,7 +79,6 @@
     <Compile Include="Test\Parsers\TestParserBuilderFactory.cs" />
     <Compile Include="Test\Parsers\TestXMLParserBuilder.cs" />
     <Compile Include="Test\Parsers\TestUbicationManagerFactory.cs" />
-    <Compile Include="Test\Querys\select.cs" />
     <Compile Include="Test\Querys\TestDelete.cs" />
     <Compile Include="Test\Querys\TestSelect.cs" />
     <Compile Include="Test\Querys\TestUpdate.cs" />
