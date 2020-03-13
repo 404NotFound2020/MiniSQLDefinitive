@@ -96,6 +96,7 @@
     <Compile Include="SaveDataFormatManagers\NothingToDoManager.cs" />
     <Compile Include="SaveDataFormatManagers\StringEscapedManager.cs" />
     <Compile Include="ServerFacade\FakeServer.cs" />
+    <Compile Include="ServerFacade\Request.cs" />
     <Compile Include="UbicationManagers\FirstUbicationManager.cs" />
   </ItemGroup>
   <ItemGroup />

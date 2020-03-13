@@ -33,6 +33,8 @@ namespace ClientConsole.ConsoleStuff
                 b = match.Success;
             }
             if (b) this.queryMatch = match;
+            Console.WriteLine(TransactionCreator.CreateGroupDependingXML(match));
+            Console.ReadLine();
             return b;
         }
 

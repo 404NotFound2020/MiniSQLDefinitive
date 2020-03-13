@@ -16,6 +16,7 @@ namespace ClientConsole
         static void Main(string[] args)
         {
             Inicializate();
+            QueryVerifier.GetQueryVerifier().EvaluateQuery(Console.ReadLine());
         }
 
         private static void Inicializate() 

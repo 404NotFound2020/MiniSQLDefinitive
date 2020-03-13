@@ -23,7 +23,7 @@ namespace MiniSQL.Querys
         }
 
 
-        public AbstractQuery GetQuery(string protocole) 
+        public AbstractQuery GetQuery(string xmlRequest) 
         {
             return null;
         }

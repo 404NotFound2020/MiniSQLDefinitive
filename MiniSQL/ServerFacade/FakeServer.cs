@@ -1,4 +1,5 @@
 ﻿using MiniSQL.Constants;
+using MiniSQL.Querys;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,6 +29,7 @@ namespace MiniSQL.ServerFacade
         }
 
         public string ReceiveRequest(string request) {
+            QueryFactory.GetQueryFactory().GetQuery(request);
             return null;        
         }
 
