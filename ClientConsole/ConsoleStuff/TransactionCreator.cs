@@ -22,7 +22,7 @@ namespace ClientConsole.ConsoleStuff
             return transactionCreator;
         }
 
-        public static string CreateGroupDependingXML(Match match) 
+        public string CreateGroupDependingXML(Match match) 
         {
             string xmlString = "<transaction>";
             xmlString = xmlString + "\n <fullQuery>" + match.Groups[0] + "</fullQuery>";

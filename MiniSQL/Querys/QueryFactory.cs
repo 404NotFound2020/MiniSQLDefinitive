@@ -1,4 +1,5 @@
 ﻿using MiniSQL.Interfaces;
+using MiniSQL.ServerFacade;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,9 +24,11 @@ namespace MiniSQL.Querys
         }
 
 
-        public AbstractQuery GetQuery(string xmlRequest) 
+        public AbstractQuery GetQuery(Request request) 
         {
-            return null;
+            AbstractQuery query = null;
+            //switch(request)
+            return query;
         }
 
 

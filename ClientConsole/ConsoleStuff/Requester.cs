@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MiniSQL.ServerFacade;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,19 +18,8 @@ namespace ClientConsole.ConsoleStuff
 
 
         public string SendRequest(string query) {
-            string message = null;
-            QueryVerifier queryVerifier = QueryVerifier.GetQueryVerifier();
-            if (queryVerifier.EvaluateQuery(query)) 
-            {
-                //message = this.SendXMLRequest(queryVerifier.actualMatchAndAsociatedFunction.Item2.Invoke(queryVerifier.actualMatchAndAsociatedFunction.Item1));
-            }
-            return message;        
+            return FakeServer.GetFakeServer().ReceiveRequest(query);                    
         }
-
-        public string SendXMLRequest(string xmlRequest) {
-            return null;
-        }
-
 
         public static Requester GetRequester() 
         {

@@ -29,7 +29,7 @@ namespace MiniSQL.ServerFacade
         }
 
         public string ReceiveRequest(string request) {
-            QueryFactory.GetQueryFactory().GetQuery(request);
+            QueryFactory.GetQueryFactory().GetQuery(new Request(request));
             return null;        
         }
 

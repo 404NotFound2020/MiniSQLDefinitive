@@ -16,13 +16,12 @@ namespace ClientConsole
         static void Main(string[] args)
         {
             Inicializate();
-            QueryVerifier.GetQueryVerifier().EvaluateQuery(Console.ReadLine());
         }
 
         private static void Inicializate() 
         {
             GetRegex();
-        
+            StartConsole();
         }
 
         private static void GetRegex() 
@@ -36,8 +35,15 @@ namespace ClientConsole
         }
 
         private static void StartConsole() 
-        { 
-        
+        {
+            string lineOfCocain;
+            string message;
+            while(!(lineOfCocain = Console.ReadLine()).Equals("exit")) 
+            {
+                message = "Go to fuck yourself stupid shitty idiot";
+                if (QueryVerifier.GetQueryVerifier().EvaluateQuery(lineOfCocain)) message = Requester.GetRequester().SendRequest(TransactionCreator.GetTransactionCreator().CreateGroupDependingXML(QueryVerifier.GetQueryVerifier().queryMatch));
+                Console.WriteLine(message);
+            }
         }
 
     }
