@@ -33,6 +33,7 @@ namespace MiniSQL.Querys
             }
             else 
             {
+                this.SetResult(this.GetResult() + QuerysStringResultConstants.DatabaseDoesntExist(this.targetDatabase) + "\n");
                 this.IncrementErrorCount();
             }
             return this.GetIsValidQuery();
@@ -47,7 +48,9 @@ namespace MiniSQL.Querys
             {
                 newTable.AddColumn(new Column(enumerator.Current.Key, DataTypesFactory.GetDataTypesFactory().GetDataType(enumerator.Current.Value)));
             }
-            this.GetContainer().GetDatabase(this.targetDatabase).AddTable(newTable);
+            Database afectedDatabase = this.GetContainer().GetDatabase(this.targetDatabase);
+            afectedDatabase.AddTable(newTable);
+            this.GetContainer().SaveData(afectedDatabase);
             this.SetResult(this.GetResult() + QuerysStringResultConstants.TableWasCreated(this.targetDatabase, this.targetTableName) + "\n");
         }
 

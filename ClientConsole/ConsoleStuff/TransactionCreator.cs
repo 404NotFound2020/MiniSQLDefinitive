@@ -28,7 +28,10 @@ namespace ClientConsole.ConsoleStuff
             xmlString = xmlString + "\n <fullQuery>" + match.Groups[0] + "</fullQuery>";
             for (int i = 1; i < match.Groups.Count; i++) 
             {
-                if(!match.Groups[i].Value.Equals("")) xmlString = xmlString + "\n <" + match.Groups[i].Name + ">" + match.Groups[i].Value + "</" + match.Groups[i].Name + ">";               
+                for (int j = 0; j < match.Groups[i].Captures.Count; j++)
+                {
+                    xmlString = xmlString + "\n <" + match.Groups[i].Name + ">" + match.Groups[i].Captures[j].Value + "</" + match.Groups[i].Name + ">";
+                }                
             }
             xmlString = xmlString + "\n</transaction>";
             return xmlString;        

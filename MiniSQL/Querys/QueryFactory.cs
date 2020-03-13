@@ -95,6 +95,14 @@ namespace MiniSQL.Querys
         private Create CreateCreateTableQuery(Request request, IDatabaseContainer container)
         {
             Create create = new Create(container);
+            create.targetDatabase = request.GetElementsContentByTagName(RequestAndRegexConstants.databaseTagName)[0];
+            create.targetTableName = request.GetElementsContentByTagName(RequestAndRegexConstants.tableTagName)[0];
+            string[] columnsNames = request.GetElementsContentByTagName(RequestAndRegexConstants.columnTagName);
+            string[] columnsTypes = request.GetElementsContentByTagName(RequestAndRegexConstants.columnTypeTagName);
+            for(int i = 0; i < columnsNames.Length; i++) 
+            {
+                create.AddColumn(columnsNames[i], columnsTypes[i]);
+            }
             return create;
         }
 
@@ -107,9 +115,10 @@ namespace MiniSQL.Querys
             string[] columnToEvaluate = request.GetElementsContentByTagName(RequestAndRegexConstants.toEvaluateColumnTagName);
             string[] evaluationValue = request.GetElementsContentByTagName(RequestAndRegexConstants.evalValueTagName);
             string[] operators = request.GetElementsContentByTagName(RequestAndRegexConstants.operatorTagName);
+            OperatorFactory operatorFactory = OperatorFactory.GetOperatorFactory();
             for(int i = 0; i < columnToEvaluate.Length; i++) 
-            { 
-                //where.AddCritery(new Tuple<string, string>(columnToEvaluate[i], evaluationValue[i]), OperatorFactory.)
+            {
+                where.AddCritery(new Tuple<string, string>(columnToEvaluate[i], evaluationValue[i]), operatorFactory.GetOperator(operators[i]));
             }
             return where;
         }

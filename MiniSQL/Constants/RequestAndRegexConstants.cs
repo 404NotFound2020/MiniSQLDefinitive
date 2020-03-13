@@ -40,7 +40,7 @@ namespace MiniSQL.Constants
         public static string columnGroup = "?<" + columnTagName + ">";
         public static string columnTypeGroup = "?<" + columnTypeTagName + ">";
 
-        public static string columnsTypes = "INT|DOUBLE|TEXT";
+        public static string columnsTypes = TypesKeyConstants.IntTypeKey + "|" + TypesKeyConstants.DoubleTypeKey + "|" + TypesKeyConstants.StringTypeKey;
         public static string operators = "[" + OperatorKeys.EqualKey + OperatorKeys.HigherKey + OperatorKeys.LessKey + "]";
         public static string NAINCG = "[^\\* ,<=>\\(\\)]";
         public static string wherePatern = "WHERE (" + toEvaluateColumnGroup + NAINCG + "+)(" + operatorGroup + operators + ")(" + evalValueGroup + NAINCG + "+)";

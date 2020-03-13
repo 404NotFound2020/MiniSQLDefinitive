@@ -8,7 +8,7 @@ namespace MiniSQL.Constants
 {
     public class TypesKeyConstants
     {
-        public const string StringTypeKey = "STRING";
+        public const string StringTypeKey = "TEXT";
         public const string IntTypeKey = "INT";
         public const string DoubleTypeKey = "DOUBLE";
 

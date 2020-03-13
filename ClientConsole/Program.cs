@@ -44,6 +44,7 @@ namespace ClientConsole
                 if (QueryVerifier.GetQueryVerifier().EvaluateQuery(lineOfCocain)) message = Requester.GetRequester().SendRequest(TransactionCreator.GetTransactionCreator().CreateGroupDependingXML(QueryVerifier.GetQueryVerifier().queryMatch));
                 Console.WriteLine(message);
             }
+
         }
 
     }
