@@ -17,6 +17,17 @@ namespace MiniSQL.ServerFacade
             this.xmlRequest.LoadXml(flatXml);        
         }
 
+        public string[] GetElementsContentByTagName(string tagName) 
+        {
+            XmlNodeList nodeList = this.xmlRequest.GetElementsByTagName(tagName);
+            string[] text = new string[nodeList.Count];
+            for(int i = 0; i < nodeList.Count; i++) 
+            {
+                text[i] = nodeList[i].InnerText;
+            }
+            return text;
+        }
+
 
     }
 }

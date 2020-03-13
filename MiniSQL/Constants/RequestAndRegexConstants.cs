@@ -8,12 +8,12 @@ namespace MiniSQL.Constants
 {
     public class RequestAndRegexConstants
     {
-        public static string selectQueryIdentificator = "SELECT";
-        public static string insertQueryIdentificator = "INSERT";
-        public static string dropTableQueryIdentificator = "DROP TABLE";
-        public static string deleteQueryIdentificator = "DELETE";
-        public static string updateQueryIdentificator = "UPDATE";
-        public static string createTableQueryIdentificator = "CREATE TABLE";
+        public const string selectQueryIdentificator = "SELECT";
+        public const string insertQueryIdentificator = "INSERT";
+        public const string dropTableQueryIdentificator = "DROP TABLE";
+        public const string deleteQueryIdentificator = "DELETE";
+        public const string updateQueryIdentificator = "UPDATE";
+        public const string createTableQueryIdentificator = "CREATE TABLE";
         public static string queryTagName = "query";
         public static string databaseTagName = "database";
         public static string tableTagName = "table";
@@ -41,8 +41,9 @@ namespace MiniSQL.Constants
         public static string columnTypeGroup = "?<" + columnTypeTagName + ">";
 
         public static string columnsTypes = "INT|DOUBLE|TEXT";
+        public static string operators = "[" + OperatorKeys.EqualKey + OperatorKeys.HigherKey + OperatorKeys.LessKey + "]";
         public static string NAINCG = "[^\\* ,<=>\\(\\)]";
-        public static string wherePatern = "WHERE (" + toEvaluateColumnGroup + NAINCG + "+)(" + operatorGroup + "[<=>])(" + evalValueGroup + NAINCG + "+)";
+        public static string wherePatern = "WHERE (" + toEvaluateColumnGroup + NAINCG + "+)(" + operatorGroup + operators + ")(" + evalValueGroup + NAINCG + "+)";
         public static string fromPattern = "FROM (" + databaseGroup + NAINCG + "+)\\.("+ tableGroup + NAINCG + "+)(?: " + wherePatern + ")";
         public static string selectPattern = "^(" + queryGroup + selectQueryIdentificator + ") (?:(" + selectedColumnGroup  + "\\*)|(" + selectedColumnGroup + NAINCG + "+)(?:,(" + selectedColumnGroup + NAINCG + "+))*) " + fromPattern + "?;$";
         public static string insertPattern = "^(" + queryGroup + insertQueryIdentificator + ") INTO (" + databaseGroup + NAINCG + "+)\\.(" + tableGroup + NAINCG + "+)(?:\\((" + selectedColumnGroup + NAINCG + "+)(?:,(" + selectedColumnGroup + NAINCG + "+))*\\))? VALUES\\((" + valueGroup + NAINCG + "+)(?:,(" + valueGroup + NAINCG + "+))*\\);$";

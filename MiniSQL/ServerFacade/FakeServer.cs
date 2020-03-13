@@ -28,9 +28,9 @@ namespace MiniSQL.ServerFacade
             return new string[]{RequestAndRegexConstants.selectPattern, RequestAndRegexConstants.insertPattern, RequestAndRegexConstants.updatePattern, RequestAndRegexConstants.createPattern, RequestAndRegexConstants.deletePattern, RequestAndRegexConstants.dropPattern};
         }
 
-        public string ReceiveRequest(string request) {
+        public string ReceiveRequest(string request) {            
             QueryFactory.GetQueryFactory().GetQuery(new Request(request));
-            return null;        
+            return request;        
         }
 
 

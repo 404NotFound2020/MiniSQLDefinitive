@@ -1,4 +1,6 @@
-﻿using MiniSQL.Interfaces;
+﻿using MiniSQL.Constants;
+using MiniSQL.Initializer;
+using MiniSQL.Interfaces;
 using MiniSQL.ServerFacade;
 using System;
 using System.Collections.Generic;
@@ -26,11 +28,91 @@ namespace MiniSQL.Querys
 
         public AbstractQuery GetQuery(Request request) 
         {
+            IDatabaseContainer system = Systeme.GetSystem();
             AbstractQuery query = null;
-            //switch(request)
+            switch (request.GetElementsContentByTagName(RequestAndRegexConstants.queryTagName)[0]) 
+            {
+                case RequestAndRegexConstants.selectQueryIdentificator:
+                    query = this.CreateSelectQuery(request, system);
+                break;
+                case RequestAndRegexConstants.insertQueryIdentificator:
+                    query = this.CreateInsertQuery(request, system);
+                break;
+                case RequestAndRegexConstants.updateQueryIdentificator:
+                    query = this.CreateUpdateQuery(request, system);
+                break;
+                case RequestAndRegexConstants.deleteQueryIdentificator:
+                    query = this.CreateDeleteQuery(request, system);
+                break;
+                case RequestAndRegexConstants.dropTableQueryIdentificator:
+                    query = this.CreateDropTableQuery(request, system);
+                break;
+                case RequestAndRegexConstants.createTableQueryIdentificator:
+                    query = this.CreateCreateTableQuery(request, system);
+                break;
+            }
             return query;
         }
 
+        private Select CreateSelectQuery(Request request, IDatabaseContainer container) 
+        {
+            Select select = new Select(container);
+            select.targetDatabase = request.GetElementsContentByTagName(RequestAndRegexConstants.databaseTagName)[0];
+            select.targetTableName = request.GetElementsContentByTagName(RequestAndRegexConstants.tableTagName)[0];
+            string[] selectedColumns = request.GetElementsContentByTagName(RequestAndRegexConstants.selectedColumnTagName);
+            for(int i = 0; i < selectedColumns.Length; i++) 
+            {
+                select.AddSelectedColumnName(selectedColumns[i]);
+            }
+            select.whereClause = this.CreateWhereClause(request);
+            return select;
+        }
+
+        private Insert CreateInsertQuery(Request request, IDatabaseContainer container)
+        {
+            Insert insert = new Insert(container);
+            return insert;
+        }
+
+        private Update CreateUpdateQuery(Request request, IDatabaseContainer container)
+        {
+            Update update = new Update(container);
+            return update;
+        }
+
+        private Delete CreateDeleteQuery(Request request, IDatabaseContainer container)
+        {
+            Delete delete = new Delete(container);
+            return delete;
+        }
+
+        private Drop CreateDropTableQuery(Request request, IDatabaseContainer container)
+        {
+            Drop drop = new Drop(container);
+            return drop;
+        }
+
+        private Create CreateCreateTableQuery(Request request, IDatabaseContainer container)
+        {
+            Create create = new Create(container);
+            return create;
+        }
+
+        /**
+         * Expected that the three arrays have the same length (we control this with the regex)
+         */
+        private Where CreateWhereClause(Request request) 
+        {
+            Where where = new Where();
+            string[] columnToEvaluate = request.GetElementsContentByTagName(RequestAndRegexConstants.toEvaluateColumnTagName);
+            string[] evaluationValue = request.GetElementsContentByTagName(RequestAndRegexConstants.evalValueTagName);
+            string[] operators = request.GetElementsContentByTagName(RequestAndRegexConstants.operatorTagName);
+            for(int i = 0; i < columnToEvaluate.Length; i++) 
+            { 
+                //where.AddCritery(new Tuple<string, string>(columnToEvaluate[i], evaluationValue[i]), OperatorFactory.)
+            }
+            return where;
+        }
 
     }
 }
