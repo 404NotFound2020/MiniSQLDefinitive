@@ -49,7 +49,7 @@ namespace UnitTests.Test.TestObjectsContructor
 
         public void SaveData(Database database)
         {
-            throw new NotImplementedException();
+            
         }
     }
 }

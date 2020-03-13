@@ -36,7 +36,7 @@ namespace MiniSQL.Initializer
 
         public void ChargeTheDatabases() 
         {
-            string[] databasesNames = this.parser.GetDatabasesNames();
+            string[] databasesNames = this.parser.GetDatabasesNames();           
             Database database;
             for(int i = 0; i < databasesNames.Length; i++) 
             {
