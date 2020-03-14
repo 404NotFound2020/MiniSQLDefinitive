@@ -10,18 +10,28 @@ namespace MiniSQL.Querys
 {
     public class Delete : DataManipulationQuery
     {
-        private List<string> selectedColumnNames;
-        private List<Row> selectedRows;
 
         public Delete(IDatabaseContainer container) : base(container) 
         {
-            this.selectedColumnNames = new List<string>();
-            this.selectedRows = new List<Row>();
+
         }
 
         public override void ExecuteParticularQueryAction(Table table)
         {
-            
+            /**Select select = new Select(this.GetContainer());
+            select.targetDatabase = this.targetDatabase;
+            select.targetTableName = this.targetTableName;
+            select.selectedAllColumns = true;
+            select.whereClause = whereClause;
+            select.ValidateParameters();
+            select.ExecuteParticularQueryAction(table);            
+            IEnumerator<int> enumerator = select.GetSelectedRowsIndex();
+            int i = 0;
+            while (enumerator.MoveNext()) 
+            {
+                table.DestroyRow(enumerator.Current-i);
+                i++;
+            }**SOLO PARA VER COMO FUNCIONA ESTO LUEGO QUIZA SE QUITE (SEGURAMENTE), HACE LA FUNCION DE BORRAR**/ 
         }
 
         protected override void ValidateParameters(Table table)

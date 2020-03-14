@@ -3,6 +3,7 @@ using MiniSQL.Constants;
 using MiniSQL.DataTypes;
 using MiniSQL.Initializer;
 using MiniSQL.Interfaces;
+using MiniSQL.ServerFacade;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -45,9 +46,6 @@ namespace UnitTests.Test.TestObjectsContructor
         {
             return CreateDatabaseFull(databaseName, 200);
         }
-
-
-
 
         public static Database CreateDatabaseFull(string databaseName, int iterations) {
             Database database = new Database(databaseName);
@@ -123,6 +121,37 @@ namespace UnitTests.Test.TestObjectsContructor
         {
             return new DatabaseContainer();
         }
+
+        public static Request GetSelectRequest()
+        {
+            return new Request("<transaction><fullQuery><![CDATA[SELECT * FROM test.aaaa;]]></fullQuery><query><![CDATA[SELECT]]></query><selectedColumn><![CDATA[*]]></selectedColumn><database><![CDATA[test]]></database><table><![CDATA[aaaa]]></table></transaction>");
+        }
+
+        public static Request GetInsertRequest()
+        {
+            return new Request("<transaction><fullQuery><![CDATA[INSERT INTO aaa.bbb VALUES(a);]]></fullQuery><query><![CDATA[INSERT]]></query><database><![CDATA[aaa]]></database><table><![CDATA[bbb]]></table><value><![CDATA[a]]></value></transaction>");
+        }
+
+        public static Request GetUpdateRequest()
+        {
+            return new Request("<transaction><fullQuery><![CDATA[UPDATE aaaa.aaa SET a=1 WHERE a=12;]]></fullQuery><query><![CDATA[UPDATE]]></query><database><![CDATA[aaaa]]></database><table><![CDATA[aaa]]></table><updatedColumn><![CDATA[a]]></updatedColumn><toValue><![CDATA[1]]></toValue><toEvalColumn><![CDATA[a]]></toEvalColumn><operator><![CDATA[=]]></operator><evalValue><![CDATA[12]]></evalValue></transaction>");
+        }
+
+        public static Request GetDeleteRequest()
+        {
+            return new Request("<transaction><fullQuery><![CDATA[DELETE FROM aaaa.nbbb WHERE a=1;]]></fullQuery><query><![CDATA[DELETE]]></query><database><![CDATA[aaaa]]></database><table><![CDATA[nbbb]]></table><toEvalColumn><![CDATA[a]]></toEvalColumn><operator><![CDATA[=]]></operator><evalValue><![CDATA[1]]></evalValue></transaction>");
+        }
+
+        public static Request GetCreateTableRequest()
+        {
+            return new Request("<transaction><fullQuery><![CDATA[CREATE TABLE aaa.aaa (a INT);]]></fullQuery><query><![CDATA[CREATE TABLE]]></query><database><![CDATA[aaa]]></database><table><![CDATA[aaa]]></table><column><![CDATA[a]]></column><columnType><![CDATA[INT]]></columnType></transaction>");
+        }
+
+        public static Request GetDropTableRequest()
+        {
+            return new Request("<transaction><fullQuery><![CDATA[DROP TABLE aaa.aaa;]]></fullQuery><query><![CDATA[DROP TABLE]]></query><database><![CDATA[aaa]]></database><table><![CDATA[aaa]]></table></transaction>");
+        }
+
 
     }
 }

@@ -23,6 +23,7 @@ namespace MiniSQL.Initializer
             this.activeDatabases = new Dictionary<string, Database>();
             this.ChargeTheSystem();
             this.ChargeTheDatabases();
+            this.CreateDefaultDatabase();
         }
 
         private void ChargeTheSystem() 
@@ -43,6 +44,17 @@ namespace MiniSQL.Initializer
                 database = this.parser.LoadDatabase(databasesNames[i]);
                 this.activeDatabases.Add(database.databaseName, database);
             }        
+        }
+
+        //THIS WILL BE DELETED/MODIFIED
+        public void CreateDefaultDatabase() 
+        {
+            if (!this.activeDatabases.ContainsKey("default")) 
+            { 
+                Database defaultDatabase = new Database("default");
+                this.activeDatabases.Add(defaultDatabase.databaseName, defaultDatabase);
+                this.parser.SaveDatabase(defaultDatabase);
+            }
         }
 
         public static Systeme GetSystem() 

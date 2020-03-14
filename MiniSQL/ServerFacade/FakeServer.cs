@@ -16,8 +16,8 @@ namespace MiniSQL.ServerFacade
         private static FakeServer fakeServer;
 
         private FakeServer() 
-        { 
-        
+        {
+            QueryFactory.GetQueryFactory().SetContainer(Systeme.GetSystem());
         }
 
         public static FakeServer GetFakeServer() 

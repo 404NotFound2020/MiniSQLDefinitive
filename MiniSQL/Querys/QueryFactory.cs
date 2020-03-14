@@ -13,6 +13,7 @@ namespace MiniSQL.Querys
     public class QueryFactory
     {
         private static QueryFactory queryFactory;
+        private IDatabaseContainer databaseContainer;
 
         private QueryFactory() 
         { 
@@ -25,10 +26,9 @@ namespace MiniSQL.Querys
             return queryFactory;
         }
 
-
         public AbstractQuery GetQuery(Request request) 
         {
-            IDatabaseContainer system = Systeme.GetSystem();
+            IDatabaseContainer system = this.databaseContainer;
             AbstractQuery query = null;
             switch (request.GetElementsContentByTagName(RequestAndRegexConstants.queryTagName)[0]) 
             {
@@ -57,8 +57,7 @@ namespace MiniSQL.Querys
         private Select CreateSelectQuery(Request request, IDatabaseContainer container) 
         {
             Select select = new Select(container);
-            select.targetDatabase = request.GetElementsContentByTagName(RequestAndRegexConstants.databaseTagName)[0];
-            select.targetTableName = request.GetElementsContentByTagName(RequestAndRegexConstants.tableTagName)[0];
+            this.SetDatabaseAndTableTarget(request, select);
             string[] selectedColumns = request.GetElementsContentByTagName(RequestAndRegexConstants.selectedColumnTagName);
             for(int i = 0; i < selectedColumns.Length; i++) 
             {
@@ -71,6 +70,7 @@ namespace MiniSQL.Querys
         private Insert CreateInsertQuery(Request request, IDatabaseContainer container)
         {
             Insert insert = new Insert(container);
+            this.SetDatabaseAndTableTarget(request, insert);
             insert.targetDatabase = request.GetElementsContentByTagName(RequestAndRegexConstants.databaseTagName)[0];
             insert.targetTableName = request.GetElementsContentByTagName(RequestAndRegexConstants.tableTagName)[0];
             string[] values = request.GetElementsContentByTagName(RequestAndRegexConstants.valueTagName);
@@ -84,8 +84,7 @@ namespace MiniSQL.Querys
         private Update CreateUpdateQuery(Request request, IDatabaseContainer container)
         {
             Update update = new Update(container);
-            update.targetDatabase = request.GetElementsContentByTagName(RequestAndRegexConstants.databaseTagName)[0];
-            update.targetTableName = request.GetElementsContentByTagName(RequestAndRegexConstants.tableTagName)[0];
+            this.SetDatabaseAndTableTarget(request, update);
             string[] toUpdatedColumns = request.GetElementsContentByTagName(RequestAndRegexConstants.updatedColumnTagName);
             string[] values = request.GetElementsContentByTagName(RequestAndRegexConstants.updatedValueTagName);
             for(int i = 0; i < toUpdatedColumns.Length; i++) 
@@ -99,14 +98,15 @@ namespace MiniSQL.Querys
         private Delete CreateDeleteQuery(Request request, IDatabaseContainer container)
         {
             Delete delete = new Delete(container);
+            this.SetDatabaseAndTableTarget(request, delete);
+            delete.whereClause = this.CreateWhereClause(request);
             return delete;
         }
 
         private Drop CreateDropTableQuery(Request request, IDatabaseContainer container)
         {
             Drop drop = new Drop(container);
-            drop.targetDatabase = request.GetElementsContentByTagName(RequestAndRegexConstants.databaseTagName)[0];
-            drop.targetTableName = request.GetElementsContentByTagName(RequestAndRegexConstants.tableTagName)[0];
+            this.SetDatabaseAndTableTarget(request, drop);
             return drop;
         }
 
@@ -124,9 +124,6 @@ namespace MiniSQL.Querys
             return create;
         }
 
-        /**
-         * Expected that the three arrays have the same length (we control this with the regex)
-         */
         private Where CreateWhereClause(Request request) 
         {
             Where where = new Where();
@@ -139,6 +136,16 @@ namespace MiniSQL.Querys
                 where.AddCritery(new Tuple<string, string>(columnToEvaluate[i], evaluationValue[i]), operatorFactory.GetOperator(operators[i]));
             }
             return where;
+        }
+
+        private void SetDatabaseAndTableTarget(Request request, AbstractQuery query) {
+            query.targetDatabase = request.GetElementsContentByTagName(RequestAndRegexConstants.databaseTagName)[0];
+            query.targetTableName = request.GetElementsContentByTagName(RequestAndRegexConstants.tableTagName)[0];
+        }
+
+        public void SetContainer(IDatabaseContainer container) 
+        {
+            this.databaseContainer = container;
         }
 
     }

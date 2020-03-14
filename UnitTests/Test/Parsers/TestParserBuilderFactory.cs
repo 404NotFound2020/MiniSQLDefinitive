@@ -11,10 +11,8 @@ namespace UnitTests.Test.Parsers
         [TestMethod]
         public void TestGetSaveDataFormatManager_XMLParserVersionString_ReturnXMLParserBuilder()
         {
-
             ParserBuilderFactory.GetParserBuilderFactory().GetParserBuilder(ParserVersions.XMLParserVersion);
             Assert.AreEqual(ParserBuilderFactory.GetParserBuilderFactory().GetParserBuilder(ParserVersions.XMLParserVersion).GetType(), typeof(XMLParserBuilder));
-
         }
     }
 }
