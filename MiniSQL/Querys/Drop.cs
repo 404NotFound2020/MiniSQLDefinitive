@@ -1,4 +1,6 @@
-﻿using MiniSQL.Interfaces;
+﻿using MiniSQL.Classes;
+using MiniSQL.Constants;
+using MiniSQL.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,7 +19,11 @@ namespace MiniSQL.Querys
 
         public override void ExecuteParticularQueryAction()
         {
-            this.GetContainer().GetDatabase(this.targetDatabase).DropTable(this.targetTableName);
+            Database database = this.GetContainer().GetDatabase(this.targetDatabase);
+            Table table = database.GetTable(this.targetTableName);
+            database.DropTable(table.tableName);
+            this.GetContainer().RemoveTable(database, table);
+            this.SetResult(QuerysStringResultConstants.TableSucesfullyDeleted(table.tableName));
         }
 
         public override bool ValidateParameters()
@@ -25,18 +31,20 @@ namespace MiniSQL.Querys
             if (this.GetContainer().ExistDatabase(this.targetDatabase))
             {
                 if (this.GetContainer().GetDatabase(this.targetDatabase).ExistTable(this.targetTableName))
-                {
+                {                    
                     return true;
                 }
                 else
                 {
                     this.IncrementErrorCount();
+                    this.SetResult(this.GetResult() + QuerysStringResultConstants.TableDoensExist(this.targetDatabase, this.targetTableName) + "\n");
                     return false;
                 }
             }
             else
             {
                 this.IncrementErrorCount();
+                this.SetResult(this.GetResult() + QuerysStringResultConstants.DatabaseDoesntExist(this.targetDatabase) + "\n");
                 return false;
             }
         }

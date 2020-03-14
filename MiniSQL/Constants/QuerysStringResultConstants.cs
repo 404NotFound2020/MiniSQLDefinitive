@@ -38,11 +38,6 @@ namespace MiniSQL.Constants
         public const string SecurityUserDoesNotExist = Error + "Security user does not exist";
         public const string TooMuchValues = Error + "Too much values";
 
-        public static string ColumnSelectedTwice(string columnName) 
-        {
-            return "The column " + columnName + " which was selected twice or more times";
-        }
-
         public static string WhereClauseColumnDoensExist(string columnName) 
         {
             return "The column " + columnName + " which was indicated in where clause doenst exist";
@@ -60,7 +55,7 @@ namespace MiniSQL.Constants
 
         public static string ColumnsAndDataTypesError(string columnName, string dataType) 
         {
-            return "The data of the column " + columnName + "is " + dataType;
+            return "The data of the column " + columnName + " is " + dataType;
         }
 
         public static string TableDoensExist(string databaseName, string tableName) 
@@ -86,6 +81,11 @@ namespace MiniSQL.Constants
         public static string TableWasCreated(string database, string tablename) 
         {
             return "Table " + tablename + " was sucefully created in database " + database;
+        }
+
+        public static string TableSucesfullyDeleted(string tableName) 
+        {
+            return "The table " + tableName + " was sucesfully deleted";
         }
   
     }

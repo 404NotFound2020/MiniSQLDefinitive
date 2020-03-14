@@ -51,5 +51,15 @@ namespace UnitTests.Test.TestObjectsContructor
         {
             
         }
+
+        public void SaveTable(Database database, Table table)
+        {
+            
+        }
+
+        public void RemoveTable(Database database, Table table)
+        {
+            
+        }
     }
 }

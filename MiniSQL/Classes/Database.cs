@@ -7,7 +7,6 @@ namespace MiniSQL.Classes
 {
 	public class Database
 	{
-
 		public string databaseName;
 		private Dictionary<string, Table> tables;
 
@@ -24,7 +23,7 @@ namespace MiniSQL.Classes
 
 		public void DropTable(string tableName)
 		{
-			tables.Remove(tableName);
+			this.tables.Remove(tableName);
 		}
 
 		public void AddTable(Table table)

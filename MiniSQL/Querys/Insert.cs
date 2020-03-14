@@ -52,6 +52,7 @@ namespace MiniSQL.Querys
                 newRow.GetCell(columnEnumerator.Current.columnName).data = valuesEnumerator.Current;
             }
             table.AddRow(newRow);
+            this.SetResult(this.GetResult() + QuerysStringResultConstants.InsertSuccess);
         }
 
         public void AddValue(string value) 

@@ -16,11 +16,9 @@ namespace MiniSQL.Interfaces
         void RemoveDatabase(string databaseName);
         int GetNumbersOfDatabases();
         void SaveData();
-
         void SaveData(Database database);
-
-
-
+        void SaveTable(Database database, Table table);
+        void RemoveTable(Database database, Table table);
 
     }
 }

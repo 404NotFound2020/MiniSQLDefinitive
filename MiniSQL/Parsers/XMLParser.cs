@@ -135,13 +135,9 @@ namespace MiniSQL.Parsers
             string databasePath = ubicationManager.GetDatabaseFilePath(database.databaseName);
             if (!Directory.Exists(databasePath)) Directory.CreateDirectory(databasePath);
             IEnumerator<Table> enumerator = database.GetTableEnumerator();
-            XmlElement tableElement;
             while (enumerator.MoveNext()) 
             {
-                tableElement = databaseProperties.CreateElement(XMLTagsConstants.DatabasePropertiesTableElementTag_WR);
-                tableElement.AppendChild(this.CreateSimpleNode(databaseProperties, XMLTagsConstants.DatabasePropertiesTableElementNameTag_WR, enumerator.Current.tableName));
-                databaseElement.AppendChild(tableElement);
-                this.SaveTable(database, enumerator.Current);
+                this.SaveTable(database, enumerator.Current, databaseProperties, databaseElement);
             }
             databaseProperties.AppendChild(databaseElement);
             databaseProperties.InsertBefore(databaseProperties.CreateXmlDeclaration(this.xmlDeclaration[0], this.xmlDeclaration[1], this.xmlDeclaration[2]), databaseElement);
@@ -150,6 +146,18 @@ namespace MiniSQL.Parsers
 
         public override void SaveTable(Database database, Table table)
         {
+            XmlDocument databaseProperties = new XmlDocument();
+            IUbicationManager ubicationManager = this.GetUbicationManager();
+            databaseProperties.Load(ubicationManager.GetDatabasePropertiesFilePath(database.databaseName) + extension);
+            this.SaveTable(database, table, databaseProperties, databaseProperties.DocumentElement);
+            databaseProperties.Save(ubicationManager.GetDatabasePropertiesFilePath(database.databaseName) + extension);
+        }
+
+        private void SaveTable(Database database, Table table, XmlDocument databaseProperties, XmlElement databaseElement) 
+        {
+            XmlElement tableElement = databaseProperties.CreateElement(XMLTagsConstants.DatabasePropertiesTableElementTag_WR);
+            tableElement.AppendChild(this.CreateSimpleNode(databaseProperties, XMLTagsConstants.DatabasePropertiesTableElementNameTag_WR, table.tableName));
+            databaseElement.AppendChild(tableElement);
             this.SaveTableStruct(table).Save(this.GetUbicationManager().GetTableStructureFilePath(database.databaseName, table.tableName) + extension);
             this.SaveTableData(table).Save(this.GetUbicationManager().GetTableDataFilePath(database.databaseName, table.tableName) + extension);
         }

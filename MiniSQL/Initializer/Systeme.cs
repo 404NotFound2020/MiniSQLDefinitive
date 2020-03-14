@@ -75,10 +75,20 @@ namespace MiniSQL.Initializer
             return this.activeDatabases.Count;
         }
 
+        public void SaveTable(Database database, Table table)
+        {
+            this.parser.SaveTable(database, table);
+        }
+
+        public void RemoveTable(Database database, Table table)
+        {
+            this.parser.DeleteTable(database.databaseName, table.tableName);
+        }
+
         public void SaveData()
         {
             IEnumerator<Database> enumerator = this.activeDatabases.Values.GetEnumerator();
-            while (enumerator.MoveNext()) 
+            while (enumerator.MoveNext())
             {
                 this.SaveData(enumerator.Current);
             }
@@ -88,5 +98,6 @@ namespace MiniSQL.Initializer
         {
             this.parser.SaveDatabase(database);
         }
+
     }
 }

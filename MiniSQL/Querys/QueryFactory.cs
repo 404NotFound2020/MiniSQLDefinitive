@@ -105,6 +105,8 @@ namespace MiniSQL.Querys
         private Drop CreateDropTableQuery(Request request, IDatabaseContainer container)
         {
             Drop drop = new Drop(container);
+            drop.targetDatabase = request.GetElementsContentByTagName(RequestAndRegexConstants.databaseTagName)[0];
+            drop.targetTableName = request.GetElementsContentByTagName(RequestAndRegexConstants.tableTagName)[0];
             return drop;
         }
 

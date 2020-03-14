@@ -50,7 +50,7 @@ namespace MiniSQL.Querys
             }
             Database afectedDatabase = this.GetContainer().GetDatabase(this.targetDatabase);
             afectedDatabase.AddTable(newTable);
-            this.GetContainer().SaveData(afectedDatabase);
+            this.GetContainer().SaveTable(afectedDatabase, newTable);
             this.SetResult(this.GetResult() + QuerysStringResultConstants.TableWasCreated(this.targetDatabase, this.targetTableName) + "\n");
         }
 
