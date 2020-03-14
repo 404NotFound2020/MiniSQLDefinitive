@@ -37,11 +37,11 @@ namespace MiniSQL.Interfaces
 
         public override void Execute()
         {
-            if(this.ValidateParameters()) this.ExecuteParticularQueryAction(this.GetContainer().GetDatabase(this.targetDatabase).GetTable(this.targetTableName));                
+            if(this.GetErrorCount() == 0) this.ExecuteParticularQueryAction(this.GetContainer().GetDatabase(this.targetDatabase).GetTable(this.targetTableName));                
         }
 
         public override bool ValidateParameters()
-        {
+        {            
             IDatabaseContainer container =  this.GetContainer();
             if (container.ExistDatabase(this.targetDatabase)) 
             {

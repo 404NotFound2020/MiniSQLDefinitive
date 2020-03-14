@@ -33,7 +33,8 @@ namespace MiniSQL.ServerFacade
 
         public string ReceiveRequest(string request) {
             AbstractQuery query = QueryFactory.GetQueryFactory().GetQuery(new Request(request));
-            query.Execute();        
+            query.ValidateParameters();
+            query.Execute();            
             return query.GetResult();        
         }
 

@@ -58,7 +58,6 @@
     <Compile Include="Initializer\Systeme.cs" />
     <Compile Include="Initializer\ConfigurationParser.cs" />
     <Compile Include="Interfaces\AbstractQuery.cs" />
-    <Compile Include="Interfaces\DataChangeQuery.cs" />
     <Compile Include="Interfaces\DataDefinitionQuery.cs" />
     <Compile Include="Interfaces\DataType.cs" />
     <Compile Include="Classes\Cell.cs" />

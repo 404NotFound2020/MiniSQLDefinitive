@@ -41,7 +41,7 @@ namespace ClientConsole
             while(!(lineOfCocain = Console.ReadLine()).Equals("exit")) 
             {
                 message = "Go to fuck yourself stupid shitty idiot";
-                if (QueryVerifier.GetQueryVerifier().EvaluateQuery(lineOfCocain)) message = Requester.GetRequester().SendRequest(TransactionCreator.GetTransactionCreator().CreateGroupDependingXML(QueryVerifier.GetQueryVerifier().queryMatch));
+                if (QueryVerifier.GetQueryVerifier().EvaluateQuery(lineOfCocain)) message = Requester.GetRequester().SendRequest(TransactionCreator.GetTransactionCreator().CreateGroupDependingXML(QueryVerifier.GetQueryVerifier().queryMatch));               
                 Console.WriteLine(message);
             }
             FakeServer.GetFakeServer().SaveShit(); //Esto es solo temporal, obviamente no se dejara asi

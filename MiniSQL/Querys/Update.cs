@@ -11,16 +11,16 @@ namespace MiniSQL.Querys
 {
     public class Update : DataManipulationQuery
     {
-        private Dictionary<string, string> afectedColumnsAndValues;
+        private Dictionary<string, string> updateColumnData;
 
         public Update(IDatabaseContainer container) : base(container)
         {
-            this.afectedColumnsAndValues = new Dictionary<string, string>();   
+            this.updateColumnData = new Dictionary<string, string>();   
         }
 
         protected override void ValidateParameters(Table table)
         {
-            IEnumerator<KeyValuePair<string, string>> enumerator = this.afectedColumnsAndValues.GetEnumerator();
+            IEnumerator<KeyValuePair<string, string>> enumerator = this.updateColumnData.GetEnumerator();
             while (enumerator.MoveNext())
             {
                 if (!table.ExistColumn(enumerator.Current.Key))
@@ -37,9 +37,8 @@ namespace MiniSQL.Querys
         }
 
         public override void ExecuteParticularQueryAction(Table table)
-        {
-            
-           /*IEnumerator<Row> rowEnumerator = table.GetRowEnumerator();
+        {           
+            IEnumerator<Row> rowEnumerator = table.GetRowEnumerator();
             while (rowEnumerator.MoveNext())
             {
                 if (this.whereClause.IsSelected(rowEnumerator.Current))
@@ -51,18 +50,16 @@ namespace MiniSQL.Querys
                     }
                 }
             }  
-            */
-
         }
 
         public void AddValue(string columnName, string value)
         {
-            if (!this.afectedColumnsAndValues.ContainsKey(columnName)) {
-                this.afectedColumnsAndValues.Add(columnName, value);
+            if (!this.updateColumnData.ContainsKey(columnName)) {
+                this.updateColumnData.Add(columnName, value);
             }
             else
             {
-                this.afectedColumnsAndValues[columnName] = value;
+                this.updateColumnData[columnName] = value;
             }
  
         }

@@ -34,7 +34,7 @@ namespace MiniSQL.Constants
         public static string toEvaluateColumnGroup = "?<" + toEvaluateColumnTagName + ">";
         public static string valueGroup = "?<" + valueTagName + ">";
         public static string updatedColumnGroup = "?<" + updatedColumnTagName + ">";
-        public static string updatedvalueGroup = "?<" + updatedColumnTagName + ">";
+        public static string updatedvalueGroup = "?<" + updatedValueTagName + ">";
         public static string operatorGroup = "?<" + operatorTagName + ">";
         public static string evalValueGroup = "?<" + evalValueTagName + ">";
         public static string columnGroup = "?<" + columnTagName + ">";
@@ -50,7 +50,7 @@ namespace MiniSQL.Constants
         public static string insertPattern = "^(" + queryGroup + insertQueryIdentificator + ") INTO (" + databaseGroup + NAINCG + "+)\\.(" + tableGroup + NAINCG + "+) VALUES\\((" + valueGroup + NAINCG + "+)(?:,(" + valueGroup + NAINCG + "+))*\\);$";
         public static string dropPattern = "^(" + queryGroup + dropTableQueryIdentificator + ") (" + databaseGroup + NAINCG + "+)\\.(" + tableGroup + NAINCG + "+);$";
         public static string deletePattern = "^(" + queryGroup + deleteQueryIdentificator + ") " + fromPattern + "?;$";
-        public static string updatePattern = "^(" + queryGroup + updateQueryIdentificator + ") (" + databaseGroup + NAINCG + "+)\\.(" + tableGroup + NAINCG + "+) SET (" + updatedColumnGroup + NAINCG + ")=(" + updatedvalueGroup + NAINCG + "+)(?:, (" + updatedColumnGroup + NAINCG + ")=(" + updatedvalueGroup + NAINCG + "+))* " + wherePatern + ";$";
+        public static string updatePattern = "^(" + queryGroup + updateQueryIdentificator + ") (" + databaseGroup + NAINCG + "+)\\.(" + tableGroup + NAINCG + "+) SET (" + updatedColumnGroup + NAINCG + "+)=(" + updatedvalueGroup + NAINCG + "+)(?:, (" + updatedColumnGroup + NAINCG + "+)=(" + updatedvalueGroup + NAINCG + "+))* " + wherePatern + ";$";
         public static string createPattern = "^(" + queryGroup + createTableQueryIdentificator + ") (" + databaseGroup + NAINCG + "+)\\.(" + tableGroup + NAINCG + "+) \\((" + columnGroup + NAINCG + "+) (" + columnTypeGroup + columnsTypes + ")(?:, (" + columnGroup + NAINCG + "+) (" + columnTypeGroup + columnsTypes + "))*\\);$";
 
 

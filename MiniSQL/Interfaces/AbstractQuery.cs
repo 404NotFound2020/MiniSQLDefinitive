@@ -46,6 +46,11 @@ namespace MiniSQL.Interfaces
             this.errorCount = this.errorCount + 1;
         }
 
+        protected void InicializateErrorCount() 
+        {
+            this.errorCount = 0;
+        }
+
         public int GetErrorCount() 
         {
             return errorCount;

@@ -84,6 +84,15 @@ namespace MiniSQL.Querys
         private Update CreateUpdateQuery(Request request, IDatabaseContainer container)
         {
             Update update = new Update(container);
+            update.targetDatabase = request.GetElementsContentByTagName(RequestAndRegexConstants.databaseTagName)[0];
+            update.targetTableName = request.GetElementsContentByTagName(RequestAndRegexConstants.tableTagName)[0];
+            string[] toUpdatedColumns = request.GetElementsContentByTagName(RequestAndRegexConstants.updatedColumnTagName);
+            string[] values = request.GetElementsContentByTagName(RequestAndRegexConstants.updatedValueTagName);
+            for(int i = 0; i < toUpdatedColumns.Length; i++) 
+            {
+                update.AddValue(toUpdatedColumns[i], values[i]);
+            }
+            update.whereClause = this.CreateWhereClause(request);
             return update;
         }
 
