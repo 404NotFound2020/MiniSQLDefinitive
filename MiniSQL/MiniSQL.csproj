@@ -82,6 +82,8 @@
     <Compile Include="Parsers\XMLParser.cs" />
     <Compile Include="Parsers\XMLParserBuilder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Querys\DropDatabase.cs" />
+    <Compile Include="Querys\CreateDatabase.cs" />
     <Compile Include="Querys\Create.cs" />
     <Compile Include="Querys\Drop.cs" />
     <Compile Include="Querys\Delete.cs" />
