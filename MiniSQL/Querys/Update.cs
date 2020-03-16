@@ -46,8 +46,16 @@ namespace MiniSQL.Querys
             {
                 if (this.whereClause.IsSelected(rowEnumerator.Current))
                 {
-                    
-                        if (!table.ExistColumn(rowEnumerator.Current))
+                    IEnumerator<Cell> cellEnumerator = rowEnumerator.Current.GetCellEnumerator();
+                    while (cellEnumerator.MoveNext())
+                    {
+                        if (!table.ExistColumn(cellEnumerator.Current.column.columnName))
+                        {
+                            
+                        }
+
+                        }
+                        if (!table.ExistColumn(rowEnumerator.Current)
                         {
                             this.SetResult(this.GetResult() + QuerysStringResultConstants.SelectedColumnDoenstExistError(rowEnumerator.Current) + "\n");
                             this.IncrementErrorCount();
