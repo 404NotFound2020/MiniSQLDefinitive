@@ -18,7 +18,7 @@ namespace MiniSQL.Querys
 
         public override void ExecuteParticularQueryAction(Table table)
         {
-            /**Select select = new Select(this.GetContainer());
+            Select select = new Select(this.GetContainer());
             select.targetDatabase = this.targetDatabase;
             select.targetTableName = this.targetTableName;
             select.selectedAllColumns = true;
@@ -31,7 +31,7 @@ namespace MiniSQL.Querys
             {
                 table.DestroyRow(enumerator.Current-i);
                 i++;
-            }**SOLO PARA VER COMO FUNCIONA ESTO LUEGO QUIZA SE QUITE (SEGURAMENTE), HACE LA FUNCION DE BORRAR**/ 
+            }
         }
 
         protected override void ValidateParameters(Table table)
