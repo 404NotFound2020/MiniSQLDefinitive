@@ -113,8 +113,7 @@ namespace MiniSQL.Querys
         private Create CreateCreateTableQuery(Request request, IDatabaseContainer container)
         {
             Create create = new Create(container);
-            create.targetDatabase = request.GetElementsContentByTagName(RequestAndRegexConstants.databaseTagName)[0];
-            create.targetTableName = request.GetElementsContentByTagName(RequestAndRegexConstants.tableTagName)[0];
+            this.SetDatabaseAndTableTarget(request, create);
             string[] columnsNames = request.GetElementsContentByTagName(RequestAndRegexConstants.columnTagName);
             string[] columnsTypes = request.GetElementsContentByTagName(RequestAndRegexConstants.columnTypeTagName);
             for(int i = 0; i < columnsNames.Length; i++) 
@@ -139,7 +138,9 @@ namespace MiniSQL.Querys
         }
 
         private void SetDatabaseAndTableTarget(Request request, AbstractQuery query) {
-            query.targetDatabase = request.GetElementsContentByTagName(RequestAndRegexConstants.databaseTagName)[0];
+            query.targetDatabase = this.databaseContainer.GetDefaultDatabaseName();
+            string[] databaseGroups = request.GetElementsContentByTagName(RequestAndRegexConstants.databaseTagName);            
+            if(!(databaseGroups.Length == 0)) query.targetDatabase = databaseGroups[0];
             query.targetTableName = request.GetElementsContentByTagName(RequestAndRegexConstants.tableTagName)[0];
         }
 

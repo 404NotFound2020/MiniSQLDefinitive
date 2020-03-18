@@ -19,6 +19,7 @@ namespace MiniSQL.Interfaces
         void SaveData(Database database);
         void SaveTable(Database database, Table table);
         void RemoveTable(Database database, Table table);
+        string GetDefaultDatabaseName();
 
     }
 }

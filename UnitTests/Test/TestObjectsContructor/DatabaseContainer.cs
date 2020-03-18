@@ -61,5 +61,10 @@ namespace UnitTests.Test.TestObjectsContructor
         {
             
         }
+
+        public string GetDefaultDatabaseName()
+        {
+            return null;
+        }
     }
 }

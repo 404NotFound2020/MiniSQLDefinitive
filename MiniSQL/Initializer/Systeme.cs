@@ -1,5 +1,6 @@
 ﻿using MiniSQL.Classes;
 using MiniSQL.ConfigurationClasses;
+using MiniSQL.Constants;
 using MiniSQL.Interfaces;
 using MiniSQL.Parsers;
 using System;
@@ -19,8 +20,7 @@ namespace MiniSQL.Initializer
         private static Systeme system = new Systeme();
 
         private Systeme() 
-        {
-            this.activeDatabases = new Dictionary<string, Database>();
+        {            
             this.ChargeTheSystem();
             this.ChargeTheDatabases();
             this.CreateDefaultDatabase();
@@ -37,6 +37,7 @@ namespace MiniSQL.Initializer
 
         public void ChargeTheDatabases() 
         {
+            this.activeDatabases = new Dictionary<string, Database>();
             string[] databasesNames = this.parser.GetDatabasesNames();           
             Database database;
             for(int i = 0; i < databasesNames.Length; i++) 
@@ -49,9 +50,9 @@ namespace MiniSQL.Initializer
         //THIS WILL BE DELETED/MODIFIED
         public void CreateDefaultDatabase() 
         {
-            if (!this.activeDatabases.ContainsKey("default")) 
+            if (!this.activeDatabases.ContainsKey(SystemeConstants.DefaultDatabaseName)) 
             { 
-                Database defaultDatabase = new Database("default");
+                Database defaultDatabase = new Database(SystemeConstants.DefaultDatabaseName);
                 this.activeDatabases.Add(defaultDatabase.databaseName, defaultDatabase);
                 this.parser.SaveDatabase(defaultDatabase);
             }
@@ -113,5 +114,9 @@ namespace MiniSQL.Initializer
             this.parser.SaveDatabase(database);
         }
 
+        public string GetDefaultDatabaseName()
+        {
+            return SystemeConstants.DefaultDatabaseName;
+        }
     }
 }

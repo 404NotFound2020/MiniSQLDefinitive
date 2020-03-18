@@ -50,6 +50,7 @@
     <Compile Include="Constants\ParserVersions.cs" />
     <Compile Include="Constants\QuerysStringResultConstants.cs" />
     <Compile Include="Constants\RequestAndRegexConstants.cs" />
+    <Compile Include="Constants\SystemeConstants.cs" />
     <Compile Include="Constants\TypesKeyConstants.cs" />
     <Compile Include="Constants\UbicationVersions.cs" />
     <Compile Include="Constants\SaveDataFormatVersions.cs" />
