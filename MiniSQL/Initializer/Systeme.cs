@@ -75,11 +75,13 @@ namespace MiniSQL.Initializer
         public void AddDatabase(Database database)
         {
             activeDatabases.Add(database.databaseName,database);
+            this.parser.SaveDatabase(database);
         }
 
         public void RemoveDatabase(string databaseName)
         {
             activeDatabases.Remove(databaseName);
+            this.parser.DeleteDatabase(databaseName);
         }
 
         public int GetNumbersOfDatabases()
