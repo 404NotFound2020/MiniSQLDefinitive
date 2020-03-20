@@ -71,8 +71,6 @@ namespace MiniSQL.Querys
         {
             Insert insert = new Insert(container);
             this.SetDatabaseAndTableTarget(request, insert);
-            insert.targetDatabase = request.GetElementsContentByTagName(RequestAndRegexConstants.databaseTagName)[0];
-            insert.targetTableName = request.GetElementsContentByTagName(RequestAndRegexConstants.tableTagName)[0];
             string[] values = request.GetElementsContentByTagName(RequestAndRegexConstants.valueTagName);
             for(int i = 0; i < values.Length; i++) 
             {
