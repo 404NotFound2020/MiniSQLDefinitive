@@ -45,6 +45,7 @@
   <ItemGroup>
     <Compile Include="ConsoleStuff\QueryVerifier.cs" />
     <Compile Include="ConsoleStuff\Requester.cs" />
+    <Compile Include="ConsoleStuff\Tests.cs" />
     <Compile Include="ConsoleStuff\TransactionCreator.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

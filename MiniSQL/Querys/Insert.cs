@@ -35,7 +35,7 @@ namespace MiniSQL.Querys
                     if (!columnEnumerator.Current.dataType.IsAValidDataType(valuesEnumerator.Current)) 
                     {
                         this.IncrementErrorCount();
-                        this.SetResult(this.GetResult() + QuerysStringResultConstants.ColumnsAndDataTypesError(columnEnumerator.Current.columnName, columnEnumerator.Current.dataType.GetSimpleTextValue()) + "\n");
+                        this.SetResult(QuerysStringResultConstants.ColumnsAndDataTypesError(columnEnumerator.Current.columnName, columnEnumerator.Current.dataType.GetSimpleTextValue()));
                     }
                 }
             }

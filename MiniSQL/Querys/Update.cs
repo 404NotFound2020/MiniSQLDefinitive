@@ -25,12 +25,12 @@ namespace MiniSQL.Querys
             {
                 if (!table.ExistColumn(enumerator.Current.Key))
                 {
-                    this.SetResult(this.GetResult() + QuerysStringResultConstants.SelectedColumnDoenstExistError(enumerator.Current.Key) + "\n");
+                    this.SetResult(QuerysStringResultConstants.SelectedColumnDoenstExistError(enumerator.Current.Key));
                     this.IncrementErrorCount();
                 }
                 else if (!table.GetColumn(enumerator.Current.Key).dataType.IsAValidDataType(enumerator.Current.Value))
                 {
-                    this.SetResult(this.GetResult() + QuerysStringResultConstants.ColumnsAndDataTypesError(enumerator.Current.Key, table.GetColumn(enumerator.Current.Key).dataType.GetSimpleTextValue()) + "\n");
+                    this.SetResult(QuerysStringResultConstants.ColumnsAndDataTypesError(enumerator.Current.Key, table.GetColumn(enumerator.Current.Key).dataType.GetSimpleTextValue()));
                     this.IncrementErrorCount();
                 }
             }

@@ -25,17 +25,18 @@ namespace MiniSQL.Querys
         {
             IEnumerator<Row> rowEnumerator = table.GetRowEnumerator();
             int i = 0;
+            string result = "";
             while (rowEnumerator.MoveNext()) 
             {
                 if (this.whereClause.IsSelected(rowEnumerator.Current)) 
                 {
                     this.AddAfectedRow(rowEnumerator.Current);
-                    this.SetResult(this.GetResult() + this.GenerateStringResult(rowEnumerator.Current) + "\n");
+                    result = result + this.GenerateStringResult(rowEnumerator.Current) + "\n";
                     this.selectedRowsIndexInTable.Add(i);
                 }
                 i = i + 1;
             }
-            this.SetResult(this.GenerateHeader() + "\n" + this.GetResult());
+            this.SetResult(this.GenerateHeader() + "\n" + result);
         }
 
         private string GenerateStringResult(Row row) 
@@ -84,7 +85,7 @@ namespace MiniSQL.Querys
                 {
                     if (!table.ExistColumn(enumerator.Current))
                     {
-                        this.SetResult(this.GetResult() + QuerysStringResultConstants.SelectedColumnDoenstExistError(enumerator.Current) + "\n");
+                        this.SetResult(QuerysStringResultConstants.SelectedColumnDoenstExistError(enumerator.Current));
                         this.IncrementErrorCount();
                     }
                 }

@@ -15,33 +15,35 @@ namespace ClientConsole
     {
         static void Main(string[] args)
         {
-            Inicializate();
-        }
-
-        private static void Inicializate() 
-        {
             GetRegex();
-            StartConsole();
+            if (args.Length == 0)
+            {
+                StartConsole();
+            }
+            else
+            {
+                Tests.DoTheTest(args[0], "a");
+            }
         }
 
-        private static void GetRegex() 
+        private static void GetRegex()
         {
             string[] stringfiedRegex = FakeServer.GetFakeServer().ReturnRegex();
             QueryVerifier queryVerifier = QueryVerifier.GetQueryVerifier();
-            for(int i = 0; i < stringfiedRegex.Length; i++) 
+            for (int i = 0; i < stringfiedRegex.Length; i++)
             {
                 queryVerifier.AddPattern(stringfiedRegex[i]);
-            }        
+            }
         }
 
-        private static void StartConsole() 
+        private static void StartConsole()
         {
             string lineOfCocain;
             string message;
-            while(!(lineOfCocain = Console.ReadLine()).Equals("exit")) 
+            while (!(lineOfCocain = Console.ReadLine()).Equals("exit"))
             {
                 message = "Go to fuck yourself stupid shitty idiot";
-                if (QueryVerifier.GetQueryVerifier().EvaluateQuery(lineOfCocain)) message = Requester.GetRequester().SendRequest(TransactionCreator.GetTransactionCreator().CreateGroupDependingXML(QueryVerifier.GetQueryVerifier().queryMatch));               
+                if (QueryVerifier.GetQueryVerifier().EvaluateQuery(lineOfCocain)) message = Requester.GetRequester().SendRequest(TransactionCreator.GetTransactionCreator().CreateGroupDependingXML(QueryVerifier.GetQueryVerifier().queryMatch));
                 Console.WriteLine(message);
             }
             FakeServer.GetFakeServer().SaveShit(); //Esto es solo temporal, obviamente no se dejara asi

@@ -17,7 +17,6 @@ namespace MiniSQL.Interfaces
         public AbstractQuery(IDatabaseContainer container) 
         {
             this.container = container;
-            this.result = "";
             this.errorCount = 0;
         }
 
@@ -28,7 +27,8 @@ namespace MiniSQL.Interfaces
 
         protected void SetResult(string result) 
         {
-            this.result = result;       
+            if (this.result == null) this.result = result;
+            else this.result = this.result + "\n" + result;
         }
                
         protected bool GetIsValidQuery() 

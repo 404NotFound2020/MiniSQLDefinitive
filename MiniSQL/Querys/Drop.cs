@@ -37,14 +37,14 @@ namespace MiniSQL.Querys
                 else
                 {
                     this.IncrementErrorCount();
-                    this.SetResult(this.GetResult() + QuerysStringResultConstants.TableDoensExist(this.targetDatabase, this.targetTableName) + "\n");
+                    this.SetResult(QuerysStringResultConstants.TableDoensExist(this.targetDatabase, this.targetTableName));
                     return false;
                 }
             }
             else
             {
                 this.IncrementErrorCount();
-                this.SetResult(this.GetResult() + QuerysStringResultConstants.DatabaseDoesntExist(this.targetDatabase) + "\n");
+                this.SetResult(QuerysStringResultConstants.DatabaseDoesntExist(this.targetDatabase));
                 return false;
             }
         }
