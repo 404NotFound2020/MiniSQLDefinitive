@@ -152,6 +152,16 @@ namespace UnitTests.Test.TestObjectsContructor
             return new Request("<transaction><fullQuery><![CDATA[DROP TABLE aaa.aaa;]]></fullQuery><query><![CDATA[DROP TABLE]]></query><database><![CDATA[aaa]]></database><table><![CDATA[aaa]]></table></transaction>");
         }
 
+        public static string NewDatabaseName(IDatabaseContainer container)
+        {
+            string databaseName = VariousFunctions.GenerateRandomString(12);
+            while (container.ExistDatabase(databaseName))
+            {
+                databaseName = VariousFunctions.GenerateRandomString(12);
+            }
+            return databaseName;
+        }
+
 
     }
 }
