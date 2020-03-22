@@ -25,12 +25,14 @@ namespace MiniSQL.Querys
             select.selectedAllColumns = true;
             select.whereClause = whereClause;
             select.ValidateParameters();
-            select.ExecuteParticularQueryAction(table);            
+            select.ExecuteParticularQueryAction(table);
             IEnumerator<int> enumerator = select.GetSelectedRowsIndex();
+            IEnumerator<Row> afectedRowsEnumerator = select.GetAfectedRowEnum();
             int i = 0;
-            while (enumerator.MoveNext()) 
+            while (enumerator.MoveNext() && afectedRowsEnumerator.MoveNext())
             {
-                table.DestroyRow(enumerator.Current-i);
+                this.AddAfectedRow(afectedRowsEnumerator.Current);
+                table.DestroyRow(enumerator.Current - i);
                 i++;
             }
             this.SetResult(QuerysStringResultConstants.DeletedRow(i));
