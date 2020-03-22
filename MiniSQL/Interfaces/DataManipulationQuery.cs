@@ -54,13 +54,13 @@ namespace MiniSQL.Interfaces
                 }
                 else
                 {
-                    this.SetResult(this.GetResult() + QuerysStringResultConstants.TableDoensExist(this.targetDatabase, this.targetTableName) + "\n");
+                    this.SetResult(QuerysStringResultConstants.TableDoensExist(this.targetDatabase, this.targetTableName));
                     this.IncrementErrorCount();
                 }
             }
             else 
             {
-                this.SetResult(this.GetResult() + QuerysStringResultConstants.DatabaseDoesntExist(this.targetDatabase) + "\n");
+                this.SetResult(QuerysStringResultConstants.DatabaseDoesntExist(this.targetDatabase));
                 this.IncrementErrorCount();
             }
             return this.GetIsValidQuery();
@@ -77,13 +77,13 @@ namespace MiniSQL.Interfaces
                     column = table.GetColumn(enumerator.Current.Item1);
                     if(!column.dataType.IsAValidDataType(enumerator.Current.Item2)) 
                     {
-                        this.SetResult(this.GetResult() + QuerysStringResultConstants.WhereClauseColumnDataTypeError(enumerator.Current.Item1) + ". The column data type is" + column.dataType.GetSimpleTextValue() + "\n");
+                        this.SetResult(QuerysStringResultConstants.WhereClauseColumnDataTypeError(enumerator.Current.Item1) + ". The column data type is" + column.dataType.GetSimpleTextValue());
                         this.IncrementErrorCount();
                     }
                 }
                 else 
                 {
-                    this.SetResult(this.GetResult() + QuerysStringResultConstants.WhereClauseColumnDoensExist(enumerator.Current.Item1) + "\n");
+                    this.SetResult(QuerysStringResultConstants.WhereClauseColumnDoensExist(enumerator.Current.Item1));
                     this.IncrementErrorCount();
                 }
             }

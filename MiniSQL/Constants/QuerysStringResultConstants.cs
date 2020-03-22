@@ -87,6 +87,10 @@ namespace MiniSQL.Constants
         {
             return "The table " + tableName + " was sucesfully deleted";
         }
+
+        public static string DeletedRow(int rowCount) {
+            return rowCount + " rows deleted";
+        }
   
     }
 }

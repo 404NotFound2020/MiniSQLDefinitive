@@ -27,13 +27,13 @@ namespace MiniSQL.Querys
                 Database database = this.GetContainer().GetDatabase(this.targetDatabase);
                 if (database.ExistTable(this.targetTableName)) 
                 { 
-                    this.SetResult(this.GetResult() + QuerysStringResultConstants.TheTableAlreadyExists(this.targetTableName) + "\n");
+                    this.SetResult(QuerysStringResultConstants.TheTableAlreadyExists(this.targetTableName));
                     this.IncrementErrorCount();
                 }              
             }
             else 
             {
-                this.SetResult(this.GetResult() + QuerysStringResultConstants.DatabaseDoesntExist(this.targetDatabase) + "\n");
+                this.SetResult(QuerysStringResultConstants.DatabaseDoesntExist(this.targetDatabase));
                 this.IncrementErrorCount();
             }
             return this.GetIsValidQuery();
@@ -51,7 +51,7 @@ namespace MiniSQL.Querys
             Database afectedDatabase = this.GetContainer().GetDatabase(this.targetDatabase);
             afectedDatabase.AddTable(newTable);
             this.GetContainer().SaveTable(afectedDatabase, newTable);
-            this.SetResult(this.GetResult() + QuerysStringResultConstants.TableWasCreated(this.targetDatabase, this.targetTableName) + "\n");
+            this.SetResult(QuerysStringResultConstants.TableWasCreated(this.targetDatabase, this.targetTableName));
         }
 
         public void AddColumn(string columnName, string dataTypeKey) 
@@ -62,7 +62,7 @@ namespace MiniSQL.Querys
             }
             else 
             {
-                this.SetResult(this.GetResult() + QuerysStringResultConstants.TheColumnAlreadyDefined(columnName) + "\n");
+                this.SetResult(QuerysStringResultConstants.TheColumnAlreadyDefined(columnName));
                 this.IncrementErrorCount();
             }
         }

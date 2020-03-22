@@ -1,4 +1,5 @@
 ﻿using MiniSQL.Classes;
+using MiniSQL.Constants;
 using MiniSQL.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -32,6 +33,7 @@ namespace MiniSQL.Querys
                 table.DestroyRow(enumerator.Current-i);
                 i++;
             }
+            this.SetResult(QuerysStringResultConstants.DeletedRow(i));
         }
 
         protected override void ValidateParameters(Table table)

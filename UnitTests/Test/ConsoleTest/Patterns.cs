@@ -23,6 +23,7 @@ namespace UnitTests.Test.ConsoleTest
             Assert.IsTrue(regularExpression.Matches("SELECT * FROM a.ga WHERE z=1;").Count == 1);
             Assert.IsTrue(regularExpression.Matches("SELECT * FROM a.ga WHERE z>1;").Count == 1);
             Assert.IsTrue(regularExpression.Matches("SELECT * FROM a.ga WHERE z<1;").Count == 1);
+            Assert.IsTrue(regularExpression.Matches("SELECT * FROM a.ga WHERE z='asasadsdvas ihio';").Count == 1);            
             Assert.IsTrue(regularExpression.Matches("SELECT a FROM g;").Count == 1);
             //BADS
             // Assert.IsTrue(regularExpression.Matches("SELECT a FROM g;").Count == 0);
@@ -63,28 +64,29 @@ namespace UnitTests.Test.ConsoleTest
             string insertPattern = (RequestAndRegexConstants.insertPattern);
             Regex regularExpression = new Regex(@insertPattern);
             //GOODS
-            Assert.IsTrue(regularExpression.Matches("INSERT INTO a.aaa VALUES(1);").Count == 1);
-            Assert.IsTrue(regularExpression.Matches("INSERT INTO a.aaa VALUES(1,2);").Count == 1);
-            Assert.IsTrue(regularExpression.Matches("INSERT INTO aaa VALUES(1);").Count == 1);
+            Assert.IsTrue(regularExpression.Matches("INSERT INTO a.aaa VALUES (1);").Count == 1);
+            Assert.IsTrue(regularExpression.Matches("INSERT INTO a.aaa VALUES (1,2);").Count == 1);
+            Assert.IsTrue(regularExpression.Matches("INSERT INTO aaa VALUES (1);").Count == 1);
+            Assert.IsTrue(regularExpression.Matches("INSERT INTO aaa VALUES ('aaaaa');").Count == 1);
             //BADS
-            Assert.IsTrue(regularExpression.Matches("INSERT INTO a.aaa(a) VALUES(1,2);").Count == 0); //<->
-            Assert.IsTrue(regularExpression.Matches("INSERT INTO a.aaa(a,b) VALUES(1,2);").Count == 0);
-            Assert.IsTrue(regularExpression.Matches("INSERT INTO a.aaa(a,b) VALUES(1.2,2);").Count == 0);
-            Assert.IsTrue(regularExpression.Matches("INSERT INTO a.aaa(a,b) VALUES(aaaa,2);").Count == 0);
+            Assert.IsTrue(regularExpression.Matches("INSERT INTO a.aaa(a) VALUES (1,2);").Count == 0); //<->
+            Assert.IsTrue(regularExpression.Matches("INSERT INTO a.aaa(a,b) VALUES (1,2);").Count == 0);
+            Assert.IsTrue(regularExpression.Matches("INSERT INTO a.aaa(a,b) VALUES (1.2,2);").Count == 0);
+            Assert.IsTrue(regularExpression.Matches("INSERT INTO a.aaa VALUES (aaaa,2);").Count == 0);
             Assert.IsTrue(regularExpression.Matches("INSERT INTO a.aaa").Count == 0);
-            Assert.IsTrue(regularExpression.Matches("INSERT INTO a.aaa() VALUES(1);").Count == 0);
-            Assert.IsTrue(regularExpression.Matches("INSERT INTO a.aaa VALUES(1,2)").Count == 0);
-            Assert.IsTrue(regularExpression.Matches("INSERT INTO a.aaa(a,) VALUES(1,2)").Count == 0);
-            Assert.IsTrue(regularExpression.Matches("INSERT INTO a.aaa(a,b) VALUES(1,)").Count == 0);
+            Assert.IsTrue(regularExpression.Matches("INSERT INTO a.aaa() VALUES (1);").Count == 0);
+            Assert.IsTrue(regularExpression.Matches("INSERT INTO a.aaa VALUES (1,2)").Count == 0);
+            Assert.IsTrue(regularExpression.Matches("INSERT INTO a.aaa(a,) VALUES (1,2)").Count == 0);
+            Assert.IsTrue(regularExpression.Matches("INSERT INTO a.aaa(a,b) VALUES (1,)").Count == 0);
             Assert.IsTrue(regularExpression.Matches("INSERT INTO a.aaa VALUES();").Count == 0);
             Assert.IsTrue(regularExpression.Matches("INSERT INTO").Count == 0);
-            Assert.IsTrue(regularExpression.Matches("INSERT INTO a<aa(a,b) VALUES(1,2);").Count == 0);
-            Assert.IsTrue(regularExpression.Matches("INSERT INTO a.aaa(a>,b) VALUES(1,2);").Count == 0);
-            Assert.IsTrue(regularExpression.Matches("INSERT INTO a.aaa(a,b) a VALUES(1,2);").Count == 0);
-            Assert.IsTrue(regularExpression.Matches("INSERT INTO a.aaa(a,b) a VALUES(1=,2);").Count == 0);
-            Assert.IsTrue(regularExpression.Matches("INSERT INTO a.aa=a(a,b) a VALUES(1,2);").Count == 0);
-            Assert.IsTrue(regularExpression.Matches("INSERT INTO a.aaa(a,b) VALUES(aaaa,2) ;").Count == 0);
-           // Assert.IsTrue(regularExpression.Matches("INSERT INTO aaa VALUES(1);").Count == 0);
+            Assert.IsTrue(regularExpression.Matches("INSERT INTO a<aa(a,b) VALUES (1,2);").Count == 0);
+            Assert.IsTrue(regularExpression.Matches("INSERT INTO a.aaa(a>,b) VALUES (1,2);").Count == 0);
+            Assert.IsTrue(regularExpression.Matches("INSERT INTO a.aaa(a,b) a VALUES (1,2);").Count == 0);
+            Assert.IsTrue(regularExpression.Matches("INSERT INTO a.aaa(a,b) a VALUES (1=,2);").Count == 0);
+            Assert.IsTrue(regularExpression.Matches("INSERT INTO a.aa=a(a,b) a VALUES (1,2);").Count == 0);
+            Assert.IsTrue(regularExpression.Matches("INSERT INTO a.aaa(a,b) VALUES (aaaa,2) ;").Count == 0);
+            Assert.IsTrue(regularExpression.Matches("INSERT INTO aaa VALUES('aaaaa');").Count == 0);
         }
 
         [TestMethod]
@@ -120,9 +122,9 @@ namespace UnitTests.Test.ConsoleTest
             Assert.IsTrue(regularExpression.Matches("DELETE FROM a.a1 WHERE ab=1;").Count == 1);
             Assert.IsTrue(regularExpression.Matches("DELETE FROM a.a1 WHERE ab>1;").Count == 1);
             Assert.IsTrue(regularExpression.Matches("DELETE FROM a.a1 WHERE ab<1;").Count == 1);
-            Assert.IsTrue(regularExpression.Matches("DELETE FROM a.a1 WHERE ab=a;").Count == 1);
-            Assert.IsTrue(regularExpression.Matches("DELETE FROM a.a1 WHERE ab<a;").Count == 1);
-            Assert.IsTrue(regularExpression.Matches("DELETE FROM a.a1 WHERE ab>a;").Count == 1);
+            Assert.IsTrue(regularExpression.Matches("DELETE FROM a.a1 WHERE ab='a';").Count == 1);
+            Assert.IsTrue(regularExpression.Matches("DELETE FROM a.a1 WHERE ab<'a';").Count == 1);
+            Assert.IsTrue(regularExpression.Matches("DELETE FROM a.a1 WHERE ab>'a';").Count == 1);
             Assert.IsTrue(regularExpression.Matches("DELETE FROM a.a1 WHERE ab=1.2;").Count == 1);
             Assert.IsTrue(regularExpression.Matches("DELETE FROM a.a1 WHERE ab<1.2;").Count == 1);
             Assert.IsTrue(regularExpression.Matches("DELETE FROM a.a1 WHERE ab>1.2;").Count == 1);
@@ -150,7 +152,7 @@ namespace UnitTests.Test.ConsoleTest
             Assert.IsTrue(regularExpression.Matches("UPDATE a.a SET b=1, c=1 WHERE b=2;").Count == 1);
             Assert.IsTrue(regularExpression.Matches("UPDATE a.a SET b=1, c=1 WHERE b>2;").Count == 1);
             Assert.IsTrue(regularExpression.Matches("UPDATE a.a SET b=1, c=1 WHERE b<2;").Count == 1);
-            Assert.IsTrue(regularExpression.Matches("UPDATE a.a SET b=1, c=1, h=a WHERE b<2;").Count == 1);
+            Assert.IsTrue(regularExpression.Matches("UPDATE a.a SET b=1, c=1, h='a' WHERE b<2;").Count == 1);
             Assert.IsTrue(regularExpression.Matches("UPDATE a.a SET b=1.2 WHERE b<2;").Count == 1);
             Assert.IsTrue(regularExpression.Matches("UPDATE a SET b=1 WHERE b=2;").Count == 1);
             //BADS
