@@ -22,7 +22,7 @@ namespace ClientConsole
             }
             else
             {
-                Tests.DoTheTest(args[0], "a");
+                Tests.DoTheTest(args[0], args[1]);
             }
         }
 

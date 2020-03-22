@@ -31,12 +31,12 @@ namespace MiniSQL.Querys
                 if (this.whereClause.IsSelected(rowEnumerator.Current)) 
                 {
                     this.AddAfectedRow(rowEnumerator.Current);
-                    result = result + this.GenerateStringResult(rowEnumerator.Current) + "\n";
+                    result = result + "\n" + this.GenerateStringResult(rowEnumerator.Current);
                     this.selectedRowsIndexInTable.Add(i);
                 }
                 i = i + 1;
             }
-            this.SetResult(this.GenerateHeader() + "\n" + result);
+            this.SetResult(this.GenerateHeader() + result);
         }
 
         private string GenerateStringResult(Row row) 

@@ -45,11 +45,9 @@ namespace MiniSQL.Constants
         public static string NAINCG = "[^\\* ,<=>\\(\\)]";
         public static string databaseRegexPart = "(?:(" + databaseGroup + NAINCG + "+)\\.)" + (SystemeConstants.AllowedToNotSpecifyDatabaseInQuerys ? "?" : "");
         public static string valuesRegexPart = "(?:-?[0-9]+(?:\\.[0-9]+)?)|(?:'[^']+')";
-        //(?:(?<value>-?[0-9]+(?:\.[0-9]+)?)|'(?<value>[^']+)')(?:,(?:(?<value>-?[0-9]+(?:\.[0-9]+)?)|'(?<value>[^']+)'))*;
         public static string insertValueRegexPart = "(" + valueGroup + "-?[0-9]+(?:\\.[0-9]+)?)|'(" + valueGroup + "[^']+)'";
         public static string updateValueRegexPart = "(" + updatedvalueGroup + "-?[0-9]+(?:\\.[0-9]+)?)|'(" + updatedvalueGroup + "[^']+)'";
         public static string whereValueRegexPart = "(" + evalValueGroup + "-?[0-9]+(?:\\.[0-9]+)?)|'(" + evalValueGroup + "[^']+)'";
-
         public static string wherePatern = "WHERE (" + toEvaluateColumnGroup + NAINCG + "+)(" + operatorGroup + operators + ")(?:" + whereValueRegexPart + ")";
         public static string fromPattern = "FROM " + databaseRegexPart + "("+ tableGroup + NAINCG + "+)(?: " + wherePatern + ")";
         public static string selectPattern = "^(" + queryGroup + selectQueryIdentificator + ") (?:(" + selectedColumnGroup  + "\\*)|(" + selectedColumnGroup + NAINCG + "+)(?:,(" + selectedColumnGroup + NAINCG + "+))*) " + fromPattern + "?;$";        
