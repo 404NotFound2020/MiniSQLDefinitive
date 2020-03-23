@@ -37,19 +37,21 @@ namespace MiniSQL.Querys
         }
 
         public override void ExecuteParticularQueryAction(Table table)
-        {           
+        {
             IEnumerator<Row> rowEnumerator = table.GetRowEnumerator();
             while (rowEnumerator.MoveNext())
             {
                 if (this.whereClause.IsSelected(rowEnumerator.Current))
                 {
                     IEnumerator<KeyValuePair<string, string>> rowColum = updateColumnData.GetEnumerator();
-                    while(rowColum.MoveNext())
+                    while (rowColum.MoveNext())
                     {
-                        rowEnumerator.Current.GetCell(rowColum.Current.Key).data=rowColum.Current.Value;
+                        rowEnumerator.Current.GetCell(rowColum.Current.Key).data = rowColum.Current.Value;
                     }
+                    this.AddAfectedRow(rowEnumerator.Current);
                 }
-            }  
+            }
+            this.SetResult("Total rows updated: " + this.GetAfectedRowCount());
         }
 
         public void AddValue(string columnName, string value)
