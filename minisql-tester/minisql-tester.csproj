@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{397C992B-7BC7-4ED0-AC85-1448C488C12D}</ProjectGuid>
+    <ProjectGuid>{A638EBDE-7228-4BE6-9237-57BA2772FD38}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>ClientConsole</RootNamespace>
-    <AssemblyName>ClientConsole</AssemblyName>
+    <RootNamespace>minisql_tester</RootNamespace>
+    <AssemblyName>minisql-tester</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -43,9 +43,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ConsoleStuff\QueryVerifier.cs" />
-    <Compile Include="ConsoleStuff\Requester.cs" />
-    <Compile Include="ConsoleStuff\TransactionCreator.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -53,8 +50,12 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ClientConsole\ClientConsole.csproj">
+      <Project>{397c992b-7bc7-4ed0-ac85-1448c488c12d}</Project>
+      <Name>ClientConsole</Name>
+    </ProjectReference>
     <ProjectReference Include="..\MiniSQL\MiniSQL.csproj">
-      <Project>{1c28a0f7-f7b4-4c1e-82fc-9d1695d5804d}</Project>
+      <Project>{1C28A0F7-F7B4-4C1E-82FC-9D1695D5804D}</Project>
       <Name>MiniSQL</Name>
     </ProjectReference>
   </ItemGroup>

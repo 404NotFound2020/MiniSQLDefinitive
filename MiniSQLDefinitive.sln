@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClientConsole", "ClientCons
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "UnitTests\UnitTests.csproj", "{B54F46C6-E448-4DDB-A475-465D17635212}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "minisql-tester", "minisql-tester\minisql-tester.csproj", "{A638EBDE-7228-4BE6-9237-57BA2772FD38}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{B54F46C6-E448-4DDB-A475-465D17635212}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B54F46C6-E448-4DDB-A475-465D17635212}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B54F46C6-E448-4DDB-A475-465D17635212}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A638EBDE-7228-4BE6-9237-57BA2772FD38}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A638EBDE-7228-4BE6-9237-57BA2772FD38}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A638EBDE-7228-4BE6-9237-57BA2772FD38}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A638EBDE-7228-4BE6-9237-57BA2772FD38}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

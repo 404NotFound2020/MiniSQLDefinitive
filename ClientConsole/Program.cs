@@ -16,14 +16,7 @@ namespace ClientConsole
         static void Main(string[] args)
         {
             GetRegex();
-            if (args.Length == 0)
-            {
-                StartConsole();
-            }
-            else
-            {
-                Tests.DoTheTest(args[0], args[1]);
-            }
+            StartConsole();
         }
 
         private static void GetRegex()
