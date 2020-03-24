@@ -101,7 +101,7 @@
     <Compile Include="ServerFacade\Request.cs" />
     <Compile Include="UbicationManagers\FirstUbicationManager.cs" />
     <Compile Include="UsersStuff\User.cs" />
-    <Compile Include="UsersStuff\UserProfile.cs" />
+    <Compile Include="UsersStuff\SecurityProfile.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

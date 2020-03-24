@@ -50,6 +50,12 @@ namespace MiniSQL.Querys
                 case RequestAndRegexConstants.createTableQueryIdentificator:
                     query = this.CreateCreateTableQuery(request, system);
                 break;
+                case RequestAndRegexConstants.createDatabaseQueryIdentificator:
+                    query = this.CreateDatabaseQuery(request, system);
+                break;
+                case RequestAndRegexConstants.dropDatabaseQueryIdentificator:
+                    query = this.DropDatabaseQuery(request, system);
+                break;
             }
             return query;
         }
@@ -119,6 +125,19 @@ namespace MiniSQL.Querys
                 create.AddColumn(columnsNames[i], columnsTypes[i]);
             }
             return create;
+        }
+
+        private CreateDatabase CreateDatabaseQuery(Request request, IDatabaseContainer container) {
+            CreateDatabase createDatabase = new CreateDatabase(container);
+            createDatabase.targetDatabase = request.GetElementsContentByTagName(RequestAndRegexConstants.databaseTagName)[0];
+            return createDatabase;
+        }
+
+        private DropDatabase DropDatabaseQuery(Request request, IDatabaseContainer container) 
+        {
+            DropDatabase dropDatabase = new DropDatabase(container);
+            dropDatabase.targetDatabase = request.GetElementsContentByTagName(RequestAndRegexConstants.databaseTagName)[0];
+            return dropDatabase;
         }
 
         private Where CreateWhereClause(Request request) 

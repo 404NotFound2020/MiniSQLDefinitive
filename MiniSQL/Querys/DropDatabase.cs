@@ -1,4 +1,5 @@
-﻿using MiniSQL.Interfaces;
+﻿using MiniSQL.Constants;
+using MiniSQL.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,21 +8,28 @@ using System.Threading.Tasks;
 
 namespace MiniSQL.Querys
 {
-    public class DropDatabase : AbstractQuery
+    public class DropDatabase : DataDefinitionQuery
     {
         public DropDatabase(IDatabaseContainer container) : base(container)
         {  
 
         }
 
-        public override void Execute()
+        public override void ExecuteParticularQueryAction()
         {
-            throw new NotImplementedException();
+            this.GetContainer().RemoveDatabase(this.targetDatabase);
+            this.SetResult(QuerysStringResultConstants.TheDatabaseWasDeleted);
         }
 
         public override bool ValidateParameters()
         {
-            throw new NotImplementedException();
+            bool b;
+            if (b = !this.GetContainer().ExistDatabase(this.targetDatabase))
+            {
+                this.SetResult(QuerysStringResultConstants.DatabaseDoesntExist(this.targetDatabase));
+                this.IncrementErrorCount();
+            }
+            return !b;
         }
     }
 }
