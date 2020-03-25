@@ -4,6 +4,7 @@ using MiniSQL.Constants;
 using System;
 using System.Collections.Generic;
 using UnitTests.Test.TestObjectsContructor;
+using MiniSQL.DataTypes;
 
 namespace UnitTests.Test
 {
@@ -76,11 +77,51 @@ namespace UnitTests.Test
 		[TestMethod]
 		public void CreateRowDefinition_ReturnWellFormedRowDefinition()
 		{
-			Table table = ObjectConstructor.CreateTable();
+			Table table = new Table("testRowDefinition");
+			Column column1 = new Column("c1", DataTypesFactory.GetDataTypesFactory().GetDataType(TypesKeyConstants.StringTypeKey));
+			Column column2 = new Column("c2", DataTypesFactory.GetDataTypesFactory().GetDataType(TypesKeyConstants.IntTypeKey));
+			table.AddColumn(column1);
+			table.AddColumn(column2);
+			Row row = table.CreateRowDefinition();
+			Assert.IsTrue(row.ExistCell(column1.columnName));
+			Assert.IsTrue(row.ExistCell(column2.columnName));
 		}
 
+		[TestMethod]
+		public void GetRowCount_ReturnCoherentValue()
+		{
+			Table table = new Table("testRowCount");
+			Column column = new Column("column1", DataTypesFactory.GetDataTypesFactory().GetDataType(TypesKeyConstants.StringTypeKey));
+			table.AddColumn(column);
+			int rowCount = table.GetRowCount();
+			Row row;
+			string genericData = "aaa";
+			for (int i = 0; i < 200; i++)
+			{
+				row = table.CreateRowDefinition();
+				Assert.IsTrue(column.dataType.IsAValidDataType(genericData));
+				row.GetCell(column.columnName).data = genericData;
+				table.AddRow(row);
+				Assert.AreEqual(rowCount + i + 1, table.GetRowCount());
+			}
+		}
 
-
-
+		[TestMethod]
+		public void GetColumnCount_ReturnCoherentValue()
+		{
+			Table table = new Table("testRowCount");
+			int columnCount = table.GetColumnCount();
+			string columnName = VariousFunctions.GenerateRandomString(7);
+			for (int i = 0; i < 100; i++)
+			{
+				while (table.ExistColumn(columnName))
+				{
+					columnName = VariousFunctions.GenerateRandomString(7);
+				}
+				Assert.IsFalse(table.ExistColumn(columnName));
+				table.AddColumn(new Column(columnName, DataTypesFactory.GetDataTypesFactory().GetDataType(TypesKeyConstants.StringTypeKey)));
+				Assert.AreEqual(columnCount + i + 1, table.GetColumnCount());
+			}
+		}
 	}
 }
