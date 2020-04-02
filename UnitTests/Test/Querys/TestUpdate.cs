@@ -29,7 +29,7 @@ namespace UnitTests.Test.Querys
             return insert;
         }
 
-
+        [TestMethod]
         public void Update_BadArguments_ConcretelyTableDoesntExist_NoticeInValidate()
         {
             IDatabaseContainer databaseContainer = ObjectConstructor.CreateDatabaseContainer();
@@ -45,6 +45,7 @@ namespace UnitTests.Test.Querys
             Assert.IsFalse(update.ValidateParameters());
             update.Execute();
         }
+        [TestMethod]
         public void Update_BadArguments_TheDataTypesDontMatch_NoticeInValidateParameters()
         {
             IDatabaseContainer databaseContainer = ObjectConstructor.CreateDatabaseContainer();
@@ -66,6 +67,7 @@ namespace UnitTests.Test.Querys
             update.Execute();
             Assert.AreEqual(rowCount, table.GetRowCount());
         }
+        [TestMethod]
         public void Update_GodArguments_TheQueryUpdateTheNewsRows()
         {
             IDatabaseContainer databaseContainer = ObjectConstructor.CreateDatabaseContainer();
