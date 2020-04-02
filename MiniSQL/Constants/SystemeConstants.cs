@@ -10,6 +10,17 @@ namespace MiniSQL.Constants
     {
         public const string DefaultDatabaseName = "default";
         public const bool AllowedToNotSpecifyDatabaseInQuerys = true;
-
+        public const string SystemDatabaseName = "system";
+        public const string UsersTableName = "users";
+        public const string UsersNameColumnName = "username";
+        public const string UsersNameColumnType = TypesKeyConstants.StringTypeKey;
+        public const string UsersPasswordColumnName = "password";
+        public const string UsersPasswordColumnType = TypesKeyConstants.StringTypeKey;
+        public const string ProfilesTableName = "profiles";
+        public const string ProfileNameColumn = "profileName";
+        public const string ProfileNameColumnType = TypesKeyConstants.StringTypeKey;
+        public const string AdminUser = "admin";
+        public const string AdminPassword = "admin";
+        public const string DefaultProfile = "admin";
     }
 }

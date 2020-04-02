@@ -24,6 +24,7 @@ namespace MiniSQL.Initializer
             this.ChargeTheSystem();
             this.ChargeTheDatabases();
             this.CreateDefaultDatabase();
+            this.CreateSystemDatabases();
         }
 
         private void ChargeTheSystem() 
@@ -47,7 +48,6 @@ namespace MiniSQL.Initializer
             }        
         }
 
-        //THIS WILL BE DELETED/MODIFIED
         public void CreateDefaultDatabase() 
         {
             if (!this.activeDatabases.ContainsKey(SystemeConstants.DefaultDatabaseName)) 
@@ -55,6 +55,22 @@ namespace MiniSQL.Initializer
                 Database defaultDatabase = new Database(SystemeConstants.DefaultDatabaseName);
                 this.activeDatabases.Add(defaultDatabase.databaseName, defaultDatabase);
                 this.parser.SaveDatabase(defaultDatabase);
+            }
+        }
+
+        private void CreateSystemDatabases() 
+        {
+            Database database;
+            if (!this.activeDatabases.ContainsKey(SystemeConstants.SystemDatabaseName)) {
+                database = DefaultDataConstructor.CreateSystemDatabase();
+                this.activeDatabases.Add(database.databaseName, database);
+                this.parser.SaveDatabase(database);
+            }
+            else 
+            {
+                database = this.activeDatabases[SystemeConstants.SystemDatabaseName];
+                if (!database.ExistTable(SystemeConstants.UsersTableName)) this.AddNewTableToADatabase(database, DefaultDataConstructor.CreateUsersTable());
+                if (!database.ExistTable(SystemeConstants.ProfilesTableName)) this.AddNewTableToADatabase(database, DefaultDataConstructor.CreateProfilesTable());
             }
         }
 
@@ -117,6 +133,12 @@ namespace MiniSQL.Initializer
         public string GetDefaultDatabaseName()
         {
             return SystemeConstants.DefaultDatabaseName;
+        }
+
+        private void AddNewTableToADatabase(Database database, Table table) 
+        {
+            database.AddTable(table);
+            parser.SaveTable(database, table);
         }
     }
 }

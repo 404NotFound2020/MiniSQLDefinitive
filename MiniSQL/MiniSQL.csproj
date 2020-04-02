@@ -56,6 +56,7 @@
     <Compile Include="Constants\SaveDataFormatVersions.cs" />
     <Compile Include="Constants\XMLTagsConstants.cs" />
     <Compile Include="Initializer\ConfigDelimitator.cs" />
+    <Compile Include="Initializer\DefaultDataConstructor.cs" />
     <Compile Include="Initializer\Systeme.cs" />
     <Compile Include="Initializer\ConfigurationParser.cs" />
     <Compile Include="Interfaces\AbstractQuery.cs" />
@@ -73,6 +74,7 @@
     <Compile Include="Interfaces\AbstractParser.cs" />
     <Compile Include="Interfaces\ISaveDataFormatManager.cs" />
     <Compile Include="Interfaces\IDatabaseContainer.cs" />
+    <Compile Include="Interfaces\ITableRestriction.cs" />
     <Compile Include="Interfaces\IUbicationManager.cs" />
     <Compile Include="Interfaces\DataManipulationQuery.cs" />
     <Compile Include="MiniSQLLauncher.cs" />
@@ -83,11 +85,14 @@
     <Compile Include="Parsers\XMLParser.cs" />
     <Compile Include="Parsers\XMLParserBuilder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Querys\CreateSecurityProfile.cs" />
     <Compile Include="Querys\DropDatabase.cs" />
     <Compile Include="Querys\CreateDatabase.cs" />
     <Compile Include="Querys\Create.cs" />
     <Compile Include="Querys\Drop.cs" />
     <Compile Include="Querys\Delete.cs" />
+    <Compile Include="Querys\DropSecurityProfile.cs" />
+    <Compile Include="Querys\GrantPrivilege.cs" />
     <Compile Include="Querys\Operator.cs" />
     <Compile Include="Querys\OperatorFactory.cs" />
     <Compile Include="Querys\QueryFactory.cs" />
@@ -99,6 +104,8 @@
     <Compile Include="SaveDataFormatManagers\StringEscapedManager.cs" />
     <Compile Include="ServerFacade\FakeServer.cs" />
     <Compile Include="ServerFacade\Request.cs" />
+    <Compile Include="TableRestrictions\ForeignKey.cs" />
+    <Compile Include="TableRestrictions\PrimaryKey.cs" />
     <Compile Include="UbicationManagers\FirstUbicationManager.cs" />
     <Compile Include="UsersStuff\User.cs" />
     <Compile Include="UsersStuff\SecurityProfile.cs" />

@@ -52,8 +52,8 @@ namespace MiniSQL.Constants
         public static string whereValueRegexPart = "(" + evalValueGroup + "-?[0-9]+(?:\\.[0-9]+)?)|'(" + evalValueGroup + "[^']+)'";
         public static string wherePatern = "WHERE (" + toEvaluateColumnGroup + NAINCG + "+)(" + operatorGroup + operators + ")(?:" + whereValueRegexPart + ")";
         public static string fromPattern = "FROM " + databaseRegexPart + "("+ tableGroup + NAINCG + "+)(?: " + wherePatern + ")";
-        public static string selectPattern = "^(" + queryGroup + selectQueryIdentificator + ") (?:(" + selectedColumnGroup  + "\\*)|(" + selectedColumnGroup + NAINCG + "+)(?:,(" + selectedColumnGroup + NAINCG + "+))*) " + fromPattern + "?;$";        
-        public static string insertPattern = "^(" + queryGroup + insertQueryIdentificator + ") INTO " + databaseRegexPart + "(" + tableGroup + NAINCG + "+) VALUES \\((?:" + insertValueRegexPart + ")(?:,(?:" + insertValueRegexPart + "))*\\);$";
+        public static string selectPattern = "^(" + queryGroup + selectQueryIdentificator + ") (?:(" + selectedColumnGroup  + "\\*)|(" + selectedColumnGroup + NAINCG + "+)(?:, (" + selectedColumnGroup + NAINCG + "+))*) " + fromPattern + "?;$";        
+        public static string insertPattern = "^(" + queryGroup + insertQueryIdentificator + ") INTO " + databaseRegexPart + "(" + tableGroup + NAINCG + "+) VALUES \\((?:" + insertValueRegexPart + ")(?:, (?:" + insertValueRegexPart + "))*\\);$";
         public static string dropPattern = "^(" + queryGroup + dropTableQueryIdentificator + ") " + databaseRegexPart + "(" + tableGroup + NAINCG + "+);$";
         public static string deletePattern = "^(" + queryGroup + deleteQueryIdentificator + ") " + fromPattern + "?;$";
         public static string updatePattern = "^(" + queryGroup + updateQueryIdentificator + ") " + databaseRegexPart + "(" + tableGroup + NAINCG + "+) SET (" + updatedColumnGroup + NAINCG + "+)=(?:" + updateValueRegexPart + ")(?:, (" + updatedColumnGroup + NAINCG + "+)=(?:" + updateValueRegexPart + "))* " + wherePatern + ";$";
