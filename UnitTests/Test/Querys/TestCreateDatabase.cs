@@ -4,7 +4,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace UnitTests.Test.Querys
 {
     [TestClass]
-    public class UnitTest1
+    public class TestCreateDatabase
     {
         [TestMethod]
         public void TestMethod1()

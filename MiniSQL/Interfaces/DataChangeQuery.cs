@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MiniSQL.Interfaces
 {
-    class DataChangeQuery
+    public class DataChangeQuery
     {
     }
 }
