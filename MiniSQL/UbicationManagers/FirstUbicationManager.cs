@@ -11,7 +11,7 @@ namespace MiniSQL.UbicationManagers
     public class FirstUbicationManager : IUbicationManager
     {
         private static FirstUbicationManager firstUbicationManager;
-        private string additionalPath = "../BD";
+        private string additionalPath = "BD";
 
         private FirstUbicationManager() 
         {

@@ -28,6 +28,7 @@ namespace MiniSQL.Initializer
             row.GetCell(SystemeConstants.UsersNameColumnName).data = SystemeConstants.AdminUser;
             row.GetCell(SystemeConstants.UsersPasswordColumnName).data = SystemeConstants.AdminPassword;
             table.AddRow(row);
+            table.primaryKey.AddKey(table.GetColumn(SystemeConstants.UsersNameColumnName));
             return table;
         }
 

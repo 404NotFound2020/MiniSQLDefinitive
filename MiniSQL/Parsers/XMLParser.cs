@@ -17,10 +17,14 @@ namespace MiniSQL.Parsers
     {
         private string[] xmlDeclaration;
         private const string extension = ".xml";
+        public Action<Table, XmlDocument> savePrimaryKeyFunction;
+        public Action<Table, XmlDocument> loadTableWithPrimaryKeysFunction;
 
         public XMLParser() 
         {
-            this.xmlDeclaration = new string[] { "1.0", null, null };           
+            this.xmlDeclaration = new string[] { "1.0", null, null };
+            this.savePrimaryKeyFunction = this.CreateTableLevelPrimaryKeyElement;
+            this.loadTableWithPrimaryKeysFunction = this.LoadTableLevelPrimaryKey;
         }
 
         public override void DeleteDatabase(string databaseName)
@@ -101,7 +105,19 @@ namespace MiniSQL.Parsers
                 xmlNode = (XmlNode)enumerator.Current;
                 table.AddColumn(new Column(xmlNode.SelectSingleNode(XMLTagsConstants.TableStructureColumnNameTag_WR).InnerText, DataTypesFactory.GetDataTypesFactory().GetDataType(xmlNode.SelectSingleNode(XMLTagsConstants.TableStructureColumnDataTypeTag_WR).InnerText)));
             }
+            this.loadTableWithPrimaryKeysFunction.Invoke(table, tableStructDocument);
             return table;
+        }
+
+        public void LoadTableLevelPrimaryKey(Table table, XmlDocument xmlDocument) {
+            Console.WriteLine("bbbb");
+            XmlNode primaryKeyNode = xmlDocument.GetElementsByTagName(XMLTagsConstants.PrimaryKeyElementTag_WR)[0];
+            IEnumerator columnEnumerator = primaryKeyNode.SelectNodes(XMLTagsConstants.TableStructureColumnNameTag_WR).GetEnumerator();
+            while (columnEnumerator.MoveNext()) 
+            {
+                Console.WriteLine("aaa");
+                table.primaryKey.AddKey(table.GetColumn(((XmlNode)columnEnumerator.Current).InnerText));
+            }        
         }
 
         private void LoadTableData(string databaseName, Table table)
@@ -153,7 +169,7 @@ namespace MiniSQL.Parsers
             databaseProperties.Save(ubicationManager.GetDatabasePropertiesFilePath(database.databaseName) + extension);
         }
 
-        private void SaveTable(Database database, Table table, XmlDocument databaseProperties, XmlElement databaseElement) 
+        protected void SaveTable(Database database, Table table, XmlDocument databaseProperties, XmlElement databaseElement) 
         {
             XmlElement tableElement = databaseProperties.CreateElement(XMLTagsConstants.DatabasePropertiesTableElementTag_WR);
             tableElement.AppendChild(this.CreateSimpleNode(databaseProperties, XMLTagsConstants.DatabasePropertiesTableElementNameTag_WR, table.tableName));
@@ -176,8 +192,20 @@ namespace MiniSQL.Parsers
                 tableElement.AppendChild(column);
             }
             tableStructureXML.AppendChild(tableElement);
+            this.savePrimaryKeyFunction(table, tableStructureXML);
             tableStructureXML.InsertBefore(tableStructureXML.CreateXmlDeclaration(this.xmlDeclaration[0], this.xmlDeclaration[1], this.xmlDeclaration[2]), tableElement);
             return tableStructureXML;
+        }
+
+        public void CreateTableLevelPrimaryKeyElement(Table table, XmlDocument xmlDocument)
+        {
+            XmlElement primaryKeyElement = xmlDocument.CreateElement(XMLTagsConstants.PrimaryKeyElementTag_WR);
+            IEnumerator<Column> primaryKeyEnumerator = table.primaryKey.GetKeyEnumerator();
+            while (primaryKeyEnumerator.MoveNext())
+            {
+                primaryKeyElement.AppendChild(this.CreateSimpleNode(xmlDocument, XMLTagsConstants.TableStructureColumnNameTag_WR, primaryKeyEnumerator.Current.columnName));
+            }
+            xmlDocument.DocumentElement.AppendChild(primaryKeyElement);
         }
 
         private XmlDocument SaveTableData(Table table) 

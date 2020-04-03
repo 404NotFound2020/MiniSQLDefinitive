@@ -34,6 +34,7 @@ namespace MiniSQL.Querys
                     this.IncrementErrorCount();
                 }
             }
+            //PRIMARY KEY
         }
 
         public override void ExecuteParticularQueryAction(Table table)

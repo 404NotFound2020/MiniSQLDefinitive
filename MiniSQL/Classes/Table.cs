@@ -1,4 +1,5 @@
 ﻿using MiniSQL.Comparers;
+using MiniSQL.TableRestrictions;
 using System;
 using System.Collections.Generic;
 
@@ -7,6 +8,7 @@ namespace MiniSQL.Classes
 	public class Table
 	{
 		public string tableName;
+		public PrimaryKey primaryKey;
 		private Dictionary<string, Column> columns;
 		private List<Row> rows;
 		private List<Column> columnsOrdened;
@@ -17,6 +19,7 @@ namespace MiniSQL.Classes
 			columns = new Dictionary<string, Column>();
 			rows = new List<Row>();
 			columnsOrdened = new List<Column>();
+			this.primaryKey = new PrimaryKey(this);
 		}
 
 		public void AddRow(Row row)
@@ -103,7 +106,7 @@ namespace MiniSQL.Classes
 			{
 				if (!x.tableName.Equals(y.tableName))
 					return false;
-				return new ListComparer<Column>(Column.GetColumnComparer()).Equals(x.columnsOrdened, y.columnsOrdened);
+				return new ListComparer<Column>(Column.GetColumnComparer()).Equals(x.columnsOrdened, y.columnsOrdened) && PrimaryKey.GetPrimaryKeyComparer().Equals(x.primaryKey, y.primaryKey);
 			}
 
 			public int GetHashCode(Table obj)

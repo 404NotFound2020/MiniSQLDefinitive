@@ -15,7 +15,7 @@ namespace MiniSQL.Constants
         public const string TooMuchValues = Error + "Too much values";
         public const string TheDatabaseWasDeleted = "The database was deleted";
         public const string TheDatabaseWasCreated = "The database was created";
-
+        public const string PrimaryKeyError = "Primary key error";
         public static string WhereClauseColumnDoensExist(string columnName) 
         {
             return "The column " + columnName + " which was indicated in where clause doenst exist";

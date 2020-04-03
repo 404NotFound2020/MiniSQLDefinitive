@@ -30,6 +30,8 @@ namespace MiniSQL.Interfaces
             this.parser.SetUbicationManager(manager);           
         }
 
+        public abstract void SetIndexationVersion(string indexationVersion);
+
         protected void SetParser(AbstractParser parser) 
         {
             this.parser = parser;

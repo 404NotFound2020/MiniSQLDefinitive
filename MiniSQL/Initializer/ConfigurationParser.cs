@@ -12,7 +12,7 @@ namespace MiniSQL.Initializer
     public class ConfigurationParser
     {
         private static ConfigurationParser versionReader;
-        private const string VersionFileDirectory = "../enviroment";
+        private const string VersionFileDirectory = "enviroment";
         private const string VersionFileName = "configuration.inf";
         private const string delimitator = "=";
         private Dictionary<string, ConfigDelimitator> delimitatorsWords;

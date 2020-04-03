@@ -38,6 +38,11 @@ namespace MiniSQL.Querys
                         this.SetResult(QuerysStringResultConstants.ColumnsAndDataTypesError(columnEnumerator.Current.columnName, columnEnumerator.Current.dataType.GetSimpleTextValue()));
                     }
                 }
+                if (!table.primaryKey.Evaluate<Column>(table.GetColumnEnumerator(), this.values.GetEnumerator(), (column) => { return column.columnName; }))
+                {
+                    this.IncrementErrorCount();
+                    this.SetResult(QuerysStringResultConstants.PrimaryKeyError);
+                }
             }
 
         }

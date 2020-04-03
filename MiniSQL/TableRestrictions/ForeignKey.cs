@@ -1,4 +1,5 @@
-﻿using MiniSQL.Interfaces;
+﻿using MiniSQL.Classes;
+using MiniSQL.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,8 +8,10 @@ using System.Threading.Tasks;
 
 namespace MiniSQL.TableRestrictions
 {
-    public class ForeignKey : ITableRestriction
+    public class ForeignKey
     {
+        public Column column;
+        public Column references;
 
         public bool Evaluate(List<string> values)
         {
