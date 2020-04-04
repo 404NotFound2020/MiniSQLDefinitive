@@ -28,25 +28,9 @@ namespace MiniSQL.Querys
 
         public override bool ValidateParameters()
         {
-            if (this.GetContainer().ExistDatabase(this.targetDatabase))
-            {
-                if (this.GetContainer().GetDatabase(this.targetDatabase).ExistTable(this.targetTableName))
-                {                    
-                    return true;
-                }
-                else
-                {
-                    this.IncrementErrorCount();
-                    this.SetResult(QuerysStringResultConstants.TableDoensExist(this.targetDatabase, this.targetTableName));
-                    return false;
-                }
-            }
-            else
-            {
-                this.IncrementErrorCount();
-                this.SetResult(QuerysStringResultConstants.DatabaseDoesntExist(this.targetDatabase));
-                return false;
-            }
+            if (!this.GetContainer().ExistDatabase(this.targetDatabase)) this.SaveTheError(QuerysStringResultConstants.DatabaseDoesntExist(this.targetDatabase));
+            else if (!this.GetContainer().GetDatabase(this.targetDatabase).ExistTable(this.targetTableName)) this.SaveTheError(QuerysStringResultConstants.TableDoensExist(this.targetDatabase, this.targetTableName));
+            return this.GetIsValidQuery();
         }
 
     }

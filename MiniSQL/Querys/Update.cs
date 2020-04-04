@@ -23,16 +23,8 @@ namespace MiniSQL.Querys
             IEnumerator<KeyValuePair<string, string>> enumerator = this.updateColumnData.GetEnumerator();
             while (enumerator.MoveNext())
             {
-                if (!table.ExistColumn(enumerator.Current.Key))
-                {
-                    this.SetResult(QuerysStringResultConstants.SelectedColumnDoenstExistError(enumerator.Current.Key));
-                    this.IncrementErrorCount();
-                }
-                else if (!table.GetColumn(enumerator.Current.Key).dataType.IsAValidDataType(enumerator.Current.Value))
-                {
-                    this.SetResult(QuerysStringResultConstants.ColumnsAndDataTypesError(enumerator.Current.Key, table.GetColumn(enumerator.Current.Key).dataType.GetSimpleTextValue()));
-                    this.IncrementErrorCount();
-                }
+                if (!table.ExistColumn(enumerator.Current.Key)) this.SaveTheError(QuerysStringResultConstants.SelectedColumnDoenstExistError(enumerator.Current.Key));
+                else if (!table.GetColumn(enumerator.Current.Key).dataType.IsAValidDataType(enumerator.Current.Value)) this.SaveTheError(QuerysStringResultConstants.ColumnsAndDataTypesError(enumerator.Current.Key, table.GetColumn(enumerator.Current.Key).dataType.GetSimpleTextValue()));
             }
             //PRIMARY KEY
         }
@@ -57,14 +49,8 @@ namespace MiniSQL.Querys
 
         public void AddValue(string columnName, string value)
         {
-            if (!this.updateColumnData.ContainsKey(columnName)) {
-                this.updateColumnData.Add(columnName, value);
-            }
-            else
-            {
-                this.updateColumnData[columnName] = value;
-            }
- 
+            if (!this.updateColumnData.ContainsKey(columnName)) this.updateColumnData.Add(columnName, value);                
+            else this.updateColumnData[columnName] = value; 
         }
 
 

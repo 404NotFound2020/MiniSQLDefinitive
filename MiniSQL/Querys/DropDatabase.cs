@@ -24,11 +24,7 @@ namespace MiniSQL.Querys
         public override bool ValidateParameters()
         {
             bool b;
-            if (b = !this.GetContainer().ExistDatabase(this.targetDatabase))
-            {
-                this.SetResult(QuerysStringResultConstants.DatabaseDoesntExist(this.targetDatabase));
-                this.IncrementErrorCount();
-            }
+            if (b = !this.GetContainer().ExistDatabase(this.targetDatabase)) this.SaveTheError(QuerysStringResultConstants.DatabaseDoesntExist(this.targetDatabase));
             return !b;
         }
     }

@@ -8,5 +8,13 @@ namespace MiniSQL.Interfaces
 {
     public class DataChangeQuery
     {
+      
+
+
+
+  
+
+
+
     }
 }

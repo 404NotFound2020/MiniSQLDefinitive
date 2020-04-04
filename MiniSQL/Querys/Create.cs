@@ -12,7 +12,6 @@ namespace MiniSQL.Querys
 {
     public class Create : DataDefinitionQuery
     {
-        //Column name, datatype
         private Dictionary<string, string> columnsAndTypes;
 
         public Create(IDatabaseContainer container) : base(container)
@@ -22,23 +21,10 @@ namespace MiniSQL.Querys
 
         public override bool ValidateParameters()
         {
-            if (this.GetContainer().ExistDatabase(this.targetDatabase)) 
-            {
-                Database database = this.GetContainer().GetDatabase(this.targetDatabase);
-                if (database.ExistTable(this.targetTableName)) 
-                { 
-                    this.SetResult(QuerysStringResultConstants.TheTableAlreadyExists(this.targetTableName));
-                    this.IncrementErrorCount();
-                }              
-            }
-            else 
-            {
-                this.SetResult(QuerysStringResultConstants.DatabaseDoesntExist(this.targetDatabase));
-                this.IncrementErrorCount();
-            }
+            if (!this.GetContainer().ExistDatabase(this.targetDatabase)) this.SaveTheError(QuerysStringResultConstants.DatabaseDoesntExist(this.targetDatabase));
+            else if (this.GetContainer().GetDatabase(this.targetDatabase).ExistTable(this.targetTableName)) this.SaveTheError(QuerysStringResultConstants.TheTableAlreadyExists(this.targetTableName));
             return this.GetIsValidQuery();
         }
-
 
         public override void ExecuteParticularQueryAction()
         {
@@ -56,15 +42,8 @@ namespace MiniSQL.Querys
 
         public void AddColumn(string columnName, string dataTypeKey) 
         {
-            if (!this.columnsAndTypes.ContainsKey(columnName)) 
-            {
-                this.columnsAndTypes.Add(columnName, dataTypeKey);
-            }
-            else 
-            {
-                this.SetResult(QuerysStringResultConstants.TheColumnAlreadyDefined(columnName));
-                this.IncrementErrorCount();
-            }
+            if (!this.columnsAndTypes.ContainsKey(columnName)) this.columnsAndTypes.Add(columnName, dataTypeKey);
+            else this.SaveTheError(QuerysStringResultConstants.TheColumnAlreadyDefined(columnName));
         }
 
     }

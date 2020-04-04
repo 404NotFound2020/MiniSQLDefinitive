@@ -78,21 +78,14 @@ namespace MiniSQL.Querys
 
         protected override void ValidateParameters(Table table)
         {
-            if (!this.selectedAllColumns)
+            if (this.selectedAllColumns) this.SelectAllColumnsOfATable(table);
+            else
             {
                 IEnumerator<string> enumerator = selectedColumnNames.GetEnumerator();
                 while (enumerator.MoveNext())
                 {
-                    if (!table.ExistColumn(enumerator.Current))
-                    {
-                        this.SetResult(QuerysStringResultConstants.SelectedColumnDoenstExistError(enumerator.Current));
-                        this.IncrementErrorCount();
-                    }
-                }
-            }
-            else
-            {
-                this.SelectAllColumnsOfATable(table);
+                    if (!table.ExistColumn(enumerator.Current)) this.SaveTheError(QuerysStringResultConstants.SelectedColumnDoenstExistError(enumerator.Current));
+                }               
             }
         }
 

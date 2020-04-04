@@ -30,7 +30,13 @@ namespace MiniSQL.Interfaces
             if (this.result == null) this.result = result;
             else this.result = this.result + "\n" + result;
         }
-               
+        
+        protected void SaveTheError(string error) 
+        {
+            this.SetResult(error);
+            this.IncrementErrorCount();
+        }
+
         protected bool GetIsValidQuery() 
         {
             return this.errorCount == 0;

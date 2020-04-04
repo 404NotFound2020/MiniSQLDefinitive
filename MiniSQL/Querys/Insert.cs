@@ -20,31 +20,17 @@ namespace MiniSQL.Querys
 
         protected override void ValidateParameters(Table table)
         {
-            if(this.values.Count > table.GetColumnCount()) 
-            {
-                this.SetResult(this.GetResult() + QuerysStringResultConstants.TooMuchValues + "\n");
-                this.IncrementErrorCount();
-            }
+            if(this.values.Count > table.GetColumnCount()) this.SaveTheError(QuerysStringResultConstants.TooMuchValues);
             else 
             {
                 IEnumerator<string> valuesEnumerator = this.values.GetEnumerator();
                 IEnumerator<Column> columnEnumerator = table.GetColumnEnumerator();
-                while(valuesEnumerator.MoveNext()) 
-                {
-                    columnEnumerator.MoveNext();
-                    if (!columnEnumerator.Current.dataType.IsAValidDataType(valuesEnumerator.Current)) 
-                    {
-                        this.IncrementErrorCount();
-                        this.SetResult(QuerysStringResultConstants.ColumnsAndDataTypesError(columnEnumerator.Current.columnName, columnEnumerator.Current.dataType.GetSimpleTextValue()));
-                    }
+                while(valuesEnumerator.MoveNext()  && columnEnumerator.MoveNext()) 
+                {                    
+                    if (!columnEnumerator.Current.dataType.IsAValidDataType(valuesEnumerator.Current)) this.SaveTheError(QuerysStringResultConstants.ColumnsAndDataTypesError(columnEnumerator.Current.columnName, columnEnumerator.Current.dataType.GetSimpleTextValue()));
                 }
-                if (!table.primaryKey.Evaluate<Column>(table.GetColumnEnumerator(), this.values.GetEnumerator(), (column) => { return column.columnName; }))
-                {
-                    this.IncrementErrorCount();
-                    this.SetResult(QuerysStringResultConstants.PrimaryKeyError);
-                }
+                if (!table.primaryKey.Evaluate<Column>(table.GetColumnEnumerator(), this.values.GetEnumerator(), (column) => {return column.columnName;})) this.SaveTheError(QuerysStringResultConstants.PrimaryKeyError);
             }
-
         }
 
         public override void ExecuteParticularQueryAction(Table table)

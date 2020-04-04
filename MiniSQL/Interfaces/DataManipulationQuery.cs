@@ -43,27 +43,20 @@ namespace MiniSQL.Interfaces
         public override bool ValidateParameters()
         {            
             IDatabaseContainer container =  this.GetContainer();
-            if (container.ExistDatabase(this.targetDatabase)) 
-            {
-                Database targetDatabaseObject = container.GetDatabase(this.targetDatabase);
-                if (targetDatabaseObject.ExistTable(this.targetTableName))
-                {
-                    Table table = targetDatabaseObject.GetTable(this.targetTableName);
-                    this.ValidateParameters(table);
-                    this.ValidateWhere(table);
-                }
-                else
-                {
-                    this.SetResult(QuerysStringResultConstants.TableDoensExist(this.targetDatabase, this.targetTableName));
-                    this.IncrementErrorCount();
-                }
-            }
+            if (!container.ExistDatabase(this.targetDatabase)) this.SaveTheError(QuerysStringResultConstants.DatabaseDoesntExist(this.targetDatabase));
             else 
             {
-                this.SetResult(QuerysStringResultConstants.DatabaseDoesntExist(this.targetDatabase));
-                this.IncrementErrorCount();
+                Database targetDatabaseObject = container.GetDatabase(this.targetDatabase);
+                if (!targetDatabaseObject.ExistTable(this.targetTableName)) this.SaveTheError(QuerysStringResultConstants.TableDoensExist(this.targetDatabase, this.targetTableName));
+                else this.DoTheOtherValidations(targetDatabaseObject.GetTable(this.targetTableName));
             }
             return this.GetIsValidQuery();
+        }
+
+        private void DoTheOtherValidations(Table table) 
+        {
+            this.ValidateParameters(table);
+            this.ValidateWhere(table);
         }
 
         protected void ValidateWhere(Table table) 
@@ -72,19 +65,11 @@ namespace MiniSQL.Interfaces
             Column column;
             while (enumerator.MoveNext()) 
             {
-                if (table.ExistColumn(enumerator.Current.Item1)) 
-                {
-                    column = table.GetColumn(enumerator.Current.Item1);
-                    if(!column.dataType.IsAValidDataType(enumerator.Current.Item2)) 
-                    {
-                        this.SetResult(QuerysStringResultConstants.WhereClauseColumnDataTypeError(enumerator.Current.Item1) + ". The column data type is" + column.dataType.GetSimpleTextValue());
-                        this.IncrementErrorCount();
-                    }
-                }
+                if (!table.ExistColumn(enumerator.Current.Item1)) this.SaveTheError(QuerysStringResultConstants.WhereClauseColumnDoensExist(enumerator.Current.Item1));
                 else 
                 {
-                    this.SetResult(QuerysStringResultConstants.WhereClauseColumnDoensExist(enumerator.Current.Item1));
-                    this.IncrementErrorCount();
+                    column = table.GetColumn(enumerator.Current.Item1);
+                    if (!column.dataType.IsAValidDataType(enumerator.Current.Item2)) this.SaveTheError(QuerysStringResultConstants.WhereClauseColumnDataTypeError(enumerator.Current.Item1) + ". The column data type is" + column.dataType.GetSimpleTextValue());                        
                 }
             }
         }
