@@ -33,7 +33,6 @@ namespace MiniSQL.Initializer
             ParserBuilder builder = ParserBuilderFactory.GetParserBuilderFactory().GetParserBuilder(this.configuration.parserVersion);
             builder.SetUbicationManager(this.configuration.ubicationVersion);
             builder.SetDataFormatManager(this.configuration.saveDataVersion);
-            builder.SetIndexationVersion(this.configuration.indexationVersion);
             this.parser = builder.GetParser();
         }
 

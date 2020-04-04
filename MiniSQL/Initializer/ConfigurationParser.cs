@@ -84,18 +84,6 @@ namespace MiniSQL.Initializer
             this.delimitatorsWords.Add("PS_Version", new ConfigDelimitator("PS_Version", LastVersionVariables.ParserVersion, (tuple) => tuple.Item1.parserVersion = tuple.Item2));
             this.delimitatorsWords.Add("UB_Version", new ConfigDelimitator("UB_Version", LastVersionVariables.UbicationVersion, (tuple) => tuple.Item1.ubicationVersion = tuple.Item2));
             this.delimitatorsWords.Add("DTF_Version", new ConfigDelimitator("DTF_Version", LastVersionVariables.SaveDataFormatVersion, (tuple) => tuple.Item1.saveDataVersion = tuple.Item2));
-            this.delimitatorsWords.Add("INX_Version", new ConfigDelimitator("INX_Version", LastVersionVariables.ActualIndexationVersion, (tuple) => tuple.Item1.indexationVersion = tuple.Item2));
-
-
-            /**
-             * 
-             * 
-
-            private const string IsSetActiveDatabaseTimeIntervalDelimitatorWord = "IsSetActiveDBTimeInterval";
-            private const string ActiveDatabaseTimeIntervalDelimitatorWord = "ActiveDBTimeInterval";
-             * 
-             * 
-             * */
         }
 
 

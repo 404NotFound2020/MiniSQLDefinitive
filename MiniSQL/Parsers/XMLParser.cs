@@ -17,14 +17,10 @@ namespace MiniSQL.Parsers
     {
         private string[] xmlDeclaration;
         private const string extension = ".xml";
-        public Action<Table, XmlDocument> savePrimaryKeyFunction;
-        public Action<Table, XmlDocument> loadTableWithPrimaryKeysFunction;
 
         public XMLParser() 
         {
             this.xmlDeclaration = new string[] { "1.0", null, null };
-            this.savePrimaryKeyFunction = this.CreateTableLevelPrimaryKeyElement;
-            this.loadTableWithPrimaryKeysFunction = this.LoadTableLevelPrimaryKey;
         }
 
         public override void DeleteDatabase(string databaseName)
@@ -105,17 +101,15 @@ namespace MiniSQL.Parsers
                 xmlNode = (XmlNode)enumerator.Current;
                 table.AddColumn(new Column(xmlNode.SelectSingleNode(XMLTagsConstants.TableStructureColumnNameTag_WR).InnerText, DataTypesFactory.GetDataTypesFactory().GetDataType(xmlNode.SelectSingleNode(XMLTagsConstants.TableStructureColumnDataTypeTag_WR).InnerText)));
             }
-            this.loadTableWithPrimaryKeysFunction.Invoke(table, tableStructDocument);
+            this.LoadPrimaryKeys(table, tableStructDocument);
             return table;
         }
 
-        public void LoadTableLevelPrimaryKey(Table table, XmlDocument xmlDocument) {
-            Console.WriteLine("bbbb");
+        private void LoadPrimaryKeys(Table table, XmlDocument xmlDocument) {
             XmlNode primaryKeyNode = xmlDocument.GetElementsByTagName(XMLTagsConstants.PrimaryKeyElementTag_WR)[0];
             IEnumerator columnEnumerator = primaryKeyNode.SelectNodes(XMLTagsConstants.TableStructureColumnNameTag_WR).GetEnumerator();
             while (columnEnumerator.MoveNext()) 
             {
-                Console.WriteLine("aaa");
                 table.primaryKey.AddKey(table.GetColumn(((XmlNode)columnEnumerator.Current).InnerText));
             }        
         }
@@ -192,12 +186,12 @@ namespace MiniSQL.Parsers
                 tableElement.AppendChild(column);
             }
             tableStructureXML.AppendChild(tableElement);
-            this.savePrimaryKeyFunction(table, tableStructureXML);
+            this.SavePrimaryKeys(table, tableStructureXML);
             tableStructureXML.InsertBefore(tableStructureXML.CreateXmlDeclaration(this.xmlDeclaration[0], this.xmlDeclaration[1], this.xmlDeclaration[2]), tableElement);
             return tableStructureXML;
         }
 
-        public void CreateTableLevelPrimaryKeyElement(Table table, XmlDocument xmlDocument)
+        private void SavePrimaryKeys(Table table, XmlDocument xmlDocument)
         {
             XmlElement primaryKeyElement = xmlDocument.CreateElement(XMLTagsConstants.PrimaryKeyElementTag_WR);
             IEnumerator<Column> primaryKeyEnumerator = table.primaryKey.GetKeyEnumerator();

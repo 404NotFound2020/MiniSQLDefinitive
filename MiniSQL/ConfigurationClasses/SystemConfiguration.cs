@@ -11,8 +11,6 @@ namespace MiniSQL.ConfigurationClasses
         public string parserVersion;
         public string ubicationVersion;
         public string saveDataVersion;
-        public string indexationVersion;
-
 
         public SystemConfiguration() 
         { 
