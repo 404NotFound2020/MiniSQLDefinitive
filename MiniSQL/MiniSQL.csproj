@@ -75,7 +75,6 @@
     <Compile Include="Interfaces\AbstractParser.cs" />
     <Compile Include="Interfaces\ISaveDataFormatManager.cs" />
     <Compile Include="Interfaces\IDatabaseContainer.cs" />
-    <Compile Include="Interfaces\ITableRestriction.cs" />
     <Compile Include="Interfaces\IUbicationManager.cs" />
     <Compile Include="Interfaces\DataManipulationQuery.cs" />
     <Compile Include="MiniSQLLauncher.cs" />

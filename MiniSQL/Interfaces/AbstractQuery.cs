@@ -34,7 +34,7 @@ namespace MiniSQL.Interfaces
         protected void SaveTheError(string error) 
         {
             this.SetResult(error);
-            this.IncrementErrorCount();
+            this.errorCount = this.errorCount + 1;
         }
 
         protected bool GetIsValidQuery() 
@@ -47,14 +47,10 @@ namespace MiniSQL.Interfaces
             return this.container;
         }
 
-        protected void IncrementErrorCount() 
-        {
-            this.errorCount = this.errorCount + 1;
-        }
-
-        protected void InicializateErrorCount() 
+        protected void InicializateQueryState() 
         {
             this.errorCount = 0;
+            this.result = null;
         }
 
         public int GetErrorCount() 

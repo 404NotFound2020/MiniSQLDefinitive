@@ -29,7 +29,7 @@ namespace MiniSQL.Querys
                 {                    
                     if (!columnEnumerator.Current.dataType.IsAValidDataType(valuesEnumerator.Current)) this.SaveTheError(QuerysStringResultConstants.ColumnsAndDataTypesError(columnEnumerator.Current.columnName, columnEnumerator.Current.dataType.GetSimpleTextValue()));
                 }
-                if (!table.primaryKey.Evaluate<Column>(table.GetColumnEnumerator(), this.values.GetEnumerator(), (column) => {return column.columnName;})) this.SaveTheError(QuerysStringResultConstants.PrimaryKeyError);
+                if (!table.primaryKey.Evaluate(this.values)) this.SaveTheError(QuerysStringResultConstants.PrimaryKeyError);
             }
         }
 

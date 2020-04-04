@@ -67,13 +67,8 @@ namespace MiniSQL.Querys
 
         public void AddSelectedColumnName(string columnName)
         {
-            if (!columnName.Equals("*"))
-            {
-                this.selectedColumnNames.Add(columnName);
-            }
-            else {
-                this.selectedAllColumns = true; 
-            }
+            if (!columnName.Equals("*")) this.selectedColumnNames.Add(columnName);
+            else this.selectedAllColumns = true;                             
         }
 
         protected override void ValidateParameters(Table table)

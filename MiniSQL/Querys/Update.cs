@@ -26,7 +26,9 @@ namespace MiniSQL.Querys
                 if (!table.ExistColumn(enumerator.Current.Key)) this.SaveTheError(QuerysStringResultConstants.SelectedColumnDoenstExistError(enumerator.Current.Key));
                 else if (!table.GetColumn(enumerator.Current.Key).dataType.IsAValidDataType(enumerator.Current.Value)) this.SaveTheError(QuerysStringResultConstants.ColumnsAndDataTypesError(enumerator.Current.Key, table.GetColumn(enumerator.Current.Key).dataType.GetSimpleTextValue()));
             }
-            //PRIMARY KEY
+            if (this.GetIsValidQuery()) {
+                if (!table.primaryKey.Evaluate(this.updateColumnData)) this.SaveTheError(QuerysStringResultConstants.PrimaryKeyError);
+            }
         }
 
         public override void ExecuteParticularQueryAction(Table table)

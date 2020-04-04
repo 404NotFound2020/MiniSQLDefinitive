@@ -20,6 +20,17 @@ namespace MiniSQL.TableRestrictions
             this.tableKey = new Dictionary<string, Column>();
         }
 
+
+        public bool Evaluate(Dictionary<string, string> valuesAndColumns) 
+        {
+            return this.Evaluate<string>(valuesAndColumns.Keys.GetEnumerator(), valuesAndColumns.Values.GetEnumerator(), (column) => { return column; });
+        }
+
+        public bool Evaluate(List<string> values) 
+        {
+            return this.Evaluate<Column>(this.table.GetColumnEnumerator(), values.GetEnumerator(), (column) => { return column.columnName; });
+        }
+
         public bool Evaluate<T>(IEnumerator<T> tableColumnsEnumerator, IEnumerator<string> valuesEnumerator, Func<T, string> getColumnName) 
         {
             bool b = this.tableKey.Count == 0;
@@ -27,10 +38,7 @@ namespace MiniSQL.TableRestrictions
             while (tableColumnsEnumerator.MoveNext() && valuesEnumerator.MoveNext() && b == false)
             {
                 columnName = getColumnName.Invoke(tableColumnsEnumerator.Current);
-                if (this.tableKey.ContainsKey(columnName))
-                {
-                    b = !this.tableKey[columnName].ExistCells(valuesEnumerator.Current);
-                }
+                if (this.tableKey.ContainsKey(columnName)) b = !this.tableKey[columnName].ExistCells(valuesEnumerator.Current);
             }
             return b;
         }
