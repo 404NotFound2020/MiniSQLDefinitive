@@ -13,6 +13,7 @@ namespace MiniSQL.Constants
         public const string InsertSuccess = "Tuple added";
         public const string Error = "ERROR: ";
         public const string TooMuchValues = Error + "Too much values";
+        public const string NotEnoughtValues = Error + "Not enought values";
         public const string TheDatabaseWasDeleted = "The database was deleted";
         public const string TheDatabaseWasCreated = "The database was created";
         public const string PrimaryKeyError = "Primary key error";

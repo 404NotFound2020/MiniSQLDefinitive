@@ -20,13 +20,14 @@ namespace MiniSQL.Querys
 
         protected override void ValidateParameters(Table table)
         {
-            if(this.values.Count > table.GetColumnCount()) this.SaveTheError(QuerysStringResultConstants.TooMuchValues);
-            else 
+            if (this.values.Count > table.GetColumnCount()) this.SaveTheError(QuerysStringResultConstants.TooMuchValues);
+            else if (this.values.Count < table.GetColumnCount()) this.SaveTheError(QuerysStringResultConstants.NotEnoughtValues);
+            else
             {
                 IEnumerator<string> valuesEnumerator = this.values.GetEnumerator();
                 IEnumerator<Column> columnEnumerator = table.GetColumnEnumerator();
-                while(valuesEnumerator.MoveNext()  && columnEnumerator.MoveNext()) 
-                {                    
+                while (valuesEnumerator.MoveNext() && columnEnumerator.MoveNext())
+                {
                     if (!columnEnumerator.Current.dataType.IsAValidDataType(valuesEnumerator.Current)) this.SaveTheError(QuerysStringResultConstants.ColumnsAndDataTypesError(columnEnumerator.Current.columnName, columnEnumerator.Current.dataType.GetSimpleTextValue()));
                 }
                 if (!table.primaryKey.Evaluate(this.values)) this.SaveTheError(QuerysStringResultConstants.PrimaryKeyError);
