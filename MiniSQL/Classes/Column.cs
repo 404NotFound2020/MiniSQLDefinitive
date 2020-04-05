@@ -61,11 +61,13 @@ namespace MiniSQL.Classes
 		public void AddColumnThatReferenceThisOne(string key, Column column) 
 		{
 			this.columnsThatReferenceThisOne.Add(key, column);
+			this.table.IncrementNumberOfReferencesAtThisTable();
 		}
 
 		public void RemoveColumnThatReferenceThisOne(string key) 
 		{
 			this.columnsThatReferenceThisOne.Remove(key);
+			this.table.DecrementNumberOfReferencesAtThisTable();
 		}
 
 		public int GetNumberOfColumnThatReferenceThisOne() 

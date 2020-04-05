@@ -34,6 +34,17 @@ namespace MiniSQL.Classes
 			return cells.ContainsKey(columnName);
 		}
 
+		public bool CheckIfRowCouldBeDeleted() 
+		{
+			bool b = true;
+			IEnumerator<Cell> cellEnumerator = this.cells.Values.GetEnumerator();
+			while(cellEnumerator.MoveNext() && b) 
+			{
+				b = cellEnumerator.Current.column.CheckIfCellCouldBeDeleted(cellEnumerator.Current.data);
+			}
+			return b;
+		}
+
 		public IEnumerator<Cell> GetCellEnumerator()
 		{
 			return this.cells.Values.GetEnumerator();

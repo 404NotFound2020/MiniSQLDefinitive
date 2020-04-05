@@ -17,6 +17,8 @@ namespace MiniSQL.Constants
         public const string TheDatabaseWasDeleted = "The database was deleted";
         public const string TheDatabaseWasCreated = "The database was created";
         public const string PrimaryKeyError = "Primary key error";
+        public const string ForeignKeyError = "Foreign key error";
+
         public static string WhereClauseColumnDoensExist(string columnName) 
         {
             return "The column " + columnName + " which was indicated in where clause doenst exist";
@@ -73,6 +75,11 @@ namespace MiniSQL.Constants
 
         public static string TheDatabaseExist(string databaseName) {
             return "The database " + databaseName + " already exist";
+        }
+
+        public static string NumbersRowsThatCannotDeleteBecauseOfForeignKey(int number) 
+        {
+            return "Couldn Deleted rows: " + number; 
         }
   
     }

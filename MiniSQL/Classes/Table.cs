@@ -13,6 +13,7 @@ namespace MiniSQL.Classes
 		private Dictionary<string, Column> columns;
 		private List<Row> rows;
 		private List<Column> columnsOrdened;
+		private int numberOfReferencesAtThisTable;
 
 		public Table(string tableName)
 		{
@@ -21,7 +22,8 @@ namespace MiniSQL.Classes
 			rows = new List<Row>();
 			columnsOrdened = new List<Column>();
 			this.primaryKey = new PrimaryKey(this);
-			this.foreignKey = new ForeignKey();
+			this.numberOfReferencesAtThisTable = 0;
+			this.foreignKey = new ForeignKey(this);
 		}
 
 		public void AddRow(Row row)
@@ -44,15 +46,19 @@ namespace MiniSQL.Classes
 			return r;			
 		}
 
+		public void IncrementNumberOfReferencesAtThisTable()
+		{
+			this.numberOfReferencesAtThisTable = this.numberOfReferencesAtThisTable + 1;
+		}
+
+		public void DecrementNumberOfReferencesAtThisTable()
+		{
+			this.numberOfReferencesAtThisTable = this.numberOfReferencesAtThisTable - 1;
+		}
+
 		public bool IsDropable() 
 		{
-			bool b = true;
-			IEnumerator<Column> columnEnumerator = this.columnsOrdened.GetEnumerator();
-			while(columnEnumerator.MoveNext() && b) 
-			{
-				b = !(columnEnumerator.Current.GetNumberOfColumnThatReferenceThisOne() == 0);
-			}
-			return b;
+			return this.numberOfReferencesAtThisTable == 0;
 		}
 
 		public bool DestroyRow(int rowNumber) 

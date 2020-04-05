@@ -28,6 +28,7 @@ namespace MiniSQL.Querys
             }
             if (this.GetIsValidQuery()) {
                 if (!table.primaryKey.Evaluate(this.updateColumnData)) this.SaveTheError(QuerysStringResultConstants.PrimaryKeyError);
+                if (!table.foreignKey.Evaluate(this.updateColumnData)) this.SaveTheError(QuerysStringResultConstants.ForeignKeyError);
             }
         }
 

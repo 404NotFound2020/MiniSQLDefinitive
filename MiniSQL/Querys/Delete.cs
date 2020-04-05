@@ -29,13 +29,19 @@ namespace MiniSQL.Querys
             IEnumerator<int> enumerator = select.GetSelectedRowsIndex();
             IEnumerator<Row> afectedRowsEnumerator = select.GetAfectedRowEnum();
             int i = 0;
+            int h = 0;
             while (enumerator.MoveNext() && afectedRowsEnumerator.MoveNext())
             {
-                this.AddAfectedRow(afectedRowsEnumerator.Current);
-                table.DestroyRow(enumerator.Current - i);
-                i++;
+                if (!afectedRowsEnumerator.Current.CheckIfRowCouldBeDeleted()) h = h + 1;
+                else
+                {                   
+                    this.AddAfectedRow(afectedRowsEnumerator.Current);
+                    table.DestroyRow(enumerator.Current - i);
+                    i++;
+                }
+                
             }
-            this.SetResult(QuerysStringResultConstants.DeletedRow(i));
+            this.SetResult(QuerysStringResultConstants.DeletedRow(i) + "\n" + QuerysStringResultConstants.NumbersRowsThatCannotDeleteBecauseOfForeignKey(h));
         }
 
         protected override void ValidateParameters(Table table)
