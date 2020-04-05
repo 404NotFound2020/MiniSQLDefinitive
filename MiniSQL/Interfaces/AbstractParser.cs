@@ -12,7 +12,7 @@ namespace MiniSQL.Interfaces
         private IUbicationManager ubicationManager;
 
         public abstract Database LoadDatabase(string databaseName);
-        public abstract Table LoadTable(string databaseName, string tableName);
+        public abstract Tuple<Table, List<Tuple<string, string, string>>> LoadTable(string databaseName, string tableName);
         public abstract void SaveTable(Database database, Table table);
         public abstract void SaveDatabase(Database database);
         public abstract void DeleteDatabase(string databaseName);

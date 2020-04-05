@@ -16,6 +16,7 @@ namespace MiniSQL.Initializer
             Database systemDatabase = new Database(SystemeConstants.SystemDatabaseName);
             systemDatabase.AddTable(CreateUsersTable());
             systemDatabase.AddTable(CreateProfilesTable());
+            systemDatabase.AddTable(CreateUserProfilesTable(systemDatabase.GetTable(SystemeConstants.UsersTableName), systemDatabase.GetTable(SystemeConstants.ProfilesTableName)));
             return systemDatabase;
         }
 
@@ -37,6 +38,24 @@ namespace MiniSQL.Initializer
             Table table = new Table(SystemeConstants.ProfilesTableName);
             table.AddColumn(new Column(SystemeConstants.ProfileNameColumn, DataTypesFactory.GetDataTypesFactory().GetDataType(SystemeConstants.ProfileNameColumnType)));
             Row row = table.CreateRowDefinition();
+            row.GetCell(SystemeConstants.ProfileNameColumn).data = SystemeConstants.DefaultProfile;
+            table.AddRow(row);
+            return table;
+        }
+
+        public static Table CreateUserProfilesTable(Table userTable, Table profileTable) 
+        {
+            Table table = new Table(SystemeConstants.UserProfilesTableName);
+            Column userNameColumn = new Column(SystemeConstants.UserProfilesUsernameColumnName, DataTypesFactory.GetDataTypesFactory().GetDataType(SystemeConstants.UserProfilesUsernameColumnType));
+            Column profileNameColumn = new Column(SystemeConstants.UserProfilesProfileColumnName, DataTypesFactory.GetDataTypesFactory().GetDataType(SystemeConstants.UserProfilesProfileColumnType));
+            table.AddColumn(userNameColumn);
+            table.AddColumn(profileNameColumn);
+            table.primaryKey.AddKey(userNameColumn);
+            table.primaryKey.AddKey(profileNameColumn);
+            table.foreignKey.AddForeignKey(userNameColumn, userTable.GetColumn(SystemeConstants.UsersNameColumnName));
+            table.foreignKey.AddForeignKey(profileNameColumn, profileTable.GetColumn(SystemeConstants.ProfileNameColumn));
+            Row row = table.CreateRowDefinition();
+            row.GetCell(SystemeConstants.UserProfilesUsernameColumnName).data = SystemeConstants.AdminUser;
             row.GetCell(SystemeConstants.ProfileNameColumn).data = SystemeConstants.DefaultProfile;
             table.AddRow(row);
             return table;

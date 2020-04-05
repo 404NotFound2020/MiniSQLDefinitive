@@ -9,15 +9,17 @@ namespace MiniSQL.Classes
 	public class Column
 	{
 		public string columnName;
+		public Table table;
 		private Dictionary<string, List<Cell>> cells;
 		public DataType dataType;
+		private Dictionary<string, Column> columnsThatReferenceThisOne;
 
 		public Column(string columnName, DataType dataType)
 		{
 			this.columnName = columnName;
 			this.dataType = dataType;
 			cells = new Dictionary<string, List<Cell>>();
-
+			this.columnsThatReferenceThisOne = new Dictionary<string, Column>();
 		}
 
 		public void AddCell(Cell cell)
@@ -39,10 +41,7 @@ namespace MiniSQL.Classes
 					if (b)
 					{
 						cellList.RemoveAt(i);
-						if (cellList.Count == 0)
-						{
-							this.cells.Remove(cell.data);
-						}
+						if (cellList.Count == 0) this.cells.Remove(cell.data);
 					}
 				}
 			}
@@ -59,20 +58,36 @@ namespace MiniSQL.Classes
 			return cells[data];
 		}
 
+		public void AddColumnThatReferenceThisOne(string key, Column column) 
+		{
+			this.columnsThatReferenceThisOne.Add(key, column);
+		}
+
+		public void RemoveColumnThatReferenceThisOne(string key) 
+		{
+			this.columnsThatReferenceThisOne.Remove(key);
+		}
+
+		public int GetNumberOfColumnThatReferenceThisOne() 
+		{
+			return this.columnsThatReferenceThisOne.Count;
+		}
+
+		public bool CheckIfCellCouldBeDeleted(string cellData) 
+		{
+			bool b = true;
+			IEnumerator<Column> columnEnumerator = this.columnsThatReferenceThisOne.Values.GetEnumerator();
+			while(columnEnumerator.MoveNext() && b) 
+			{
+				b = !columnEnumerator.Current.ExistCells(cellData);
+			}
+			return b;
+		}
+
 		public static IEqualityComparer<Column> GetColumnComparer()
 		{
 			return new ColumnComparer();
 		}
-
-
-
-
-
-
-
-
-
-
 
 		private class ColumnComparer : IEqualityComparer<Column>
 		{

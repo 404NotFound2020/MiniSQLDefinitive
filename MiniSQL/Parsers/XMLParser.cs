@@ -75,21 +75,25 @@ namespace MiniSQL.Parsers
             databaseProperties.Load(this.GetUbicationManager().GetDatabasePropertiesFilePath(databaseName) + extension);
             XmlNodeList tableNodes = databaseProperties.GetElementsByTagName(XMLTagsConstants.DatabasePropertiesTableElementTag_WR);
             IEnumerator tableNodesEnumerator = tableNodes.GetEnumerator();
+            Dictionary<string, List<Tuple<string, string, string>>> foreignKeysInfo = new Dictionary<string, List<Tuple<string, string, string>>>();
             while (tableNodesEnumerator.MoveNext())
             {
-                database.AddTable(this.LoadTable(database.databaseName, ((XmlNode)tableNodesEnumerator.Current).SelectSingleNode(XMLTagsConstants.DatabasePropertiesTableElementNameTag_WR).InnerText));
+                Tuple<Table, List<Tuple<string, string, string>>> tableAndInfo = this.LoadTable(database.databaseName, ((XmlNode)tableNodesEnumerator.Current).SelectSingleNode(XMLTagsConstants.DatabasePropertiesTableElementNameTag_WR).InnerText);
+                foreignKeysInfo.Add(tableAndInfo.Item1.tableName, tableAndInfo.Item2);
+                database.AddTable(tableAndInfo.Item1);
             }
+            this.SetForeignsKeys(database, foreignKeysInfo);
             return database;
         }
 
-        public override Table LoadTable(string databaseName, string tableName)
+        public override Tuple<Table, List<Tuple<string, string, string>>> LoadTable(string databaseName, string tableName)
         {
-            Table table = this.LoadTableStructure(databaseName, tableName);
-            this.LoadTableData(databaseName, table);
-            return table;            
+            Tuple<Table, List<Tuple<string, string, string>>> tableAndInfo = this.LoadTableStructure(databaseName, tableName);
+            this.LoadTableData(databaseName, tableAndInfo.Item1);
+            return tableAndInfo;            
         }
 
-        private Table LoadTableStructure(string databaseName, string tableName)
+        private Tuple<Table, List<Tuple<string, string, string>>> LoadTableStructure(string databaseName, string tableName)
         {
             Table table = new Table(tableName);
             XmlDocument tableStructDocument = new XmlDocument();
@@ -102,7 +106,7 @@ namespace MiniSQL.Parsers
                 table.AddColumn(new Column(xmlNode.SelectSingleNode(XMLTagsConstants.TableStructureColumnNameTag_WR).InnerText, DataTypesFactory.GetDataTypesFactory().GetDataType(xmlNode.SelectSingleNode(XMLTagsConstants.TableStructureColumnDataTypeTag_WR).InnerText)));
             }
             this.LoadPrimaryKeys(table, tableStructDocument);
-            return table;
+            return new Tuple<Table, List<Tuple<string, string, string>>>(table,this.LoadForeignKeys(table, tableStructDocument));
         }
 
         private void LoadPrimaryKeys(Table table, XmlDocument xmlDocument) {
@@ -112,6 +116,35 @@ namespace MiniSQL.Parsers
             {
                 table.primaryKey.AddKey(table.GetColumn(((XmlNode)columnEnumerator.Current).InnerText));
             }        
+        }
+
+        private List<Tuple<string, string, string>> LoadForeignKeys(Table table, XmlDocument xmlDocument) {
+            List<Tuple<string, string, string>> foreignKeysInfo = new List<Tuple<string, string, string>>();
+            XmlNode foreignKeyNode = xmlDocument.GetElementsByTagName(XMLTagsConstants.ForeignKeyElementTag_WR)[0];
+            IEnumerator<XmlNode> pairEnumerator = foreignKeyNode.SelectNodes(XMLTagsConstants.ForeignKeyPairElementTag_WR).OfType<XmlNode>().GetEnumerator();
+            XmlNode referedNode;
+            while (pairEnumerator.MoveNext()) 
+            {
+                referedNode = pairEnumerator.Current.SelectSingleNode(XMLTagsConstants.ReferedColumnElementTag_WR);
+                foreignKeysInfo.Add(new Tuple<string, string, string>(pairEnumerator.Current.SelectSingleNode(XMLTagsConstants.TableStructureColumnNameTag_WR).InnerText, referedNode.SelectSingleNode(XMLTagsConstants.TableStructureRootElementTag_WR).InnerText, referedNode.SelectSingleNode(XMLTagsConstants.TableStructureColumnNameTag_WR).InnerText));                
+            }
+            return foreignKeysInfo;
+        }
+
+        private void SetForeignsKeys(Database database, Dictionary<string, List<Tuple<string, string, string>>> foreignKeysInfo) 
+        {
+            IEnumerator<string> keyEnumerator = foreignKeysInfo.Keys.GetEnumerator();
+            Table table;
+            IEnumerator<Tuple<string, string, string>> tableForeignKeysListEnumerator;
+            while (keyEnumerator.MoveNext()) 
+            {
+                table = database.GetTable(keyEnumerator.Current);
+                tableForeignKeysListEnumerator = foreignKeysInfo[keyEnumerator.Current].GetEnumerator();
+                while (tableForeignKeysListEnumerator.MoveNext()) 
+                {
+                    table.foreignKey.AddForeignKey(table.GetColumn(tableForeignKeysListEnumerator.Current.Item1), database.GetTable(tableForeignKeysListEnumerator.Current.Item2).GetColumn(tableForeignKeysListEnumerator.Current.Item3));
+                }
+            }
         }
 
         private void LoadTableData(string databaseName, Table table)
@@ -187,6 +220,7 @@ namespace MiniSQL.Parsers
             }
             tableStructureXML.AppendChild(tableElement);
             this.SavePrimaryKeys(table, tableStructureXML);
+            this.SaveForeignKeys(table, tableStructureXML);
             tableStructureXML.InsertBefore(tableStructureXML.CreateXmlDeclaration(this.xmlDeclaration[0], this.xmlDeclaration[1], this.xmlDeclaration[2]), tableElement);
             return tableStructureXML;
         }
@@ -200,6 +234,25 @@ namespace MiniSQL.Parsers
                 primaryKeyElement.AppendChild(this.CreateSimpleNode(xmlDocument, XMLTagsConstants.TableStructureColumnNameTag_WR, primaryKeyEnumerator.Current.columnName));
             }
             xmlDocument.DocumentElement.AppendChild(primaryKeyElement);
+        }
+
+        private void SaveForeignKeys(Table table, XmlDocument xmlDocument) 
+        {
+            XmlElement foreignKeyElement = xmlDocument.CreateElement(XMLTagsConstants.ForeignKeyElementTag_WR);
+            XmlElement pairElement;
+            XmlElement referedColumnElement;
+            IEnumerator<Tuple<Column, Column>> pairEnumerator = table.foreignKey.GetPairEnumerator();
+            while (pairEnumerator.MoveNext()) 
+            {
+                pairElement = xmlDocument.CreateElement(XMLTagsConstants.ForeignKeyPairElementTag_WR);
+                pairElement.AppendChild(this.CreateSimpleNode(xmlDocument, XMLTagsConstants.TableStructureColumnNameTag_WR, pairEnumerator.Current.Item1.columnName));
+                referedColumnElement = xmlDocument.CreateElement(XMLTagsConstants.ReferedColumnElementTag_WR);
+                referedColumnElement.AppendChild(this.CreateSimpleNode(xmlDocument, XMLTagsConstants.TableStructureRootElementTag_WR, pairEnumerator.Current.Item2.table.tableName));
+                referedColumnElement.AppendChild(this.CreateSimpleNode(xmlDocument, XMLTagsConstants.TableStructureColumnNameTag_WR, pairEnumerator.Current.Item2.columnName));
+                pairElement.AppendChild(referedColumnElement);
+                foreignKeyElement.AppendChild(pairElement);
+            }
+            xmlDocument.DocumentElement.AppendChild(foreignKeyElement);
         }
 
         private XmlDocument SaveTableData(Table table) 

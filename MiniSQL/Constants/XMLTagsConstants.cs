@@ -23,7 +23,9 @@ namespace MiniSQL.Constants
         public const string TableDataCellColumnNameAtributeTag_WR = "columnName";
 
         public const string PrimaryKeyElementTag_WR = "primaryKey";
-
+        public const string ForeignKeyElementTag_WR = "foreignKey";
+        public const string ForeignKeyPairElementTag_WR = "pair";
+        public const string ReferedColumnElementTag_WR = "referedColumn";
 
 
     }

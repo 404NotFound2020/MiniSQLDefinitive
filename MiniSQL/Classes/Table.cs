@@ -9,6 +9,7 @@ namespace MiniSQL.Classes
 	{
 		public string tableName;
 		public PrimaryKey primaryKey;
+		public ForeignKey foreignKey;
 		private Dictionary<string, Column> columns;
 		private List<Row> rows;
 		private List<Column> columnsOrdened;
@@ -20,6 +21,7 @@ namespace MiniSQL.Classes
 			rows = new List<Row>();
 			columnsOrdened = new List<Column>();
 			this.primaryKey = new PrimaryKey(this);
+			this.foreignKey = new ForeignKey();
 		}
 
 		public void AddRow(Row row)
@@ -40,6 +42,17 @@ namespace MiniSQL.Classes
 				r.AddCell(cl);
 			}
 			return r;			
+		}
+
+		public bool IsDropable() 
+		{
+			bool b = true;
+			IEnumerator<Column> columnEnumerator = this.columnsOrdened.GetEnumerator();
+			while(columnEnumerator.MoveNext() && b) 
+			{
+				b = !(columnEnumerator.Current.GetNumberOfColumnThatReferenceThisOne() == 0);
+			}
+			return b;
 		}
 
 		public bool DestroyRow(int rowNumber) 
@@ -63,6 +76,7 @@ namespace MiniSQL.Classes
 		{
 			columns.Add(column.columnName, column);
 			columnsOrdened.Add(column);
+			column.table = this;
 		}
 
 		public Column GetColumn(string columnName)
