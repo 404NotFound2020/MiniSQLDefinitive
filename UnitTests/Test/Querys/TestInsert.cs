@@ -54,6 +54,68 @@ namespace UnitTests.Test.Querys
         }
 
         [TestMethod]
+        public void InsertBadArguments_ConcretelyTooMuchParameters_NoticeInValidate()
+        {
+            IDatabaseContainer databaseContainer = ObjectConstructor.CreateDatabaseContainer();
+            Database database = new Database("TestInsert2");
+            Table table = new Table("table1");
+            Column column1 = new Column("c1", DataTypesFactory.GetDataTypesFactory().GetDataType(TypesKeyConstants.StringTypeKey));
+            Column column2 = new Column("c2", DataTypesFactory.GetDataTypesFactory().GetDataType(TypesKeyConstants.IntTypeKey));
+            table.AddColumn(column1);
+            table.AddColumn(column2);
+            database.AddTable(table);
+            databaseContainer.AddDatabase(database);
+            int rowCount = table.GetRowCount();
+            Insert insert = CreateInsert(databaseContainer, database.databaseName, table.tableName);
+            string[] rowData = { "aaa", "1", "aaaa" };            
+            insert.AddValue(rowData[0]);
+            insert.AddValue(rowData[1]);
+            insert.AddValue(rowData[2]);
+            Assert.IsTrue(table.GetColumnCount() < rowData.Length);
+            Assert.IsFalse(insert.ValidateParameters());
+            insert.Execute();
+            Assert.AreEqual(rowCount, table.GetRowCount());
+        }
+
+        [TestMethod]
+        public void InsertBadArguments_ConcretelyNotEnougthParameters_NoticeInValidate()
+        {
+            IDatabaseContainer databaseContainer = ObjectConstructor.CreateDatabaseContainer();
+            Database database = new Database("TestInsert2");
+            Table table = new Table("table1");
+            Column column1 = new Column("c1", DataTypesFactory.GetDataTypesFactory().GetDataType(TypesKeyConstants.StringTypeKey));
+            Column column2 = new Column("c2", DataTypesFactory.GetDataTypesFactory().GetDataType(TypesKeyConstants.IntTypeKey));
+            table.AddColumn(column1);
+            table.AddColumn(column2);
+            database.AddTable(table);
+            databaseContainer.AddDatabase(database);
+            int rowCount = table.GetRowCount();
+            Insert insert = CreateInsert(databaseContainer, database.databaseName, table.tableName);
+            string[] rowData = { "aaa" };
+            insert.AddValue(rowData[0]);
+            Assert.IsTrue(table.GetColumnCount() > rowData.Length);
+            Assert.IsFalse(insert.ValidateParameters());
+            insert.Execute();
+            Assert.AreEqual(rowCount, table.GetRowCount());
+        }
+
+        [TestMethod]
+        public void Insert_BadArguments_ConcretelyDatabaseDoesntExist_NoticeInValidate()
+        {
+            IDatabaseContainer databaseContainer = ObjectConstructor.CreateDatabaseContainer();
+            string doenstExistDatabaseNames = VariousFunctions.GenerateRandomString(6);
+            while (databaseContainer.ExistDatabase(doenstExistDatabaseNames))
+            {
+                doenstExistDatabaseNames = VariousFunctions.GenerateRandomString(6);
+            }
+            Assert.IsFalse(databaseContainer.ExistDatabase(doenstExistDatabaseNames));
+            Insert insert = CreateInsert(databaseContainer, doenstExistDatabaseNames, "aa");
+            insert.AddValue("zz");
+            Assert.IsFalse(insert.ValidateParameters());
+            insert.Execute();
+        }
+
+        [TestMethod]
         public void Insert_GodArguments_TheQueryInsertTheNewsRows()
         {
             IDatabaseContainer databaseContainer = ObjectConstructor.CreateDatabaseContainer();
@@ -87,24 +149,7 @@ namespace UnitTests.Test.Querys
             Assert.IsTrue(column2.GetCells(c2FirstRowData).Count > 0);
             Assert.AreEqual(rowCount + 1, table.GetRowCount());
         }
-
-
-        [TestMethod]
-        public void Insert_BadArguments_ConcretelyDatabaseDoesntExist_NoticeInValidate()
-        {
-            IDatabaseContainer databaseContainer = ObjectConstructor.CreateDatabaseContainer();
-            string doenstExistDatabaseNames = VariousFunctions.GenerateRandomString(6);
-            while (databaseContainer.ExistDatabase(doenstExistDatabaseNames))
-            {
-                doenstExistDatabaseNames = VariousFunctions.GenerateRandomString(6);
-            }
-            Assert.IsFalse(databaseContainer.ExistDatabase(doenstExistDatabaseNames));
-            Insert insert = CreateInsert(databaseContainer, doenstExistDatabaseNames, "aa");
-            insert.AddValue("zz");
-            Assert.IsFalse(insert.ValidateParameters());
-            insert.Execute();
-        }
-
+       
         public Insert CreateInsert(IDatabaseContainer databaseContainer, string databaseName, string tableName)
         {
             Insert insert = new Insert(databaseContainer);

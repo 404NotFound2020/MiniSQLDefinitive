@@ -119,16 +119,10 @@ namespace UnitTests.Test.Parsers
             xmlParser.DeleteTable(testDatabase.databaseName, randomTableName);
         }
 
-
-
-
-
-
         public static AbstractParser CreateXMLParser() 
         {
             ParserBuilder builder = ParserBuilderFactory.GetParserBuilderFactory().GetParserBuilder(ParserVersions.XMLParserVersion);
             builder.SetUbicationManager(LastVersionVariables.UbicationVersion);
-           // builder.SetIndexationVersion(LastVersionVariables.ActualIndexationVersion);
             builder.SetDataFormatManager(LastVersionVariables.SaveDataFormatVersion);
             return builder.GetParser();       
         }
