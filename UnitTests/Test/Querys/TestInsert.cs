@@ -172,6 +172,97 @@ namespace UnitTests.Test.Querys
             insert.Execute();
         }
 
+        [TestMethod]
+        public void InsertInTableWithPK_GoodArgument_TheQueryInsertsTheNewRows()
+        {
+            //Construct
+            IDatabaseContainer databaseContainer = ObjectConstructor.CreateDatabaseContainer();
+            Database database = new Database("database");
+            Table table = new Table("table1");
+            Column column = new Column("c1t1", DataTypesFactory.GetDataTypesFactory().GetDataType(TypesKeyConstants.StringTypeKey));
+            table.AddColumn(column);
+            table.primaryKey.AddKey(column);
+            database.AddTable(table);
+            databaseContainer.AddDatabase(database);
+            //Test
+            bool b = true;
+            int limit = 100;
+            Insert insert;
+            for (int i = 0; i < limit && b; i++)
+            {
+                insert = CreateInsert(databaseContainer, database.databaseName, table.tableName);
+                insert.AddValue(i + "");
+                b = insert.ValidateParameters();
+                insert.Execute();
+            }
+            Assert.IsTrue(b);
+            Assert.AreEqual(limit, table.GetRowCount());
+        }
+
+        [TestMethod]
+        public void InsertInTableWithFK_BadArguments_FKViolated_NoticeInValidate()
+        {
+            //Construct
+            IDatabaseContainer databaseContainer = ObjectConstructor.CreateDatabaseContainer();
+            Database database = new Database("database");
+            Table table1 = new Table("table1");
+            Column columnt1 = new Column("c1t1", DataTypesFactory.GetDataTypesFactory().GetDataType(TypesKeyConstants.StringTypeKey));
+            table1.AddColumn(columnt1);
+            table1.primaryKey.AddKey(columnt1);
+            database.AddTable(table1);
+            Table table2 = new Table("table2");
+            Column column1t2 = new Column("c1t2", DataTypesFactory.GetDataTypesFactory().GetDataType(TypesKeyConstants.StringTypeKey));
+            Column column2t2 = new Column("c2t2", DataTypesFactory.GetDataTypesFactory().GetDataType(TypesKeyConstants.StringTypeKey));
+            table2.AddColumn(column1t2);
+            table2.AddColumn(column2t2);
+            table2.primaryKey.AddKey(column1t2);
+            table2.foreignKey.AddForeignKey(column2t2, columnt1);
+            database.AddTable(table2);
+            databaseContainer.AddDatabase(database);
+            //Add some data
+            Row row = table1.CreateRowDefinition();
+            row.GetCell(columnt1.columnName).data = "aa";
+            table1.AddRow(row);
+            //Test
+            Insert insert = CreateInsert(databaseContainer, database.databaseName, table2.tableName);
+            insert.AddValue(row.GetCell(columnt1.columnName).data + "a"); //it is not the fk column
+            insert.AddValue(row.GetCell(columnt1.columnName).data + "a"); //it is the fk column
+            Assert.IsFalse(insert.ValidateParameters());
+        }
+
+        [TestMethod]
+        public void InsertInTableWithFK_GoodArgument_TheQueryInsertTheNewsRows()
+        {
+            //like the other fk test, but now not violating the FK
+            IDatabaseContainer databaseContainer = ObjectConstructor.CreateDatabaseContainer();
+            Database database = new Database("database");
+            Table table1 = new Table("table1");
+            Column columnt1 = new Column("c1t1", DataTypesFactory.GetDataTypesFactory().GetDataType(TypesKeyConstants.StringTypeKey));
+            table1.AddColumn(columnt1);
+            table1.primaryKey.AddKey(columnt1);
+            database.AddTable(table1);
+            Table table2 = new Table("table2");
+            Column column1t2 = new Column("c1t2", DataTypesFactory.GetDataTypesFactory().GetDataType(TypesKeyConstants.StringTypeKey));
+            Column column2t2 = new Column("c2t2", DataTypesFactory.GetDataTypesFactory().GetDataType(TypesKeyConstants.StringTypeKey));
+            table2.AddColumn(column1t2);
+            table2.AddColumn(column2t2);
+            table2.primaryKey.AddKey(column1t2);
+            table2.foreignKey.AddForeignKey(column2t2, columnt1);
+            database.AddTable(table2);
+            databaseContainer.AddDatabase(database);
+            //Add some data
+            Row row = table1.CreateRowDefinition();
+            row.GetCell(columnt1.columnName).data = "aa";
+            table1.AddRow(row);
+            //Test
+            Insert insert = CreateInsert(databaseContainer, database.databaseName, table2.tableName);
+            insert.AddValue(row.GetCell(columnt1.columnName).data); //it is not the fk column
+            insert.AddValue(row.GetCell(columnt1.columnName).data); //it is the fk column
+            int numberOfColumn = table2.GetRowCount();
+            Assert.IsTrue(insert.ValidateParameters());
+            insert.Execute();
+            Assert.AreEqual(numberOfColumn + 1, table2.GetRowCount());
+        }
         public Insert CreateInsert(IDatabaseContainer databaseContainer, string databaseName, string tableName)
         {
             Insert insert = new Insert(databaseContainer);
