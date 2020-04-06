@@ -149,7 +149,29 @@ namespace UnitTests.Test.Querys
             Assert.IsTrue(column2.GetCells(c2FirstRowData).Count > 0);
             Assert.AreEqual(rowCount + 1, table.GetRowCount());
         }
-       
+
+        [TestMethod]
+        public void Insert_BadArguments_PKViolated_NoticeInValidate()
+        {
+            //Construct
+            IDatabaseContainer databaseContainer = ObjectConstructor.CreateDatabaseContainer();
+            Database database = new Database("database");
+            Table table = new Table("table");
+            Column column = new Column("c1", DataTypesFactory.GetDataTypesFactory().GetDataType(TypesKeyConstants.StringTypeKey));
+            table.AddColumn(column);
+            table.primaryKey.AddKey(column);
+            database.AddTable(table);
+            databaseContainer.AddDatabase(database);
+            Row row = table.CreateRowDefinition();
+            row.GetCell(column.columnName).data = "aaaa";
+            table.AddRow(row);
+            Insert insert = CreateInsert(databaseContainer, database.databaseName, table.tableName);
+            insert.AddValue(row.GetCell(column.columnName).data);
+            //Test
+            Assert.IsFalse(insert.ValidateParameters());
+            insert.Execute();
+        }
+
         public Insert CreateInsert(IDatabaseContainer databaseContainer, string databaseName, string tableName)
         {
             Insert insert = new Insert(databaseContainer);
