@@ -123,5 +123,31 @@ namespace UnitTests.Test
 				Assert.AreEqual(columnCount + i + 1, table.GetColumnCount());
 			}
 		}
+
+		[TestMethod]
+		public void IsDropable_TheTableIsDropable_ReturnTrue()
+		{
+			//Construction phase
+			Table table1 = new Table("t1");
+			Column column1 = ObjectConstructor.CreateColumn(new List<string>(), TypesKeyConstants.StringTypeKey, "c1");
+			table1.AddColumn(column1);
+			//Test phase
+			Assert.IsTrue(table1.IsDropable());
+		}
+
+		[TestMethod]
+		public void IsDropable_TheTableIsNotDropable_ReturnFalse()
+		{
+			//Construction phase
+			Table table1 = new Table("t1");
+			Column column1 = ObjectConstructor.CreateColumn(new List<string>(), TypesKeyConstants.StringTypeKey, "c1");
+			table1.AddColumn(column1);
+			Table table2 = new Table("t2");
+			Column column2 = ObjectConstructor.CreateColumn(new List<string>(), TypesKeyConstants.StringTypeKey, "c2");
+			table2.AddColumn(column2);
+			table2.foreignKey.AddForeignKey(column2, column1);
+			//Test phase
+			Assert.IsFalse(table1.IsDropable());
+		}
 	}
 }
