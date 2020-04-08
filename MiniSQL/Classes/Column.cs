@@ -75,7 +75,7 @@ namespace MiniSQL.Classes
 			return this.columnsThatReferenceThisOne.Count;
 		}
 
-		public bool CheckIfCellCouldBeDeleted(string cellData) 
+		public bool CheckIfCellCouldBeChanged(string cellData) 
 		{
 			bool b = true;
 			IEnumerator<Column> columnEnumerator = this.columnsThatReferenceThisOne.Values.GetEnumerator();

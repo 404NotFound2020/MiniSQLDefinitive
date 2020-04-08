@@ -34,13 +34,19 @@ namespace MiniSQL.Classes
 			return cells.ContainsKey(columnName);
 		}
 
-		public bool CheckIfRowCouldBeDeleted() 
+		public bool CheckIfRowCouldBeChanged() 
+		{
+			return this.CheckIfRowCouldBeChanged(this.cells.Keys.GetEnumerator());
+		}
+
+		public bool CheckIfRowCouldBeChanged(IEnumerator<string> columnNameEnumerator)
 		{
 			bool b = true;
-			IEnumerator<Cell> cellEnumerator = this.cells.Values.GetEnumerator();
-			while(cellEnumerator.MoveNext() && b) 
+			Cell cell;
+			while (columnNameEnumerator.MoveNext() && b)
 			{
-				b = cellEnumerator.Current.column.CheckIfCellCouldBeDeleted(cellEnumerator.Current.data);
+				cell = this.cells[columnNameEnumerator.Current];
+				b = cell.column.CheckIfCellCouldBeChanged(cell.data);
 			}
 			return b;
 		}

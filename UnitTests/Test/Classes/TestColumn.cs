@@ -161,7 +161,7 @@ namespace UnitTests.Test
             row2.GetCell(column2.columnName).data = cell1.data + "1";
             table2.AddRow(row2);
             //Test phase
-            Assert.IsTrue(column1.CheckIfCellCouldBeDeleted(cell1.data));
+            Assert.IsTrue(column1.CheckIfCellCouldBeChanged(cell1.data));
         }
 
         [TestMethod]
@@ -183,7 +183,7 @@ namespace UnitTests.Test
             row2.GetCell(column2.columnName).data = cell1.data;
             table2.AddRow(row2);
             //Test phase
-            Assert.IsFalse(column1.CheckIfCellCouldBeDeleted(cell1.data));
+            Assert.IsFalse(column1.CheckIfCellCouldBeChanged(cell1.data));
         }
     }
 }

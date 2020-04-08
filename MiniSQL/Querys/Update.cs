@@ -29,25 +29,28 @@ namespace MiniSQL.Querys
             if (this.GetIsValidQuery()) {
                 if (!table.primaryKey.Evaluate(this.updateColumnData)) this.SaveTheError(QuerysStringResultConstants.PrimaryKeyError);
                 if (!table.foreignKey.Evaluate(this.updateColumnData)) this.SaveTheError(QuerysStringResultConstants.ForeignKeyError);
+                //VALIDAR SI EL CAMBIO AFECTA A UNA TABLA
             }
         }
 
         public override void ExecuteParticularQueryAction(Table table)
         {
             IEnumerator<Row> rowEnumerator = table.GetRowEnumerator();
+            int couldnotChanged = 0;
             while (rowEnumerator.MoveNext())
             {
                 if (this.whereClause.IsSelected(rowEnumerator.Current))
                 {
                     IEnumerator<KeyValuePair<string, string>> rowColum = updateColumnData.GetEnumerator();
-                    while (rowColum.MoveNext())
+                    if (!rowEnumerator.Current.CheckIfRowCouldBeChanged()) couldnotChanged = couldnotChanged + 1;
+                    else
                     {
-                        rowEnumerator.Current.GetCell(rowColum.Current.Key).data = rowColum.Current.Value;
+                        while (rowColum.MoveNext()) rowEnumerator.Current.GetCell(rowColum.Current.Key).data = rowColum.Current.Value;                           
+                        this.AddAfectedRow(rowEnumerator.Current);
                     }
-                    this.AddAfectedRow(rowEnumerator.Current);
                 }
             }
-            this.SetResult("Total rows updated: " + this.GetAfectedRowCount());
+            this.SetResult("Total rows updated: " + this.GetAfectedRowCount() + "\nCould not updated row number: " + couldnotChanged);
         }
 
         public void AddValue(string columnName, string value)

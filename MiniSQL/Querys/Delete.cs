@@ -32,7 +32,7 @@ namespace MiniSQL.Querys
             int h = 0;
             while (enumerator.MoveNext() && afectedRowsEnumerator.MoveNext())
             {
-                if (!afectedRowsEnumerator.Current.CheckIfRowCouldBeDeleted()) h = h + 1;
+                if (!afectedRowsEnumerator.Current.CheckIfRowCouldBeChanged()) h = h + 1;
                 else
                 {                   
                     this.AddAfectedRow(afectedRowsEnumerator.Current);
