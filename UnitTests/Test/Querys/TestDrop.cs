@@ -5,6 +5,8 @@ using MiniSQL.Classes;
 using MiniSQL.Interfaces;
 using MiniSQL.Querys;
 using UnitTests.Test.TestObjectsContructor;
+using MiniSQL.Constants;
+using MiniSQL.DataTypes;
 
 namespace UnitTests.Test.Querys
 {
@@ -98,6 +100,29 @@ namespace UnitTests.Test.Querys
             }
             Assert.AreEqual(parametros, false);
             Assert.AreEqual(tablaBorrada, false);
+        }
+
+        [TestMethod]
+        public void DropTable_BadArgumentsTryToDropReferenciedTable_NotifyInValidate()
+        {
+            //Construct phase
+            IDatabaseContainer container = ObjectConstructor.CreateDatabaseContainer();
+            Database db = new Database("database1");
+            Table table1 = new Table("table1");
+            Column column1t1 = new Column("c1t1", DataTypesFactory.GetDataTypesFactory().GetDataType(TypesKeyConstants.IntTypeKey));
+            table1.AddColumn(column1t1);
+            table1.primaryKey.AddKey(column1t1);
+            db.AddTable(table1);
+            Table table2 = new Table("table2");
+            Column column1t2 = new Column("c1t2", DataTypesFactory.GetDataTypesFactory().GetDataType(TypesKeyConstants.IntTypeKey));
+            table2.AddColumn(column1t2);
+            table2.primaryKey.AddKey(column1t2);
+            db.AddTable(table2);
+            container.AddDatabase(db);
+            table2.foreignKey.AddForeignKey(column1t2, column1t1);
+            //Test Phase
+            Drop drop = CreateDrop(container, db.databaseName, table1.tableName);
+            Assert.IsFalse(drop.ValidateParameters());
         }
 
         //Lo he puesto en mayusculas la primera letra (para cumplir con las reglas del proyecto, aunque tampoco pasaria nada si se nos cuela alguna minuscula, supongo)
