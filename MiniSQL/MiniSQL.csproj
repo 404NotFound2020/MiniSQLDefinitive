@@ -88,6 +88,8 @@
     <Compile Include="Parsers\XMLParserBuilder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Querys\CreateSecurityProfile.cs" />
+    <Compile Include="Querys\CreateUser.cs" />
+    <Compile Include="Querys\DeleteUser.cs" />
     <Compile Include="Querys\DropDatabase.cs" />
     <Compile Include="Querys\CreateDatabase.cs" />
     <Compile Include="Querys\Create.cs" />
@@ -98,6 +100,7 @@
     <Compile Include="Querys\Operator.cs" />
     <Compile Include="Querys\OperatorFactory.cs" />
     <Compile Include="Querys\QueryFactory.cs" />
+    <Compile Include="Querys\RevoquePrivilege.cs" />
     <Compile Include="Querys\Update.cs" />
     <Compile Include="Querys\Insert.cs" />
     <Compile Include="Querys\Select.cs" />
