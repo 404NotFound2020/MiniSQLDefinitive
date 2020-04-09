@@ -71,7 +71,12 @@ namespace MiniSQL.Initializer
                 database = this.activeDatabases[SystemeConstants.SystemDatabaseName];
                 if (!database.ExistTable(SystemeConstants.UsersTableName)) this.AddNewTableToADatabase(database, DefaultDataConstructor.CreateUsersTable());
                 if (!database.ExistTable(SystemeConstants.ProfilesTableName)) this.AddNewTableToADatabase(database, DefaultDataConstructor.CreateProfilesTable());
+                if (!database.ExistTable(SystemeConstants.NoRemovableUsersTableName)) this.AddNewTableToADatabase(database, DefaultDataConstructor.CreateNoRemovableUsersTable(database.GetTable(SystemeConstants.UsersTableName)));
+                if (!database.ExistTable(SystemeConstants.NoRemovableProfilesTableName)) this.AddNewTableToADatabase(database, DefaultDataConstructor.CreateNoRemovableProfilesTable(database.GetTable(SystemeConstants.ProfilesTableName)));
                 if (!database.ExistTable(SystemeConstants.UserProfilesTableName)) this.AddNewTableToADatabase(database, DefaultDataConstructor.CreateUserProfilesTable(database.GetTable(SystemeConstants.UsersTableName), database.GetTable(SystemeConstants.ProfilesTableName)));
+                if (!database.ExistTable(SystemeConstants.NoRemovableUserProfilesTableName)) this.AddNewTableToADatabase(database, DefaultDataConstructor.CreateNoRemovableUserProfilesTable(database.GetTable(SystemeConstants.UserProfilesTableName)));
+                if (!database.ExistTable(SystemeConstants.PrivilegesTableName)) this.AddNewTableToADatabase(database, DefaultDataConstructor.CreatePrivilegesTable());
+                if (!database.ExistTable(SystemeConstants.PrivilegesOfProfilesOnTablesTableName)) this.AddNewTableToADatabase(database, DefaultDataConstructor.CreatePrivilegesOfProfilesTable(database.GetTable(SystemeConstants.ProfilesTableName), database.GetTable(SystemeConstants.PrivilegesTableName)));
             }
         }
 

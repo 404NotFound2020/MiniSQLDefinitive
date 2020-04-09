@@ -42,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Comparers\DictionaryComparer.cs" />
+    <Compile Include="Comparers\DupleComparer.cs" />
     <Compile Include="Comparers\ListComparer.cs" />
     <Compile Include="ConcurrenceClasses\ClientThread.cs" />
     <Compile Include="ConfigurationClasses\SystemConfiguration.cs" />
@@ -73,6 +74,7 @@
     <Compile Include="DataTypes\StringType.cs" />
     <Compile Include="Classes\Table.cs" />
     <Compile Include="Interfaces\AbstractParser.cs" />
+    <Compile Include="Interfaces\IDatabaseContainerOmega.cs" />
     <Compile Include="Interfaces\ISaveDataFormatManager.cs" />
     <Compile Include="Interfaces\IDatabaseContainer.cs" />
     <Compile Include="Interfaces\IUbicationManager.cs" />

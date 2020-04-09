@@ -126,7 +126,7 @@ namespace MiniSQL.Classes
 			{
 				if (!x.tableName.Equals(y.tableName))
 					return false;
-				return new ListComparer<Column>(Column.GetColumnComparer()).Equals(x.columnsOrdened, y.columnsOrdened) && PrimaryKey.GetPrimaryKeyComparer().Equals(x.primaryKey, y.primaryKey);
+				return new ListComparer<Column>(Column.GetColumnComparer()).Equals(x.columnsOrdened, y.columnsOrdened) && PrimaryKey.GetPrimaryKeyComparer().Equals(x.primaryKey, y.primaryKey) && ForeignKey.GetForeignKeyComparer().Equals(x.foreignKey, y.foreignKey);
 			}
 
 			public int GetHashCode(Table obj)

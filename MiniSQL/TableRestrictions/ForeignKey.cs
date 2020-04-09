@@ -1,4 +1,5 @@
 ﻿using MiniSQL.Classes;
+using MiniSQL.Comparers;
 using MiniSQL.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -67,5 +68,25 @@ namespace MiniSQL.TableRestrictions
         {
             return column.table.tableName + "." + column.columnName;        
         }
+
+        public static IEqualityComparer<ForeignKey> GetForeignKeyComparer()
+        {
+            return new ForeignKeyComparer();
+        }
+
+        private class ForeignKeyComparer : IEqualityComparer<ForeignKey>
+        {
+            public bool Equals(ForeignKey x, ForeignKey y)
+            {
+                IEqualityComparer<Column> columnComparer = Column.GetColumnComparer();
+                return new DictionaryComparer<string, Tuple<Column, Column>>(new DupleComparer<Column, Column>(columnComparer, columnComparer)).Equals(x.foreignKeys, y.foreignKeys);
+            }
+
+            public int GetHashCode(ForeignKey obj)
+            {
+                throw new NotImplementedException();
+            }
+        }
+
     }
 }
