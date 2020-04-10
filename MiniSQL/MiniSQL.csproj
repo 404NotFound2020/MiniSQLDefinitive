@@ -41,6 +41,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Initializer\DatabaseProxy.cs" />
+    <Compile Include="Initializer\TableProxy.cs" />
     <Compile Include="Interfaces\IDatabase.cs" />
     <Compile Include="Interfaces\ITable.cs" />
     <Compile Include="Comparers\DictionaryComparer.cs" />
@@ -76,7 +78,7 @@
     <Compile Include="DataTypes\StringType.cs" />
     <Compile Include="Classes\Table.cs" />
     <Compile Include="Interfaces\AbstractParser.cs" />
-    <Compile Include="Interfaces\IDatabaseContainerOmega.cs" />
+    <Compile Include="Interfaces\ISysteme.cs" />
     <Compile Include="Interfaces\ISaveDataFormatManager.cs" />
     <Compile Include="Interfaces\IDatabaseContainer.cs" />
     <Compile Include="Interfaces\IUbicationManager.cs" />

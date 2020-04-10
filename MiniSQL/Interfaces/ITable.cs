@@ -22,8 +22,6 @@ namespace MiniSQL.Interfaces
         public abstract int GetRowCount();
         public abstract IEnumerator<Row> GetRowEnumerator();
         public abstract bool IsDropable();
-        public abstract void IncrementNumberOfReferencesAtThisTable();
-        public abstract void DecrementNumberOfReferencesAtThisTable();
         protected abstract List<Column> GetColumnList();
 
         public static IEqualityComparer<ITable> GetTableComparer(){

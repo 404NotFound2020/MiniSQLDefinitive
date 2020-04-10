@@ -42,26 +42,6 @@ namespace UnitTests.Test.TestObjectsContructor
             return this.databases.Count;
         }
 
-        public void SaveData()
-        {
-            
-        }
-
-        public void SaveData(IDatabase database)
-        {
-            
-        }
-
-        public void SaveTable(IDatabase database, ITable table)
-        {
-            
-        }
-
-        public void RemoveTable(IDatabase database, ITable table)
-        {
-            
-        }
-
         public string GetDefaultDatabaseName()
         {
             return null;

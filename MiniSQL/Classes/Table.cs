@@ -48,12 +48,12 @@ namespace MiniSQL.Classes
 			return r;
 		}
 
-		public override void IncrementNumberOfReferencesAtThisTable()
+		public void IncrementNumberOfReferencesAtThisTable()
 		{
 			this.numberOfReferencesAtThisTable = this.numberOfReferencesAtThisTable + 1;
 		}
 
-		public override void DecrementNumberOfReferencesAtThisTable()
+		public void DecrementNumberOfReferencesAtThisTable()
 		{
 			this.numberOfReferencesAtThisTable = this.numberOfReferencesAtThisTable - 1;
 		}
@@ -85,6 +85,18 @@ namespace MiniSQL.Classes
 			columns.Add(column.columnName, column);
 			columnsOrdened.Add(column);
 			column.table = this;
+			this.AddCellBecauseOfColumnAddition(column);
+		}
+
+		private void AddCellBecauseOfColumnAddition(Column column) {
+			IEnumerator<Row> rowEnumerator = this.rows.GetEnumerator();
+			Cell cell;
+			while (rowEnumerator.MoveNext())
+			{
+				cell = new Cell(column, column.dataType.GetDataTypeDefaultValue(), rowEnumerator.Current);
+				rowEnumerator.Current.AddCell(cell);
+				column.AddCell(cell);
+			}
 		}
 
 		public override Column GetColumn(string columnName)

@@ -22,7 +22,6 @@ namespace MiniSQL.Querys
             IDatabase database = this.GetContainer().GetDatabase(this.targetDatabase);
             ITable table = database.GetTable(this.targetTableName);
             database.DropTable(table.tableName);
-            this.GetContainer().RemoveTable(database, table);
             this.SetResult(QuerysStringResultConstants.TableSucesfullyDeleted(table.tableName));
         }
 

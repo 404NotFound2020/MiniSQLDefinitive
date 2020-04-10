@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace MiniSQL.Initializer
 {
-    public class Systeme : IDatabaseContainer
+    public class Systeme : IDatabaseContainer, ISysteme
     {
 
         private Dictionary<string, IDatabase> activeDatabases;        
@@ -87,7 +87,7 @@ namespace MiniSQL.Initializer
 
         public IDatabase GetDatabase(string databaseName)
         {
-            return activeDatabases[databaseName];
+            return new DatabaseProxy(activeDatabases[databaseName], this);
         }
 
         public bool ExistDatabase(string databaseName)

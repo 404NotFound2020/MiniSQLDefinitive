@@ -35,6 +35,7 @@ namespace MiniSQL.Initializer
             Row row = table.CreateRowDefinition();
             row.GetCell(SystemeConstants.UsersNameColumnName).data = SystemeConstants.AdminUser;
             row.GetCell(SystemeConstants.UsersPasswordColumnName).data = SystemeConstants.AdminPassword;
+            table.AddRow(row);
             return table;
         }
 
