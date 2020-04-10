@@ -1,6 +1,7 @@
 ﻿using MiniSQL.Classes;
 using MiniSQL.ConfigurationClasses;
 using MiniSQL.Constants;
+using MiniSQL.Initializer;
 using MiniSQL.Interfaces;
 using MiniSQL.Parsers;
 using System;
@@ -9,7 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MiniSQL.Initializer
+namespace MiniSQL.SystemeClasses
 {
     public class Systeme : IDatabaseContainer, ISysteme
     {

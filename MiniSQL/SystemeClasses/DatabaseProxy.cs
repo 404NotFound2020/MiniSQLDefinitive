@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MiniSQL.Initializer
+namespace MiniSQL.SystemeClasses
 {
     public class DatabaseProxy : IDatabase
     {

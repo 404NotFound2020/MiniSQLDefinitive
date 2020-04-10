@@ -41,8 +41,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Initializer\DatabaseProxy.cs" />
-    <Compile Include="Initializer\TableProxy.cs" />
+    <Compile Include="SystemeClasses\DatabaseProxy.cs" />
+    <Compile Include="SystemeClasses\TableProxy.cs" />
     <Compile Include="Interfaces\IDatabase.cs" />
     <Compile Include="Interfaces\ITable.cs" />
     <Compile Include="Comparers\DictionaryComparer.cs" />
@@ -62,7 +62,7 @@
     <Compile Include="Constants\XMLTagsConstants.cs" />
     <Compile Include="Initializer\ConfigDelimitator.cs" />
     <Compile Include="Initializer\DefaultDataConstructor.cs" />
-    <Compile Include="Initializer\Systeme.cs" />
+    <Compile Include="SystemeClasses\Systeme.cs" />
     <Compile Include="Initializer\ConfigurationParser.cs" />
     <Compile Include="Interfaces\AbstractQuery.cs" />
     <Compile Include="Interfaces\DataChangeQuery.cs" />

@@ -5,6 +5,7 @@ using MiniSQL.ConfigurationClasses;
 using MiniSQL.Initializer;
 using MiniSQL.Interfaces;
 using MiniSQL.Parsers;
+using MiniSQL.SystemeClasses;
 using UnitTests.Test.TestObjectsContructor;
 
 namespace UnitTests.Test.Initializer
