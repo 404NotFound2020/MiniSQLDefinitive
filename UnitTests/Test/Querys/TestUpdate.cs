@@ -132,5 +132,120 @@ namespace UnitTests.Test.Querys
             Assert.IsFalse(update.ValidateParameters());
             update.Execute();
         }
+
+
+        [TestMethod]
+        public void UpdatePKColumn_BadArguments_ConcretelyPKViolated_NoticeInValidate()
+        {
+            // C phase
+            IDatabaseContainer databaseContainer = ObjectConstructor.CreateDatabaseContainer();
+            Database database = new Database("database");
+            Table table1 = new Table("t1");
+            Column c1 = new Column("column1", DataTypesFactory.GetDataTypesFactory().GetDataType(TypesKeyConstants.StringTypeKey));
+            table1.AddColumn(c1);
+            table1.primaryKey.AddKey(c1);
+            Row row = table1.CreateRowDefinition();
+            row.GetCell(c1.columnName).data = "data";
+            table1.AddRow(row);
+            Row row2 = table1.CreateRowDefinition();
+            row.GetCell(c1.columnName).data = row.GetCell(c1.columnName).data + "a";
+            table1.AddRow(row2);
+            database.AddTable(table1);
+            databaseContainer.AddDatabase(database);
+            // T phase
+            Update update = CreateUpdate(databaseContainer, database.databaseName, table1.tableName);
+            update.AddValue(c1.columnName, row2.GetCell(c1.columnName).data);
+            update.whereClause.AddCritery(new Tuple<string, string>(c1.columnName, row.GetCell(c1.columnName).data), OperatorFactory.GetOperatorFactory().GetOperator(OperatorKeys.EqualKey));
+            Assert.IsFalse(update.ValidateParameters());
+        }
+
+        [TestMethod]
+        public void UpdatePKColumn_GoodArguments_DoTheUpdate()
+        {
+            // C phase
+            IDatabaseContainer databaseContainer = ObjectConstructor.CreateDatabaseContainer();
+            Database database = new Database("database");
+            Table table1 = new Table("t1");
+            Column c1 = new Column("column1", DataTypesFactory.GetDataTypesFactory().GetDataType(TypesKeyConstants.StringTypeKey));
+            table1.AddColumn(c1);
+            table1.primaryKey.AddKey(c1);
+            Row row = table1.CreateRowDefinition();
+            row.GetCell(c1.columnName).data = "data";
+            table1.AddRow(row);
+            database.AddTable(table1);
+            databaseContainer.AddDatabase(database);
+            // T phase
+            Update update = CreateUpdate(databaseContainer, database.databaseName, table1.tableName);
+            update.AddValue(c1.columnName, row.GetCell(c1.columnName).data + "a");
+            update.whereClause.AddCritery(new Tuple<string, string>(c1.columnName, row.GetCell(c1.columnName).data), OperatorFactory.GetOperatorFactory().GetOperator(OperatorKeys.EqualKey));
+            Assert.IsTrue(update.ValidateParameters());
+            update.Execute();
+            Assert.AreEqual(1, update.GetAfectedRowCount());
+        }
+
+        [TestMethod]
+        public void UpdateFKColumn_BadArguments_ConcretelyFKViolated_NotifyInValidate()
+        {
+            // C phase
+            IDatabaseContainer databaseContainer = ObjectConstructor.CreateDatabaseContainer();
+            Database database = new Database("database");
+            Table table1 = new Table("t1");
+            Column c1table1 = new Column("column1", DataTypesFactory.GetDataTypesFactory().GetDataType(TypesKeyConstants.StringTypeKey));
+            table1.AddColumn(c1table1);
+            table1.primaryKey.AddKey(c1table1);
+            Table table2 = new Table("t2");
+            Column c1table2 = new Column("column1", DataTypesFactory.GetDataTypesFactory().GetDataType(TypesKeyConstants.StringTypeKey));
+            table2.AddColumn(c1table2);
+            table2.primaryKey.AddKey(c1table2);
+            table2.foreignKey.AddForeignKey(c1table2, c1table1);
+            Row r1 = table1.CreateRowDefinition();
+            r1.GetCell(c1table1.columnName).data = "asda";
+            table1.AddRow(r1);
+            Row r2 = table2.CreateRowDefinition();
+            r2.GetCell(c1table2.columnName).data = r1.GetCell(c1table1.columnName).data;
+            table2.AddRow(r2);
+            database.AddTable(table1);
+            database.AddTable(table2);
+            databaseContainer.AddDatabase(database);
+            // T phase
+            Update update = CreateUpdate(databaseContainer, database.databaseName, table2.tableName);
+            update.AddValue(c1table2.columnName, r2.GetCell(c1table2.columnName).data + "aaa");
+            Assert.IsFalse(update.ValidateParameters());
+        }
+
+        [TestMethod]
+        public void UpdateFKColumn_GoodArguments_DoTheUpdate()
+        {
+            // C phase
+            IDatabaseContainer databaseContainer = ObjectConstructor.CreateDatabaseContainer();
+            Database database = new Database("database");
+            Table table1 = new Table("t1");
+            Column c1table1 = new Column("column1", DataTypesFactory.GetDataTypesFactory().GetDataType(TypesKeyConstants.StringTypeKey));
+            table1.AddColumn(c1table1);
+            table1.primaryKey.AddKey(c1table1);
+            Table table2 = new Table("t2");
+            Column c1table2 = new Column("column1", DataTypesFactory.GetDataTypesFactory().GetDataType(TypesKeyConstants.StringTypeKey));
+            table2.AddColumn(c1table2);
+            table2.primaryKey.AddKey(c1table2);
+            table2.foreignKey.AddForeignKey(c1table2, c1table1);
+            Row r1 = table1.CreateRowDefinition();
+            r1.GetCell(c1table1.columnName).data = "asda";
+            table1.AddRow(r1);
+            Row r2 = table1.CreateRowDefinition();
+            r2.GetCell(c1table1.columnName).data = r1.GetCell(c1table1.columnName).data + "a";
+            table1.AddRow(r2);
+            Row r3 = table2.CreateRowDefinition();
+            r3.GetCell(c1table2.columnName).data = r1.GetCell(c1table1.columnName).data;
+            table2.AddRow(r3);
+            database.AddTable(table1);
+            database.AddTable(table2);
+            databaseContainer.AddDatabase(database);
+            // T phase
+            Update update = CreateUpdate(databaseContainer, database.databaseName, table2.tableName);
+            update.AddValue(c1table2.columnName, r2.GetCell(c1table2.columnName).data);
+            update.whereClause.AddCritery(new Tuple<string, string>(c1table2.columnName, r3.GetCell(c1table2.columnName).data), OperatorFactory.GetOperatorFactory().GetOperator(OperatorKeys.EqualKey));
+            Assert.IsTrue(update.ValidateParameters());
+        }
+
     }
 }
