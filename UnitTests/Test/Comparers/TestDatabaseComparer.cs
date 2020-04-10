@@ -58,7 +58,7 @@ namespace UnitTests.Test.Comparers
 
         [TestMethod]
         public void Equals_TwoNoEqualDatabaseDiferencesInTableNames_ReturnFalse()
-        {
+        {            
             IEqualityComparer<Database> databaseComparer = CreateDatabaseComparer();
             string[] tableNames = { "table1", "table2", "table3" };
             Database database1 = new Database("aaaa");

@@ -18,7 +18,7 @@ namespace MiniSQL.Querys
             this.values = new List<string>();
         }
 
-        protected override void ValidateParameters(Table table)
+        protected override void ValidateParameters(ITable table)
         {
             if (this.values.Count > table.GetColumnCount()) this.SaveTheError(QuerysStringResultConstants.TooMuchValues);
             else if (this.values.Count < table.GetColumnCount()) this.SaveTheError(QuerysStringResultConstants.NotEnoughtValues);
@@ -35,7 +35,7 @@ namespace MiniSQL.Querys
             }
         }
 
-        public override void ExecuteParticularQueryAction(Table table)
+        public override void ExecuteParticularQueryAction(ITable table)
         {
             IEnumerator<string> valuesEnumerator = values.GetEnumerator();
             IEnumerator<Column> columnEnumerator = table.GetColumnEnumerator();

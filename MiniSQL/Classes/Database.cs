@@ -1,74 +1,54 @@
 ﻿using MiniSQL.Comparers;
+using MiniSQL.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
 namespace MiniSQL.Classes
 {
-	public class Database
+	public class Database : IDatabase
 	{
-		public string databaseName;
-		private Dictionary<string, Table> tables;
+		private Dictionary<string, ITable> tables;
+
+		public override string databaseName { get; set; }
 
 		public Database(string databaseName)
 		{
 			this.databaseName = databaseName;
-			this.tables = new Dictionary<string, Table>();
+			this.tables = new Dictionary<string, ITable>();
 		}
 
-		public bool ExistTable(string tableName)
+		public override bool ExistTable(string tableName)
 		{
 			return this.tables.ContainsKey(tableName);
 		}
 
-		public void DropTable(string tableName)
+		public override void DropTable(string tableName)
 		{
 			this.tables.Remove(tableName);
 		}
 
-		public void AddTable(Table table)
+		public override void AddTable(ITable table)
 		{
 			this.tables.Add(table.tableName,table);
 		}
 
-		public Table GetTable(string tableName)
+		public override ITable GetTable(string tableName)
 		{
 			return this.tables[tableName];
 		}
 
-		public IEnumerator<Table> GetTableEnumerator()
+		public override IEnumerator<ITable> GetTableEnumerator()
 		{
 			return this.tables.Values.GetEnumerator();
 		}
-
-		public static IEqualityComparer<Database> GetDatabaseComparer()
+		
+		protected override Dictionary<string, ITable> GetTables()
 		{
-			return new DatabaseComparer();
+			return this.tables;
 		}
 
 		
-
-
-
-
-
-
-
-
-		private class DatabaseComparer : IEqualityComparer<Database>
-		{
-			public bool Equals(Database x, Database y)
-			{
-				if (!x.databaseName.Equals(y.databaseName))
-					return false;
-				return new DictionaryComparer<string, Table>(Table.GetTableComparer()).Equals(x.tables, y.tables);
-			}
-
-			public int GetHashCode(Database obj)
-			{
-				throw new NotImplementedException();
-			}
-		}
 
 
 

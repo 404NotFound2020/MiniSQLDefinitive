@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MiniSQL.Classes;
+using MiniSQL.Interfaces;
 
 namespace UnitTests.Test
 {
@@ -62,7 +63,7 @@ namespace UnitTests.Test
             Table table = createTable();
             Database db = createDatabase();
             db.AddTable(table);
-            Table tb2 = db.GetTable(table.tableName);
+            ITable tb2 = db.GetTable(table.tableName);
             if (table.Equals(tb2))
             {
                 Assert.AreEqual(true,true);
@@ -79,7 +80,7 @@ namespace UnitTests.Test
             Table table = createTable();
             Database db = createDatabase();
             db.AddTable(table);
-            Table tb2 = db.GetTable(table.tableName);
+            ITable tb2 = db.GetTable(table.tableName);
             if (!table.Equals(tb2))
             {
                 Assert.AreEqual(false, true);

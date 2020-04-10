@@ -11,10 +11,10 @@ namespace MiniSQL.TableRestrictions
 {
     public class ForeignKey
     {
-        public Table table;
+        public ITable table;
         private Dictionary<string, Tuple<Column, Column>> foreignKeys;
 
-        public ForeignKey(Table table) 
+        public ForeignKey(ITable table) 
         {
             this.table = table;
             this.foreignKeys = new Dictionary<string, Tuple<Column, Column>>();

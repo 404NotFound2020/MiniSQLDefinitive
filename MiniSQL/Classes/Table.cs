@@ -1,20 +1,21 @@
 ﻿using MiniSQL.Comparers;
+using MiniSQL.Interfaces;
 using MiniSQL.TableRestrictions;
 using System;
 using System.Collections.Generic;
 
 namespace MiniSQL.Classes
 {
-	public class Table
+	public class Table : ITable
 	{
-		public string tableName;
-		public PrimaryKey primaryKey;
-		public ForeignKey foreignKey;
+		public override string tableName { get; set; }
+		public override PrimaryKey primaryKey { get; }
+		public override ForeignKey foreignKey { get; }
 		private Dictionary<string, Column> columns;
 		private List<Row> rows;
 		private List<Column> columnsOrdened;
 		private int numberOfReferencesAtThisTable;
-
+		
 		public Table(string tableName)
 		{
 			this.tableName = tableName;
@@ -26,42 +27,43 @@ namespace MiniSQL.Classes
 			this.foreignKey = new ForeignKey(this);
 		}
 
-		public void AddRow(Row row)
+		public override void AddRow(Row row)
 		{
 			IEnumerator<Column> columnEnumerator = this.columnsOrdened.GetEnumerator();
-			while (columnEnumerator.MoveNext()) 
+			while (columnEnumerator.MoveNext())
 			{
 				columnEnumerator.Current.AddCell(row.GetCell(columnEnumerator.Current.columnName));
 			}
 			rows.Add(row);
 		}
 
-		public Row CreateRowDefinition() {			
-			Row r = new Row();			
+		public override Row CreateRowDefinition()
+		{
+			Row r = new Row();
 			foreach (Column c in columnsOrdened)
 			{
 				Cell cl = new Cell(c, c.dataType.GetDataTypeDefaultValue(), r);
 				r.AddCell(cl);
 			}
-			return r;			
+			return r;
 		}
 
-		public void IncrementNumberOfReferencesAtThisTable()
+		public override void IncrementNumberOfReferencesAtThisTable()
 		{
 			this.numberOfReferencesAtThisTable = this.numberOfReferencesAtThisTable + 1;
 		}
 
-		public void DecrementNumberOfReferencesAtThisTable()
+		public override void DecrementNumberOfReferencesAtThisTable()
 		{
 			this.numberOfReferencesAtThisTable = this.numberOfReferencesAtThisTable - 1;
 		}
 
-		public bool IsDropable() 
+		public override bool IsDropable()
 		{
 			return this.numberOfReferencesAtThisTable == 0;
 		}
 
-		public bool DestroyRow(int rowNumber) 
+		public override bool DestroyRow(int rowNumber)
 		{
 			bool b = false;
 			if (rowNumber < this.GetRowCount())
@@ -78,62 +80,49 @@ namespace MiniSQL.Classes
 			return b;
 		}
 
-		public void AddColumn(Column column)
+		public override void AddColumn(Column column)
 		{
 			columns.Add(column.columnName, column);
 			columnsOrdened.Add(column);
 			column.table = this;
 		}
 
-		public Column GetColumn(string columnName)
+		public override Column GetColumn(string columnName)
 		{
 			return columns[columnName];
 		}
 
-		public bool ExistColumn(string columnName)
+		public override bool ExistColumn(string columnName)
 		{
-			return this.columns.ContainsKey(columnName);	
+			return this.columns.ContainsKey(columnName);
 		}
 
-		public IEnumerator<Column> GetColumnEnumerator()
+		public override IEnumerator<Column> GetColumnEnumerator()
 		{
 			return this.columnsOrdened.GetEnumerator();
 		}
 
-		public IEnumerator<Row> GetRowEnumerator() 
+		public override IEnumerator<Row> GetRowEnumerator()
 		{
 			return this.rows.GetEnumerator();
 		}
 
-		public static IEqualityComparer<Table> GetTableComparer()
-		{
-			return new TableComparer();
-		}
-
-		public int GetRowCount() 
+		public override int GetRowCount()
 		{
 			return this.rows.Count;
 		}
 
-		public int GetColumnCount() 
+		public override int GetColumnCount()
 		{
 			return this.columnsOrdened.Count;
 		}
 
-		private class TableComparer : IEqualityComparer<Table>
+		protected override List<Column> GetColumnList()
 		{
-			public bool Equals(Table x, Table y)
-			{
-				if (!x.tableName.Equals(y.tableName))
-					return false;
-				return new ListComparer<Column>(Column.GetColumnComparer()).Equals(x.columnsOrdened, y.columnsOrdened) && PrimaryKey.GetPrimaryKeyComparer().Equals(x.primaryKey, y.primaryKey) && ForeignKey.GetForeignKeyComparer().Equals(x.foreignKey, y.foreignKey);
-			}
-
-			public int GetHashCode(Table obj)
-			{
-				throw new NotImplementedException();
-			}
+			return this.columnsOrdened;
 		}
+
+		
 
 
 	}

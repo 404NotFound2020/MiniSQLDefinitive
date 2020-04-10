@@ -16,7 +16,7 @@ namespace UnitTests.Test.Querys
         public void Select_GoodArguments_ShouldFindResults()
         {
             Database database = ObjectConstructor.CreateDatabaseFull("test1");
-            Table table = database.GetTable("Table1");
+            ITable table = database.GetTable("Table1");
             table.AddRow(table.CreateRowDefinition());
             IDatabaseContainer databaseContainer = ObjectConstructor.CreateDatabaseContainer();
             databaseContainer.AddDatabase(database);
@@ -32,7 +32,7 @@ namespace UnitTests.Test.Querys
         {
             IDatabaseContainer databaseContainer = ObjectConstructor.CreateDatabaseContainer();
             Database database = new Database("aa");
-            Table table = new Table("table1");
+            ITable table = new Table("table1");
             string columnName = "c1";
             Column column = new Column(columnName, DataTypesFactory.GetDataTypesFactory().GetDataType(TypesKeyConstants.StringTypeKey));
             table.AddColumn(column);
@@ -55,7 +55,7 @@ namespace UnitTests.Test.Querys
             IDatabaseContainer databaseContainer = ObjectConstructor.CreateDatabaseContainer();            
             Database database = new Database("aa");
             databaseContainer.AddDatabase(database); //Notice the references. (this database object references, no the 'referencias')
-            Table table = new Table("table1");
+            ITable table = new Table("table1");
             Column column = new Column("c1", DataTypesFactory.GetDataTypesFactory().GetDataType(TypesKeyConstants.StringTypeKey));
             table.AddColumn(column);
             database.AddTable(table);
@@ -90,7 +90,7 @@ namespace UnitTests.Test.Querys
         {
             IDatabaseContainer databaseContainer = ObjectConstructor.CreateDatabaseContainer();
             Database database = new Database("aa");            
-            Table table = new Table("table1");
+            ITable table = new Table("table1");
             Column column = new Column("c1", DataTypesFactory.GetDataTypesFactory().GetDataType(TypesKeyConstants.StringTypeKey));
             table.AddColumn(column);
             database.AddTable(table);
@@ -113,7 +113,7 @@ namespace UnitTests.Test.Querys
         {
             IDatabaseContainer databaseContainer = ObjectConstructor.CreateDatabaseContainer();
             Database database = new Database("aa");
-            Table table = new Table("table1");
+            ITable table = new Table("table1");
             Column column = new Column("c1", DataTypesFactory.GetDataTypesFactory().GetDataType(TypesKeyConstants.StringTypeKey));
             table.AddColumn(column);
             database.AddTable(table);
@@ -136,7 +136,7 @@ namespace UnitTests.Test.Querys
         {
             IDatabaseContainer databaseContainer = ObjectConstructor.CreateDatabaseContainer();
             Database database = new Database("aa");
-            Table table = new Table("table1");
+            ITable table = new Table("table1");
             string columnName = "c1";
             Column column = new Column(columnName, DataTypesFactory.GetDataTypesFactory().GetDataType(TypesKeyConstants.IntTypeKey));
             table.AddColumn(column);
@@ -158,7 +158,7 @@ namespace UnitTests.Test.Querys
         {
             IDatabaseContainer databaseContainer = ObjectConstructor.CreateDatabaseContainer();
             Database database = new Database("aa");
-            Table table = new Table("table1");
+            ITable table = new Table("table1");
             string columnName = "c1";
             Column column = new Column(columnName, DataTypesFactory.GetDataTypesFactory().GetDataType(TypesKeyConstants.IntTypeKey));
             table.AddColumn(column);

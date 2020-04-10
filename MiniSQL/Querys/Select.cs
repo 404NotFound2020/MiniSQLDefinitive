@@ -21,7 +21,7 @@ namespace MiniSQL.Querys
             this.selectedRowsIndexInTable = new List<int>();
         }
 
-        public override void ExecuteParticularQueryAction(Table table)
+        public override void ExecuteParticularQueryAction(ITable table)
         {
             IEnumerator<Row> rowEnumerator = table.GetRowEnumerator();
             int i = 0;
@@ -71,7 +71,7 @@ namespace MiniSQL.Querys
             else this.selectedAllColumns = true;                             
         }
 
-        protected override void ValidateParameters(Table table)
+        protected override void ValidateParameters(ITable table)
         {
             if (this.selectedAllColumns) this.SelectAllColumnsOfATable(table);
             else
@@ -84,7 +84,7 @@ namespace MiniSQL.Querys
             }
         }
 
-        private void SelectAllColumnsOfATable(Table table) 
+        private void SelectAllColumnsOfATable(ITable table) 
         {
             IEnumerator<Column> columnEnumerator = table.GetColumnEnumerator();
             while (columnEnumerator.MoveNext()) 

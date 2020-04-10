@@ -1,6 +1,7 @@
 ﻿using MiniSQL.Classes;
 using MiniSQL.Constants;
 using MiniSQL.DataTypes;
+using MiniSQL.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -37,7 +38,7 @@ namespace MiniSQL.Initializer
             return table;
         }
 
-        public static Table CreateNoRemovableUsersTable(Table usersTable)
+        public static Table CreateNoRemovableUsersTable(ITable usersTable)
         {
             Table table = new Table(SystemeConstants.NoRemovableUsersTableName);            
             table.AddColumn(new Column(SystemeConstants.UsersNameColumnName, DataTypesFactory.GetDataTypesFactory().GetDataType(SystemeConstants.UsersNameColumnType)));
@@ -60,7 +61,7 @@ namespace MiniSQL.Initializer
             return table;
         }
 
-        public static Table CreateNoRemovableProfilesTable(Table profilesTable)
+        public static Table CreateNoRemovableProfilesTable(ITable profilesTable)
         {
             Table table = new Table(SystemeConstants.NoRemovableProfilesTableName);
             table.AddColumn(new Column(SystemeConstants.ProfileNameColumn, DataTypesFactory.GetDataTypesFactory().GetDataType(SystemeConstants.ProfileNameColumnType)));
@@ -72,7 +73,7 @@ namespace MiniSQL.Initializer
             return table;
         }
 
-        public static Table CreateUserProfilesTable(Table userTable, Table profileTable) 
+        public static Table CreateUserProfilesTable(ITable userTable, ITable profileTable) 
         {
             Table table = CreateUserProfilesTable(SystemeConstants.UserProfilesTableName);
             table.foreignKey.AddForeignKey(table.GetColumn(SystemeConstants.UserProfilesUsernameColumnName), userTable.GetColumn(SystemeConstants.UsersNameColumnName));
@@ -80,7 +81,7 @@ namespace MiniSQL.Initializer
             return table;
         }
 
-        public static Table CreateNoRemovableUserProfilesTable(Table userProfilesTable)
+        public static Table CreateNoRemovableUserProfilesTable(ITable userProfilesTable)
         {
             Table table = CreateUserProfilesTable(SystemeConstants.NoRemovableUserProfilesTableName);
             table.foreignKey.AddForeignKey(table.GetColumn(SystemeConstants.UserProfilesUsernameColumnName), userProfilesTable.GetColumn(SystemeConstants.UserProfilesUsernameColumnName));
@@ -120,7 +121,7 @@ namespace MiniSQL.Initializer
             return table;
         }
 
-        public static Table CreatePrivilegesOfProfilesTable(Table profilesTable, Table privilegesTable)
+        public static Table CreatePrivilegesOfProfilesTable(ITable profilesTable, ITable privilegesTable)
         {
             Table table = new Table(SystemeConstants.PrivilegesOfProfilesOnTablesTableName);
             Column profilesNameColumn = new Column(SystemeConstants.PrivilegesOfProfilesOnTablesProfileColumnName, DataTypesFactory.GetDataTypesFactory().GetDataType(SystemeConstants.PrivilegesOfProfilesOnTablesProfileColumnType));

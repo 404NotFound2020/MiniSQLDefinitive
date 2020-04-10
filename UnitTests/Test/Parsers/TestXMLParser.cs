@@ -34,7 +34,7 @@ namespace UnitTests.Test.Parsers
             AbstractParser xmlParser = CreateXMLParser();
             Database testDatabase = ObjectConstructor.CreateDatabaseFull("test2");
             xmlParser.SaveDatabase(testDatabase);
-            IEnumerator<Table> enumerator = testDatabase.GetTableEnumerator();
+            IEnumerator<ITable> enumerator = testDatabase.GetTableEnumerator();
             if (enumerator.MoveNext()) {
                 Assert.IsTrue(xmlParser.ExistTable(testDatabase.databaseName, enumerator.Current.tableName));
             }
@@ -93,7 +93,7 @@ namespace UnitTests.Test.Parsers
             AbstractParser xmlParser = CreateXMLParser();
             Database testDatabase = ObjectConstructor.CreateDatabaseFull("test5");
             xmlParser.SaveDatabase(testDatabase);
-            IEnumerator<Table> enumerator = testDatabase.GetTableEnumerator();
+            IEnumerator<ITable> enumerator = testDatabase.GetTableEnumerator();
             if (enumerator.MoveNext())
             {
                 Assert.IsTrue(xmlParser.ExistTable(testDatabase.databaseName, enumerator.Current.tableName));

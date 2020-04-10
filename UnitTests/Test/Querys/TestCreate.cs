@@ -29,7 +29,7 @@ namespace UnitTests.Test.Querys
             Assert.IsTrue(create.ValidateParameters());
             create.Execute();
             Assert.IsTrue(database.ExistTable(tableName));
-            Table table = database.GetTable(tableName);
+            ITable table = database.GetTable(tableName);
             bool allColumnExist = true;
             bool correctDataType = true;
             for(int i = 0; i < columnsAndTypes.Count && allColumnExist; i++) 
@@ -47,7 +47,7 @@ namespace UnitTests.Test.Querys
         {
             IDatabaseContainer container = ObjectConstructor.CreateDatabaseContainer();
             Database database = new Database("testDatabase");            
-            Table table = new Table("table1");
+            ITable table = new Table("table1");
             database.AddTable(table);
             container.AddDatabase(database);
             Assert.IsTrue(database.ExistTable(table.tableName)); //( ͡° ͜ʖ ͡°)

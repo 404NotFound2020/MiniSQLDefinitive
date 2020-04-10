@@ -11,14 +11,14 @@ namespace UnitTests.Test.TestObjectsContructor
     public class DatabaseContainer : IDatabaseContainer
     {
 
-        private Dictionary<string, Database> databases;
+        private Dictionary<string, IDatabase> databases;
 
         public DatabaseContainer() 
         {
-            this.databases = new Dictionary<string, Database>();
+            this.databases = new Dictionary<string, IDatabase>();
         }
 
-        public void AddDatabase(Database database)
+        public void AddDatabase(IDatabase database)
         {
             this.databases.Add(database.databaseName, database);
         }
@@ -28,7 +28,7 @@ namespace UnitTests.Test.TestObjectsContructor
             return this.databases.ContainsKey(databaseName);
         }
 
-        public Database GetDatabase(string databaseName)
+        public IDatabase GetDatabase(string databaseName)
         {
             return this.databases[databaseName];
         }
@@ -47,17 +47,17 @@ namespace UnitTests.Test.TestObjectsContructor
             
         }
 
-        public void SaveData(Database database)
+        public void SaveData(IDatabase database)
         {
             
         }
 
-        public void SaveTable(Database database, Table table)
+        public void SaveTable(IDatabase database, ITable table)
         {
             
         }
 
-        public void RemoveTable(Database database, Table table)
+        public void RemoveTable(IDatabase database, ITable table)
         {
             
         }

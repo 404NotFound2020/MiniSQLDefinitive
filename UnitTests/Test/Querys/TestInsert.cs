@@ -35,7 +35,7 @@ namespace UnitTests.Test.Querys
         {
             IDatabaseContainer databaseContainer = ObjectConstructor.CreateDatabaseContainer();
             Database database = new Database("TestInsert2");
-            Table table = new Table("table1");
+            ITable table = new Table("table1");
             Column column1 = new Column("c1", DataTypesFactory.GetDataTypesFactory().GetDataType(TypesKeyConstants.StringTypeKey));
             Column column2 = new Column("c2", DataTypesFactory.GetDataTypesFactory().GetDataType(TypesKeyConstants.IntTypeKey));
             table.AddColumn(column1);
@@ -58,7 +58,7 @@ namespace UnitTests.Test.Querys
         {
             IDatabaseContainer databaseContainer = ObjectConstructor.CreateDatabaseContainer();
             Database database = new Database("TestInsert2");
-            Table table = new Table("table1");
+            ITable table = new Table("table1");
             Column column1 = new Column("c1", DataTypesFactory.GetDataTypesFactory().GetDataType(TypesKeyConstants.StringTypeKey));
             Column column2 = new Column("c2", DataTypesFactory.GetDataTypesFactory().GetDataType(TypesKeyConstants.IntTypeKey));
             table.AddColumn(column1);
@@ -82,7 +82,7 @@ namespace UnitTests.Test.Querys
         {
             IDatabaseContainer databaseContainer = ObjectConstructor.CreateDatabaseContainer();
             Database database = new Database("TestInsert2");
-            Table table = new Table("table1");
+            ITable table = new Table("table1");
             Column column1 = new Column("c1", DataTypesFactory.GetDataTypesFactory().GetDataType(TypesKeyConstants.StringTypeKey));
             Column column2 = new Column("c2", DataTypesFactory.GetDataTypesFactory().GetDataType(TypesKeyConstants.IntTypeKey));
             table.AddColumn(column1);
@@ -122,7 +122,7 @@ namespace UnitTests.Test.Querys
             string c1FirstRowData = "aaa";
             string c2FirstRowData = "1";
             Database database = new Database("TestInsert3");
-            Table table = new Table("table1");
+            ITable table = new Table("table1");
             Column column1 = new Column("c1", DataTypesFactory.GetDataTypesFactory().GetDataType(TypesKeyConstants.StringTypeKey));
             Column column2 = new Column("c2", DataTypesFactory.GetDataTypesFactory().GetDataType(TypesKeyConstants.IntTypeKey));
             Assert.IsTrue(column1.dataType.IsAValidDataType(c1FirstRowData));
@@ -156,7 +156,7 @@ namespace UnitTests.Test.Querys
             //Construct
             IDatabaseContainer databaseContainer = ObjectConstructor.CreateDatabaseContainer();
             Database database = new Database("database");
-            Table table = new Table("table");
+            ITable table = new Table("table");
             Column column = new Column("c1", DataTypesFactory.GetDataTypesFactory().GetDataType(TypesKeyConstants.StringTypeKey));
             table.AddColumn(column);
             table.primaryKey.AddKey(column);
@@ -178,7 +178,7 @@ namespace UnitTests.Test.Querys
             //Construct
             IDatabaseContainer databaseContainer = ObjectConstructor.CreateDatabaseContainer();
             Database database = new Database("database");
-            Table table = new Table("table1");
+            ITable table = new Table("table1");
             Column column = new Column("c1t1", DataTypesFactory.GetDataTypesFactory().GetDataType(TypesKeyConstants.StringTypeKey));
             table.AddColumn(column);
             table.primaryKey.AddKey(column);
@@ -205,12 +205,12 @@ namespace UnitTests.Test.Querys
             //Construct
             IDatabaseContainer databaseContainer = ObjectConstructor.CreateDatabaseContainer();
             Database database = new Database("database");
-            Table table1 = new Table("table1");
+            ITable table1 = new Table("table1");
             Column columnt1 = new Column("c1t1", DataTypesFactory.GetDataTypesFactory().GetDataType(TypesKeyConstants.StringTypeKey));
             table1.AddColumn(columnt1);
             table1.primaryKey.AddKey(columnt1);
             database.AddTable(table1);
-            Table table2 = new Table("table2");
+            ITable table2 = new Table("table2");
             Column column1t2 = new Column("c1t2", DataTypesFactory.GetDataTypesFactory().GetDataType(TypesKeyConstants.StringTypeKey));
             Column column2t2 = new Column("c2t2", DataTypesFactory.GetDataTypesFactory().GetDataType(TypesKeyConstants.StringTypeKey));
             table2.AddColumn(column1t2);
@@ -236,12 +236,12 @@ namespace UnitTests.Test.Querys
             //like the other fk test, but now not violating the FK
             IDatabaseContainer databaseContainer = ObjectConstructor.CreateDatabaseContainer();
             Database database = new Database("database");
-            Table table1 = new Table("table1");
+            ITable table1 = new Table("table1");
             Column columnt1 = new Column("c1t1", DataTypesFactory.GetDataTypesFactory().GetDataType(TypesKeyConstants.StringTypeKey));
             table1.AddColumn(columnt1);
             table1.primaryKey.AddKey(columnt1);
             database.AddTable(table1);
-            Table table2 = new Table("table2");
+            ITable table2 = new Table("table2");
             Column column1t2 = new Column("c1t2", DataTypesFactory.GetDataTypesFactory().GetDataType(TypesKeyConstants.StringTypeKey));
             Column column2t2 = new Column("c2t2", DataTypesFactory.GetDataTypesFactory().GetDataType(TypesKeyConstants.StringTypeKey));
             table2.AddColumn(column1t2);

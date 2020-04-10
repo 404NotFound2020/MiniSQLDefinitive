@@ -24,7 +24,7 @@ namespace UnitTests.Test.Querys
         {
             IDatabaseContainer databaseContainer = ObjectConstructor.CreateDatabaseContainer();
             Database database = new Database("aaa");
-            Table table = new Table("table1"); //Realmente no hace falta ni añadir columnas ni nada para esta query
+            ITable table = new Table("table1"); //Realmente no hace falta ni añadir columnas ni nada para esta query
             database.AddTable(table);
             databaseContainer.AddDatabase(database);
             Assert.IsTrue(databaseContainer.ExistDatabase(database.databaseName)); //Omitible, aunque nunca esta de mas por si acaso el problema esta en que en el container no se añaden las bases de datos
@@ -42,7 +42,7 @@ namespace UnitTests.Test.Querys
             Database db = ObjectConstructor.CreateDatabaseFull("db1");
             List<Column> columnas = new List<Column>();
             List<List<string>> celdas = new List<List<string>>();
-            Table t = ObjectConstructor.CreateFullTable("table1",columnas,celdas);
+            ITable t = ObjectConstructor.CreateFullTable("table1",columnas,celdas);
             db.AddTable(t);
             container.AddDatabase(db);
             Drop drop = CreateDrop(container, db.databaseName, t.tableName);
@@ -88,7 +88,7 @@ namespace UnitTests.Test.Querys
             Database db = ObjectConstructor.CreateDatabaseFull("db1");
             List<Column> columnas = new List<Column>();
             List<List<string>> celdas = new List<List<string>>();
-            Table t = ObjectConstructor.CreateFullTable("table1", columnas, celdas);
+            ITable t = ObjectConstructor.CreateFullTable("table1", columnas, celdas);
             IDatabaseContainer container = ObjectConstructor.CreateDatabaseContainer();
             Drop drop = CreateDrop(container, db.databaseName, t.tableName);
             parametros = drop.ValidateParameters();
@@ -108,12 +108,12 @@ namespace UnitTests.Test.Querys
             //Construct phase
             IDatabaseContainer container = ObjectConstructor.CreateDatabaseContainer();
             Database db = new Database("database1");
-            Table table1 = new Table("table1");
+            ITable table1 = new Table("table1");
             Column column1t1 = new Column("c1t1", DataTypesFactory.GetDataTypesFactory().GetDataType(TypesKeyConstants.IntTypeKey));
             table1.AddColumn(column1t1);
             table1.primaryKey.AddKey(column1t1);
             db.AddTable(table1);
-            Table table2 = new Table("table2");
+            ITable table2 = new Table("table2");
             Column column1t2 = new Column("c1t2", DataTypesFactory.GetDataTypesFactory().GetDataType(TypesKeyConstants.IntTypeKey));
             table2.AddColumn(column1t2);
             table2.primaryKey.AddKey(column1t2);

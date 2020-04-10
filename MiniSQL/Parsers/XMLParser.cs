@@ -109,7 +109,7 @@ namespace MiniSQL.Parsers
             return new Tuple<Table, List<Tuple<string, string, string>>>(table,this.LoadForeignKeys(table, tableStructDocument));
         }
 
-        private void LoadPrimaryKeys(Table table, XmlDocument xmlDocument) {
+        private void LoadPrimaryKeys(ITable table, XmlDocument xmlDocument) {
             XmlNode primaryKeyNode = xmlDocument.GetElementsByTagName(XMLTagsConstants.PrimaryKeyElementTag_WR)[0];
             IEnumerator columnEnumerator = primaryKeyNode.SelectNodes(XMLTagsConstants.TableStructureColumnNameTag_WR).GetEnumerator();
             while (columnEnumerator.MoveNext()) 
@@ -118,7 +118,7 @@ namespace MiniSQL.Parsers
             }        
         }
 
-        private List<Tuple<string, string, string>> LoadForeignKeys(Table table, XmlDocument xmlDocument) {
+        private List<Tuple<string, string, string>> LoadForeignKeys(ITable table, XmlDocument xmlDocument) {
             List<Tuple<string, string, string>> foreignKeysInfo = new List<Tuple<string, string, string>>();
             XmlNode foreignKeyNode = xmlDocument.GetElementsByTagName(XMLTagsConstants.ForeignKeyElementTag_WR)[0];
             IEnumerator<XmlNode> pairEnumerator = foreignKeyNode.SelectNodes(XMLTagsConstants.ForeignKeyPairElementTag_WR).OfType<XmlNode>().GetEnumerator();
@@ -131,10 +131,10 @@ namespace MiniSQL.Parsers
             return foreignKeysInfo;
         }
 
-        private void SetForeignsKeys(Database database, Dictionary<string, List<Tuple<string, string, string>>> foreignKeysInfo) 
+        private void SetForeignsKeys(IDatabase database, Dictionary<string, List<Tuple<string, string, string>>> foreignKeysInfo) 
         {
             IEnumerator<string> keyEnumerator = foreignKeysInfo.Keys.GetEnumerator();
-            Table table;
+            ITable table;
             IEnumerator<Tuple<string, string, string>> tableForeignKeysListEnumerator;
             while (keyEnumerator.MoveNext()) 
             {
@@ -147,7 +147,7 @@ namespace MiniSQL.Parsers
             }
         }
 
-        private void LoadTableData(string databaseName, Table table)
+        private void LoadTableData(string databaseName, ITable table)
         {
             XmlDocument tableDataDocument = new XmlDocument();
             tableDataDocument.Load(this.GetUbicationManager().GetTableDataFilePath(databaseName, table.tableName) + extension);
@@ -170,14 +170,14 @@ namespace MiniSQL.Parsers
             }
         }
 
-        public override void SaveDatabase(Database database)
+        public override void SaveDatabase(IDatabase database)
         {
             XmlDocument databaseProperties = new XmlDocument();
             XmlElement databaseElement = databaseProperties.CreateElement(XMLTagsConstants.DatabasePropertiesRootElementTag_WR);
             IUbicationManager ubicationManager = this.GetUbicationManager();
             string databasePath = ubicationManager.GetDatabaseFilePath(database.databaseName);
             if (!Directory.Exists(databasePath)) Directory.CreateDirectory(databasePath);
-            IEnumerator<Table> enumerator = database.GetTableEnumerator();
+            IEnumerator<ITable> enumerator = database.GetTableEnumerator();
             while (enumerator.MoveNext()) 
             {
                 this.SaveTable(database, enumerator.Current, databaseProperties, databaseElement);
@@ -187,7 +187,7 @@ namespace MiniSQL.Parsers
             databaseProperties.Save(ubicationManager.GetDatabasePropertiesFilePath(database.databaseName) + extension);
         }
 
-        public override void SaveTable(Database database, Table table)
+        public override void SaveTable(IDatabase database, ITable table)
         {
             XmlDocument databaseProperties = new XmlDocument();
             IUbicationManager ubicationManager = this.GetUbicationManager();
@@ -196,7 +196,7 @@ namespace MiniSQL.Parsers
             databaseProperties.Save(ubicationManager.GetDatabasePropertiesFilePath(database.databaseName) + extension);
         }
 
-        protected void SaveTable(Database database, Table table, XmlDocument databaseProperties, XmlElement databaseElement) 
+        protected void SaveTable(IDatabase database, ITable table, XmlDocument databaseProperties, XmlElement databaseElement) 
         {
             XmlElement tableElement = databaseProperties.CreateElement(XMLTagsConstants.DatabasePropertiesTableElementTag_WR);
             tableElement.AppendChild(this.CreateSimpleNode(databaseProperties, XMLTagsConstants.DatabasePropertiesTableElementNameTag_WR, table.tableName));
@@ -205,7 +205,7 @@ namespace MiniSQL.Parsers
             this.SaveTableData(table).Save(this.GetUbicationManager().GetTableDataFilePath(database.databaseName, table.tableName) + extension);
         }
 
-        private XmlDocument SaveTableStruct(Table table) 
+        private XmlDocument SaveTableStruct(ITable table) 
         {
             XmlDocument tableStructureXML = new XmlDocument();            
             XmlElement tableElement = tableStructureXML.CreateElement(XMLTagsConstants.TableStructureRootElementTag_WR);
@@ -225,7 +225,7 @@ namespace MiniSQL.Parsers
             return tableStructureXML;
         }
 
-        private void SavePrimaryKeys(Table table, XmlDocument xmlDocument)
+        private void SavePrimaryKeys(ITable table, XmlDocument xmlDocument)
         {
             XmlElement primaryKeyElement = xmlDocument.CreateElement(XMLTagsConstants.PrimaryKeyElementTag_WR);
             IEnumerator<Column> primaryKeyEnumerator = table.primaryKey.GetKeyEnumerator();
@@ -236,7 +236,7 @@ namespace MiniSQL.Parsers
             xmlDocument.DocumentElement.AppendChild(primaryKeyElement);
         }
 
-        private void SaveForeignKeys(Table table, XmlDocument xmlDocument) 
+        private void SaveForeignKeys(ITable table, XmlDocument xmlDocument) 
         {
             XmlElement foreignKeyElement = xmlDocument.CreateElement(XMLTagsConstants.ForeignKeyElementTag_WR);
             XmlElement pairElement;
@@ -255,7 +255,7 @@ namespace MiniSQL.Parsers
             xmlDocument.DocumentElement.AppendChild(foreignKeyElement);
         }
 
-        private XmlDocument SaveTableData(Table table) 
+        private XmlDocument SaveTableData(ITable table) 
         {
             XmlDocument tableData = new XmlDocument();
             XmlElement tableElement = tableData.CreateElement(XMLTagsConstants.TableDataRootElementTag_WR);

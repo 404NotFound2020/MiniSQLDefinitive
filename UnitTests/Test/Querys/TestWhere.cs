@@ -3,6 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MiniSQL.Classes;
 using MiniSQL.Constants;
 using MiniSQL.DataTypes;
+using MiniSQL.Interfaces;
 using MiniSQL.Querys;
 
 namespace UnitTests.Test.Querys
@@ -14,7 +15,7 @@ namespace UnitTests.Test.Querys
         public void Where_EvaluateARow_RowFulfillTheCritery_CriteryIsOnStringTypeColumn_ReturnTrue()
         {
             Where where = CreateWhere();
-            Table table = new Table("testTable");
+            ITable table = new Table("testTable");
             Column column = new Column("C1", DataTypesFactory.GetDataTypesFactory().GetDataType(TypesKeyConstants.StringTypeKey));
             table.AddColumn(column);
             Row row = table.CreateRowDefinition();
@@ -28,7 +29,7 @@ namespace UnitTests.Test.Querys
         public void Where_EvaluateARow_RowFulfillTheCritery_CriteryIsOnIntTypeColumn_ReturnTrue()
         {
             Where where = CreateWhere();
-            Table table = new Table("testTable");
+            ITable table = new Table("testTable");
             Column column = new Column("C1", DataTypesFactory.GetDataTypesFactory().GetDataType(TypesKeyConstants.IntTypeKey));
             table.AddColumn(column);
             Row row = table.CreateRowDefinition();
@@ -42,7 +43,7 @@ namespace UnitTests.Test.Querys
         public void Where_EvaluateARow_RowFulfillTheCritery_CriteryIsOnDoubleTypeColumn_ReturnTrue()
         {
             Where where = CreateWhere();
-            Table table = new Table("testTable");
+            ITable table = new Table("testTable");
             Column column = new Column("C1", DataTypesFactory.GetDataTypesFactory().GetDataType(TypesKeyConstants.DoubleTypeKey));
             table.AddColumn(column);
             Row row = table.CreateRowDefinition();
@@ -56,7 +57,7 @@ namespace UnitTests.Test.Querys
         public void Where_EvaluateARowNotFulfillTheCritery_CriteryIsOnStringTypeColumn_ReturnFalse()
         {
             Where where = CreateWhere();
-            Table table = new Table("testTable");
+            ITable table = new Table("testTable");
             Column column = new Column("C1", DataTypesFactory.GetDataTypesFactory().GetDataType(TypesKeyConstants.StringTypeKey));
             table.AddColumn(column);
             Row row = table.CreateRowDefinition();
@@ -70,7 +71,7 @@ namespace UnitTests.Test.Querys
         public void Where_EvaluateARowNotFulfillTheCritery_CriteryIsOnIntTypeColumn_ReturnFalse() 
         {
             Where where = CreateWhere();
-            Table table = new Table("testTable");
+            ITable table = new Table("testTable");
             Column column = new Column("C1", DataTypesFactory.GetDataTypesFactory().GetDataType(TypesKeyConstants.IntTypeKey));
             table.AddColumn(column);
             Row row = table.CreateRowDefinition();
@@ -85,7 +86,7 @@ namespace UnitTests.Test.Querys
         public void Where_EvaluateARowNotFulfillTheCritery_CriteryIsOnDoubleTypeColumn_ReturnFalse()
         {
             Where where = CreateWhere();
-            Table table = new Table("testTable");
+            ITable table = new Table("testTable");
             Column column = new Column("C1", DataTypesFactory.GetDataTypesFactory().GetDataType(TypesKeyConstants.DoubleTypeKey));
             table.AddColumn(column);
             Row row = table.CreateRowDefinition();

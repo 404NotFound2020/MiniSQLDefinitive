@@ -46,20 +46,20 @@ namespace MiniSQL.Interfaces
             if (!container.ExistDatabase(this.targetDatabase)) this.SaveTheError(QuerysStringResultConstants.DatabaseDoesntExist(this.targetDatabase));
             else 
             {
-                Database targetDatabaseObject = container.GetDatabase(this.targetDatabase);
+                IDatabase targetDatabaseObject = container.GetDatabase(this.targetDatabase);
                 if (!targetDatabaseObject.ExistTable(this.targetTableName)) this.SaveTheError(QuerysStringResultConstants.TableDoensExist(this.targetDatabase, this.targetTableName));
                 else this.DoTheOtherValidations(targetDatabaseObject.GetTable(this.targetTableName));
             }
             return this.GetIsValidQuery();
         }
 
-        private void DoTheOtherValidations(Table table) 
+        private void DoTheOtherValidations(ITable table) 
         {
             this.ValidateParameters(table);
             this.ValidateWhere(table);
         }
 
-        protected void ValidateWhere(Table table) 
+        protected void ValidateWhere(ITable table) 
         {
             IEnumerator<Tuple<string, string>> enumerator = this.whereClause.GetCriteriesEnumerator();
             Column column;
@@ -74,8 +74,8 @@ namespace MiniSQL.Interfaces
             }
         }
 
-        protected abstract void ValidateParameters(Table table);
-        public abstract void ExecuteParticularQueryAction(Table table);
+        protected abstract void ValidateParameters(ITable table);
+        public abstract void ExecuteParticularQueryAction(ITable table);
 
 
     }

@@ -10,15 +10,15 @@ namespace MiniSQL.Interfaces
     public interface IDatabaseContainer
     {
 
-        Database GetDatabase(string databaseName);
+        IDatabase GetDatabase(string databaseName);
         bool ExistDatabase(string databaseName);
-        void AddDatabase(Database database);
+        void AddDatabase(IDatabase database);
         void RemoveDatabase(string databaseName);
         int GetNumbersOfDatabases();
         void SaveData();
-        void SaveData(Database database);
-        void SaveTable(Database database, Table table);
-        void RemoveTable(Database database, Table table);
+        void SaveData(IDatabase database);
+        void SaveTable(IDatabase database, ITable table);
+        void RemoveTable(IDatabase database, ITable table);
         string GetDefaultDatabaseName();
 
     }

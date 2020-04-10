@@ -22,7 +22,7 @@ namespace UnitTests.Test.Querys
         public void DeleteRow_GodArguments_RowsDeleted()
         {
             Database db = ObjectConstructor.CreateDatabaseFull("db");
-            Table t = db.GetTable("Table1");
+            ITable t = db.GetTable("Table1");
             t.AddRow(t.CreateRowDefinition());
             IDatabaseContainer container = ObjectConstructor.CreateDatabaseContainer();
             container.AddDatabase(db);
@@ -38,7 +38,7 @@ namespace UnitTests.Test.Querys
         public void DeleteRow_WrongArgumentsTableDoesntExist_NotifiedInResult()
         {
             Database db = new Database("db");
-            Table t = new Table("table");
+            ITable t = new Table("table");
             IDatabaseContainer container = ObjectConstructor.CreateDatabaseContainer();
             container.AddDatabase(db);
             Delete delete = CreateDelete(container, db.databaseName, t.tableName);
@@ -50,7 +50,7 @@ namespace UnitTests.Test.Querys
         public void DeleteRow_BadArgumentsInWhere_NotifiedInResult()
         {
             Database db = ObjectConstructor.CreateDatabaseFull("db");
-            Table t = db.GetTable("Table1");
+            ITable t = db.GetTable("Table1");
             t.AddRow(t.CreateRowDefinition());
             IDatabaseContainer container = ObjectConstructor.CreateDatabaseContainer();
             container.AddDatabase(db);
@@ -66,12 +66,12 @@ namespace UnitTests.Test.Querys
             //Construction phase
             IDatabaseContainer container = ObjectConstructor.CreateDatabaseContainer();
             Database db = new Database("database1");
-            Table table1 = new Table("table1");
+            ITable table1 = new Table("table1");
             Column column1t1 = new Column("c1t1", DataTypesFactory.GetDataTypesFactory().GetDataType(TypesKeyConstants.IntTypeKey));
             table1.AddColumn(column1t1);
             table1.primaryKey.AddKey(column1t1);
             db.AddTable(table1);
-            Table table2 = new Table("table2");
+            ITable table2 = new Table("table2");
             Column column1t2 = new Column("c1t2", DataTypesFactory.GetDataTypesFactory().GetDataType(TypesKeyConstants.IntTypeKey));
             table2.AddColumn(column1t2);
             table2.primaryKey.AddKey(column1t2);

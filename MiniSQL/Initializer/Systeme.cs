@@ -14,7 +14,7 @@ namespace MiniSQL.Initializer
     public class Systeme : IDatabaseContainer
     {
 
-        private Dictionary<string, Database> activeDatabases;        
+        private Dictionary<string, IDatabase> activeDatabases;        
         private SystemConfiguration configuration;
         private AbstractParser parser;
         private static Systeme system = new Systeme();
@@ -38,9 +38,9 @@ namespace MiniSQL.Initializer
 
         public void ChargeTheDatabases() 
         {
-            this.activeDatabases = new Dictionary<string, Database>();
+            this.activeDatabases = new Dictionary<string, IDatabase>();
             string[] databasesNames = this.parser.GetDatabasesNames();           
-            Database database;
+            IDatabase database;
             for(int i = 0; i < databasesNames.Length; i++) 
             {
                 database = this.parser.LoadDatabase(databasesNames[i]);
@@ -60,7 +60,7 @@ namespace MiniSQL.Initializer
 
         private void CreateSystemDatabases() 
         {
-            Database database;
+            IDatabase database;
             if (!this.activeDatabases.ContainsKey(SystemeConstants.SystemDatabaseName)) {
                 database = DefaultDataConstructor.CreateSystemDatabase();
                 this.activeDatabases.Add(database.databaseName, database);
@@ -85,7 +85,7 @@ namespace MiniSQL.Initializer
             return system;
         }
 
-        public Database GetDatabase(string databaseName)
+        public IDatabase GetDatabase(string databaseName)
         {
             return activeDatabases[databaseName];
         }
@@ -95,7 +95,7 @@ namespace MiniSQL.Initializer
             return activeDatabases.ContainsKey(databaseName);
         }
 
-        public void AddDatabase(Database database)
+        public void AddDatabase(IDatabase database)
         {
             activeDatabases.Add(database.databaseName,database);
             this.parser.SaveDatabase(database);
@@ -112,26 +112,26 @@ namespace MiniSQL.Initializer
             return this.activeDatabases.Count;
         }
 
-        public void SaveTable(Database database, Table table)
+        public void SaveTable(IDatabase database, ITable table)
         {
             this.parser.SaveTable(database, table);
         }
 
-        public void RemoveTable(Database database, Table table)
+        public void RemoveTable(IDatabase database, ITable table)
         {
             this.parser.DeleteTable(database.databaseName, table.tableName);
         }
 
         public void SaveData()
         {
-            IEnumerator<Database> enumerator = this.activeDatabases.Values.GetEnumerator();
+            IEnumerator<IDatabase> enumerator = this.activeDatabases.Values.GetEnumerator();
             while (enumerator.MoveNext())
             {
                 this.SaveData(enumerator.Current);
             }
         }
 
-        public void SaveData(Database database)
+        public void SaveData(IDatabase database)
         {
             this.parser.SaveDatabase(database);
         }
@@ -141,7 +141,7 @@ namespace MiniSQL.Initializer
             return SystemeConstants.DefaultDatabaseName;
         }
 
-        private void AddNewTableToADatabase(Database database, Table table) 
+        private void AddNewTableToADatabase(IDatabase database, ITable table) 
         {
             database.AddTable(table);
             parser.SaveTable(database, table);

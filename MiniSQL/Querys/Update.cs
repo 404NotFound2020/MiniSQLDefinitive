@@ -18,7 +18,7 @@ namespace MiniSQL.Querys
             this.updateColumnData = new Dictionary<string, string>();   
         }
 
-        protected override void ValidateParameters(Table table)
+        protected override void ValidateParameters(ITable table)
         {
             IEnumerator<KeyValuePair<string, string>> enumerator = this.updateColumnData.GetEnumerator();
             while (enumerator.MoveNext())
@@ -33,7 +33,7 @@ namespace MiniSQL.Querys
             }
         }
 
-        public override void ExecuteParticularQueryAction(Table table)
+        public override void ExecuteParticularQueryAction(ITable table)
         {
             IEnumerator<Row> rowEnumerator = table.GetRowEnumerator();
             int couldnotChanged = 0;

@@ -34,7 +34,7 @@ namespace MiniSQL.Querys
             {
                 newTable.AddColumn(new Column(enumerator.Current.Key, DataTypesFactory.GetDataTypesFactory().GetDataType(enumerator.Current.Value)));
             }
-            Database afectedDatabase = this.GetContainer().GetDatabase(this.targetDatabase);
+            IDatabase afectedDatabase = this.GetContainer().GetDatabase(this.targetDatabase);
             afectedDatabase.AddTable(newTable);
             this.GetContainer().SaveTable(afectedDatabase, newTable);
             this.SetResult(QuerysStringResultConstants.TableWasCreated(this.targetDatabase, this.targetTableName));

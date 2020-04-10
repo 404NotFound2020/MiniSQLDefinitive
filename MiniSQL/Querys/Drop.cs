@@ -19,8 +19,8 @@ namespace MiniSQL.Querys
 
         public override void ExecuteParticularQueryAction()
         {
-            Database database = this.GetContainer().GetDatabase(this.targetDatabase);
-            Table table = database.GetTable(this.targetTableName);
+            IDatabase database = this.GetContainer().GetDatabase(this.targetDatabase);
+            ITable table = database.GetTable(this.targetTableName);
             database.DropTable(table.tableName);
             this.GetContainer().RemoveTable(database, table);
             this.SetResult(QuerysStringResultConstants.TableSucesfullyDeleted(table.tableName));

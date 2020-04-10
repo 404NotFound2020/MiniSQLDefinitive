@@ -13,8 +13,8 @@ namespace MiniSQL.Interfaces
 
         public abstract Database LoadDatabase(string databaseName);
         public abstract Tuple<Table, List<Tuple<string, string, string>>> LoadTable(string databaseName, string tableName);
-        public abstract void SaveTable(Database database, Table table);
-        public abstract void SaveDatabase(Database database);
+        public abstract void SaveTable(IDatabase database, ITable table);
+        public abstract void SaveDatabase(IDatabase database);
         public abstract void DeleteDatabase(string databaseName);
         public abstract void DeleteTable(string databaseName, string tableName);
         public abstract bool ExistDatabase(string databaseName);

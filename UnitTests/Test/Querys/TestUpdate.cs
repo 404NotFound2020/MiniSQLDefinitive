@@ -50,7 +50,7 @@ namespace UnitTests.Test.Querys
         {
             IDatabaseContainer databaseContainer = ObjectConstructor.CreateDatabaseContainer();
             Database database = new Database("TestUpdate2");
-            Table table = new Table("table1");
+            ITable table = new Table("table1");
             Column column1 = new Column("c1", DataTypesFactory.GetDataTypesFactory().GetDataType(TypesKeyConstants.StringTypeKey));
             Column column2 = new Column("c2", DataTypesFactory.GetDataTypesFactory().GetDataType(TypesKeyConstants.IntTypeKey));
             table.AddColumn(column1);
@@ -76,7 +76,7 @@ namespace UnitTests.Test.Querys
             string c1SecondRowData = "aaaa";
             string c2SecondRowData = "2";
             Database database = new Database("TestInsert3");
-            Table table = new Table("table1");
+            ITable table = new Table("table1");
             Column column1 = new Column("c1", DataTypesFactory.GetDataTypesFactory().GetDataType(TypesKeyConstants.StringTypeKey));
             Column column2 = new Column("c2", DataTypesFactory.GetDataTypesFactory().GetDataType(TypesKeyConstants.IntTypeKey));
             Assert.IsTrue(column1.dataType.IsAValidDataType(c1FirstRowData));

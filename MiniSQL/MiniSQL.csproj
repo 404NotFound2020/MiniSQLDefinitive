@@ -41,6 +41,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Interfaces\IDatabase.cs" />
+    <Compile Include="Interfaces\ITable.cs" />
     <Compile Include="Comparers\DictionaryComparer.cs" />
     <Compile Include="Comparers\DupleComparer.cs" />
     <Compile Include="Comparers\ListComparer.cs" />

@@ -17,7 +17,7 @@ namespace MiniSQL.Querys
 
         }
 
-        public override void ExecuteParticularQueryAction(Table table)
+        public override void ExecuteParticularQueryAction(ITable table)
         {
             Select select = new Select(this.GetContainer());
             select.targetDatabase = this.targetDatabase;
@@ -44,7 +44,7 @@ namespace MiniSQL.Querys
             this.SetResult(QuerysStringResultConstants.DeletedRow(i) + "\n" + QuerysStringResultConstants.NumbersRowsThatCannotDeleteBecauseOfForeignKey(h));
         }
 
-        protected override void ValidateParameters(Table table)
+        protected override void ValidateParameters(ITable table)
         {
            
         }
