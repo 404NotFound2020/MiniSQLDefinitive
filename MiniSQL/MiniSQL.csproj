@@ -41,7 +41,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Interfaces\IActiveSystemModule.cs" />
+    <Compile Include="Interfaces\IProxy.cs" />
+    <Compile Include="Interfaces\ISystemeDatabaseModule.cs" />
+    <Compile Include="Interfaces\ISystemeDataInicializationModule.cs" />
+    <Compile Include="Interfaces\ISystemeModule.cs" />
+    <Compile Include="Interfaces\ISystemePrivilegeModule.cs" />
     <Compile Include="SystemeClasses\DatabaseProxy.cs" />
+    <Compile Include="SystemeClasses\SystemeDatabaseContainerModule.cs" />
+    <Compile Include="SystemeClasses\SystemeDataInicializationModule.cs" />
+    <Compile Include="SystemeClasses\SystemePrivilegeModule.cs" />
     <Compile Include="SystemeClasses\TableProxy.cs" />
     <Compile Include="Interfaces\IDatabase.cs" />
     <Compile Include="Interfaces\ITable.cs" />

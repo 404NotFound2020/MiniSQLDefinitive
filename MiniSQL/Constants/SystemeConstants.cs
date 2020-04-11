@@ -21,6 +21,7 @@ namespace MiniSQL.Constants
         public const string NoRemovableProfilesTableName = "defaultProfiles"; 
         public const string ProfileNameColumn = "profileName";
         public const string ProfileNameColumnType = TypesKeyConstants.StringTypeKey;
+
         public const string NoRemovableUsersTableName = "defaultUsers";
         public const string AdminUser = "admin";
         public const string AdminPassword = "admin";
@@ -49,6 +50,11 @@ namespace MiniSQL.Constants
         public const string PrivilegesOfProfilesOnTablesTableNameColumnNameColumnType = TypesKeyConstants.StringTypeKey;
         public const string PrivilegesOfProfilesOnTablesPrivilegeColumnName = "privilege";
         public const string PrivilegesOfProfilesOnTablesPrivilegeColumnType = TypesKeyConstants.StringTypeKey;
+
+
+        public const string SystemeDatabaseModule = "SystemeDatabaseModule";
+        public const string SystemePrivilegeModule = "SystemePrivilegeModule";
+        public const string SystemeDataInicializationModule = "SystemeDataInicializationModule";
 
 
     }

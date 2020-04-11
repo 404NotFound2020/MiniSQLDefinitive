@@ -13,7 +13,7 @@ namespace UnitTests.Test.Initializer
     [TestClass]
     public class TestSystem
     {
-        [TestMethod]
+        /**[TestMethod]
         public void TestIfTheDatabasesAreLoad()
         {            
             Systeme system = Systeme.GetSystem();
@@ -35,7 +35,7 @@ namespace UnitTests.Test.Initializer
             builder.SetDataFormatManager(configuration.saveDataVersion);
             AbstractParser parser = builder.GetParser();
             return parser;
-        }
+        }**/
 
 
 

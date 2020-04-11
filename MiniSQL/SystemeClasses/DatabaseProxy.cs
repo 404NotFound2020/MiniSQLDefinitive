@@ -1,4 +1,5 @@
-﻿using MiniSQL.Interfaces;
+﻿using MiniSQL.Constants;
+using MiniSQL.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,15 +8,15 @@ using System.Threading.Tasks;
 
 namespace MiniSQL.SystemeClasses
 {
-    public class DatabaseProxy : IDatabase
+    public class DatabaseProxy : IDatabase, IProxy
     {
         public IDatabase database;
-        private ISysteme system;
+        private List<IActiveSystemModule> afectedModules;
 
-        public DatabaseProxy(IDatabase database, ISysteme system)
+        public DatabaseProxy(IDatabase database, List<IActiveSystemModule> afectedModules)
         {
             this.database = database;
-            this.system = system;
+            this.afectedModules = afectedModules;
         }
 
         public override string databaseName { get => this.database.databaseName; set => this.database.databaseName = value; }
@@ -23,13 +24,15 @@ namespace MiniSQL.SystemeClasses
         public override void AddTable(ITable table)
         {
             this.database.AddTable(table);
-            this.system.SaveTable(database, table);
+            IEnumerator<IActiveSystemModule> moduleEnumerator = this.afectedModules.GetEnumerator();
+            while (moduleEnumerator.MoveNext()) moduleEnumerator.Current.ActToAdd(this, table);
         }
 
         public override void DropTable(string tableName)
         {
             ITable table = this.database.GetTable(tableName);
-            this.system.RemoveTable(this.database, table);
+            IEnumerator<IActiveSystemModule> moduleEnumerator = this.afectedModules.GetEnumerator();
+            while (moduleEnumerator.MoveNext()) moduleEnumerator.Current.ActToRemove(this, table);
             this.database.DropTable(tableName);
         }
 
@@ -40,7 +43,7 @@ namespace MiniSQL.SystemeClasses
 
         public override ITable GetTable(string tableName)
         {
-            return new TableProxy(this, this.database.GetTable(tableName), this.system);
+            return new TableProxy(this, this.database.GetTable(tableName), this.afectedModules);
         }
 
         public override IEnumerator<ITable> GetTableEnumerator()
@@ -58,5 +61,6 @@ namespace MiniSQL.SystemeClasses
             }
             return dictionary;
         }
+
     }
 }

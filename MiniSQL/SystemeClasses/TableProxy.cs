@@ -9,17 +9,17 @@ using System.Threading.Tasks;
 
 namespace MiniSQL.SystemeClasses
 {
-    public class TableProxy : ITable
+    public class TableProxy : ITable, IProxy
     {
         public DatabaseProxy databaseProxy;
         public ITable table;
-        private ISysteme systeme;
+        private List<IActiveSystemModule> afectedModules;
 
-        public TableProxy(DatabaseProxy databaseProxy, ITable table, ISysteme systeme)
+        public TableProxy(DatabaseProxy databaseProxy, ITable table, List<IActiveSystemModule> afectedModules)
         {
             this.databaseProxy = databaseProxy;
             this.table = table;
-            this.systeme = systeme;
+            this.afectedModules = afectedModules;
         }
 
         public override string tableName { get => this.table.tableName; set => this.table.tableName = value; }
@@ -31,7 +31,8 @@ namespace MiniSQL.SystemeClasses
         public override void AddColumn(Column column)
         {
             this.table.AddColumn(column);
-            this.systeme.SaveTable(this.databaseProxy.database, this.table);
+            IEnumerator<IActiveSystemModule> moduleEnumerator = this.afectedModules.GetEnumerator();
+            while (moduleEnumerator.MoveNext()) moduleEnumerator.Current.TableModified(this.databaseProxy, this);
         }
 
         public override void AddRow(Row row)
@@ -94,5 +95,6 @@ namespace MiniSQL.SystemeClasses
             }
             return columnList;
         }
+
     }
 }

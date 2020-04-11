@@ -59,7 +59,9 @@ namespace MiniSQL.Interfaces
         }
 
         public abstract bool ValidateParameters(); 
+
         public abstract void Execute();
 
+ 
     }
 }

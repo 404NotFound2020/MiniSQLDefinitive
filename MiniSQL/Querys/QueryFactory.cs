@@ -13,7 +13,7 @@ namespace MiniSQL.Querys
     public class QueryFactory
     {
         private static QueryFactory queryFactory;
-        private IDatabaseContainer databaseContainer;
+        private ISysteme systeme;
 
         private QueryFactory() 
         { 
@@ -28,33 +28,33 @@ namespace MiniSQL.Querys
 
         public AbstractQuery GetQuery(Request request) 
         {
-            IDatabaseContainer system = this.databaseContainer;
+            IDatabaseContainer container = (IDatabaseContainer)this.systeme.GetSystemeModule(SystemeConstants.SystemeDatabaseModule);
             AbstractQuery query = null;
             switch (request.GetElementsContentByTagName(RequestAndRegexConstants.queryTagName)[0]) 
             {
                 case RequestAndRegexConstants.selectQueryIdentificator:
-                    query = this.CreateSelectQuery(request, system);
+                    query = this.CreateSelectQuery(request, container);
                 break;
                 case RequestAndRegexConstants.insertQueryIdentificator:
-                    query = this.CreateInsertQuery(request, system);
+                    query = this.CreateInsertQuery(request, container);
                 break;
                 case RequestAndRegexConstants.updateQueryIdentificator:
-                    query = this.CreateUpdateQuery(request, system);
+                    query = this.CreateUpdateQuery(request, container);
                 break;
                 case RequestAndRegexConstants.deleteQueryIdentificator:
-                    query = this.CreateDeleteQuery(request, system);
+                    query = this.CreateDeleteQuery(request, container);
                 break;
                 case RequestAndRegexConstants.dropTableQueryIdentificator:
-                    query = this.CreateDropTableQuery(request, system);
+                    query = this.CreateDropTableQuery(request, container);
                 break;
                 case RequestAndRegexConstants.createTableQueryIdentificator:
-                    query = this.CreateCreateTableQuery(request, system);
+                    query = this.CreateCreateTableQuery(request, container);
                 break;
                 case RequestAndRegexConstants.createDatabaseQueryIdentificator:
-                    query = this.CreateDatabaseQuery(request, system);
+                    query = this.CreateDatabaseQuery(request, container);
                 break;
                 case RequestAndRegexConstants.dropDatabaseQueryIdentificator:
-                    query = this.DropDatabaseQuery(request, system);
+                    query = this.DropDatabaseQuery(request, container);
                 break;
             }
             return query;
@@ -155,15 +155,15 @@ namespace MiniSQL.Querys
         }
 
         private void SetDatabaseAndTableTarget(Request request, AbstractQuery query) {
-            query.targetDatabase = this.databaseContainer.GetDefaultDatabaseName();
+            query.targetDatabase = ((IDatabaseContainer)this.systeme.GetSystemeModule(SystemeConstants.SystemeDatabaseModule)).GetDefaultDatabaseName();
             string[] databaseGroups = request.GetElementsContentByTagName(RequestAndRegexConstants.databaseTagName);            
             if(!(databaseGroups.Length == 0)) query.targetDatabase = databaseGroups[0];
             query.targetTableName = request.GetElementsContentByTagName(RequestAndRegexConstants.tableTagName)[0];
         }
 
-        public void SetContainer(IDatabaseContainer container) 
+        public void SetSysteme(ISysteme systeme) 
         {
-            this.databaseContainer = container;
+            this.systeme = systeme;
         }
 
     }

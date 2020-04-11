@@ -162,6 +162,12 @@ namespace UnitTests.Test.TestObjectsContructor
             return databaseName;
         }
 
+        public static DummySysteme CreateDummySysteme() {
+            DummySysteme dummySysteme = new DummySysteme();
+            dummySysteme.SetActiveModule(new DatabaseContainer());
+            dummySysteme.SetActiveModule(new DummyPrivilegeModule());
+            return dummySysteme;
+        }
 
     }
 }

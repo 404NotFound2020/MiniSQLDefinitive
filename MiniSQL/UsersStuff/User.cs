@@ -10,7 +10,7 @@ namespace MiniSQL.UsersStuff
     {        
         public string user;
         public string password;
-        public UserProfile profile;
+        public SecurityProfile profile;
 
 
     }

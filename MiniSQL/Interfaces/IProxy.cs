@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MiniSQL.Querys
+namespace MiniSQL.Interfaces
 {
-    class DeleteUser 
+    public interface IProxy
     {
     }
 }

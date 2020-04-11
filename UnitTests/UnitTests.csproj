@@ -97,6 +97,8 @@
     <Compile Include="Test\SaveDataFormatManagers\StringEscapedManager.cs" />
     <Compile Include="Test\TableRestrictions\TestPrimaryKey.cs" />
     <Compile Include="Test\TestObjectsContructor\DatabaseContainer.cs" />
+    <Compile Include="Test\TestObjectsContructor\DummyPrivilegeModule.cs" />
+    <Compile Include="Test\TestObjectsContructor\DummySysteme.cs" />
     <Compile Include="Test\TestObjectsContructor\EnviromentTestSetup.cs" />
     <Compile Include="Test\TestObjectsContructor\ObjectConstructor.cs" />
     <Compile Include="Test\TestObjectsContructor\VariousFunctions.cs" />

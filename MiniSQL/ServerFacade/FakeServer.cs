@@ -18,7 +18,23 @@ namespace MiniSQL.ServerFacade
 
         private FakeServer() 
         {
-            QueryFactory.GetQueryFactory().SetContainer(Systeme.GetSystem());
+            this.SetSystemeModules();
+            QueryFactory.GetQueryFactory().SetSysteme(Systeme.GetSystem());
+        }
+
+        private void SetSystemeModules()
+        {
+            Systeme systeme = Systeme.GetSystem();
+            SystemeDatabaseContainerModule databaseContainerModule = SystemeDatabaseContainerModule.GetSystemeDatabaseContainerModule();
+            SystemeDataInicializationModule dataInicializationModule = SystemeDataInicializationModule.GetSystemeDataInicializationModule();
+            SystemePrivilegeModule privilegeModule = SystemePrivilegeModule.GetSystemePrivilegeModule();
+            databaseContainerModule.SetSysteme(systeme);
+            dataInicializationModule.SetSysteme(systeme);
+            privilegeModule.SetSysteme(systeme);
+            systeme.SetActiveModule(databaseContainerModule);
+            systeme.SetActiveModule(privilegeModule);
+            systeme.SetSystemeModule(dataInicializationModule);           
+            systeme.SetupSysteme();
         }
 
         public static FakeServer GetFakeServer() 
@@ -41,7 +57,7 @@ namespace MiniSQL.ServerFacade
 
         public void SaveShit() 
         {
-            Systeme.GetSystem().SaveData();
+           ((SystemeDatabaseContainerModule) Systeme.GetSystem().GetSystemeModule(SystemeConstants.SystemeDatabaseModule)).SaveAll();
         }
 
     }

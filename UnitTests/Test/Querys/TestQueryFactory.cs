@@ -47,7 +47,7 @@ namespace UnitTests.Test.Querys
         public static QueryFactory GetQueryFactory() 
         {
             QueryFactory queryFactory = QueryFactory.GetQueryFactory();
-            queryFactory.SetContainer(new DatabaseContainer());
+            queryFactory.SetSysteme(ObjectConstructor.CreateDummySysteme());
             return queryFactory;
         }
 

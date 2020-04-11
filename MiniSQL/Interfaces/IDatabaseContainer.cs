@@ -14,7 +14,6 @@ namespace MiniSQL.Interfaces
         bool ExistDatabase(string databaseName);
         void AddDatabase(IDatabase database);
         void RemoveDatabase(string databaseName);
-        int GetNumbersOfDatabases();        
         string GetDefaultDatabaseName();
 
     }

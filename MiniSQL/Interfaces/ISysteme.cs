@@ -1,4 +1,6 @@
 ﻿using MiniSQL.Classes;
+using MiniSQL.ConfigurationClasses;
+using MiniSQL.SystemeClasses;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,12 +9,13 @@ using System.Threading.Tasks;
 
 namespace MiniSQL.Interfaces
 {
-    public interface ISysteme
+    public interface ISysteme 
     {
-        void SaveTable(IDatabase database, ITable table);
-        void RemoveTable(IDatabase database, ITable table);
-        void SaveData(IDatabase database);
-        void SaveData();
-
+        DatabaseProxy CreateDatabaseProxy(IDatabase database);
+        ISystemeModule GetSystemeModule(string systemeModuleName);
+        void SetSystemeModule(ISystemeModule systemeModule);
+        void SetActiveModule(IActiveSystemModule activeModule);
+        SystemConfiguration GetConfiguration();
+        void SetupSysteme();
     }
 }

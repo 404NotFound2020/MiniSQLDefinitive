@@ -1,4 +1,6 @@
 ﻿using MiniSQL.Classes;
+using MiniSQL.Constants;
+using MiniSQL.Initializer;
 using MiniSQL.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -8,14 +10,17 @@ using System.Threading.Tasks;
 
 namespace UnitTests.Test.TestObjectsContructor
 {
-    public class DatabaseContainer : IDatabaseContainer
+    public class DatabaseContainer : ISystemeDatabaseModule
     {
 
         private Dictionary<string, IDatabase> databases;
+        private ISysteme systeme;
 
         public DatabaseContainer() 
         {
             this.databases = new Dictionary<string, IDatabase>();
+            IDatabase systemDatabase = DefaultDataConstructor.CreateSystemDatabase();
+            this.databases.Add(systemDatabase.databaseName, systemDatabase);
         }
 
         public void AddDatabase(IDatabase database)
@@ -37,14 +42,55 @@ namespace UnitTests.Test.TestObjectsContructor
         {
             this.databases.Remove(databaseName);
         }
-        public int GetNumbersOfDatabases()
-        {
-            return this.databases.Count;
-        }
 
         public string GetDefaultDatabaseName()
         {
             return null;
+        }
+
+        public void ActToAdd(IDatabase database)
+        {
+            
+        }
+
+        public void ActToAdd(IDatabase database, ITable table)
+        {
+            
+        }
+
+        public void ActToRemove(IDatabase database)
+        {
+            
+        }
+
+        public void ActToRemove(IDatabase database, ITable table)
+        {
+            
+        }
+
+        public void TableModified(IDatabase database, ITable table)
+        {
+            
+        }
+
+        public void SetSysteme(ISysteme system)
+        {
+            this.systeme = system;
+        }
+
+        public string GetModuleKey()
+        {
+            return SystemeConstants.SystemeDatabaseModule;
+        }
+
+        public void AcoplateTheModule()
+        {
+            
+        }
+
+        public bool IsAcoplated()
+        {
+            return true;
         }
     }
 }

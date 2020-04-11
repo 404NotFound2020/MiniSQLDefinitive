@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MiniSQL.UsersStuff
 {
-    public class UserProfile
+    public class SecurityProfile
     {
         public string profileName;
 
