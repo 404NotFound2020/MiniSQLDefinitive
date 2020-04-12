@@ -58,7 +58,6 @@
     <Compile Include="Comparers\DictionaryComparer.cs" />
     <Compile Include="Comparers\DupleComparer.cs" />
     <Compile Include="Comparers\ListComparer.cs" />
-    <Compile Include="ConcurrenceClasses\ClientThread.cs" />
     <Compile Include="ConfigurationClasses\SystemConfiguration.cs" />
     <Compile Include="Constants\LastVersionVariables.cs" />
     <Compile Include="Constants\OperatorKeys.cs" />
@@ -125,8 +124,6 @@
     <Compile Include="TableRestrictions\ForeignKey.cs" />
     <Compile Include="TableRestrictions\PrimaryKey.cs" />
     <Compile Include="UbicationManagers\FirstUbicationManager.cs" />
-    <Compile Include="UsersStuff\User.cs" />
-    <Compile Include="UsersStuff\SecurityProfile.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
