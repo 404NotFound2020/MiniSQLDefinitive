@@ -2,6 +2,7 @@
 using MiniSQL.Constants;
 using MiniSQL.Initializer;
 using MiniSQL.Interfaces;
+using MiniSQL.SystemeClasses;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace UnitTests.Test.TestObjectsContructor
 {
-    public class DatabaseContainer : ISystemeDatabaseModule
+    public class DatabaseContainer : MiniSQL.Interfaces.ISystemeDatabaseModule, IDatabaseContainer
     {
 
         private Dictionary<string, IDatabase> databases;
@@ -92,5 +93,17 @@ namespace UnitTests.Test.TestObjectsContructor
         {
             return true;
         }
+
+        public IDatabaseContainer GetDatabaseContainer()
+        {
+            return this;
+        }
+
+        public ISysteme GetSysteme()
+        {
+            return this.systeme;
+        }
+
+
     }
 }

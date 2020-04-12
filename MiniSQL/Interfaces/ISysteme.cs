@@ -11,11 +11,10 @@ namespace MiniSQL.Interfaces
 {
     public interface ISysteme 
     {
-        DatabaseProxy CreateDatabaseProxy(IDatabase database);
+        List<IActiveSystemModule> GetActiveModuleList();
         ISystemeModule GetSystemeModule(string systemeModuleName);
         void SetSystemeModule(ISystemeModule systemeModule);
         void SetActiveModule(IActiveSystemModule activeModule);
         SystemConfiguration GetConfiguration();
-        void SetupSysteme();
     }
 }

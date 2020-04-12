@@ -13,13 +13,14 @@ namespace MiniSQL.SystemeClasses
     public class SystemeDatabaseContainerModule : ISystemeDatabaseModule
     {
         private AbstractParser parser;
-        private Dictionary<string, IDatabase> activeDatabases;
+        private DatabaseBin databaseContainer;
         private ISysteme systeme;
         private static SystemeDatabaseContainerModule systemeDatabaseContainerModule;
         private bool isAcoplated;
+
         private SystemeDatabaseContainerModule()
         {
-            this.activeDatabases = new Dictionary<string, IDatabase>();
+            this.databaseContainer = new DatabaseBin(this);
             this.isAcoplated = false;
         }
 
@@ -29,31 +30,9 @@ namespace MiniSQL.SystemeClasses
             return systemeDatabaseContainerModule;
         }
 
-        public void AddDatabase(IDatabase database)
-        {
-            activeDatabases.Add(database.databaseName, database);
-            this.parser.SaveDatabase(database);
-        }
-
-        public bool ExistDatabase(string databaseName)
-        {
-            return activeDatabases.ContainsKey(databaseName);
-        }
-
-        public IDatabase GetDatabase(string databaseName)
-        {
-            return this.systeme.CreateDatabaseProxy(this.activeDatabases[databaseName]);
-        }
-
         public string GetDefaultDatabaseName()
         {
             return SystemeConstants.DefaultDatabaseName;
-        }
-
-        public void RemoveDatabase(string databaseName)
-        {
-            this.activeDatabases.Remove(databaseName);
-            this.parser.DeleteDatabase(databaseName);
         }
 
         public void SetSysteme(ISysteme system)
@@ -68,7 +47,6 @@ namespace MiniSQL.SystemeClasses
 
         public void ActToAdd(IDatabase database)
         {
-            this.activeDatabases.Add(database.databaseName, database);
             this.parser.SaveDatabase(database);
         }
 
@@ -79,7 +57,6 @@ namespace MiniSQL.SystemeClasses
 
         public void ActToRemove(IDatabase database)
         {
-            this.activeDatabases.Remove(database.databaseName);
             this.parser.DeleteDatabase(database.databaseName);
         }
 
@@ -100,7 +77,7 @@ namespace MiniSQL.SystemeClasses
 
         public void SaveAll()
         {
-            IEnumerator<IDatabase> databaseEnumerator = this.activeDatabases.Values.GetEnumerator();
+            IEnumerator<IDatabase> databaseEnumerator = this.databaseContainer.activeDatabases.Values.GetEnumerator();
             while (databaseEnumerator.MoveNext()) this.parser.SaveDatabase(databaseEnumerator.Current);
         }
 
@@ -113,7 +90,7 @@ namespace MiniSQL.SystemeClasses
                 for (int i = 0; i < databasesNames.Length; i++)
                 {
                     database = this.parser.LoadDatabase(databasesNames[i]);
-                    this.activeDatabases.Add(database.databaseName, database);
+                    this.databaseContainer.activeDatabases.Add(database.databaseName, database);
                 }
                 this.isAcoplated = true;
             }
@@ -122,6 +99,26 @@ namespace MiniSQL.SystemeClasses
         public bool IsAcoplated()
         {
             return this.isAcoplated;
+        }
+
+        public IDatabaseContainer GetDatabaseContainer()
+        {
+            return this.databaseContainer;
+        }
+
+        public ISysteme GetSysteme()
+        {
+            return this.systeme;
+        }
+
+        public IDatabase GetDatabase(string databaseName)
+        {
+            return this.databaseContainer.activeDatabases[databaseName];
+        }
+
+        public void AddDatabase(IDatabase database)
+        {
+            this.databaseContainer.activeDatabases.Add(database.databaseName, database);
         }
     }
 }

@@ -50,7 +50,8 @@ namespace MiniSQL.SystemeClasses
         }
         private void CreateSystemDatabases(ISystemeDatabaseModule databaseModule)
         {
-            if (!databaseModule.ExistDatabase(SystemeConstants.SystemDatabaseName)) databaseModule.AddDatabase(DefaultDataConstructor.CreateSystemDatabase());
+            IDatabaseContainer databaseContainer = databaseModule.GetDatabaseContainer();
+            if (!databaseContainer.ExistDatabase(SystemeConstants.SystemDatabaseName)) databaseModule.AddDatabase(DefaultDataConstructor.CreateSystemDatabase());
             else
             {
                 IDatabase database = databaseModule.GetDatabase(SystemeConstants.SystemDatabaseName);
@@ -69,12 +70,19 @@ namespace MiniSQL.SystemeClasses
 
         private void CreateDefaultDatabase(ISystemeDatabaseModule databaseModule)
         {
-            if (!databaseModule.ExistDatabase(SystemeConstants.DefaultDatabaseName)) databaseModule.AddDatabase(new Database(SystemeConstants.DefaultDatabaseName));
+            IDatabaseContainer databaseContainer = databaseModule.GetDatabaseContainer();
+            if (!databaseContainer.ExistDatabase(SystemeConstants.DefaultDatabaseName)) databaseContainer.AddDatabase(new Database(SystemeConstants.DefaultDatabaseName));
         }
 
         public bool IsAcoplated()
         {
             return this.isAcoplated;
         }
+
+        public ISysteme GetSysteme()
+        {
+            return this.systeme;
+        }
+
     }
 }

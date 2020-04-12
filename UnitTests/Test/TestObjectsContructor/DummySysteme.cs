@@ -20,9 +20,9 @@ namespace UnitTests.Test.TestObjectsContructor
             this.activeSystemeModulesList = new List<IActiveSystemModule>();
         }
 
-        public DatabaseProxy CreateDatabaseProxy(IDatabase database)
+        public List<IActiveSystemModule> GetActiveModuleList()
         {
-            return null;
+            return this.activeSystemeModulesList;
         }
 
         public SystemConfiguration GetConfiguration()
@@ -46,9 +46,5 @@ namespace UnitTests.Test.TestObjectsContructor
             this.systemeModules.Add(systemeModule.GetModuleKey(), systemeModule);
         }
 
-        public void SetupSysteme()
-        {
-            
-        }
     }
 }

@@ -33,13 +33,32 @@ namespace MiniSQL.SystemeClasses
 
         public void ActToAdd(IDatabase database)
         {
-            
+            ISystemeDatabaseModule databaseModule = (ISystemeDatabaseModule)this.systeme.GetSystemeModule(SystemeConstants.SystemeDatabaseModule);
+            IDatabase systemDatabase = databaseModule.GetDatabaseContainer().GetDatabase(SystemeConstants.SystemDatabaseName);
+            ITable profilesPrivilegesOnDatabasesTable = systemDatabase.GetTable(SystemeConstants.PrivilegesOfProfilesOnDatabasesTableName);
+            ITable databasesPrivilegesTable = systemDatabase.GetTable(SystemeConstants.DatabasesPrivilegesTableName);
+            ITable adminProfileTable = systemDatabase.GetTable(SystemeConstants.NoRemovableProfilesTableName);
+            IEnumerator<Row> adminProfilesrowEnumerator = adminProfileTable.GetRowEnumerator();
+            IEnumerator<Row> databasesPrivilegesRowEnumerator = databasesPrivilegesTable.GetRowEnumerator();
+            Row row;
+            while (adminProfilesrowEnumerator.MoveNext())
+            {
+                while (databasesPrivilegesRowEnumerator.MoveNext())
+                {
+                    row = profilesPrivilegesOnDatabasesTable.CreateRowDefinition();
+                    row.GetCell(SystemeConstants.PrivilegesOfProfilesOnDatabasesDatabaseNameColumnName).data = database.databaseName;
+                    row.GetCell(SystemeConstants.PrivilegesOfProfilesOnDatabasesProfileColumnName).data = adminProfilesrowEnumerator.Current.GetCell(SystemeConstants.ProfileNameColumn).data;
+                    row.GetCell(SystemeConstants.PrivilegesOfProfilesOnDatabasesPrivilegeColumnName).data = databasesPrivilegesRowEnumerator.Current.GetCell(SystemeConstants.DatabasesPrivilegesPrivilegeNameColumnName).data;
+                    profilesPrivilegesOnDatabasesTable.AddRow(row);
+                }
+                databasesPrivilegesRowEnumerator.Reset();
+            }
         }
 
         public void ActToAdd(IDatabase database, ITable table)
         {
             ISystemeDatabaseModule databaseModule = (ISystemeDatabaseModule)this.systeme.GetSystemeModule(SystemeConstants.SystemeDatabaseModule);
-            IDatabase systemDatabase = databaseModule.GetDatabase(SystemeConstants.SystemDatabaseName);
+            IDatabase systemDatabase = databaseModule.GetDatabaseContainer().GetDatabase(SystemeConstants.SystemDatabaseName);
             ITable profilesPrivilegesTable = systemDatabase.GetTable(SystemeConstants.PrivilegesOfProfilesOnTablesTableName);
             ITable tablePrivilegesTable = systemDatabase.GetTable(SystemeConstants.PrivilegesTableName);
             ITable adminProfileTable = systemDatabase.GetTable(SystemeConstants.NoRemovableProfilesTableName);
@@ -63,12 +82,22 @@ namespace MiniSQL.SystemeClasses
 
         public void ActToRemove(IDatabase database)
         {
-            
+            Delete delete = new Delete(((ISystemeDatabaseModule)this.systeme.GetSystemeModule(SystemeConstants.SystemeDatabaseModule)).GetDatabaseContainer());
+            delete.targetDatabase = SystemeConstants.SystemDatabaseName;
+            delete.targetTableName = SystemeConstants.PrivilegesOfProfilesOnTablesTableName;
+            delete.whereClause.AddCritery(new Tuple<string, string>(SystemeConstants.PrivilegesOfProfilesOnTablesDatabaseNameColumnName, database.databaseName), Operator.equal);
+            delete.Execute();
+
+            delete = new Delete(((ISystemeDatabaseModule)this.systeme.GetSystemeModule(SystemeConstants.SystemeDatabaseModule)).GetDatabaseContainer());
+            delete.targetDatabase = SystemeConstants.SystemDatabaseName;
+            delete.targetTableName = SystemeConstants.PrivilegesOfProfilesOnDatabasesTableName;
+            delete.whereClause.AddCritery(new Tuple<string, string>(SystemeConstants.PrivilegesOfProfilesOnDatabasesDatabaseNameColumnName, database.databaseName), Operator.equal);
+            delete.Execute();
         }
 
         public void ActToRemove(IDatabase database, ITable table)
         {
-            Delete delete = new Delete((IDatabaseContainer)this.systeme.GetSystemeModule(SystemeConstants.SystemeDatabaseModule));
+            Delete delete = new Delete(((ISystemeDatabaseModule)this.systeme.GetSystemeModule(SystemeConstants.SystemeDatabaseModule)).GetDatabaseContainer());
             delete.targetDatabase = SystemeConstants.SystemDatabaseName;
             delete.targetTableName = SystemeConstants.PrivilegesOfProfilesOnTablesTableName;
             delete.whereClause.AddCritery(new Tuple<string, string>(SystemeConstants.PrivilegesOfProfilesOnTablesDatabaseNameColumnName, database.databaseName), Operator.equal);
@@ -101,6 +130,11 @@ namespace MiniSQL.SystemeClasses
         public bool IsAcoplated()
         {
             return true;
+        }
+
+        public ISysteme GetSysteme()
+        {
+            return this.systeme;
         }
     }
 }

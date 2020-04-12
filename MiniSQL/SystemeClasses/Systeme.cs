@@ -34,11 +34,6 @@ namespace MiniSQL.SystemeClasses
             return system;
         }
 
-        public string GetDefaultDatabaseName()
-        {
-            return SystemeConstants.DefaultDatabaseName;
-        }
-
         public ISystemeModule GetSystemeModule(string systemeModuleName)
         {
             return this.systemeModules[systemeModuleName];
@@ -59,18 +54,10 @@ namespace MiniSQL.SystemeClasses
         {
             return this.configuration;
         }
-
-        public DatabaseProxy CreateDatabaseProxy(IDatabase database)
+   
+        public List<IActiveSystemModule> GetActiveModuleList()
         {
-            return new DatabaseProxy(database, this.activeSystemeModulesList);
+            return this.activeSystemeModulesList;
         }
-
-        public void SetupSysteme()
-        {
-            IEnumerator<ISystemeModule> systemeModuleEnumerator = this.systemeModules.Values.GetEnumerator();
-            while (systemeModuleEnumerator.MoveNext()) systemeModuleEnumerator.Current.AcoplateTheModule();
-        }
-
-
     }
 }

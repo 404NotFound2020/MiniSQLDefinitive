@@ -8,6 +8,7 @@ namespace MiniSQL.Interfaces
 {
     public interface ISystemeModule
     {
+        ISysteme GetSysteme();
         void SetSysteme(ISysteme system);
         string GetModuleKey();        
         void AcoplateTheModule();

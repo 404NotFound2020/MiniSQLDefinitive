@@ -138,6 +138,7 @@ namespace MiniSQL.Initializer
             {
                 row = table.CreateRowDefinition();
                 row.GetCell(SystemeConstants.DatabasesPrivilegesPrivilegeNameColumnName).data = privilegesList[i];
+                table.AddRow(row);
             }
             return table;
         }

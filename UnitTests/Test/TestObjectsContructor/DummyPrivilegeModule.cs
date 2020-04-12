@@ -47,6 +47,11 @@ namespace UnitTests.Test.TestObjectsContructor
             return SystemeConstants.SystemePrivilegeModule;
         }
 
+        public ISysteme GetSysteme()
+        {
+            return this.systeme;
+        }
+
         public bool IsAcoplated()
         {
             return true;

@@ -33,8 +33,10 @@ namespace MiniSQL.ServerFacade
             privilegeModule.SetSysteme(systeme);
             systeme.SetActiveModule(databaseContainerModule);
             systeme.SetActiveModule(privilegeModule);
-            systeme.SetSystemeModule(dataInicializationModule);           
-            systeme.SetupSysteme();
+            systeme.SetSystemeModule(dataInicializationModule);
+            databaseContainerModule.AcoplateTheModule();
+            dataInicializationModule.AcoplateTheModule();
+            privilegeModule.AcoplateTheModule();
         }
 
         public static FakeServer GetFakeServer() 

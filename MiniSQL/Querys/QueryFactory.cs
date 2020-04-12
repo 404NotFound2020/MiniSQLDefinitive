@@ -28,7 +28,7 @@ namespace MiniSQL.Querys
 
         public AbstractQuery GetQuery(Request request) 
         {
-            IDatabaseContainer container = (IDatabaseContainer)this.systeme.GetSystemeModule(SystemeConstants.SystemeDatabaseModule);
+            IDatabaseContainer container = ((ISystemeDatabaseModule)this.systeme.GetSystemeModule(SystemeConstants.SystemeDatabaseModule)).GetDatabaseContainer();
             AbstractQuery query = null;
             switch (request.GetElementsContentByTagName(RequestAndRegexConstants.queryTagName)[0]) 
             {
@@ -155,7 +155,7 @@ namespace MiniSQL.Querys
         }
 
         private void SetDatabaseAndTableTarget(Request request, AbstractQuery query) {
-            query.targetDatabase = ((IDatabaseContainer)this.systeme.GetSystemeModule(SystemeConstants.SystemeDatabaseModule)).GetDefaultDatabaseName();
+            query.targetDatabase = ((ISystemeDatabaseModule)this.systeme.GetSystemeModule(SystemeConstants.SystemeDatabaseModule)).GetDefaultDatabaseName();
             string[] databaseGroups = request.GetElementsContentByTagName(RequestAndRegexConstants.databaseTagName);            
             if(!(databaseGroups.Length == 0)) query.targetDatabase = databaseGroups[0];
             query.targetTableName = request.GetElementsContentByTagName(RequestAndRegexConstants.tableTagName)[0];
