@@ -25,6 +25,11 @@ namespace MiniSQL.Querys
             this.SetResult(QuerysStringResultConstants.TableSucesfullyDeleted(table.tableName));
         }
 
+        public override string GetNeededExecutePrivilege()
+        {
+            throw new NotImplementedException();
+        }
+
         public override bool ValidateParameters()
         {
             if (!this.GetContainer().ExistDatabase(this.targetDatabase)) this.SaveTheError(QuerysStringResultConstants.DatabaseDoesntExist(this.targetDatabase));

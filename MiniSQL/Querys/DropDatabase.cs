@@ -27,5 +27,10 @@ namespace MiniSQL.Querys
             if (b = !this.GetContainer().ExistDatabase(this.targetDatabase)) this.SaveTheError(QuerysStringResultConstants.DatabaseDoesntExist(this.targetDatabase));
             return !b;
         }
+
+        public override string GetNeededExecutePrivilege()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

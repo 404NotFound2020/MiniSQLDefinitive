@@ -23,14 +23,17 @@ namespace MiniSQL.Initializer
             systemDatabase.AddTable(CreateNoRemovableUserProfilesTable(systemDatabase.GetTable(SystemeConstants.UserProfilesTableName)));
             systemDatabase.AddTable(CreatePrivilegesTable());
             systemDatabase.AddTable(CreatePrivilegesOfProfilesTable(systemDatabase.GetTable(SystemeConstants.ProfilesTableName), systemDatabase.GetTable(SystemeConstants.PrivilegesTableName)));
+            systemDatabase.AddTable(CreateDatabasesPrivilegesTable());
+            systemDatabase.AddTable(CreatePrivilegesOfProfilesInDatabasesTable(systemDatabase.GetTable(SystemeConstants.ProfilesTableName), systemDatabase.GetTable(SystemeConstants.DatabasesPrivilegesTableName)));
             return systemDatabase;
         }
 
         public static Table CreateUsersTable()
         {
             Table table = new Table(SystemeConstants.UsersTableName);
-            table.AddColumn(new Column(SystemeConstants.UsersNameColumnName, DataTypesFactory.GetDataTypesFactory().GetDataType(SystemeConstants.UsersNameColumnType)));
-            table.AddColumn(new Column(SystemeConstants.UsersPasswordColumnName, DataTypesFactory.GetDataTypesFactory().GetDataType(SystemeConstants.UsersPasswordColumnType)));
+            DataTypesFactory dataTypesFactory = DataTypesFactory.GetDataTypesFactory();
+            table.AddColumn(new Column(SystemeConstants.UsersNameColumnName, dataTypesFactory.GetDataType(SystemeConstants.UsersNameColumnType)));
+            table.AddColumn(new Column(SystemeConstants.UsersPasswordColumnName, dataTypesFactory.GetDataType(SystemeConstants.UsersPasswordColumnType)));
             table.primaryKey.AddKey(table.GetColumn(SystemeConstants.UsersNameColumnName));
             Row row = table.CreateRowDefinition();
             row.GetCell(SystemeConstants.UsersNameColumnName).data = SystemeConstants.AdminUser;
@@ -92,8 +95,9 @@ namespace MiniSQL.Initializer
 
         private static Table CreateUserProfilesTable(string tableName) {
             Table table = new Table(tableName);
-            Column userNameColumn = new Column(SystemeConstants.UserProfilesUsernameColumnName, DataTypesFactory.GetDataTypesFactory().GetDataType(SystemeConstants.UserProfilesUsernameColumnType));
-            Column profileNameColumn = new Column(SystemeConstants.UserProfilesProfileColumnName, DataTypesFactory.GetDataTypesFactory().GetDataType(SystemeConstants.UserProfilesProfileColumnType));
+            DataTypesFactory dataTypesFactory = DataTypesFactory.GetDataTypesFactory();
+            Column userNameColumn = new Column(SystemeConstants.UserProfilesUsernameColumnName, dataTypesFactory.GetDataType(SystemeConstants.UserProfilesUsernameColumnType));
+            Column profileNameColumn = new Column(SystemeConstants.UserProfilesProfileColumnName, dataTypesFactory.GetDataType(SystemeConstants.UserProfilesProfileColumnType));
             table.AddColumn(userNameColumn);
             table.AddColumn(profileNameColumn);
             table.primaryKey.AddKey(userNameColumn);
@@ -111,7 +115,7 @@ namespace MiniSQL.Initializer
             Column privilegesNameColumn = new Column(SystemeConstants.PrivilegesPrivilegeNameColumnName, DataTypesFactory.GetDataTypesFactory().GetDataType(SystemeConstants.PriviliegesPrivilegeColumnType));
             table.AddColumn(privilegesNameColumn);
             table.primaryKey.AddKey(privilegesNameColumn);
-            string[] privilegesList = new string[] { SystemeConstants.InsertPrivilegeName, SystemeConstants.SelectPrivilegeName, SystemeConstants.DeletePrivilegeName, SystemeConstants.UpdatePrivilegeName };
+            string[] privilegesList = new string[] { SystemeConstants.InsertPrivilegeName, SystemeConstants.SelectPrivilegeName, SystemeConstants.DeletePrivilegeName, SystemeConstants.UpdatePrivilegeName };//XD esto con 100 tipos de privilegios seria unas risas (obviamente se haria de otra manera en ese caso)
             Row row;
             for(int i = 0; i < privilegesList.Length; i++)
             {
@@ -121,14 +125,31 @@ namespace MiniSQL.Initializer
             }
             return table;
         }
+        //No se reutiliza porque esto de las tablas mejor hacerlas en metodos independientes, que luego cambiar cualquier cosa, las tablas ya no son tan parecidas y toca volver a separarlo
+        public static Table CreateDatabasesPrivilegesTable()
+        {
+            Table table = new Table(SystemeConstants.DatabasesPrivilegesTableName);
+            Column privilegesNameColumn = new Column(SystemeConstants.DatabasesPrivilegesPrivilegeNameColumnName, DataTypesFactory.GetDataTypesFactory().GetDataType(SystemeConstants.DatabasesPrivilegesPrivilegeColumnType));
+            table.AddColumn(privilegesNameColumn);
+            table.primaryKey.AddKey(privilegesNameColumn);
+            string[] privilegesList = new string[] { SystemeConstants.CreatePrivilegeName, SystemeConstants.DropPrivilegeName };
+            Row row;
+            for(int i = 0; i < privilegesList.Length; i++)
+            {
+                row = table.CreateRowDefinition();
+                row.GetCell(SystemeConstants.DatabasesPrivilegesPrivilegeNameColumnName).data = privilegesList[i];
+            }
+            return table;
+        }
 
         public static Table CreatePrivilegesOfProfilesTable(ITable profilesTable, ITable privilegesTable)
         {
             Table table = new Table(SystemeConstants.PrivilegesOfProfilesOnTablesTableName);
-            Column profilesNameColumn = new Column(SystemeConstants.PrivilegesOfProfilesOnTablesProfileColumnName, DataTypesFactory.GetDataTypesFactory().GetDataType(SystemeConstants.PrivilegesOfProfilesOnTablesProfileColumnType));
-            Column databaseNameColumn = new Column(SystemeConstants.PrivilegesOfProfilesOnTablesDatabaseNameColumnName, DataTypesFactory.GetDataTypesFactory().GetDataType(SystemeConstants.PrivilegesOfProfilesOnTablesDatabaseNameColumnType));
-            Column tableNameColumn = new Column(SystemeConstants.PrivilegesOfProfilesOnTablesTableNameColumnName, DataTypesFactory.GetDataTypesFactory().GetDataType(SystemeConstants.PrivilegesOfProfilesOnTablesTableNameColumnNameColumnType));
-            Column privilegeNameColumn = new Column(SystemeConstants.PrivilegesOfProfilesOnTablesPrivilegeColumnName, DataTypesFactory.GetDataTypesFactory().GetDataType(SystemeConstants.PrivilegesOfProfilesOnTablesPrivilegeColumnType));
+            DataTypesFactory dataTypesFactory = DataTypesFactory.GetDataTypesFactory();
+            Column profilesNameColumn = new Column(SystemeConstants.PrivilegesOfProfilesOnTablesProfileColumnName, dataTypesFactory.GetDataType(SystemeConstants.PrivilegesOfProfilesOnTablesProfileColumnType));
+            Column databaseNameColumn = new Column(SystemeConstants.PrivilegesOfProfilesOnTablesDatabaseNameColumnName, dataTypesFactory.GetDataType(SystemeConstants.PrivilegesOfProfilesOnTablesDatabaseNameColumnType));
+            Column tableNameColumn = new Column(SystemeConstants.PrivilegesOfProfilesOnTablesTableNameColumnName, dataTypesFactory.GetDataType(SystemeConstants.PrivilegesOfProfilesOnTablesTableNameColumnNameColumnType));
+            Column privilegeNameColumn = new Column(SystemeConstants.PrivilegesOfProfilesOnTablesPrivilegeColumnName, dataTypesFactory.GetDataType(SystemeConstants.PrivilegesOfProfilesOnTablesPrivilegeColumnType));
             table.AddColumn(profilesNameColumn);
             table.AddColumn(databaseNameColumn);           
             table.AddColumn(tableNameColumn);
@@ -139,6 +160,24 @@ namespace MiniSQL.Initializer
             table.primaryKey.AddKey(privilegeNameColumn);
             table.foreignKey.AddForeignKey(profilesNameColumn, profilesTable.GetColumn(SystemeConstants.UserProfilesProfileColumnName));
             table.foreignKey.AddForeignKey(privilegeNameColumn, privilegesTable.GetColumn(SystemeConstants.PrivilegesPrivilegeNameColumnName));
+            return table;
+        }
+
+        public static Table CreatePrivilegesOfProfilesInDatabasesTable(ITable profilesTable, ITable privilegesTable)
+        {
+            Table table = new Table(SystemeConstants.PrivilegesOfProfilesOnDatabasesTableName);
+            DataTypesFactory dataTypesFactory = DataTypesFactory.GetDataTypesFactory();
+            Column profilesNameColumn = new Column(SystemeConstants.PrivilegesOfProfilesOnDatabasesProfileColumnName, dataTypesFactory.GetDataType(SystemeConstants.PrivilegesOfProfilesOnDatabasesProfileColumnType));
+            Column databaseNameColumn = new Column(SystemeConstants.PrivilegesOfProfilesOnDatabasesDatabaseNameColumnName, dataTypesFactory.GetDataType(SystemeConstants.PrivilegesOfProfilesOnDatabasesDatabaseNameColumnType));
+            Column privilegeNameColumn = new Column(SystemeConstants.PrivilegesOfProfilesOnDatabasesPrivilegeColumnName, dataTypesFactory.GetDataType(SystemeConstants.PrivilegesOfProfilesOnDatabasesPrivilegeColumnType));
+            table.AddColumn(profilesNameColumn);
+            table.AddColumn(databaseNameColumn);
+            table.AddColumn(privilegeNameColumn);
+            table.primaryKey.AddKey(profilesNameColumn);
+            table.primaryKey.AddKey(databaseNameColumn);
+            table.primaryKey.AddKey(privilegeNameColumn);
+            table.foreignKey.AddForeignKey(profilesNameColumn, profilesTable.GetColumn(SystemeConstants.UserProfilesProfileColumnName));
+            table.foreignKey.AddForeignKey(privilegeNameColumn, privilegesTable.GetColumn(SystemeConstants.DatabasesPrivilegesPrivilegeNameColumnName));
             return table;
         }
 

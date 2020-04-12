@@ -17,9 +17,14 @@ namespace MiniSQL.Querys
         }   
 
         public override void ExecuteParticularQueryAction()
-        {
+        {            
             this.GetContainer().AddDatabase(new Database(this.targetDatabase));
             this.SetResult(QuerysStringResultConstants.TheDatabaseWasCreated);
+        }
+
+        public override string GetNeededExecutePrivilege()
+        {
+            throw new NotImplementedException();
         }
 
         public override bool ValidateParameters()

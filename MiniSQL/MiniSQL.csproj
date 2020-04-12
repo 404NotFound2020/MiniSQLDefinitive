@@ -47,6 +47,7 @@
     <Compile Include="Interfaces\ISystemeDataInicializationModule.cs" />
     <Compile Include="Interfaces\ISystemeModule.cs" />
     <Compile Include="Interfaces\ISystemePrivilegeModule.cs" />
+    <Compile Include="Interfaces\PrivilegeManipulationQuery.cs" />
     <Compile Include="SystemeClasses\DatabaseProxy.cs" />
     <Compile Include="SystemeClasses\SystemeDatabaseContainerModule.cs" />
     <Compile Include="SystemeClasses\SystemeDataInicializationModule.cs" />
@@ -74,7 +75,6 @@
     <Compile Include="SystemeClasses\Systeme.cs" />
     <Compile Include="Initializer\ConfigurationParser.cs" />
     <Compile Include="Interfaces\AbstractQuery.cs" />
-    <Compile Include="Interfaces\DataChangeQuery.cs" />
     <Compile Include="Interfaces\DataDefinitionQuery.cs" />
     <Compile Include="Interfaces\DataType.cs" />
     <Compile Include="Classes\Cell.cs" />

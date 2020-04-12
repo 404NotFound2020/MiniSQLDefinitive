@@ -98,6 +98,9 @@ namespace MiniSQL.Querys
             return this.selectedRowsIndexInTable.GetEnumerator();
         }
 
-
+        public override string GetNeededExecutePrivilege()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

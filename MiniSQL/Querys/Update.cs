@@ -59,6 +59,9 @@ namespace MiniSQL.Querys
             else this.updateColumnData[columnName] = value; 
         }
 
-
+        public override string GetNeededExecutePrivilege()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

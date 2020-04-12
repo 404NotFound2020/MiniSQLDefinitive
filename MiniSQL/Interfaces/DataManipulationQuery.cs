@@ -74,6 +74,11 @@ namespace MiniSQL.Interfaces
             }
         }
 
+        public override bool ValidatePrivileges(ISystemePrivilegeModule privilegeModule)
+        {
+            return true;
+        }
+
         protected abstract void ValidateParameters(ITable table);
         public abstract void ExecuteParticularQueryAction(ITable table);
 

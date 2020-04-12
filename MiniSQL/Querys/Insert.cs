@@ -53,6 +53,9 @@ namespace MiniSQL.Querys
             this.values.Add(value);        
         }
 
-
+        public override string GetNeededExecutePrivilege()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -62,6 +62,8 @@ namespace MiniSQL.SystemeClasses
                 if (!database.ExistTable(SystemeConstants.NoRemovableUserProfilesTableName)) database.AddTable(DefaultDataConstructor.CreateNoRemovableUserProfilesTable(database.GetTable(SystemeConstants.UserProfilesTableName)));
                 if (!database.ExistTable(SystemeConstants.PrivilegesTableName)) database.AddTable(DefaultDataConstructor.CreatePrivilegesTable());
                 if (!database.ExistTable(SystemeConstants.PrivilegesOfProfilesOnTablesTableName)) database.AddTable(DefaultDataConstructor.CreatePrivilegesOfProfilesTable(database.GetTable(SystemeConstants.ProfilesTableName), database.GetTable(SystemeConstants.PrivilegesTableName)));
+                if (!database.ExistTable(SystemeConstants.DatabasesPrivilegesTableName)) database.AddTable(DefaultDataConstructor.CreateDatabasesPrivilegesTable());
+                if (!database.ExistTable(SystemeConstants.PrivilegesOfProfilesOnTablesTableName)) database.AddTable(DefaultDataConstructor.CreatePrivilegesOfProfilesInDatabasesTable(database.GetTable(SystemeConstants.ProfilesTableName), database.GetTable(SystemeConstants.DatabasesPrivilegesTableName)));
             }
         }
 

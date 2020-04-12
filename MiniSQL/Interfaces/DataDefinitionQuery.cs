@@ -19,6 +19,11 @@ namespace MiniSQL.Interfaces
             if (this.GetErrorCount() == 0) this.ExecuteParticularQueryAction();
         }
 
+        public override bool ValidatePrivileges(ISystemePrivilegeModule privilegeModule)
+        {
+            return true;
+        }
+
         public abstract void ExecuteParticularQueryAction();
     }
 }

@@ -46,5 +46,9 @@ namespace MiniSQL.Querys
             else this.SaveTheError(QuerysStringResultConstants.TheColumnAlreadyDefined(columnName));
         }
 
+        public override string GetNeededExecutePrivilege()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

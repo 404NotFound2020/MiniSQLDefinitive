@@ -8,11 +8,11 @@ namespace MiniSQL.Interfaces
 {
     public abstract class AbstractQuery
     {
-        private string result;
-        private IDatabaseContainer container;
+        private string result;              
         public string targetDatabase;        
         public string targetTableName;
         private int errorCount;
+        private IDatabaseContainer container;
 
         public AbstractQuery(IDatabaseContainer container) 
         {
@@ -58,8 +58,10 @@ namespace MiniSQL.Interfaces
             return errorCount;
         }
 
-        public abstract bool ValidateParameters(); 
-
+        public abstract bool ValidateParameters();
+        public abstract bool ValidatePrivileges(ISystemePrivilegeModule privilegeModule);
+        public abstract string GetNeededExecutePrivilege();
+        //public abstract bool CheckPrivileges();
         public abstract void Execute();
 
  

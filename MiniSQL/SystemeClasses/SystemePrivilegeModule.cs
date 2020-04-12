@@ -81,7 +81,7 @@ namespace MiniSQL.SystemeClasses
             return SystemeConstants.SystemePrivilegeModule;
         }
 
-        public bool CheckProfileTablePrivileges(string profileName, string databaseName, string tableName, string privilegeType)
+        public bool CheckProfileTablePrivileges(string username, string databaseName, string tableName, string privilegeType)
         {
             bool b = true;
 
