@@ -69,6 +69,9 @@ namespace MiniSQL.Constants
         public const string SystemeDatabaseModule = "SystemeDatabaseModule";
         public const string SystemePrivilegeModule = "SystemePrivilegeModule";
         public const string SystemeDataInicializationModule = "SystemeDataInicializationModule";
+        //SecurityPrivilegesNames
+        public const string CreateUserPrivilege = "CreateUser";
+
 
 
     }
