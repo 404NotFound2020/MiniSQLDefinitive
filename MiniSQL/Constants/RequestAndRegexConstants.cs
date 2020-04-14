@@ -64,5 +64,9 @@ namespace MiniSQL.Constants
         public const string createSecurityProfileQueryIdentificator = "CREATE SECURITY PROFILE";
         public static string createSecurityProfile = "^(" + queryGroup + createSecurityProfileQueryIdentificator + ") '(" + valueGroup + "[^']+)';$";
 
+        public static string usernameTagName = "username"; public static string passwordTagName = "password";
+        public static string usernameGroup = "?<" + usernameTagName + ">"; public static string passwordGroup = "?<" + passwordTagName + ">";
+        public const string createUserQueryIdentificator = "ADD USER"; public static string createUser = "^(" + queryGroup + createUserQueryIdentificator + ") \\('(" + usernameGroup + "[^']+)', '(" + passwordGroup + "[^']+)'\\);$";
+
     }
 }
