@@ -41,13 +41,19 @@ namespace MiniSQL.Querys
                 {
                     Dictionary<string, string> newValues = new Dictionary<string, string>();
                     newValues.Add(SystemeConstants.PrivilegesOfProfilesOnTablesProfileColumnName, this.profileName);
-                    newValues.Add(SystemeConstants.PrivilegesOfProfilesOnTablesDatabaseNameColumnName, this.databaseName);
-                    newValues.Add(SystemeConstants.PrivilegesOfProfilesOnTablesTableNameColumnName, this.tableName);
                     newValues.Add(SystemeConstants.PrivilegesOfProfilesOnTablesPrivilegeColumnName, this.privilegeName);
-                    if (!container.GetDatabase(this.targetDatabase).GetTable(this.targetTableName).foreignKey.Evaluate(newValues)) this.SaveTheError("Fk error");
+                    ITable table = container.GetDatabase(this.targetDatabase).GetTable(this.targetTableName);
+                    if (!table.foreignKey.Evaluate(newValues)) this.SaveTheError("Fk error");
+                    else
+                    {
+                        newValues.Add(SystemeConstants.PrivilegesOfProfilesOnTablesDatabaseNameColumnName, this.databaseName);
+                        newValues.Add(SystemeConstants.PrivilegesOfProfilesOnTablesTableNameColumnName, this.tableName);
+                        if (!table.primaryKey.Evaluate(newValues)) this.SaveTheError("Pk error");
+                    }
                 }
             }
             return this.GetIsValidQuery();
+
 
         }
 
