@@ -1,4 +1,5 @@
-﻿using MiniSQL.Constants;
+﻿using MiniSQL.Classes;
+using MiniSQL.Constants;
 using MiniSQL.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -20,9 +21,16 @@ namespace MiniSQL.Querys
            
         }
 
-    public override void ExecuteParticularQueryAction()
+        public override void ExecuteParticularQueryAction()
         {
-            throw new NotImplementedException();
+           ITable table = this.GetContainer().GetDatabase(this.targetDatabase).GetTable(this.targetTableName);
+            Row row = table.CreateRowDefinition();
+            row.GetCell(SystemeConstants.PrivilegesOfProfilesOnTablesProfileColumnName).data = this.profileName;
+            row.GetCell(SystemeConstants.PrivilegesOfProfilesOnTablesPrivilegeColumnName).data = this.privilegeName;
+            row.GetCell(SystemeConstants.PrivilegesOfProfilesOnTablesDatabaseNameColumnName).data = this.databaseName;
+            row.GetCell(SystemeConstants.PrivilegesOfProfilesOnTablesTableNameColumnName).data = this.tableName;
+            table.AddRow(row);
+
         }
 
         public override string GetNeededExecutePrivilege()
