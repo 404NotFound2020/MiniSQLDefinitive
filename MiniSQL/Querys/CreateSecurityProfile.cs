@@ -28,7 +28,7 @@ namespace MiniSQL.Querys
         {
             Dictionary<string, string> columnValuesPair = new Dictionary<string, string>();
             columnValuesPair.Add(SystemeConstants.ProfileNameColumn, this.profileName);
-            if (!this.GetContainer().GetDatabase(SystemeConstants.SystemDatabaseName).GetTable(SystemeConstants.ProfilesTableName).primaryKey.Evaluate(columnValuesPair))
+            if (!this.GetContainer().GetDatabase(this.targetDatabase).GetTable(this.targetTableName).primaryKey.Evaluate(columnValuesPair))
             {
                 this.SaveTheError("The profile exist");
 
@@ -45,7 +45,7 @@ namespace MiniSQL.Querys
 
         public override void ExecuteParticularQueryAction()
         {
-            ITable table = this.GetContainer().GetDatabase(SystemeConstants.SystemDatabaseName).GetTable(SystemeConstants.ProfilesTableName);
+            ITable table = this.GetContainer().GetDatabase(this.targetDatabase).GetTable(this.targetTableName);
             Row row = table.CreateRowDefinition();
             row.GetCell(SystemeConstants.ProfileNameColumn).data = this.profileName;
             table.AddRow(row);
