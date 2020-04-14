@@ -34,14 +34,13 @@ namespace MiniSQL.Querys
             throw new NotImplementedException();
         }
 
-        public void SetData()
+        public void SetData( string databaseName, string tableName, string privilegeName, string profileName)
         {
-                    private string databaseName;
-        private string tableName;
-        private string privilegeName;
-        private string profileName;
-
-    }
+            this.databaseName = databaseName;
+            this.tableName = tableName;
+            this.privilegeName = privilegeName;
+            this.profileName = profileName;
+        }
     }
 
 
