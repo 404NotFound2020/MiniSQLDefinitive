@@ -211,5 +211,29 @@ namespace UnitTests.Test.ConsoleTest
             Assert.IsTrue(regularExpresion.Matches("CREATE SECURITY PROFILE1223;").Count == 0);
         }
 
+        [TestMethod]
+        public void TestCreateUser()
+        {
+            string createUserPattern = RequestAndRegexConstants.createUser;
+            Regex regularExpresion = new Regex(@createUserPattern);
+
+            //GOODS
+            Assert.IsTrue(regularExpresion.Matches("ADD USER ('aaa', 'aaaa');").Count == 1);
+            Assert.IsTrue(regularExpresion.Matches("ADD USER ('aaa', '123123');").Count == 1);
+            Assert.IsTrue(regularExpresion.Matches("ADD USER ('12123213', '123123');").Count == 1);
+            //BADS
+            Assert.IsTrue(regularExpresion.Matches("ADD USER ('aaa','aaaa');").Count == 0);
+            Assert.IsTrue(regularExpresion.Matches("ADD USER ('aaa', 'aaaa')").Count == 0);
+            Assert.IsTrue(regularExpresion.Matches("ADD USER ('aaa');").Count == 0);
+            Assert.IsTrue(regularExpresion.Matches("ADD USER ('aaa', aaaa);").Count == 0);
+            Assert.IsTrue(regularExpresion.Matches("ADD USER (aaa, 'aaaa');").Count == 0);
+            Assert.IsTrue(regularExpresion.Matches("ADD USER (aaa, aaaa);").Count == 0);
+            Assert.IsTrue(regularExpresion.Matches("ADD USER ();").Count == 0);
+            Assert.IsTrue(regularExpresion.Matches("ADD USER;").Count == 0);
+            Assert.IsTrue(regularExpresion.Matches("ADD USER 'aaa','aaaa';").Count == 0);
+            Assert.IsTrue(regularExpresion.Matches("ADD USER ('aaa','aaaa';").Count == 0);
+            Assert.IsTrue(regularExpresion.Matches("ADD USER 'aaa','aaaa');").Count == 0);
+        }
+
     }
 }

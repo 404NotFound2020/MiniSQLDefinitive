@@ -35,6 +35,9 @@ namespace MiniSQL.Querys
                 case RequestAndRegexConstants.selectQueryIdentificator:
                     query = this.CreateSelectQuery(request, container);
                 break;
+                case RequestAndRegexConstants.createUserQueryIdentificator:
+                    query = CreateUserQuery(request, container);
+                break;
                 case RequestAndRegexConstants.insertQueryIdentificator:
                     query = this.CreateInsertQuery(request, container);
                 break;
@@ -151,6 +154,15 @@ namespace MiniSQL.Querys
             createSecurityProfile.targetTableName = SystemeConstants.ProfilesTableName;
             createSecurityProfile.SetProfileName(request.GetElementsContentByTagName(RequestAndRegexConstants.valueTagName)[0]);
             return createSecurityProfile;
+        }
+
+        private CreateUser CreateUserQuery(Request request, IDatabaseContainer container)
+        {
+            CreateUser createUser = new CreateUser(container);
+            createUser.targetDatabase = SystemeConstants.SystemDatabaseName;
+            createUser.targetTableName = SystemeConstants.UsersTableName;
+            createUser.SetUser(request.GetElementsContentByTagName(RequestAndRegexConstants.usernameTagName)[0], request.GetElementsContentByTagName(RequestAndRegexConstants.passwordTagName)[0]);
+            return createUser;
         }
 
         private Where CreateWhereClause(Request request) 
