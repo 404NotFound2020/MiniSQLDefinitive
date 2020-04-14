@@ -61,5 +61,8 @@ namespace MiniSQL.Constants
         public static string createDatabasePattern = "^(" + queryGroup + createDatabaseQueryIdentificator + ") (" + databaseGroup + NAINCG + "+);";
         public static string dropDatabasePattern = "^(" + queryGroup + dropDatabaseQueryIdentificator + ") (" + databaseGroup + NAINCG + "+);";
 
+        public const string createSecurityProfileQueryIdentificator = "CREATE SECURITY PROFILE";
+        public static string createSecurityProfile = "^(" + queryGroup + createSecurityProfileQueryIdentificator + ") '(" + valueGroup + "[^']+)';$";
+
     }
 }

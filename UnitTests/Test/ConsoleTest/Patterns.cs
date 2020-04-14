@@ -192,5 +192,24 @@ namespace UnitTests.Test.ConsoleTest
             Assert.IsTrue(regularExpression.Matches("CREATE TABLE;").Count == 0);
             //Assert.IsTrue(regularExpression.Matches("CREATE TABLE aaa (acaa TEXT);").Count == 0);
         }
+
+        [TestMethod]
+        public void TestCreateSecurityProfile()
+        {
+            string createSecurityProfilePattern = (RequestAndRegexConstants.createSecurityProfile);
+            Regex regularExpresion = new Regex(@createSecurityProfilePattern);
+            //GOODS
+            Assert.IsTrue(regularExpresion.Matches("CREATE SECURITY PROFILE 'aaa';").Count == 1);
+            Assert.IsTrue(regularExpresion.Matches("CREATE SECURITY PROFILE '121232';").Count == 1);
+            //BADS
+            Assert.IsTrue(regularExpresion.Matches("CREATE SECURITY PROFILE 'aaa'").Count == 0);
+            Assert.IsTrue(regularExpresion.Matches("CREATE SECURITY PROFILE aaa;").Count == 0);
+            Assert.IsTrue(regularExpresion.Matches("CREATE SECURITY PROFILE 1223;").Count == 0);
+            Assert.IsTrue(regularExpresion.Matches("CREATE SECURITY PROFILE ;").Count == 0);
+            Assert.IsTrue(regularExpresion.Matches("CREATE SECURITY PROFILE;").Count == 0);
+            Assert.IsTrue(regularExpresion.Matches("CREATE SECURITY PROFILE").Count == 0);
+            Assert.IsTrue(regularExpresion.Matches("CREATE SECURITY PROFILE1223;").Count == 0);
+        }
+
     }
 }
