@@ -56,6 +56,10 @@ namespace MiniSQL.Querys
                 case RequestAndRegexConstants.dropDatabaseQueryIdentificator:
                     query = this.DropDatabaseQuery(request, container);
                 break;
+                case RequestAndRegexConstants.createSecurityProfileQueryIdentificator:
+                    query = CreateSecurityProfileQuery(request, container);
+                    break;
+
             }
             return query;
         }
@@ -138,6 +142,15 @@ namespace MiniSQL.Querys
             DropDatabase dropDatabase = new DropDatabase(container);
             dropDatabase.targetDatabase = request.GetElementsContentByTagName(RequestAndRegexConstants.databaseTagName)[0];
             return dropDatabase;
+        }
+
+        private CreateSecurityProfile CreateSecurityProfileQuery(Request request, IDatabaseContainer container)
+        {
+            CreateSecurityProfile createSecurityProfile = new CreateSecurityProfile(container);
+            createSecurityProfile.targetDatabase = SystemeConstants.SystemDatabaseName;
+            createSecurityProfile.targetTableName = SystemeConstants.ProfilesTableName;
+            createSecurityProfile.SetProfileName(request.GetElementsContentByTagName(RequestAndRegexConstants.valueTagName)[0]);
+            return createSecurityProfile;
         }
 
         private Where CreateWhereClause(Request request) 
