@@ -1,4 +1,5 @@
-﻿using MiniSQL.Interfaces;
+﻿using MiniSQL.Constants;
+using MiniSQL.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,7 +32,23 @@ namespace MiniSQL.Querys
 
         public override bool ValidateParameters()
         {
-            throw new NotImplementedException();
+            IDatabaseContainer container = this.GetContainer();
+            if (!container.ExistDatabase(this.databaseName)) this.SaveTheError("The database doenst exits");
+            else
+            {
+                if (!container.GetDatabase(this.databaseName).ExistTable(this.tableName)) this.SaveTheError("The table doenst exist");
+                else
+                {
+                    Dictionary<string, string> newValues = new Dictionary<string, string>();
+                    newValues.Add(SystemeConstants.PrivilegesOfProfilesOnTablesProfileColumnName, this.profileName);
+                    newValues.Add(SystemeConstants.PrivilegesOfProfilesOnTablesDatabaseNameColumnName, this.databaseName);
+                    newValues.Add(SystemeConstants.PrivilegesOfProfilesOnTablesTableNameColumnName, this.tableName);
+                    newValues.Add(SystemeConstants.PrivilegesOfProfilesOnTablesPrivilegeColumnName, this.privilegeName);
+                    if (!container.GetDatabase(this.targetDatabase).GetTable(this.targetTableName).foreignKey.Evaluate(newValues)) this.SaveTheError("Fk error");
+                }
+            }
+            return this.GetIsValidQuery();
+
         }
 
         public void SetData( string databaseName, string tableName, string privilegeName, string profileName)
