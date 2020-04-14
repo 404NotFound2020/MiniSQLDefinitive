@@ -93,6 +93,7 @@
     <Compile Include="Test\Querys\TestCreateDatabase.cs" />
     <Compile Include="Test\Querys\TestGrantPrivilege.cs" />
     <Compile Include="Test\Querys\TestDropSecurityProfile.cs" />
+    <Compile Include="Test\Querys\TestCreateSecurityProfile.cs" />
     <Compile Include="Test\SaveDataFormatManagers\TestNothingToDoManager.cs" />
     <Compile Include="Test\SaveDataFormatManagers\StringEscapedManager.cs" />
     <Compile Include="Test\TableRestrictions\TestPrimaryKey.cs" />
