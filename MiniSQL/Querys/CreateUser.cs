@@ -23,7 +23,7 @@ namespace MiniSQL.Querys
         {
             ITable table = this.GetContainer().GetDatabase(this.targetDatabase).GetTable(this.targetTableName);
             Row row = table.CreateRowDefinition();
-            row.GetCell(SystemeConstants.UsersNameColumnName).data = this.username;
+            row.GetCell(SystemeConstants.UsersNameColumnName).data = this.newUsername;
             row.GetCell(SystemeConstants.UsersPasswordColumnName).data = this.password;
             table.AddRow(row);
             this.SetResult("Created user");
@@ -37,7 +37,7 @@ namespace MiniSQL.Querys
         public override bool ValidateParameters()
         {
             Dictionary<string, string> values = new Dictionary<string, string>();
-            values.Add(SystemeConstants.UsersNameColumnName, this.username);
+            values.Add(SystemeConstants.UsersNameColumnName, this.newUsername);
             if (!this.GetContainer().GetDatabase(this.targetDatabase).GetTable(this.targetTableName).primaryKey.Evaluate(values))
             {
                 this.SaveTheError("The user exist");
