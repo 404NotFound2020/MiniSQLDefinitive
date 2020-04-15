@@ -235,5 +235,25 @@ namespace UnitTests.Test.ConsoleTest
             Assert.IsTrue(regularExpresion.Matches("ADD USER 'aaa','aaaa');").Count == 0);
         }
 
+        [TestMethod]
+        public void TestDeleteUser()
+        {
+            string deleteUser = RequestAndRegexConstants.deleteUser;
+            Regex regularExpresion = new Regex(deleteUser);
+            //GOODS
+            Assert.IsTrue(regularExpresion.Matches("DELETE USER 'asdasa';").Count == 1);
+            Assert.IsTrue(regularExpresion.Matches("DELETE USER '1232';").Count == 1);
+            //BADS
+            Assert.IsTrue(regularExpresion.Matches("DELETE USER 'asdasa'").Count == 0);
+            Assert.IsTrue(regularExpresion.Matches("DELETE USER '';").Count == 0);
+            Assert.IsTrue(regularExpresion.Matches("DELETE USER 'asdasa;").Count == 0);
+            Assert.IsTrue(regularExpresion.Matches("DELETE USER asdasa';").Count == 0);
+            Assert.IsTrue(regularExpresion.Matches("DELETE USER asdasa;").Count == 0);
+            Assert.IsTrue(regularExpresion.Matches("DELETE USER;").Count == 0);
+            Assert.IsTrue(regularExpresion.Matches("DELETE USER ;").Count == 0);
+            Assert.IsTrue(regularExpresion.Matches("DELETE USER 123;").Count == 0);
+            Assert.IsTrue(regularExpresion.Matches("DELETE USER '123'';").Count == 0);
+        }
+
     }
 }

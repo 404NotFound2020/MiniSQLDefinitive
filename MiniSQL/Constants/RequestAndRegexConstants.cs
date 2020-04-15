@@ -68,5 +68,8 @@ namespace MiniSQL.Constants
         public static string usernameGroup = "?<" + usernameTagName + ">"; public static string passwordGroup = "?<" + passwordTagName + ">";
         public const string createUserQueryIdentificator = "ADD USER"; public static string createUser = "^(" + queryGroup + createUserQueryIdentificator + ") \\('(" + usernameGroup + "[^']+)', '(" + passwordGroup + "[^']+)'\\);$";
 
+        public const string deleteUserQueryIdentificator = "DELETE USER";
+        public static string deleteUser = "^(" + queryGroup + deleteUserQueryIdentificator + ") '(" + usernameGroup + "[^']+)';$";
+
     }
 }
