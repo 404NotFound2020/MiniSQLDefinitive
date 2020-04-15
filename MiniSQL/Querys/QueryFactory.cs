@@ -62,6 +62,9 @@ namespace MiniSQL.Querys
                 case RequestAndRegexConstants.createSecurityProfileQueryIdentificator:
                     query = CreateSecurityProfileQuery(request, container);
                     break;
+                case RequestAndRegexConstants.deleteUserQueryIdentificator:
+                    query = CreateDeleteUserQuery(request, container);
+                    break;
 
             }
             return query;
@@ -163,6 +166,15 @@ namespace MiniSQL.Querys
             createUser.targetTableName = SystemeConstants.UsersTableName;
             createUser.SetUser(request.GetElementsContentByTagName(RequestAndRegexConstants.usernameTagName)[0], request.GetElementsContentByTagName(RequestAndRegexConstants.passwordTagName)[0]);
             return createUser;
+        }
+
+        private DeleteUser CreateDeleteUserQuery(Request request, IDatabaseContainer container)
+        {
+            DeleteUser deleteUser = new DeleteUser(container);
+            deleteUser.targetDatabase = SystemeConstants.SystemDatabaseName;
+            deleteUser.targetTableName = SystemeConstants.UsersTableName;
+            deleteUser.SetTargetUserName(request.GetElementsContentByTagName(RequestAndRegexConstants.usernameTagName)[0]);
+            return deleteUser;
         }
 
         private Where CreateWhereClause(Request request) 
