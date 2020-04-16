@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace MiniSQL.Querys
 {
-    class CreateDatabase : DataDefinitionQuery
+    public class CreateDatabase : DataDefinitionQuery
     {
         public CreateDatabase(IDatabaseContainer container) : base(container)
         {
@@ -28,10 +28,9 @@ namespace MiniSQL.Querys
         }
 
         public override bool ValidateParameters()
-        {
-            bool b;
-            if (b = this.GetContainer().ExistDatabase(this.targetDatabase)) this.SaveTheError(QuerysStringResultConstants.TheDatabaseExist(this.targetDatabase));                
-            return !b;
+        {   
+            if (this.GetContainer().ExistDatabase(this.targetDatabase)) this.SaveTheError(QuerysStringResultConstants.TheDatabaseExist(this.targetDatabase));                
+            return this.GetIsValidQuery();
         }
     }
 }
