@@ -23,7 +23,7 @@ namespace UnitTests.Test.ConsoleTest
             Assert.IsTrue(regularExpression.Matches("SELECT * FROM a.ga WHERE z=1;").Count == 1);
             Assert.IsTrue(regularExpression.Matches("SELECT * FROM a.ga WHERE z>1;").Count == 1);
             Assert.IsTrue(regularExpression.Matches("SELECT * FROM a.ga WHERE z<1;").Count == 1);
-            Assert.IsTrue(regularExpression.Matches("SELECT * FROM a.ga WHERE z='asasadsdvas ihio';").Count == 1);            
+            Assert.IsTrue(regularExpression.Matches("SELECT * FROM a.ga WHERE z='asasadsdvas ihio';").Count == 1);
             Assert.IsTrue(regularExpression.Matches("SELECT a FROM g;").Count == 1);
             //BADS
             // Assert.IsTrue(regularExpression.Matches("SELECT a FROM g;").Count == 0);
@@ -59,7 +59,7 @@ namespace UnitTests.Test.ConsoleTest
         }
 
         [TestMethod]
-        public void TestInsertPattern() 
+        public void TestInsertPattern()
         {
             string insertPattern = (RequestAndRegexConstants.insertPattern);
             Regex regularExpression = new Regex(@insertPattern);
@@ -90,7 +90,7 @@ namespace UnitTests.Test.ConsoleTest
         }
 
         [TestMethod]
-        public void TestDropPattern() 
+        public void TestDropPattern()
         {
             string dropPattern = (RequestAndRegexConstants.dropPattern);
             Regex regularExpression = new Regex(@dropPattern);
@@ -111,7 +111,7 @@ namespace UnitTests.Test.ConsoleTest
         }
 
         [TestMethod]
-        public void TestDeletePattern() 
+        public void TestDeletePattern()
         {
             string deletePattern = (RequestAndRegexConstants.deletePattern);
             Regex regularExpression = new Regex(@deletePattern);
@@ -166,7 +166,8 @@ namespace UnitTests.Test.ConsoleTest
         }
 
         [TestMethod]
-        public void TestCreate() {
+        public void TestCreate()
+        {
             string createPattern = (RequestAndRegexConstants.createPattern);
             Regex regularExpression = new Regex(@createPattern);
             //GOODS
@@ -255,5 +256,30 @@ namespace UnitTests.Test.ConsoleTest
             Assert.IsTrue(regularExpresion.Matches("DELETE USER '123'';").Count == 0);
         }
 
+        [TestMethod]
+        public void TestGrantPrivilegeInDatabase()
+        {
+            string grantPrivilegeInDatabase = RequestAndRegexConstants.grantDatabasePrivilege;
+            Regex regularExpresion = new Regex(grantPrivilegeInDatabase);
+            //GOODS
+            Assert.IsTrue(regularExpresion.Matches("GRANT DATABASE PRIVILEGE 'create' ON databasedb TO 'addad';").Count == 1);
+            Assert.IsTrue(regularExpresion.Matches("GRANT DATABASE PRIVILEGE '867' ON 678 TO '868';").Count == 1);
+            //BADS
+            Assert.IsTrue(regularExpresion.Matches("GRANT DATABASE PRIVILEGE 'create' ON databasedb TO 'addad'").Count == 0);
+            Assert.IsTrue(regularExpresion.Matches("GRANT DATABASE PRIVILEGE 'create' ON databasedb TO 'addad;").Count == 0);
+            Assert.IsTrue(regularExpresion.Matches("GRANT DATABASE PRIVILEGE 'create' ON databasedb TO addad';").Count == 0);
+            Assert.IsTrue(regularExpresion.Matches("GRANT DATABASE PRIVILEGE 'create' ON databasedb TO addad;").Count == 0);
+            Assert.IsTrue(regularExpresion.Matches("GRANT DATABASE PRIVILEGE 'create ON databasedb TO 'addad';").Count == 0);
+            Assert.IsTrue(regularExpresion.Matches("GRANT DATABASE PRIVILEGE create' ON databasedb TO 'addad';").Count == 0);
+            Assert.IsTrue(regularExpresion.Matches("GRANT DATABASE PRIVILEGE create ON databasedb TO 'addad';").Count == 0);
+            Assert.IsTrue(regularExpresion.Matches("GRANT DATABASE PRIVILEGE 'create' ON databasedb TO ;").Count == 0);
+            Assert.IsTrue(regularExpresion.Matches("GRANT DATABASE PRIVILEGE 'create' ON databasedb TO '';").Count == 0);
+            Assert.IsTrue(regularExpresion.Matches("GRANT DATABASE PRIVILEGE 'create' ON databasedb TO'addad';").Count == 0);
+            Assert.IsTrue(regularExpresion.Matches("GRANT DATABASE PRIVILEGE'create' ON databasedb TO 'addad';").Count == 0);
+            Assert.IsTrue(regularExpresion.Matches("GRANT DATABASE PRIVILEGE 'create' ON databasedb 'addad';").Count == 0);
+            Assert.IsTrue(regularExpresion.Matches("GRANT DATABASE PRIVILEGE 'create' databasedb TO 'addad';").Count == 0);
+            Assert.IsTrue(regularExpresion.Matches("GRANT DATABASE PRIVILEGE 'create' ON databased<b TO 'addad';").Count == 0);
+            Assert.IsTrue(regularExpresion.Matches("GRANT DATABASE PRIVILEGE ;").Count == 0);
+        }
     }
 }

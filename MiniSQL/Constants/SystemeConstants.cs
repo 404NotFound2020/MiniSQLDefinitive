@@ -19,7 +19,7 @@ namespace MiniSQL.Constants
         public const string UsersPasswordColumnType = TypesKeyConstants.StringTypeKey;
         //Profiles table
         public const string ProfilesTableName = "profiles";
-        public const string NoRemovableProfilesTableName = "defaultProfiles"; 
+        public const string NoRemovableProfilesTableName = "defaultProfiles";
         public const string ProfileNameColumn = "profileName";
         public const string ProfileNameColumnType = TypesKeyConstants.StringTypeKey;
         //Special user and profiles tables
@@ -48,7 +48,7 @@ namespace MiniSQL.Constants
         public const string CreatePrivilegeName = "CREATE";
         public const string DropPrivilegeName = "DROP";
         //Profile privileges on tables table
-        public const string PrivilegesOfProfilesOnTablesTableName = "profilesTablePrivileges";        
+        public const string PrivilegesOfProfilesOnTablesTableName = "profilesTablePrivileges";
         public const string PrivilegesOfProfilesOnTablesProfileColumnName = "profile";
         public const string PrivilegesOfProfilesOnTablesProfileColumnType = TypesKeyConstants.StringTypeKey;
         public const string PrivilegesOfProfilesOnTablesDatabaseNameColumnName = "databaseName";
@@ -72,7 +72,8 @@ namespace MiniSQL.Constants
         //SecurityPrivilegesNames
         public const string CreateUserPrivilege = "CreateUser";
 
-
+        //List for test
+        public static List<string> ListOfPrivileges => new List<string> { CreatePrivilegeName, DropPrivilegeName };
 
     }
 }

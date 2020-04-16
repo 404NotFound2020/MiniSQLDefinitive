@@ -17,11 +17,12 @@ namespace UnitTests.Test.TestObjectsContructor
         private Dictionary<string, IDatabase> databases;
         private ISysteme systeme;
 
-        public DatabaseContainer() 
+        public DatabaseContainer()
         {
             this.databases = new Dictionary<string, IDatabase>();
             IDatabase systemDatabase = DefaultDataConstructor.CreateSystemDatabase();
             this.databases.Add(systemDatabase.databaseName, systemDatabase);
+            this.databases.Add(SystemeConstants.DefaultDatabaseName, new Database(SystemeConstants.DefaultDatabaseName));
         }
 
         public void AddDatabase(IDatabase database)
@@ -51,27 +52,27 @@ namespace UnitTests.Test.TestObjectsContructor
 
         public void ActToAdd(IDatabase database)
         {
-            
+
         }
 
         public void ActToAdd(IDatabase database, ITable table)
         {
-            
+
         }
 
         public void ActToRemove(IDatabase database)
         {
-            
+
         }
 
         public void ActToRemove(IDatabase database, ITable table)
         {
-            
+
         }
 
         public void TableModified(IDatabase database, ITable table)
         {
-            
+
         }
 
         public void SetSysteme(ISysteme system)
@@ -86,7 +87,7 @@ namespace UnitTests.Test.TestObjectsContructor
 
         public void AcoplateTheModule()
         {
-            
+
         }
 
         public bool IsAcoplated()

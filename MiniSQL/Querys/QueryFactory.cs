@@ -15,67 +15,69 @@ namespace MiniSQL.Querys
         private static QueryFactory queryFactory;
         private ISysteme systeme;
 
-        private QueryFactory() 
-        { 
-        
+        private QueryFactory()
+        {
+
         }
 
-        public static QueryFactory GetQueryFactory() 
+        public static QueryFactory GetQueryFactory()
         {
             if (queryFactory == null) queryFactory = new QueryFactory();
             return queryFactory;
         }
 
-        public AbstractQuery GetQuery(Request request) 
+        public AbstractQuery GetQuery(Request request)
         {
             IDatabaseContainer container = ((ISystemeDatabaseModule)this.systeme.GetSystemeModule(SystemeConstants.SystemeDatabaseModule)).GetDatabaseContainer();
             AbstractQuery query = null;
-            switch (request.GetElementsContentByTagName(RequestAndRegexConstants.queryTagName)[0]) 
+            switch (request.GetElementsContentByTagName(RequestAndRegexConstants.queryTagName)[0])
             {
                 case RequestAndRegexConstants.selectQueryIdentificator:
                     query = this.CreateSelectQuery(request, container);
-                break;
+                    break;
                 case RequestAndRegexConstants.createUserQueryIdentificator:
                     query = CreateUserQuery(request, container);
-                break;
+                    break;
                 case RequestAndRegexConstants.insertQueryIdentificator:
                     query = this.CreateInsertQuery(request, container);
-                break;
+                    break;
                 case RequestAndRegexConstants.updateQueryIdentificator:
                     query = this.CreateUpdateQuery(request, container);
-                break;
+                    break;
                 case RequestAndRegexConstants.deleteQueryIdentificator:
                     query = this.CreateDeleteQuery(request, container);
-                break;
+                    break;
                 case RequestAndRegexConstants.dropTableQueryIdentificator:
                     query = this.CreateDropTableQuery(request, container);
-                break;
+                    break;
                 case RequestAndRegexConstants.createTableQueryIdentificator:
                     query = this.CreateCreateTableQuery(request, container);
-                break;
+                    break;
                 case RequestAndRegexConstants.createDatabaseQueryIdentificator:
                     query = this.CreateDatabaseQuery(request, container);
-                break;
+                    break;
                 case RequestAndRegexConstants.dropDatabaseQueryIdentificator:
                     query = this.DropDatabaseQuery(request, container);
-                break;
+                    break;
                 case RequestAndRegexConstants.createSecurityProfileQueryIdentificator:
                     query = CreateSecurityProfileQuery(request, container);
                     break;
                 case RequestAndRegexConstants.deleteUserQueryIdentificator:
                     query = CreateDeleteUserQuery(request, container);
                     break;
-
+                case RequestAndRegexConstants.grantDatabasePrivilegeQueryIdentificator:
+                    query = CreateGrantDatabasePrivilege(request, container);
+                    break;
             }
             return query;
         }
 
-        private Select CreateSelectQuery(Request request, IDatabaseContainer container) 
+        private Select CreateSelectQuery(Request request, IDatabaseContainer container)
         {
             Select select = new Select(container);
             this.SetDatabaseAndTableTarget(request, select);
             string[] selectedColumns = request.GetElementsContentByTagName(RequestAndRegexConstants.selectedColumnTagName);
-            for(int i = 0; i < selectedColumns.Length; i++) 
+            for (int i = 0; i < selectedColumns.Length; i++)
             {
                 select.AddSelectedColumnName(selectedColumns[i]);
             }
@@ -88,10 +90,10 @@ namespace MiniSQL.Querys
             Insert insert = new Insert(container);
             this.SetDatabaseAndTableTarget(request, insert);
             string[] values = request.GetElementsContentByTagName(RequestAndRegexConstants.valueTagName);
-            for(int i = 0; i < values.Length; i++) 
+            for (int i = 0; i < values.Length; i++)
             {
                 insert.AddValue(values[i]);
-            } 
+            }
             return insert;
         }
 
@@ -101,7 +103,7 @@ namespace MiniSQL.Querys
             this.SetDatabaseAndTableTarget(request, update);
             string[] toUpdatedColumns = request.GetElementsContentByTagName(RequestAndRegexConstants.updatedColumnTagName);
             string[] values = request.GetElementsContentByTagName(RequestAndRegexConstants.updatedValueTagName);
-            for(int i = 0; i < toUpdatedColumns.Length; i++) 
+            for (int i = 0; i < toUpdatedColumns.Length; i++)
             {
                 update.AddValue(toUpdatedColumns[i], values[i]);
             }
@@ -130,20 +132,21 @@ namespace MiniSQL.Querys
             this.SetDatabaseAndTableTarget(request, create);
             string[] columnsNames = request.GetElementsContentByTagName(RequestAndRegexConstants.columnTagName);
             string[] columnsTypes = request.GetElementsContentByTagName(RequestAndRegexConstants.columnTypeTagName);
-            for(int i = 0; i < columnsNames.Length; i++) 
+            for (int i = 0; i < columnsNames.Length; i++)
             {
                 create.AddColumn(columnsNames[i], columnsTypes[i]);
             }
             return create;
         }
 
-        private CreateDatabase CreateDatabaseQuery(Request request, IDatabaseContainer container) {
+        private CreateDatabase CreateDatabaseQuery(Request request, IDatabaseContainer container)
+        {
             CreateDatabase createDatabase = new CreateDatabase(container);
             createDatabase.targetDatabase = request.GetElementsContentByTagName(RequestAndRegexConstants.databaseTagName)[0];
             return createDatabase;
         }
 
-        private DropDatabase DropDatabaseQuery(Request request, IDatabaseContainer container) 
+        private DropDatabase DropDatabaseQuery(Request request, IDatabaseContainer container)
         {
             DropDatabase dropDatabase = new DropDatabase(container);
             dropDatabase.targetDatabase = request.GetElementsContentByTagName(RequestAndRegexConstants.databaseTagName)[0];
@@ -177,28 +180,38 @@ namespace MiniSQL.Querys
             return deleteUser;
         }
 
-        private Where CreateWhereClause(Request request) 
+        private GrantDatabasePrivilege CreateGrantDatabasePrivilege(Request request, IDatabaseContainer container)
+        {
+            GrantDatabasePrivilege grantDatabasePrivilege = new GrantDatabasePrivilege(container);
+            grantDatabasePrivilege.targetDatabase = SystemeConstants.SystemDatabaseName;
+            grantDatabasePrivilege.targetTableName = SystemeConstants.PrivilegesOfProfilesOnDatabasesTableName;
+            grantDatabasePrivilege.SetData(request.GetElementsContentByTagName(RequestAndRegexConstants.privilegeTag)[0], request.GetElementsContentByTagName(RequestAndRegexConstants.securityProfileTag)[0], request.GetElementsContentByTagName(RequestAndRegexConstants.databaseTagName)[0]);
+            return grantDatabasePrivilege;
+        }
+
+        private Where CreateWhereClause(Request request)
         {
             Where where = new Where();
             string[] columnToEvaluate = request.GetElementsContentByTagName(RequestAndRegexConstants.toEvaluateColumnTagName);
             string[] evaluationValue = request.GetElementsContentByTagName(RequestAndRegexConstants.evalValueTagName);
             string[] operators = request.GetElementsContentByTagName(RequestAndRegexConstants.operatorTagName);
             OperatorFactory operatorFactory = OperatorFactory.GetOperatorFactory();
-            for(int i = 0; i < columnToEvaluate.Length; i++) 
+            for (int i = 0; i < columnToEvaluate.Length; i++)
             {
                 where.AddCritery(new Tuple<string, string>(columnToEvaluate[i], evaluationValue[i]), operatorFactory.GetOperator(operators[i]));
             }
             return where;
         }
 
-        private void SetDatabaseAndTableTarget(Request request, AbstractQuery query) {
+        private void SetDatabaseAndTableTarget(Request request, AbstractQuery query)
+        {
             query.targetDatabase = ((ISystemeDatabaseModule)this.systeme.GetSystemeModule(SystemeConstants.SystemeDatabaseModule)).GetDefaultDatabaseName();
-            string[] databaseGroups = request.GetElementsContentByTagName(RequestAndRegexConstants.databaseTagName);            
-            if(!(databaseGroups.Length == 0)) query.targetDatabase = databaseGroups[0];
+            string[] databaseGroups = request.GetElementsContentByTagName(RequestAndRegexConstants.databaseTagName);
+            if (!(databaseGroups.Length == 0)) query.targetDatabase = databaseGroups[0];
             query.targetTableName = request.GetElementsContentByTagName(RequestAndRegexConstants.tableTagName)[0];
         }
 
-        public void SetSysteme(ISysteme systeme) 
+        public void SetSysteme(ISysteme systeme)
         {
             this.systeme = systeme;
         }

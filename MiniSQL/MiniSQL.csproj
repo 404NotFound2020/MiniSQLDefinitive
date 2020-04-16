@@ -48,6 +48,7 @@
     <Compile Include="Interfaces\ISystemeModule.cs" />
     <Compile Include="Interfaces\ISystemePrivilegeModule.cs" />
     <Compile Include="Interfaces\PrivilegeManipulationQuery.cs" />
+    <Compile Include="Querys\GrantDatabasePrivilege.cs" />
     <Compile Include="SystemeClasses\DatabaseBin.cs" />
     <Compile Include="SystemeClasses\DatabaseProxy.cs" />
     <Compile Include="SystemeClasses\SystemeDatabaseContainerModule.cs" />
