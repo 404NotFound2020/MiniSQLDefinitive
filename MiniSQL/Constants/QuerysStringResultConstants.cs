@@ -18,6 +18,8 @@ namespace MiniSQL.Constants
         public const string TheDatabaseWasCreated = "The database was created";
         public const string PrimaryKeyError = "Primary key error";
         public const string ForeignKeyError = "Foreign key error";
+        public const string RowDeleted = "The row was deleted";
+        public const string NothingDeleted = "Nothing was deleted because nothing fulfill the parameters";
 
         public static string WhereClauseColumnDoensExist(string columnName) 
         {

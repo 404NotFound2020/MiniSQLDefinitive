@@ -68,6 +68,9 @@ namespace MiniSQL.Querys
                 case RequestAndRegexConstants.grantDatabasePrivilegeQueryIdentificator:
                     query = CreateGrantDatabasePrivilege(request, container);
                     break;
+                case RequestAndRegexConstants.revokeDatabasePrivilegeQueryIdentificator:
+                    query = CreateRevoqueDatabasePrivilege(request, container);
+                    break;
             }
             return query;
         }
@@ -187,6 +190,15 @@ namespace MiniSQL.Querys
             grantDatabasePrivilege.targetTableName = SystemeConstants.PrivilegesOfProfilesOnDatabasesTableName;
             grantDatabasePrivilege.SetData(request.GetElementsContentByTagName(RequestAndRegexConstants.privilegeTag)[0], request.GetElementsContentByTagName(RequestAndRegexConstants.securityProfileTag)[0], request.GetElementsContentByTagName(RequestAndRegexConstants.databaseTagName)[0]);
             return grantDatabasePrivilege;
+        }
+
+        private RevokeDatabasePrivilege CreateRevoqueDatabasePrivilege(Request request, IDatabaseContainer container)
+        {
+            RevokeDatabasePrivilege revokeDatabasePrivilege = new RevokeDatabasePrivilege(container);
+            revokeDatabasePrivilege.targetDatabase = SystemeConstants.SystemDatabaseName;
+            revokeDatabasePrivilege.targetTableName = SystemeConstants.PrivilegesOfProfilesOnDatabasesTableName;
+            revokeDatabasePrivilege.SetData(request.GetElementsContentByTagName(RequestAndRegexConstants.securityProfileTag)[0], request.GetElementsContentByTagName(RequestAndRegexConstants.databaseTagName)[0], request.GetElementsContentByTagName(RequestAndRegexConstants.privilegeTag)[0]);
+            return revokeDatabasePrivilege;
         }
 
         private Where CreateWhereClause(Request request)

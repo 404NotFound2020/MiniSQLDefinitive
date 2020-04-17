@@ -99,6 +99,7 @@ namespace MiniSQL.Classes
 			}
 		}
 
+
 		public override Column GetColumn(string columnName)
 		{
 			return columns[columnName];
@@ -133,9 +134,6 @@ namespace MiniSQL.Classes
 		{
 			return this.columnsOrdened;
 		}
-
-		
-
 
 	}
 }

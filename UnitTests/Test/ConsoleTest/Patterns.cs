@@ -281,5 +281,31 @@ namespace UnitTests.Test.ConsoleTest
             Assert.IsTrue(regularExpresion.Matches("GRANT DATABASE PRIVILEGE 'create' ON databased<b TO 'addad';").Count == 0);
             Assert.IsTrue(regularExpresion.Matches("GRANT DATABASE PRIVILEGE ;").Count == 0);
         }
+
+        [TestMethod]
+        public void TestRevokeDatabasePrivilege()
+        {
+            string revokePrivilegeInDatabase = RequestAndRegexConstants.revokeDatabasePrivilege;
+            Regex regularExpresion = new Regex(revokePrivilegeInDatabase);
+            //GOODS
+            Assert.IsTrue(regularExpresion.Matches("REVOKE DATABASE PRIVILEGE 'create' ON databasedb TO 'addad';").Count == 1);
+            Assert.IsTrue(regularExpresion.Matches("REVOKE DATABASE PRIVILEGE '867' ON 678 TO '868';").Count == 1);
+            //BADS
+            Assert.IsTrue(regularExpresion.Matches("REVOKE DATABASE PRIVILEGE 'create' ON databasedb TO 'addad'").Count == 0);
+            Assert.IsTrue(regularExpresion.Matches("REVOKE DATABASE PRIVILEGE 'create' ON databasedb TO 'addad;").Count == 0);
+            Assert.IsTrue(regularExpresion.Matches("REVOKE DATABASE PRIVILEGE 'create' ON databasedb TO addad';").Count == 0);
+            Assert.IsTrue(regularExpresion.Matches("REVOKE DATABASE PRIVILEGE 'create' ON databasedb TO addad;").Count == 0);
+            Assert.IsTrue(regularExpresion.Matches("REVOKE DATABASE PRIVILEGE 'create ON databasedb TO 'addad';").Count == 0);
+            Assert.IsTrue(regularExpresion.Matches("REVOKE DATABASE PRIVILEGE create' ON databasedb TO 'addad';").Count == 0);
+            Assert.IsTrue(regularExpresion.Matches("REVOKE DATABASE PRIVILEGE create ON databasedb TO 'addad';").Count == 0);
+            Assert.IsTrue(regularExpresion.Matches("REVOKE DATABASE PRIVILEGE 'create' ON databasedb TO ;").Count == 0);
+            Assert.IsTrue(regularExpresion.Matches("REVOKE DATABASE PRIVILEGE 'create' ON databasedb TO '';").Count == 0);
+            Assert.IsTrue(regularExpresion.Matches("REVOKE DATABASE PRIVILEGE 'create' ON databasedb TO'addad';").Count == 0);
+            Assert.IsTrue(regularExpresion.Matches("REVOKE DATABASE PRIVILEGE'create' ON databasedb TO 'addad';").Count == 0);
+            Assert.IsTrue(regularExpresion.Matches("REVOKE DATABASE PRIVILEGE 'create' ON databasedb 'addad';").Count == 0);
+            Assert.IsTrue(regularExpresion.Matches("REVOKE DATABASE PRIVILEGE 'create' databasedb TO 'addad';").Count == 0);
+            Assert.IsTrue(regularExpresion.Matches("REVOKE DATABASE PRIVILEGE 'create' ON databased<b TO 'addad';").Count == 0);
+            Assert.IsTrue(regularExpresion.Matches("REVOKE DATABASE PRIVILEGE ;").Count == 0);
+        }
     }
 }
