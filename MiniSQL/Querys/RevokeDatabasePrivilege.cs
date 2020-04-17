@@ -28,7 +28,7 @@ namespace MiniSQL.Querys
 
         public override void ExecuteParticularQueryAction()
         {
-            ITable table = this.GetContainer().GetDatabase(SystemeConstants.SystemDatabaseName).GetTable(SystemeConstants.PrivilegesOfProfilesOnDatabasesTableName);
+            ITable table = this.GetContainer().GetDatabase(this.targetDatabase).GetTable(this.targetTableName);
             bool b = false;
             IEnumerator<Row> rowEnumerator = table.GetRowEnumerator();
             int i = -1;

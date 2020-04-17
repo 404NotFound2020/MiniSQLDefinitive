@@ -71,6 +71,9 @@ namespace MiniSQL.Querys
                 case RequestAndRegexConstants.revokeDatabasePrivilegeQueryIdentificator:
                     query = CreateRevoqueDatabasePrivilege(request, container);
                     break;
+                case RequestAndRegexConstants.dropSecurityProfileQueryIdentificator:
+                    query = CreateDropSecurityProfile(request, container);
+                    break;
             }
             return query;
         }
@@ -199,6 +202,14 @@ namespace MiniSQL.Querys
             revokeDatabasePrivilege.targetTableName = SystemeConstants.PrivilegesOfProfilesOnDatabasesTableName;
             revokeDatabasePrivilege.SetData(request.GetElementsContentByTagName(RequestAndRegexConstants.securityProfileTag)[0], request.GetElementsContentByTagName(RequestAndRegexConstants.databaseTagName)[0], request.GetElementsContentByTagName(RequestAndRegexConstants.privilegeTag)[0]);
             return revokeDatabasePrivilege;
+        }
+
+        private DropSecurityProfile CreateDropSecurityProfile(Request request, IDatabaseContainer container) {
+            DropSecurityProfile dropSecurityProfile = new DropSecurityProfile(container);
+            dropSecurityProfile.targetDatabase = SystemeConstants.SystemDatabaseName;
+            dropSecurityProfile.targetTableName = SystemeConstants.PrivilegesOfProfilesOnDatabasesTableName;
+            dropSecurityProfile.SetTargetSecurityProfile(request.GetElementsContentByTagName(RequestAndRegexConstants.valueTagName)[0]);
+            return dropSecurityProfile;
         }
 
         private Where CreateWhereClause(Request request)

@@ -307,5 +307,23 @@ namespace UnitTests.Test.ConsoleTest
             Assert.IsTrue(regularExpresion.Matches("REVOKE DATABASE PRIVILEGE 'create' ON databased<b TO 'addad';").Count == 0);
             Assert.IsTrue(regularExpresion.Matches("REVOKE DATABASE PRIVILEGE ;").Count == 0);
         }
+
+        [TestMethod]
+        public void TestDropSecurityProfile()
+        {
+            string dropSecurityProfile = RequestAndRegexConstants.dropSecurityProfile;
+            Regex regularExpresion = new Regex(dropSecurityProfile);
+            //GOODS
+            Assert.IsTrue(regularExpresion.Matches("DROP SECURITY PROFILE 'aaa';").Count == 1);
+            Assert.IsTrue(regularExpresion.Matches("DROP SECURITY PROFILE '121232';").Count == 1);
+            //BADS
+            Assert.IsTrue(regularExpresion.Matches("DROP SECURITY PROFILE 'aaa'").Count == 0);
+            Assert.IsTrue(regularExpresion.Matches("DROP SECURITY PROFILE aaa;").Count == 0);
+            Assert.IsTrue(regularExpresion.Matches("DROP SECURITY PROFILE 1223;").Count == 0);
+            Assert.IsTrue(regularExpresion.Matches("DROP SECURITY PROFILE ;").Count == 0);
+            Assert.IsTrue(regularExpresion.Matches("DROP SECURITY PROFILE;").Count == 0);
+            Assert.IsTrue(regularExpresion.Matches("DROP SECURITY PROFILE").Count == 0);
+            Assert.IsTrue(regularExpresion.Matches("DROP SECURITY PROFILE1223;").Count == 0);
+        }
     }
 }

@@ -18,7 +18,8 @@ namespace UnitTests.Test.Querys
             Column profileNamesColumn = databaseContainer.GetDatabase(SystemeConstants.SystemDatabaseName).GetTable(SystemeConstants.ProfilesTableName).GetColumn(SystemeConstants.ProfileNameColumn);
             string profileName = VariousFunctions.GenerateRandomString(8);
             while (profileNamesColumn.ExistCells(profileName)) profileName = VariousFunctions.GenerateRandomString(8);
-            RevokeDatabasePrivilege revoqueDatabasePrivilege = CreateRevoqueDatabasePrivilege(databaseContainer, profileName, SystemeConstants.DefaultDatabaseName, SystemeConstants.CreatePrivilegeName);
+            RevokeDatabasePrivilege revoqueDatabasePrivilege = CreateRevoqueDatabasePrivilege(databaseContainer, SystemeConstants.SystemDatabaseName, SystemeConstants.PrivilegesOfProfilesOnDatabasesTableName);
+            revoqueDatabasePrivilege.SetData(profileName, SystemeConstants.DefaultDatabaseName, SystemeConstants.CreatePrivilegeName);
             Assert.IsFalse(revoqueDatabasePrivilege.ValidateParameters());
         }
 
@@ -28,7 +29,8 @@ namespace UnitTests.Test.Querys
             IDatabaseContainer databaseContainer = ObjectConstructor.CreateDatabaseContainer();
             string databaseName = VariousFunctions.GenerateRandomString(8);
             while(databaseContainer.ExistDatabase(databaseName)) databaseName = VariousFunctions.GenerateRandomString(8);
-            RevokeDatabasePrivilege revoqueDatabasePrivilege = CreateRevoqueDatabasePrivilege(databaseContainer, SystemeConstants.DefaultProfile, databaseName, SystemeConstants.CreatePrivilegeName);
+            RevokeDatabasePrivilege revoqueDatabasePrivilege = CreateRevoqueDatabasePrivilege(databaseContainer, SystemeConstants.SystemDatabaseName, SystemeConstants.PrivilegesOfProfilesOnDatabasesTableName);
+            revoqueDatabasePrivilege.SetData(SystemeConstants.DefaultProfile, databaseName, SystemeConstants.CreatePrivilegeName);
             Assert.IsFalse(revoqueDatabasePrivilege.ValidateParameters());
         }
 
@@ -39,7 +41,8 @@ namespace UnitTests.Test.Querys
             Column databasePrivilegesColumn = databaseContainer.GetDatabase(SystemeConstants.SystemDatabaseName).GetTable(SystemeConstants.DatabasesPrivilegesTableName).GetColumn(SystemeConstants.DatabasesPrivilegesPrivilegeNameColumnName);
             string databasePrivilegeName = VariousFunctions.GenerateRandomString(8);
             while(databasePrivilegesColumn.ExistCells(databasePrivilegeName)) databasePrivilegeName = VariousFunctions.GenerateRandomString(8);
-            RevokeDatabasePrivilege revoqueDatabasePrivilege = CreateRevoqueDatabasePrivilege(databaseContainer, SystemeConstants.DefaultProfile, SystemeConstants.DefaultDatabaseName, databasePrivilegeName);
+            RevokeDatabasePrivilege revoqueDatabasePrivilege = CreateRevoqueDatabasePrivilege(databaseContainer, SystemeConstants.SystemDatabaseName, SystemeConstants.PrivilegesOfProfilesOnDatabasesTableName);
+            revoqueDatabasePrivilege.SetData(SystemeConstants.DefaultProfile, SystemeConstants.DefaultDatabaseName, databasePrivilegeName);
             Assert.IsFalse(revoqueDatabasePrivilege.ValidateParameters());
         }
 
@@ -54,16 +57,18 @@ namespace UnitTests.Test.Querys
             row.GetCell(SystemeConstants.PrivilegesOfProfilesOnDatabasesPrivilegeColumnName).data = SystemeConstants.CreatePrivilegeName;
             table.AddRow(row);
             int rowNumber = table.GetRowCount();
-            RevokeDatabasePrivilege revoqueDatabasePrivilege = CreateRevoqueDatabasePrivilege(databaseContainer, SystemeConstants.DefaultProfile, SystemeConstants.DefaultDatabaseName, SystemeConstants.CreatePrivilegeName);
+            RevokeDatabasePrivilege revoqueDatabasePrivilege = CreateRevoqueDatabasePrivilege(databaseContainer, SystemeConstants.SystemDatabaseName, SystemeConstants.PrivilegesOfProfilesOnDatabasesTableName);
+            revoqueDatabasePrivilege.SetData(SystemeConstants.DefaultProfile, SystemeConstants.DefaultDatabaseName, SystemeConstants.CreatePrivilegeName);
             Assert.IsTrue(revoqueDatabasePrivilege.ValidateParameters());
             revoqueDatabasePrivilege.Execute();
             Assert.AreEqual(rowNumber - 1, table.GetRowCount()); 
         }
 
-        public static RevokeDatabasePrivilege CreateRevoqueDatabasePrivilege(IDatabaseContainer container, string profileName, string databaseName, string privilege)
+        public static RevokeDatabasePrivilege CreateRevoqueDatabasePrivilege(IDatabaseContainer container, string databaseName, string tableName)
         {
             RevokeDatabasePrivilege revoqueDatabasePrivilege = new RevokeDatabasePrivilege(container);
-            revoqueDatabasePrivilege.SetData(profileName, databaseName, privilege);
+            revoqueDatabasePrivilege.targetDatabase = databaseName;
+            revoqueDatabasePrivilege.targetTableName = tableName;
             return revoqueDatabasePrivilege;
         }
 

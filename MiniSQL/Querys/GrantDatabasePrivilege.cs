@@ -23,7 +23,7 @@ namespace MiniSQL.Querys
             if (!this.GetContainer().ExistDatabase(this.values[SystemeConstants.PrivilegesOfProfilesOnDatabasesDatabaseNameColumnName])) this.SaveTheError("The database doenst exits");
             else
             {
-                ITable table = this.GetContainer().GetDatabase(SystemeConstants.SystemDatabaseName).GetTable(SystemeConstants.PrivilegesOfProfilesOnDatabasesTableName);
+                ITable table = this.GetContainer().GetDatabase(this.targetDatabase).GetTable(this.targetTableName);
                 if (!table.foreignKey.Evaluate(this.values)) this.SaveTheError("FK violated");
                 else if (!table.primaryKey.Evaluate(this.values)) this.SaveTheError("PK violated");
             }
@@ -32,7 +32,7 @@ namespace MiniSQL.Querys
 
         public override void ExecuteParticularQueryAction()
         {
-            ITable table = this.GetContainer().GetDatabase(SystemeConstants.SystemDatabaseName).GetTable(SystemeConstants.PrivilegesOfProfilesOnDatabasesTableName);
+            ITable table = this.GetContainer().GetDatabase(this.targetDatabase).GetTable(this.targetTableName);
             Row row = table.CreateRowDefinition();
             row.GetCell(SystemeConstants.PrivilegesOfProfilesOnDatabasesProfileColumnName).data = this.values[SystemeConstants.PrivilegesOfProfilesOnDatabasesProfileColumnName];
             row.GetCell(SystemeConstants.PrivilegesOfProfilesOnDatabasesPrivilegeColumnName).data = this.values[SystemeConstants.PrivilegesOfProfilesOnDatabasesPrivilegeColumnName];
