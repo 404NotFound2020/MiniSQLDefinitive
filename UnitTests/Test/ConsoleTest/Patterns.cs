@@ -325,5 +325,34 @@ namespace UnitTests.Test.ConsoleTest
             Assert.IsTrue(regularExpresion.Matches("DROP SECURITY PROFILE").Count == 0);
             Assert.IsTrue(regularExpresion.Matches("DROP SECURITY PROFILE1223;").Count == 0);
         }
+
+        //(same cases of grant database privilege... yes copy paste but they are the same fucking cases)
+        [TestMethod]
+        public void TestGrantPrivilege()
+        {
+            string grantPrivilege = RequestAndRegexConstants.grantTablePrivilege;
+            Regex regularExpresion = new Regex(grantPrivilege);
+            //GOODS
+            Assert.IsTrue(regularExpresion.Matches("GRANT 'insert' ON table TO 'addad';").Count == 1);
+            Assert.IsTrue(regularExpresion.Matches("GRANT '867' ON 678 TO '868';").Count == 1);
+            //BADS
+            Assert.IsTrue(regularExpresion.Matches("GRANT 'create' ON databasedb TO 'addad'").Count == 0);
+            Assert.IsTrue(regularExpresion.Matches("GRANT 'create' ON databasedb TO 'addad;").Count == 0);
+            Assert.IsTrue(regularExpresion.Matches("GRANT 'create' ON databasedb TO addad';").Count == 0);
+            Assert.IsTrue(regularExpresion.Matches("GRANT 'create' ON databasedb TO addad;").Count == 0);
+            Assert.IsTrue(regularExpresion.Matches("GRANT 'create ON databasedb TO 'addad';").Count == 0);
+            Assert.IsTrue(regularExpresion.Matches("GRANT create' ON databasedb TO 'addad';").Count == 0);
+            Assert.IsTrue(regularExpresion.Matches("GRANT create ON databasedb TO 'addad';").Count == 0);
+            Assert.IsTrue(regularExpresion.Matches("GRANT 'create' ON databasedb TO ;").Count == 0);
+            Assert.IsTrue(regularExpresion.Matches("GRANT 'create' ON databasedb TO '';").Count == 0);
+            Assert.IsTrue(regularExpresion.Matches("GRANT 'create' ON databasedb TO'addad';").Count == 0);
+            Assert.IsTrue(regularExpresion.Matches("GRANT'create' ON databasedb TO 'addad';").Count == 0);
+            Assert.IsTrue(regularExpresion.Matches("GRANT 'create' ON databasedb 'addad';").Count == 0);
+            Assert.IsTrue(regularExpresion.Matches("GRANT 'create' databasedb TO 'addad';").Count == 0);
+            Assert.IsTrue(regularExpresion.Matches("GRANT 'create' ON databased<b TO 'addad';").Count == 0);
+            Assert.IsTrue(regularExpresion.Matches("GRANT ;").Count == 0);
+        }
+
+
     }
 }

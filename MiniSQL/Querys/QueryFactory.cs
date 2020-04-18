@@ -53,7 +53,7 @@ namespace MiniSQL.Querys
                 case RequestAndRegexConstants.createTableQueryIdentificator:
                     query = this.CreateCreateTableQuery(request, container);
                     break;
-                case RequestAndRegexConstants.createDatabaseQueryIdentificator:
+                case RequestAndRegexConstants.createDatabaseQueryIdentificator: 
                     query = this.CreateDatabaseQuery(request, container);
                     break;
                 case RequestAndRegexConstants.dropDatabaseQueryIdentificator:
@@ -73,6 +73,9 @@ namespace MiniSQL.Querys
                     break;
                 case RequestAndRegexConstants.dropSecurityProfileQueryIdentificator:
                     query = CreateDropSecurityProfile(request, container);
+                    break;
+                case RequestAndRegexConstants.grantTablePrivilegeQueryIdentificator:
+                    query = CreateGrantPrivilege(request, container);
                     break;
             }
             return query;
@@ -210,6 +213,15 @@ namespace MiniSQL.Querys
             dropSecurityProfile.targetTableName = SystemeConstants.PrivilegesOfProfilesOnDatabasesTableName;
             dropSecurityProfile.SetTargetSecurityProfile(request.GetElementsContentByTagName(RequestAndRegexConstants.valueTagName)[0]);
             return dropSecurityProfile;
+        }
+
+        private GrantPrivilege CreateGrantPrivilege(Request request, IDatabaseContainer container)
+        {
+            GrantPrivilege grantPrivilege = new GrantPrivilege(container);
+            grantPrivilege.targetDatabase = SystemeConstants.SystemDatabaseName;
+            grantPrivilege.targetTableName = SystemeConstants.PrivilegesOfProfilesOnTablesTableName;
+            grantPrivilege.SetData(request.GetElementsContentByTagName(RequestAndRegexConstants.privilegeTag)[0], request.GetElementsContentByTagName(RequestAndRegexConstants.securityProfileTag)[0], request.GetElementsContentByTagName(RequestAndRegexConstants.databaseTagName)[0], request.GetElementsContentByTagName(RequestAndRegexConstants.tableGroup)[0]);
+            return grantPrivilege;
         }
 
         private Where CreateWhereClause(Request request)

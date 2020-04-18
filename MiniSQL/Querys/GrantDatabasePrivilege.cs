@@ -12,7 +12,7 @@ namespace MiniSQL.Querys
     public class GrantDatabasePrivilege : PrivilegeManipulationQuery
     {
         private Dictionary<string, string> values;
-
+        //We didnt want to do the herency form GrantPrivilege
         public GrantDatabasePrivilege(IDatabaseContainer container) : base(container)
         {
             this.values = new Dictionary<string, string>();
@@ -20,12 +20,13 @@ namespace MiniSQL.Querys
 
         public override bool ValidateParameters()
         {
-            if (!this.GetContainer().ExistDatabase(this.values[SystemeConstants.PrivilegesOfProfilesOnDatabasesDatabaseNameColumnName])) this.SaveTheError("The database doenst exits");
+            string databaseName = this.values[SystemeConstants.PrivilegesOfProfilesOnDatabasesDatabaseNameColumnName];
+            if (!this.GetContainer().ExistDatabase(databaseName)) this.SaveTheError(QuerysStringResultConstants.DatabaseDoesntExist(databaseName));
             else
             {
                 ITable table = this.GetContainer().GetDatabase(this.targetDatabase).GetTable(this.targetTableName);
-                if (!table.foreignKey.Evaluate(this.values)) this.SaveTheError("FK violated");
-                else if (!table.primaryKey.Evaluate(this.values)) this.SaveTheError("PK violated");
+                if (!table.foreignKey.Evaluate(this.values)) this.SaveTheError(QuerysStringResultConstants.ForeignKeyError);
+                else if (!table.primaryKey.Evaluate(this.values)) this.SaveTheError(QuerysStringResultConstants.PrimaryKeyError);
             }
             return this.GetIsValidQuery();
         }
@@ -34,9 +35,8 @@ namespace MiniSQL.Querys
         {
             ITable table = this.GetContainer().GetDatabase(this.targetDatabase).GetTable(this.targetTableName);
             Row row = table.CreateRowDefinition();
-            row.GetCell(SystemeConstants.PrivilegesOfProfilesOnDatabasesProfileColumnName).data = this.values[SystemeConstants.PrivilegesOfProfilesOnDatabasesProfileColumnName];
-            row.GetCell(SystemeConstants.PrivilegesOfProfilesOnDatabasesPrivilegeColumnName).data = this.values[SystemeConstants.PrivilegesOfProfilesOnDatabasesPrivilegeColumnName];
-            row.GetCell(SystemeConstants.PrivilegesOfProfilesOnDatabasesDatabaseNameColumnName).data = this.values[SystemeConstants.PrivilegesOfProfilesOnDatabasesDatabaseNameColumnName];
+            IEnumerator<string> keyEnumerator = this.values.Keys.GetEnumerator();
+            while (keyEnumerator.MoveNext()) row.GetCell(keyEnumerator.Current).data = this.values[keyEnumerator.Current];
             table.AddRow(row);
         }
 

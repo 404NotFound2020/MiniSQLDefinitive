@@ -22,6 +22,8 @@ namespace MiniSQL.Constants
         public const string createUserQueryIdentificator = "ADD USER";
         public const string grantDatabasePrivilegeQueryIdentificator = "GRANT DATABASE PRIVILEGE";
         public const string revokeDatabasePrivilegeQueryIdentificator = "REVOKE DATABASE PRIVILEGE";
+        public const string grantTablePrivilegeQueryIdentificator = "GRANT";
+        public const string revokeTablePrivilegeQueryIdentificator = "REVOKE";
 
         public static string queryTagName = "query";
         public static string databaseTagName = "database";
@@ -82,5 +84,9 @@ namespace MiniSQL.Constants
         public static string createUser = "^(" + queryGroup + createUserQueryIdentificator + ") \\('(" + usernameGroup + "[^']+)', '(" + passwordGroup + "[^']+)'\\);$";
         public static string grantDatabasePrivilege = "^(" + queryGroup + grantDatabasePrivilegeQueryIdentificator + ") '(" + privilegeGroup + "[^']+)' ON (" + databaseGroup + NAINCG + "+) TO '(" + securityProfileGroup + "[^']+)';$"; //Notice that database string is not like a others string
         public static string revokeDatabasePrivilege = "^(" + queryGroup + revokeDatabasePrivilegeQueryIdentificator + ") '(" + privilegeGroup + "[^']+)' ON (" + databaseGroup + NAINCG + "+) TO '(" + securityProfileGroup + "[^']+)';$";
+        public static string grantTablePrivilege = "^(" + queryGroup + grantTablePrivilegeQueryIdentificator + ") '(" + privilegeGroup + "[^']+)' ON (" + tableGroup + NAINCG + "+) TO '(" + securityProfileGroup + "[^']+)';$";
+        public static string revokeTablePrivilege = "^(" + queryGroup + revokeTablePrivilege + ") '(" + privilegeGroup + "[^']+)' ON " + databaseRegexPart + "(" + tableGroup + NAINCG + "+) TO '(" + securityProfileGroup + "[^']+)';$";
+
+
     }
 }
