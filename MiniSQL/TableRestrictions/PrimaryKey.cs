@@ -13,34 +13,47 @@ namespace MiniSQL.TableRestrictions
     {
         private Table table;
         private Dictionary<string, Column> tableKey;
+        private Dictionary<string, Row> keys;
 
         public PrimaryKey(Table table) 
         {
             this.table = table;
             this.tableKey = new Dictionary<string, Column>();
+            this.keys = new Dictionary<string, Row>();
+        }
+        
+        public bool Evaluate(Row row) {
+            return !this.keys.ContainsKey(this.GetRowKey<Row>((row), (r, key) => { return r.GetCell(key).data; }));
+        }
+        
+        public bool Evaluate(Dictionary<string, string> values) {
+            return !this.keys.ContainsKey(this.GetRowKey<Dictionary<string, string>>(values, (dic, key)=> { return dic[key]; }));
         }
 
-
-        public bool Evaluate(Dictionary<string, string> valuesAndColumns) 
+        public bool CanUpdate(Dictionary<string, string> values)
         {
-            return this.Evaluate<string>(valuesAndColumns.Keys.GetEnumerator(), valuesAndColumns.Values.GetEnumerator(), (column) => { return column; });
-        }
-
-        public bool Evaluate(List<string> values) 
-        {
-            return this.Evaluate<Column>(this.table.GetColumnEnumerator(), values.GetEnumerator(), (column) => { return column.columnName; });
-        }
-
-        public bool Evaluate<T>(IEnumerator<T> tableColumnsEnumerator, IEnumerator<string> valuesEnumerator, Func<T, string> getColumnName) 
-        {
-            bool b = this.tableKey.Count == 0;
-            string columnName;
-            while (tableColumnsEnumerator.MoveNext() && valuesEnumerator.MoveNext() && b == false)
-            {
-                columnName = getColumnName.Invoke(tableColumnsEnumerator.Current);
-                if (this.tableKey.ContainsKey(columnName)) b = !this.tableKey[columnName].ExistCells(valuesEnumerator.Current);
-            }
+            bool b = true;
+            IEnumerator<string> tableKeysEnumerator = this.tableKey.Keys.GetEnumerator();
+            while (tableKeysEnumerator.MoveNext() && b) b = !values.ContainsKey(tableKeysEnumerator.Current);
             return b;
+        }
+
+        public void AddUsedKey(Row row)
+        {
+            if (this.tableKey.Count > 0) { this.keys.Add(this.GetRowKey<Row>((row), (r, key) => { return r.GetCell(key).data; }), row); }                            
+        }
+
+        public void RemoveUsedKey(Row row)
+        {
+            if (this.tableKey.Count > 0) { this.keys.Remove(this.GetRowKey<Row>((row), (r, key) => { return r.GetCell(key).data; })); }
+        }
+
+        private string GetRowKey<T>(T t, Func<T, string, string> getCellValue)
+        {
+            string rowKey = "";
+            IEnumerator<Column> tableKeysEnumerator = this.tableKey.Values.GetEnumerator();
+            while (tableKeysEnumerator.MoveNext()) rowKey = rowKey + getCellValue.Invoke(t, tableKeysEnumerator.Current.columnName);//row.GetCell(tableKeysEnumerator.Current.columnName).data;
+            return rowKey;
         }
 
         public void AddKey(Column column) 

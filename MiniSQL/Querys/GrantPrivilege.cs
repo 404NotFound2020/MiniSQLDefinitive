@@ -21,7 +21,7 @@ namespace MiniSQL.Querys
         public override bool ValidateParameters()
         {
             string databaseName = this.values[SystemeConstants.PrivilegesOfProfilesOnTablesDatabaseNameColumnName];
-            string tableName = this.values[SystemeConstants.PrivilegesOfProfilesOnTablesTableNameColumnNameColumnType];
+            string tableName = this.values[SystemeConstants.PrivilegesOfProfilesOnTablesTableNameColumnName];
             if (!this.GetContainer().ExistDatabase(databaseName)) this.SaveTheError(QuerysStringResultConstants.DatabaseDoesntExist(databaseName));
             else if (!this.GetContainer().GetDatabase(databaseName).ExistTable(tableName)) this.SaveTheError(QuerysStringResultConstants.TableDoensExist(databaseName, tableName));
             else
@@ -52,9 +52,12 @@ namespace MiniSQL.Querys
             this.values.Add(SystemeConstants.PrivilegesOfProfilesOnTablesProfileColumnName, profileName);
             this.values.Add(SystemeConstants.PrivilegesOfProfilesOnTablesPrivilegeColumnName, privilegeName);
             this.values.Add(SystemeConstants.PrivilegesOfProfilesOnTablesDatabaseNameColumnName, databaseName);
-            this.values.Add(SystemeConstants.PrivilegesOfProfilesOnTablesTableNameColumnNameColumnType, tableName);
+            this.values.Add(SystemeConstants.PrivilegesOfProfilesOnTablesTableNameColumnName, tableName);
         }
 
-
+        /**
+         * 
+         * 
+         * */
     }
 }

@@ -27,7 +27,7 @@ namespace MiniSQL.Querys
                 else if (!table.GetColumn(enumerator.Current.Key).dataType.IsAValidDataType(enumerator.Current.Value)) this.SaveTheError(QuerysStringResultConstants.ColumnsAndDataTypesError(enumerator.Current.Key, table.GetColumn(enumerator.Current.Key).dataType.GetSimpleTextValue()));
             }
             if (this.GetIsValidQuery()) {
-                if (!table.primaryKey.Evaluate(this.updateColumnData)) this.SaveTheError(QuerysStringResultConstants.PrimaryKeyError);
+                if (!table.primaryKey.CanUpdate(this.updateColumnData)) this.SaveTheError(QuerysStringResultConstants.PrimaryKeyError);
                 if (!table.foreignKey.Evaluate(this.updateColumnData)) this.SaveTheError(QuerysStringResultConstants.ForeignKeyError);
                 //VALIDAR SI EL CAMBIO AFECTA A UNA TABLA
             }

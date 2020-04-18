@@ -35,6 +35,7 @@ namespace MiniSQL.Classes
 				columnEnumerator.Current.AddCell(row.GetCell(columnEnumerator.Current.columnName));
 			}
 			rows.Add(row);
+			this.primaryKey.AddUsedKey(row);
 		}
 
 		public override Row CreateRowDefinition()
@@ -74,6 +75,7 @@ namespace MiniSQL.Classes
 				{
 					cellEnumerator.Current.column.DestroyCell(cellEnumerator.Current);
 				}
+				this.primaryKey.RemoveUsedKey(row);
 				this.rows.RemoveAt(rowNumber);
 				b = true;
 			}

@@ -194,7 +194,7 @@ namespace MiniSQL.Querys
             GrantDatabasePrivilege grantDatabasePrivilege = new GrantDatabasePrivilege(container);
             grantDatabasePrivilege.targetDatabase = SystemeConstants.SystemDatabaseName;
             grantDatabasePrivilege.targetTableName = SystemeConstants.PrivilegesOfProfilesOnDatabasesTableName;
-            grantDatabasePrivilege.SetData(request.GetElementsContentByTagName(RequestAndRegexConstants.privilegeTag)[0], request.GetElementsContentByTagName(RequestAndRegexConstants.securityProfileTag)[0], request.GetElementsContentByTagName(RequestAndRegexConstants.databaseTagName)[0]);
+            grantDatabasePrivilege.SetData(request.GetElementsContentByTagName(RequestAndRegexConstants.privilegeTag)[0], request.GetElementsContentByTagName(RequestAndRegexConstants.securityProfileTag)[0], request.GetElementsContentByTagName(RequestAndRegexConstants.databaseTagName)[0]);            
             return grantDatabasePrivilege;
         }
 
@@ -210,7 +210,7 @@ namespace MiniSQL.Querys
         private DropSecurityProfile CreateDropSecurityProfile(Request request, IDatabaseContainer container) {
             DropSecurityProfile dropSecurityProfile = new DropSecurityProfile(container);
             dropSecurityProfile.targetDatabase = SystemeConstants.SystemDatabaseName;
-            dropSecurityProfile.targetTableName = SystemeConstants.PrivilegesOfProfilesOnDatabasesTableName;
+            dropSecurityProfile.targetTableName = SystemeConstants.ProfilesTableName;
             dropSecurityProfile.SetTargetSecurityProfile(request.GetElementsContentByTagName(RequestAndRegexConstants.valueTagName)[0]);
             return dropSecurityProfile;
         }
@@ -220,7 +220,7 @@ namespace MiniSQL.Querys
             GrantPrivilege grantPrivilege = new GrantPrivilege(container);
             grantPrivilege.targetDatabase = SystemeConstants.SystemDatabaseName;
             grantPrivilege.targetTableName = SystemeConstants.PrivilegesOfProfilesOnTablesTableName;
-            grantPrivilege.SetData(request.GetElementsContentByTagName(RequestAndRegexConstants.privilegeTag)[0], request.GetElementsContentByTagName(RequestAndRegexConstants.securityProfileTag)[0], request.GetElementsContentByTagName(RequestAndRegexConstants.databaseTagName)[0], request.GetElementsContentByTagName(RequestAndRegexConstants.tableGroup)[0]);
+            grantPrivilege.SetData(request.GetElementsContentByTagName(RequestAndRegexConstants.privilegeTag)[0], request.GetElementsContentByTagName(RequestAndRegexConstants.securityProfileTag)[0], request.GetElementsContentByTagName(RequestAndRegexConstants.databaseTagName)[0], request.GetElementsContentByTagName(RequestAndRegexConstants.databaseTagName)[0]);
             return grantPrivilege;
         }
 
