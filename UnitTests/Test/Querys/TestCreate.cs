@@ -75,7 +75,7 @@ namespace UnitTests.Test.Querys
             Console.WriteLine(create.GetResult());
         }
 
-        public Create CreateCreate(IDatabaseContainer dataContainer, string databaseName, string tableName) 
+        public static Create CreateCreate(IDatabaseContainer dataContainer, string databaseName, string tableName) 
         {
             Create create = new Create(dataContainer);
             create.targetDatabase = databaseName;

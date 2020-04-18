@@ -263,7 +263,7 @@ namespace UnitTests.Test.Querys
             insert.Execute();
             Assert.AreEqual(numberOfColumn + 1, table2.GetRowCount());
         }
-        public Insert CreateInsert(IDatabaseContainer databaseContainer, string databaseName, string tableName)
+        public static Insert CreateInsert(IDatabaseContainer databaseContainer, string databaseName, string tableName)
         {
             Insert insert = new Insert(databaseContainer);
             insert.targetDatabase = databaseName;

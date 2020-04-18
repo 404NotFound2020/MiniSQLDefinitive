@@ -133,7 +133,6 @@ namespace UnitTests.Test.Querys
             update.Execute();
         }
 
-
         [TestMethod]
         public void UpdatePKColumn_ThisIsIlegal_NoticeInValidate()
         {
@@ -158,7 +157,6 @@ namespace UnitTests.Test.Querys
             update.whereClause.AddCritery(new Tuple<string, string>(c1.columnName, row.GetCell(c1.columnName).data), OperatorFactory.GetOperatorFactory().GetOperator(OperatorKeys.EqualKey));
             Assert.IsFalse(update.ValidateParameters());
         }
-
 
         [TestMethod]
         public void UpdateFKColumn_BadArguments_ConcretelyFKViolated_NotifyInValidate()

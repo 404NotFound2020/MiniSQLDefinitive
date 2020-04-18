@@ -126,7 +126,7 @@ namespace UnitTests.Test.Querys
         }
 
         //Lo he puesto en mayusculas la primera letra (para cumplir con las reglas del proyecto, aunque tampoco pasaria nada si se nos cuela alguna minuscula, supongo)
-        public Drop CreateDrop(IDatabaseContainer container, string databaseName, string tableName)
+        public static Drop CreateDrop(IDatabaseContainer container, string databaseName, string tableName)
         {
             Drop drop = new Drop(container);
             drop.targetDatabase = databaseName;

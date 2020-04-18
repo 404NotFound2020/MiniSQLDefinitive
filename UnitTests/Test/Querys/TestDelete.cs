@@ -100,7 +100,7 @@ namespace UnitTests.Test.Querys
             Assert.IsTrue(table1.GetColumn(column1t1.columnName).ExistCells(rowT2.GetCell(column1t2.columnName).data));
         }
 
-        public Delete CreateDelete(IDatabaseContainer container, string databaseName, string tableName)
+        public static Delete CreateDelete(IDatabaseContainer container, string databaseName, string tableName)
         {
             Delete delete = new Delete(container);
             delete.targetDatabase = databaseName;

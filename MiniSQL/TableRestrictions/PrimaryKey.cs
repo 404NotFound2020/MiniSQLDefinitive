@@ -22,6 +22,7 @@ namespace MiniSQL.TableRestrictions
             this.keys = new Dictionary<string, Row>();
         }
         
+        //For update maybe
         public bool Evaluate(Row row) {
             return !this.keys.ContainsKey(this.GetRowKey<Row>((row), (r, key) => { return r.GetCell(key).data; }));
         }
@@ -52,7 +53,7 @@ namespace MiniSQL.TableRestrictions
         {
             string rowKey = "";
             IEnumerator<Column> tableKeysEnumerator = this.tableKey.Values.GetEnumerator();
-            while (tableKeysEnumerator.MoveNext()) rowKey = rowKey + getCellValue.Invoke(t, tableKeysEnumerator.Current.columnName);//row.GetCell(tableKeysEnumerator.Current.columnName).data;
+            while (tableKeysEnumerator.MoveNext()) rowKey = rowKey + getCellValue.Invoke(t, tableKeysEnumerator.Current.columnName);
             return rowKey;
         }
 
