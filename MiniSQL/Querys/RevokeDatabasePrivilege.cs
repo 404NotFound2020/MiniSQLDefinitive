@@ -12,6 +12,7 @@ namespace MiniSQL.Querys
     public class RevokeDatabasePrivilege : PrivilegeManipulationQuery
     {
         private Dictionary<string, string> values;
+
         public RevokeDatabasePrivilege(IDatabaseContainer container) : base(container)
         {
             this.values = new Dictionary<string, string>();
@@ -19,10 +20,11 @@ namespace MiniSQL.Querys
 
         public override bool ValidateParameters()
         {
-            IDatabase database = this.GetContainer().GetDatabase(SystemeConstants.SystemDatabaseName);
+            IDatabase database = this.GetContainer().GetDatabase(this.targetDatabase);
             if (!database.GetTable(SystemeConstants.ProfilesTableName).GetColumn(SystemeConstants.ProfileNameColumn).ExistCells(this.values[SystemeConstants.PrivilegesOfProfilesOnDatabasesProfileColumnName])) this.SaveTheError("The profile doenst exist");
             else if (!this.GetContainer().ExistDatabase(this.values[SystemeConstants.PrivilegesOfProfilesOnDatabasesDatabaseNameColumnName])) this.SaveTheError("The database doesnt exist");
             else if (!database.GetTable(SystemeConstants.DatabasesPrivilegesTableName).GetColumn(SystemeConstants.DatabasesPrivilegesPrivilegeNameColumnName).ExistCells(this.values[SystemeConstants.PrivilegesOfProfilesOnDatabasesPrivilegeColumnName])) this.SaveTheError("The privilege doens exist");
+            else if (database.GetTable(this.targetTableName).primaryKey.Evaluate(this.values)) this.SaveTheError("The values of profile, database and privilege is not in table");
             return this.GetIsValidQuery();
         }
 
@@ -32,17 +34,14 @@ namespace MiniSQL.Querys
             bool b = false;
             IEnumerator<Row> rowEnumerator = table.GetRowEnumerator();
             int i = -1;
-            while (rowEnumerator.MoveNext() && !b) {
+            while (rowEnumerator.MoveNext() && !b) 
+            {
                 b = (rowEnumerator.Current.GetCell(SystemeConstants.PrivilegesOfProfilesOnDatabasesProfileColumnName).data.Equals(this.values[SystemeConstants.PrivilegesOfProfilesOnDatabasesProfileColumnName]) && rowEnumerator.Current.GetCell(SystemeConstants.PrivilegesOfProfilesOnDatabasesPrivilegeColumnName).data.Equals(this.values[SystemeConstants.PrivilegesOfProfilesOnDatabasesPrivilegeColumnName]) && rowEnumerator.Current.GetCell(SystemeConstants.PrivilegesOfProfilesOnDatabasesDatabaseNameColumnName).data.Equals(this.values[SystemeConstants.PrivilegesOfProfilesOnDatabasesDatabaseNameColumnName]));
                 i = i + 1;
             }
             rowEnumerator.Dispose();
-            if (!b) this.SetResult(QuerysStringResultConstants.NothingDeleted);
-            else
-            {
-                table.DestroyRow(i);
-                this.SetResult(QuerysStringResultConstants.RowDeleted);
-            }
+            table.DestroyRow(i);
+            this.SetResult(QuerysStringResultConstants.RowDeleted);
         }
 
         public override string GetNeededExecutePrivilege()

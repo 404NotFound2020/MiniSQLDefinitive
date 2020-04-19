@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace MiniSQL.Querys
 {
-    public class DropDatabase : DataDefinitionQuery
+    public class DropDatabase : BaseDefinitionQuery
     {
         public DropDatabase(IDatabaseContainer container) : base(container)
         {  

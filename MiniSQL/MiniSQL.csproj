@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Interfaces\BaseDefinitionQuery.cs" />
     <Compile Include="Interfaces\IActiveSystemModule.cs" />
     <Compile Include="Interfaces\IProxy.cs" />
     <Compile Include="Interfaces\ISystemeDatabaseModule.cs" />

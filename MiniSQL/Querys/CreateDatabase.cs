@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace MiniSQL.Querys
 {
-    public class CreateDatabase : DataDefinitionQuery
+    public class CreateDatabase : BaseDefinitionQuery
     {
         public CreateDatabase(IDatabaseContainer container) : base(container)
         {

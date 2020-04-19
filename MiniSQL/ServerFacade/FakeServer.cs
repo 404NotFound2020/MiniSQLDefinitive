@@ -15,6 +15,7 @@ namespace MiniSQL.ServerFacade
     public class FakeServer
     {
         private static FakeServer fakeServer;
+        private string logedUser;
 
         private FakeServer() 
         {
