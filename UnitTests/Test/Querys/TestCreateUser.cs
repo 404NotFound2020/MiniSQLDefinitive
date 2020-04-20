@@ -11,7 +11,7 @@ namespace UnitTests.Test.Querys
    // [TestClass]
     public class TestCreateUser
     {
-        //[TestMethod]
+       /* //[TestMethod]
         public void CreateUser_UserExist_NoticeInValidate()
         {
             IDatabaseContainer container = ObjectConstructor.CreateDatabaseContainer();
@@ -39,6 +39,6 @@ namespace UnitTests.Test.Querys
             return createUser;
         }
 
-
+    */
     }
 }
