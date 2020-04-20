@@ -25,8 +25,7 @@ namespace UnitTests.Test.Querys
         public void RevokePrivilege_DatabaseDoesntExist_NoticeInValidate()
         {
             IDatabaseContainer databaseContainer = ObjectConstructor.CreateDatabaseContainer();
-            string databaseName = VariousFunctions.GenerateRandomString(8);
-            while(databaseContainer.ExistDatabase(databaseName)) databaseName = VariousFunctions.GenerateRandomString(8);
+            string databaseName = ShittyUtilities.GetDoenstExistDatabaseName(databaseContainer);
             RevoquePrivilege revoquePrivilege = CreateRevokePrivilege(databaseContainer, SystemeConstants.SystemDatabaseName, SystemeConstants.PrivilegesOfProfilesOnTablesTableName);
             revoquePrivilege.SetData(SystemeConstants.DefaultProfile, databaseName, SystemeConstants.ProfilesTableName, SystemeConstants.InsertPrivilegeName);
             Assert.IsFalse(revoquePrivilege.ValidateParameters());
@@ -37,8 +36,7 @@ namespace UnitTests.Test.Querys
         {
             IDatabaseContainer databaseContainer = ObjectConstructor.CreateDatabaseContainer();
             IDatabase database = databaseContainer.GetDatabase(SystemeConstants.SystemDatabaseName);
-            string tableName = VariousFunctions.GenerateRandomString(8);
-            while (database.ExistTable(tableName)) tableName = VariousFunctions.GenerateRandomString(8);
+            string tableName = ShittyUtilities.GetDoenstExistTableName(database);
             RevoquePrivilege revoquePrivilege = CreateRevokePrivilege(databaseContainer, SystemeConstants.SystemDatabaseName, SystemeConstants.PrivilegesOfProfilesOnTablesTableName);
             revoquePrivilege.SetData(SystemeConstants.DefaultProfile, SystemeConstants.SystemDatabaseName, tableName, SystemeConstants.InsertPrivilegeName);
             Assert.IsFalse(revoquePrivilege.ValidateParameters());
@@ -46,10 +44,9 @@ namespace UnitTests.Test.Querys
 
         [TestMethod]
         public void RevokePrivilege_PrivilegeDoesntExist_NoticeInValidate() {
+            
             IDatabaseContainer databaseContainer = ObjectConstructor.CreateDatabaseContainer();
-            Column privilegesColumn = databaseContainer.GetDatabase(SystemeConstants.SystemDatabaseName).GetTable(SystemeConstants.PrivilegesTableName).GetColumn(SystemeConstants.PrivilegesPrivilegeNameColumnName);
-            string privilegeName = VariousFunctions.GenerateRandomString(8);
-            while(privilegesColumn.ExistCells(privilegeName)) privilegeName = VariousFunctions.GenerateRandomString(8);
+            string privilegeName = ShittyUtilities.GetDoesntExistPrivilegeName(databaseContainer);
             RevoquePrivilege revoquePrivilege = CreateRevokePrivilege(databaseContainer, SystemeConstants.SystemDatabaseName, SystemeConstants.PrivilegesOfProfilesOnTablesTableName);
             revoquePrivilege.SetData(SystemeConstants.DefaultProfile, SystemeConstants.SystemDatabaseName, SystemeConstants.ProfilesTableName, privilegeName);
             Assert.IsFalse(revoquePrivilege.ValidateParameters());        
