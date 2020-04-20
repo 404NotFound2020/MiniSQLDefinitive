@@ -176,7 +176,7 @@ namespace MiniSQL.Querys
             CreateUser createUser = new CreateUser(container);
             createUser.targetDatabase = SystemeConstants.SystemDatabaseName;
             createUser.targetTableName = SystemeConstants.UsersTableName;
-            createUser.SetUser(request.GetElementsContentByTagName(RequestAndRegexConstants.usernameTagName)[0], request.GetElementsContentByTagName(RequestAndRegexConstants.passwordTagName)[0]);
+            createUser.SetUser(request.GetElementsContentByTagName(RequestAndRegexConstants.usernameTagName)[0], request.GetElementsContentByTagName(RequestAndRegexConstants.passwordTagName)[0], request.GetElementsContentByTagName(RequestAndRegexConstants.securityProfileTag)[0]);
             return createUser;
         }
 

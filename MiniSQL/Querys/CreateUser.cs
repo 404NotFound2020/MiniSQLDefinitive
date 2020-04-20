@@ -11,20 +11,19 @@ namespace MiniSQL.Querys
 {
     public class CreateUser : PrivilegeManipulationQuery
     {
-
-        private string newUsername;
-        private string password;
+        private Dictionary<string, string> values;
 
         public CreateUser(IDatabaseContainer container) : base(container)
         {
+            this.values = new Dictionary<string, string>();
         }
 
         public override void ExecuteParticularQueryAction()
         {
             ITable table = this.GetContainer().GetDatabase(this.targetDatabase).GetTable(this.targetTableName);
             Row row = table.CreateRowDefinition();
-            row.GetCell(SystemeConstants.UsersNameColumnName).data = this.newUsername;
-            row.GetCell(SystemeConstants.UsersPasswordColumnName).data = this.password;
+            IEnumerator<string> keyEnumerator = this.values.Keys.GetEnumerator();
+            while (keyEnumerator.MoveNext()) row.GetCell(keyEnumerator.Current).data = this.values[keyEnumerator.Current];
             table.AddRow(row);
             this.SetResult("Created user");
         }
@@ -36,19 +35,17 @@ namespace MiniSQL.Querys
 
         public override bool ValidateParameters()
         {
-            Dictionary<string, string> values = new Dictionary<string, string>();
-            values.Add(SystemeConstants.UsersNameColumnName, this.newUsername);
-            if (!this.GetContainer().GetDatabase(this.targetDatabase).GetTable(this.targetTableName).primaryKey.Evaluate(values))
-            {
-                this.SaveTheError("The user exist");
-            }
+            ITable targetTable = this.GetContainer().GetDatabase(this.targetDatabase).GetTable(this.targetTableName);
+            if (!targetTable.foreignKey.Evaluate(values)) this.SaveTheError("The profile doesnt exist");
+            else if (!targetTable.primaryKey.Evaluate(values)) this.SaveTheError("The user exist");
             return this.GetIsValidQuery();
         }
 
-        public void SetUser(string newUsername, string password)
+        public void SetUser(string newUsername, string password, string profileName)
         {
-            this.newUsername = newUsername;
-            this.password = password;
+            this.values.Add(SystemeConstants.UsersNameColumnName, newUsername);
+            this.values.Add(SystemeConstants.UsersPasswordColumnName, password);
+            this.values.Add(SystemeConstants.UsersProfileColumnName, profileName);
         }
     }
 
