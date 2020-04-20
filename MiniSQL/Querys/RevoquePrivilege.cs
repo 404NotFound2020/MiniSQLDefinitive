@@ -60,24 +60,5 @@ namespace MiniSQL.Querys
             this.values.Add(SystemeConstants.PrivilegesOfProfilesOnTablesTableNameColumnName, tableName);
             this.values.Add(SystemeConstants.PrivilegesOfProfilesOnTablesPrivilegeColumnName, privilegeName);
         }
-        /**
-         * 
-         * 
-         *  public const string PrivilegesOfProfilesOnTablesTableName = "profilesTablePrivileges";
-        public const string PrivilegesOfProfilesOnTablesProfileColumnName = "profile";
-        public const string PrivilegesOfProfilesOnTablesProfileColumnType = TypesKeyConstants.StringTypeKey;
-        public const string PrivilegesOfProfilesOnTablesDatabaseNameColumnName = "databaseName";
-        public const string PrivilegesOfProfilesOnTablesDatabaseNameColumnType = TypesKeyConstants.StringTypeKey;
-        public const string PrivilegesOfProfilesOnTablesTableNameColumnName = "tableName";
-        public const string PrivilegesOfProfilesOnTablesTableNameColumnNameColumnType = TypesKeyConstants.StringTypeKey;
-        public const string PrivilegesOfProfilesOnTablesPrivilegeColumnName = "privilege";
-        public const string PrivilegesOfProfilesOnTablesPrivilegeColumnType = TypesKeyConstants.StringTypeKey;
-         * 
-         * 
-         * 
-         * 
-         * */
-
-
     }
 }
