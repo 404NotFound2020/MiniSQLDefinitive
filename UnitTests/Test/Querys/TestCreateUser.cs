@@ -8,10 +8,10 @@ using UnitTests.Test.TestObjectsContructor;
 
 namespace UnitTests.Test.Querys
 {
-    [TestClass]
+   // [TestClass]
     public class TestCreateUser
     {
-        [TestMethod]
+        //[TestMethod]
         public void CreateUser_UserExist_NoticeInValidate()
         {
             IDatabaseContainer container = ObjectConstructor.CreateDatabaseContainer();
@@ -21,7 +21,7 @@ namespace UnitTests.Test.Querys
             Console.WriteLine(createUser.GetResult());
         }
 
-        [TestMethod]
+       // [TestMethod]
         public void CreateUser_UserDoesntExist_CreateUser()
         {
             IDatabaseContainer container = ObjectConstructor.CreateDatabaseContainer();

@@ -17,6 +17,8 @@ namespace MiniSQL.Constants
         public const string UsersNameColumnType = TypesKeyConstants.StringTypeKey;
         public const string UsersPasswordColumnName = "password";
         public const string UsersPasswordColumnType = TypesKeyConstants.StringTypeKey;
+        public const string UsersProfileColumnName = "profile";
+        public const string UsersProfileColumnType = TypesKeyConstants.StringTypeKey;
         //Profiles table
         public const string ProfilesTableName = "profiles";
         public const string NoRemovableProfilesTableName = "defaultProfiles";
