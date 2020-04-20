@@ -335,8 +335,9 @@ namespace UnitTests.Test.ConsoleTest
             //GOODS
             Assert.IsTrue(regularExpresion.Matches("GRANT 'insert' ON table TO 'addad';").Count == 1);
             Assert.IsTrue(regularExpresion.Matches("GRANT '867' ON 678 TO '868';").Count == 1);
+            Assert.IsTrue(regularExpresion.Matches("GRANT '867' ON aaa.678 TO '868';").Count == 1);
             //BADS
-            Assert.IsTrue(regularExpresion.Matches("GRANT 'create' ON databasedb TO 'addad'").Count == 0);
+            Assert.IsTrue(regularExpresion.Matches("GRANT 'create' ON aaa.databasedb TO 'addad'").Count == 0);
             Assert.IsTrue(regularExpresion.Matches("GRANT 'create' ON databasedb TO 'addad;").Count == 0);
             Assert.IsTrue(regularExpresion.Matches("GRANT 'create' ON databasedb TO addad';").Count == 0);
             Assert.IsTrue(regularExpresion.Matches("GRANT 'create' ON databasedb TO addad;").Count == 0);
@@ -353,6 +354,32 @@ namespace UnitTests.Test.ConsoleTest
             Assert.IsTrue(regularExpresion.Matches("GRANT ;").Count == 0);
         }
 
+        [TestMethod]
+        public void TestRevokePrivilege()
+        {
+            string revokePrivilege = RequestAndRegexConstants.revokeTablePrivilege;
+            Regex regularExpresion = new Regex(revokePrivilege);
+            //GOOD
+            Assert.IsTrue(regularExpresion.Matches("REVOKE 'insert' ON table TO 'addad';").Count == 1);
+            Assert.IsTrue(regularExpresion.Matches("REVOKE '867' ON 678 TO '868';").Count == 1);
+            Assert.IsTrue(regularExpresion.Matches("REVOKE '867' ON aaa.678 TO '868';").Count == 1);
+            //BADS
+            Assert.IsTrue(regularExpresion.Matches("REVOKE 'create' ON aaa.databasedb TO 'addad'").Count == 0);
+            Assert.IsTrue(regularExpresion.Matches("REVOKE 'create' ON databasedb TO 'addad;").Count == 0);
+            Assert.IsTrue(regularExpresion.Matches("REVOKE 'create' ON databasedb TO addad';").Count == 0);
+            Assert.IsTrue(regularExpresion.Matches("REVOKE 'create' ON databasedb TO addad;").Count == 0);
+            Assert.IsTrue(regularExpresion.Matches("REVOKE 'create ON databasedb TO 'addad';").Count == 0);
+            Assert.IsTrue(regularExpresion.Matches("REVOKE create' ON databasedb TO 'addad';").Count == 0);
+            Assert.IsTrue(regularExpresion.Matches("REVOKE create ON databasedb TO 'addad';").Count == 0);
+            Assert.IsTrue(regularExpresion.Matches("REVOKE 'create' ON databasedb TO ;").Count == 0);
+            Assert.IsTrue(regularExpresion.Matches("REVOKE 'create' ON databasedb TO '';").Count == 0);
+            Assert.IsTrue(regularExpresion.Matches("REVOKE 'create' ON databasedb TO'addad';").Count == 0);
+            Assert.IsTrue(regularExpresion.Matches("REVOKE'create' ON databasedb TO 'addad';").Count == 0);
+            Assert.IsTrue(regularExpresion.Matches("REVOKE 'create' ON databasedb 'addad';").Count == 0);
+            Assert.IsTrue(regularExpresion.Matches("REVOKE 'create' databasedb TO 'addad';").Count == 0);
+            Assert.IsTrue(regularExpresion.Matches("REVOKE 'create' ON databased<b TO 'addad';").Count == 0);
+            Assert.IsTrue(regularExpresion.Matches("REVOKE ;").Count == 0);
+        }
 
     }
 }

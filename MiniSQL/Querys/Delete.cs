@@ -20,11 +20,7 @@ namespace MiniSQL.Querys
         public override void ExecuteParticularQueryAction(ITable table)
         {
             Select select = new Select(this.GetContainer());
-            select.targetDatabase = this.targetDatabase;
-            select.targetTableName = this.targetTableName;
-            select.selectedAllColumns = true;
             select.whereClause = whereClause;
-            select.ValidateParameters();
             select.ExecuteParticularQueryAction(table);
             IEnumerator<int> enumerator = select.GetSelectedRowsIndex();
             IEnumerator<Row> afectedRowsEnumerator = select.GetAfectedRowEnum();

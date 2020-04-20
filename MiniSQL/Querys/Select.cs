@@ -43,11 +43,10 @@ namespace MiniSQL.Querys
         {
             string stringfiedRow = "{";
             IEnumerator<string> selectedColumnsEnumerator = this.selectedColumnNames.GetEnumerator();
-            selectedColumnsEnumerator.MoveNext();
-            stringfiedRow = stringfiedRow + "'" + row.GetCell(selectedColumnsEnumerator.Current).data + "'";
-            while (selectedColumnsEnumerator.MoveNext()) 
+            if (selectedColumnsEnumerator.MoveNext())
             {
-                stringfiedRow = stringfiedRow + ", '" + row.GetCell(selectedColumnsEnumerator.Current).data + "'";
+                stringfiedRow = stringfiedRow + "'" + row.GetCell(selectedColumnsEnumerator.Current).data + "'";
+                while (selectedColumnsEnumerator.MoveNext())stringfiedRow = stringfiedRow + ", '" + row.GetCell(selectedColumnsEnumerator.Current).data + "'";          
             }
             return stringfiedRow + "}";        
         }
@@ -56,11 +55,10 @@ namespace MiniSQL.Querys
         {
             string header = "[";
             IEnumerator<string> columnNameEnumerator = this.selectedColumnNames.GetEnumerator();
-            columnNameEnumerator.MoveNext();
-            header = header + "'" + columnNameEnumerator.Current + "'";
-            while (columnNameEnumerator.MoveNext()) 
+            if (columnNameEnumerator.MoveNext())
             {
-                header = header + ", '" + columnNameEnumerator.Current + "'";
+                header = header + "'" + columnNameEnumerator.Current + "'";
+                while (columnNameEnumerator.MoveNext()) header = header + ", '" + columnNameEnumerator.Current + "'";
             }
             return header + "]";        
         }
@@ -87,10 +85,7 @@ namespace MiniSQL.Querys
         private void SelectAllColumnsOfATable(ITable table) 
         {
             IEnumerator<Column> columnEnumerator = table.GetColumnEnumerator();
-            while (columnEnumerator.MoveNext()) 
-            {
-                this.selectedColumnNames.Add(columnEnumerator.Current.columnName);            
-            }
+            while (columnEnumerator.MoveNext()) this.selectedColumnNames.Add(columnEnumerator.Current.columnName);                            
         }
  
         public IEnumerator<int> GetSelectedRowsIndex()

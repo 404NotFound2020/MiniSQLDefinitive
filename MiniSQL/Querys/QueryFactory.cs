@@ -203,7 +203,7 @@ namespace MiniSQL.Querys
             RevokeDatabasePrivilege revokeDatabasePrivilege = new RevokeDatabasePrivilege(container);
             revokeDatabasePrivilege.targetDatabase = SystemeConstants.SystemDatabaseName;
             revokeDatabasePrivilege.targetTableName = SystemeConstants.PrivilegesOfProfilesOnDatabasesTableName;
-            revokeDatabasePrivilege.SetData(request.GetElementsContentByTagName(RequestAndRegexConstants.securityProfileTag)[0], request.GetElementsContentByTagName(RequestAndRegexConstants.databaseTagName)[0], request.GetElementsContentByTagName(RequestAndRegexConstants.privilegeTag)[0]);
+            revokeDatabasePrivilege.SetData(request.GetElementsContentByTagName(RequestAndRegexConstants.securityProfileTag)[0], this.GetTargetDatabase(request), request.GetElementsContentByTagName(RequestAndRegexConstants.privilegeTag)[0]);
             return revokeDatabasePrivilege;
         }
 
@@ -220,7 +220,7 @@ namespace MiniSQL.Querys
             GrantPrivilege grantPrivilege = new GrantPrivilege(container);
             grantPrivilege.targetDatabase = SystemeConstants.SystemDatabaseName;
             grantPrivilege.targetTableName = SystemeConstants.PrivilegesOfProfilesOnTablesTableName;
-            grantPrivilege.SetData(request.GetElementsContentByTagName(RequestAndRegexConstants.privilegeTag)[0], request.GetElementsContentByTagName(RequestAndRegexConstants.securityProfileTag)[0], request.GetElementsContentByTagName(RequestAndRegexConstants.databaseTagName)[0], request.GetElementsContentByTagName(RequestAndRegexConstants.databaseTagName)[0]);
+            grantPrivilege.SetData(request.GetElementsContentByTagName(RequestAndRegexConstants.privilegeTag)[0], request.GetElementsContentByTagName(RequestAndRegexConstants.securityProfileTag)[0], this.GetTargetDatabase(request), request.GetElementsContentByTagName(RequestAndRegexConstants.tableTagName)[0]);
             return grantPrivilege;
         }
 
@@ -240,10 +240,16 @@ namespace MiniSQL.Querys
 
         private void SetDatabaseAndTableTarget(Request request, AbstractQuery query)
         {
-            query.targetDatabase = ((ISystemeDatabaseModule)this.systeme.GetSystemeModule(SystemeConstants.SystemeDatabaseModule)).GetDefaultDatabaseName();
-            string[] databaseGroups = request.GetElementsContentByTagName(RequestAndRegexConstants.databaseTagName);
-            if (!(databaseGroups.Length == 0)) query.targetDatabase = databaseGroups[0];
+            query.targetDatabase = this.GetTargetDatabase(request);
             query.targetTableName = request.GetElementsContentByTagName(RequestAndRegexConstants.tableTagName)[0];
+        }
+
+        private string GetTargetDatabase(Request request)
+        {
+            string defaultDatabase = ((ISystemeDatabaseModule)this.systeme.GetSystemeModule(SystemeConstants.SystemeDatabaseModule)).GetDefaultDatabaseName();
+            string[] databaseGroups = request.GetElementsContentByTagName(RequestAndRegexConstants.databaseTagName);
+            if (!(databaseGroups.Length == 0)) defaultDatabase = databaseGroups[0];
+            return defaultDatabase;
         }
 
         public void SetSysteme(ISysteme systeme)

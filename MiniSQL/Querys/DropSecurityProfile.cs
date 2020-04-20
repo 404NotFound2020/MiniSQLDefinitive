@@ -20,22 +20,57 @@ namespace MiniSQL.Querys
         {
             Column column = this.GetContainer().GetDatabase(this.targetDatabase).GetTable(this.targetTableName).GetColumn(SystemeConstants.ProfileNameColumn);
             if (!column.ExistCells(this.targetSecurityProfile)) this.SaveTheError("The security profile doenst exist");
-            else if(!column.GetCells(this.targetSecurityProfile)[0].row.CheckIfRowCouldBeChanged()) this.SaveTheError("This profile cannot remove, check the fks");
+            else if(this.GetContainer().GetDatabase(SystemeConstants.SystemDatabaseName).GetTable(SystemeConstants.NoRemovableProfilesTableName).GetColumn(SystemeConstants.ProfileNameColumn).ExistCells(this.targetSecurityProfile)) this.SaveTheError("This profile is not removable");
             return this.GetIsValidQuery();  
         }
 
         public override void ExecuteParticularQueryAction()
         {
+            this.DeleteProfileDatabasePrivileges();
+            this.DeleteProfileTablePrivileges();
+            this.DeleteUsersWithThisProfile();
+            this.DeleteSecurityProfile();
+        }
+
+        private void DeleteSecurityProfile()
+        {
             bool b = false;
             ITable table = this.GetContainer().GetDatabase(this.targetDatabase).GetTable(this.targetTableName);
             IEnumerator<Row> rowEnumerator = table.GetRowEnumerator();
             int i = -1;
-            while(rowEnumerator.MoveNext() && !b)
+            while (rowEnumerator.MoveNext() && !b)
             {
                 b = rowEnumerator.Current.GetCell(SystemeConstants.ProfileNameColumn).data.Equals(this.targetSecurityProfile);
                 i = i + 1;
             }
             table.DestroyRow(i);
+        }
+
+        private void DeleteProfileTablePrivileges()
+        {
+            Delete delete = new Delete(this.GetContainer());
+            delete.targetDatabase = SystemeConstants.SystemDatabaseName;
+            delete.targetTableName = SystemeConstants.PrivilegesOfProfilesOnTablesTableName;
+            delete.whereClause.AddCritery(SystemeConstants.PrivilegesOfProfilesOnTablesProfileColumnName, this.targetSecurityProfile, Operator.equal);
+            delete.Execute();
+        }
+
+        private void DeleteProfileDatabasePrivileges()
+        {
+            Delete delete = new Delete(this.GetContainer());
+            delete.targetDatabase = SystemeConstants.SystemDatabaseName;
+            delete.targetTableName = SystemeConstants.PrivilegesOfProfilesOnDatabasesTableName;
+            delete.whereClause.AddCritery(SystemeConstants.PrivilegesOfProfilesOnDatabasesProfileColumnName, this.targetSecurityProfile, Operator.equal);
+            delete.Execute();
+        }
+
+        private void DeleteUsersWithThisProfile()
+        {
+            Delete delete = new Delete(this.GetContainer());
+            delete.targetDatabase = SystemeConstants.SystemDatabaseName;
+            delete.targetTableName = SystemeConstants.UsersTableName;
+            delete.whereClause.AddCritery(SystemeConstants.UsersProfileColumnName, this.targetSecurityProfile, Operator.equal);
+            delete.Execute();
         }
 
         public override string GetNeededExecutePrivilege()
