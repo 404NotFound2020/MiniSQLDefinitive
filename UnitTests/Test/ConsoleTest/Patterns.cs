@@ -219,20 +219,20 @@ namespace UnitTests.Test.ConsoleTest
             Regex regularExpresion = new Regex(@createUserPattern);
 
             //GOODS
-            Assert.IsTrue(regularExpresion.Matches("ADD USER ('aaa', 'aaaa');").Count == 1);
-            Assert.IsTrue(regularExpresion.Matches("ADD USER ('aaa', '123123');").Count == 1);
-            Assert.IsTrue(regularExpresion.Matches("ADD USER ('12123213', '123123');").Count == 1);
+            Assert.IsTrue(regularExpresion.Matches("ADD USER ('aaa', 'aaaa', 'aaaa');").Count == 1);
+            Assert.IsTrue(regularExpresion.Matches("ADD USER ('aaa', '123123', '1212');").Count == 1);
+            Assert.IsTrue(regularExpresion.Matches("ADD USER ('12123213', '123123', '12321132');").Count == 1);
             //BADS
-            Assert.IsTrue(regularExpresion.Matches("ADD USER ('aaa','aaaa');").Count == 0);
-            Assert.IsTrue(regularExpresion.Matches("ADD USER ('aaa', 'aaaa')").Count == 0);
+            Assert.IsTrue(regularExpresion.Matches("ADD USER ('aaa','aaaa', '12321132');").Count == 0);
+            Assert.IsTrue(regularExpresion.Matches("ADD USER ('aaa', 'aaaa', '12321132')").Count == 0);
             Assert.IsTrue(regularExpresion.Matches("ADD USER ('aaa');").Count == 0);
-            Assert.IsTrue(regularExpresion.Matches("ADD USER ('aaa', aaaa);").Count == 0);
-            Assert.IsTrue(regularExpresion.Matches("ADD USER (aaa, 'aaaa');").Count == 0);
-            Assert.IsTrue(regularExpresion.Matches("ADD USER (aaa, aaaa);").Count == 0);
+            Assert.IsTrue(regularExpresion.Matches("ADD USER ('aaa', aaaa, '12321132');").Count == 0);
+            Assert.IsTrue(regularExpresion.Matches("ADD USER (aaa, 'aaaa', '12321132');").Count == 0);
+            Assert.IsTrue(regularExpresion.Matches("ADD USER (aaa, aaaa, '12321132');").Count == 0);
             Assert.IsTrue(regularExpresion.Matches("ADD USER ();").Count == 0);
             Assert.IsTrue(regularExpresion.Matches("ADD USER;").Count == 0);
-            Assert.IsTrue(regularExpresion.Matches("ADD USER 'aaa','aaaa';").Count == 0);
-            Assert.IsTrue(regularExpresion.Matches("ADD USER ('aaa','aaaa';").Count == 0);
+            Assert.IsTrue(regularExpresion.Matches("ADD USER 'aaa','aaaa', '12321132';").Count == 0);
+            Assert.IsTrue(regularExpresion.Matches("ADD USER ('aaa','aaaa', 12321132';").Count == 0);
             Assert.IsTrue(regularExpresion.Matches("ADD USER 'aaa','aaaa');").Count == 0);
         }
 
