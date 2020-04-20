@@ -15,9 +15,7 @@ namespace UnitTests.Test.Querys
         public void RevokePrivilege_ProfileDoenstExist_NoticeInValidate()
         {
             IDatabaseContainer databaseContainer = ObjectConstructor.CreateDatabaseContainer();
-            Column profileNamesColumn = databaseContainer.GetDatabase(SystemeConstants.SystemDatabaseName).GetTable(SystemeConstants.ProfilesTableName).GetColumn(SystemeConstants.ProfileNameColumn);
-            string profileName = VariousFunctions.GenerateRandomString(8);
-            while (profileNamesColumn.ExistCells(profileName)) profileName = VariousFunctions.GenerateRandomString(8);
+            string profileName = ShittyUtilities.GetDoenstExistProfileName(databaseContainer);
             RevoquePrivilege revoquePrivilege = CreateRevokePrivilege(databaseContainer, SystemeConstants.SystemDatabaseName, SystemeConstants.PrivilegesOfProfilesOnTablesTableName);
             revoquePrivilege.SetData(profileName, SystemeConstants.SystemDatabaseName, SystemeConstants.ProfilesTableName, SystemeConstants.InsertPrivilegeName);
             Assert.IsFalse(revoquePrivilege.ValidateParameters());            
