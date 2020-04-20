@@ -20,9 +20,9 @@ namespace MiniSQL.Querys
             this.operators = new List<Operator>();
         }
 
-        public void AddCritery(Tuple<string, string> critery, Operator op) 
+        public void AddCritery(string colName, string value, Operator op)
         {
-            this.filterCriteries.Add(critery);
+            this.filterCriteries.Add(new Tuple<string, string>(colName, value));
             this.operators.Add(op);
         }
 

@@ -85,13 +85,13 @@ namespace MiniSQL.SystemeClasses
             Delete delete = new Delete(((ISystemeDatabaseModule)this.systeme.GetSystemeModule(SystemeConstants.SystemeDatabaseModule)).GetDatabaseContainer());
             delete.targetDatabase = SystemeConstants.SystemDatabaseName;
             delete.targetTableName = SystemeConstants.PrivilegesOfProfilesOnTablesTableName;
-            delete.whereClause.AddCritery(new Tuple<string, string>(SystemeConstants.PrivilegesOfProfilesOnTablesDatabaseNameColumnName, database.databaseName), Operator.equal);
+            delete.whereClause.AddCritery(SystemeConstants.PrivilegesOfProfilesOnTablesDatabaseNameColumnName, database.databaseName, Operator.equal);
             delete.Execute();
 
             delete = new Delete(((ISystemeDatabaseModule)this.systeme.GetSystemeModule(SystemeConstants.SystemeDatabaseModule)).GetDatabaseContainer());
             delete.targetDatabase = SystemeConstants.SystemDatabaseName;
             delete.targetTableName = SystemeConstants.PrivilegesOfProfilesOnDatabasesTableName;
-            delete.whereClause.AddCritery(new Tuple<string, string>(SystemeConstants.PrivilegesOfProfilesOnDatabasesDatabaseNameColumnName, database.databaseName), Operator.equal);
+            delete.whereClause.AddCritery(SystemeConstants.PrivilegesOfProfilesOnDatabasesDatabaseNameColumnName, database.databaseName, Operator.equal);
             delete.Execute();
         }
 
@@ -100,8 +100,8 @@ namespace MiniSQL.SystemeClasses
             Delete delete = new Delete(((ISystemeDatabaseModule)this.systeme.GetSystemeModule(SystemeConstants.SystemeDatabaseModule)).GetDatabaseContainer());
             delete.targetDatabase = SystemeConstants.SystemDatabaseName;
             delete.targetTableName = SystemeConstants.PrivilegesOfProfilesOnTablesTableName;
-            delete.whereClause.AddCritery(new Tuple<string, string>(SystemeConstants.PrivilegesOfProfilesOnTablesDatabaseNameColumnName, database.databaseName), Operator.equal);
-            delete.whereClause.AddCritery(new Tuple<string, string>(SystemeConstants.PrivilegesOfProfilesOnTablesTableNameColumnName, table.tableName), Operator.equal);
+            delete.whereClause.AddCritery(SystemeConstants.PrivilegesOfProfilesOnTablesDatabaseNameColumnName, database.databaseName, Operator.equal);
+            delete.whereClause.AddCritery(SystemeConstants.PrivilegesOfProfilesOnTablesTableNameColumnName, table.tableName, Operator.equal);
             delete.Execute();
         }
 

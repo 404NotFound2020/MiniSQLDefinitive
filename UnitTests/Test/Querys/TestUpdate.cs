@@ -154,7 +154,7 @@ namespace UnitTests.Test.Querys
             // T phase
             Update update = CreateUpdate(databaseContainer, database.databaseName, table1.tableName);
             update.AddValue(c1.columnName, row2.GetCell(c1.columnName).data);
-            update.whereClause.AddCritery(new Tuple<string, string>(c1.columnName, row.GetCell(c1.columnName).data), OperatorFactory.GetOperatorFactory().GetOperator(OperatorKeys.EqualKey));
+            update.whereClause.AddCritery(c1.columnName, row.GetCell(c1.columnName).data, OperatorFactory.GetOperatorFactory().GetOperator(OperatorKeys.EqualKey));
             Assert.IsFalse(update.ValidateParameters());
         }
 
@@ -217,7 +217,7 @@ namespace UnitTests.Test.Querys
             // T phase
             Update update = CreateUpdate(databaseContainer, database.databaseName, table2.tableName);
             update.AddValue(c1table2.columnName, r2.GetCell(c1table2.columnName).data);
-            update.whereClause.AddCritery(new Tuple<string, string>(c1table2.columnName, r3.GetCell(c1table2.columnName).data), OperatorFactory.GetOperatorFactory().GetOperator(OperatorKeys.EqualKey));
+            update.whereClause.AddCritery(c1table2.columnName, r3.GetCell(c1table2.columnName).data, OperatorFactory.GetOperatorFactory().GetOperator(OperatorKeys.EqualKey));
             Assert.IsTrue(update.ValidateParameters());
         }
 

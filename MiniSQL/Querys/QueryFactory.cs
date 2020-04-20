@@ -233,7 +233,7 @@ namespace MiniSQL.Querys
             OperatorFactory operatorFactory = OperatorFactory.GetOperatorFactory();
             for (int i = 0; i < columnToEvaluate.Length; i++)
             {
-                where.AddCritery(new Tuple<string, string>(columnToEvaluate[i], evaluationValue[i]), operatorFactory.GetOperator(operators[i]));
+                where.AddCritery(columnToEvaluate[i], evaluationValue[i], operatorFactory.GetOperator(operators[i]));
             }
             return where;
         }

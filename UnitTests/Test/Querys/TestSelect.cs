@@ -21,7 +21,7 @@ namespace UnitTests.Test.Querys
             IDatabaseContainer databaseContainer = ObjectConstructor.CreateDatabaseContainer();
             databaseContainer.AddDatabase(database);
             Select select = CreateSelect(databaseContainer, database.databaseName, table.tableName, true);
-            select.whereClause.AddCritery(new Tuple<string, string>("Column3", table.GetColumn("Column3").dataType.GetDataTypeDefaultValue()), Operator.equal);
+            select.whereClause.AddCritery("Column3", table.GetColumn("Column3").dataType.GetDataTypeDefaultValue(), Operator.equal);
             Assert.IsTrue(select.ValidateParameters());
             select.Execute();
             Assert.IsTrue(select.GetAfectedRowCount() > 0);
@@ -42,7 +42,7 @@ namespace UnitTests.Test.Querys
             database.AddTable(table);
             databaseContainer.AddDatabase(database);
             Select select = CreateSelect(databaseContainer, database.databaseName, table.tableName, true);
-            select.whereClause.AddCritery(new Tuple<string, string>(columnName, row.GetCell(columnName).data), Operator.equal);
+            select.whereClause.AddCritery(columnName, row.GetCell(columnName).data, Operator.equal);
             Assert.IsTrue(select.ValidateParameters());
             select.Execute();
             Assert.IsTrue(select.GetAfectedRowCount() > 0);
@@ -60,7 +60,7 @@ namespace UnitTests.Test.Querys
             table.AddColumn(column);
             database.AddTable(table);
             Select select = CreateSelect(databaseContainer, database.databaseName, table.tableName, true);
-            select.whereClause.AddCritery(new Tuple<string, string>(column.columnName, table.GetColumn(column.columnName).dataType.GetDataTypeDefaultValue()), Operator.equal);
+            select.whereClause.AddCritery(column.columnName, table.GetColumn(column.columnName).dataType.GetDataTypeDefaultValue(), Operator.equal);
             Assert.IsTrue(select.ValidateParameters());
             Assert.IsTrue(table.GetRowCount() == 0); //Maybe assert.equal
             select.Execute();
@@ -124,7 +124,7 @@ namespace UnitTests.Test.Querys
                 noInTableColumnName = VariousFunctions.GenerateRandomString(10);
             }
             Select select = CreateSelect(databaseContainer, database.databaseName, table.tableName, true);
-            select.whereClause.AddCritery(new Tuple<string, string>(noInTableColumnName, "a"), Operator.equal);
+            select.whereClause.AddCritery(noInTableColumnName, "a", Operator.equal);
             Assert.IsFalse(select.ValidateParameters());
             select.Execute();
             Assert.AreEqual(0, select.GetAfectedRowCount());
@@ -146,7 +146,7 @@ namespace UnitTests.Test.Querys
             database.AddTable(table);
             databaseContainer.AddDatabase(database);
             Select select = CreateSelect(databaseContainer, database.databaseName, table.tableName, true);
-            select.whereClause.AddCritery(new Tuple<string, string>(columnName, "a"), Operator.equal);
+            select.whereClause.AddCritery(columnName, "a", Operator.equal);
             Assert.IsFalse(select.ValidateParameters());
             select.Execute();
             Assert.AreEqual(0, select.GetAfectedRowCount());

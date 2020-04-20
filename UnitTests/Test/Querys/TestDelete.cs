@@ -27,7 +27,7 @@ namespace UnitTests.Test.Querys
             IDatabaseContainer container = ObjectConstructor.CreateDatabaseContainer();
             container.AddDatabase(db);
             Delete delete = CreateDelete(container,db.databaseName,t.tableName);
-            delete.whereClause.AddCritery(new Tuple<string, string>("Column3", t.GetColumn("Column3").dataType.GetDataTypeDefaultValue()), Operator.equal);
+            delete.whereClause.AddCritery("Column3", t.GetColumn("Column3").dataType.GetDataTypeDefaultValue(), Operator.equal);
             Assert.IsTrue(delete.ValidateParameters());
             delete.ExecuteParticularQueryAction(t);
             Assert.IsTrue(delete.GetAfectedRowCount() > 0);
@@ -55,7 +55,7 @@ namespace UnitTests.Test.Querys
             IDatabaseContainer container = ObjectConstructor.CreateDatabaseContainer();
             container.AddDatabase(db);
             Delete delete = CreateDelete(container, db.databaseName, t.tableName);
-            delete.whereClause.AddCritery(new Tuple<string, string>("x", "a"), Operator.equal);
+            delete.whereClause.AddCritery("x", "a", Operator.equal);
             Assert.IsFalse(delete.ValidateParameters());
             Assert.AreEqual(0, delete.GetAfectedRowCount());
         }
@@ -93,7 +93,7 @@ namespace UnitTests.Test.Querys
             //Test
             int numberOfRows = table1.GetRowCount();
             Delete delete = CreateDelete(container, db.databaseName, table1.tableName);
-            delete.whereClause.AddCritery(new Tuple<string, string>(column1t1.columnName, "" + 11), Operator.less);
+            delete.whereClause.AddCritery(column1t1.columnName, "" + 11, Operator.less);
             Assert.IsTrue(delete.ValidateParameters());
             delete.Execute();
             Assert.AreEqual(table2.GetRowCount(), numberOfRows - delete.GetAfectedRowCount());

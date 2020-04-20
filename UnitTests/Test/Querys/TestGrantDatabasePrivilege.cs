@@ -80,9 +80,9 @@ namespace UnitTests.Test.Querys
             Assert.IsTrue(grantDatabasePrivilege.ValidateParameters());
             grantDatabasePrivilege.Execute();
             Select select = TestSelect.CreateSelect(databaseContainer, SystemeConstants.SystemDatabaseName, SystemeConstants.PrivilegesOfProfilesOnDatabasesTableName, true);
-            select.whereClause.AddCritery(new Tuple<string, string>(SystemeConstants.PrivilegesOfProfilesOnDatabasesProfileColumnName, SystemeConstants.DefaultProfile), Operator.equal);
-            select.whereClause.AddCritery(new Tuple<string, string>(SystemeConstants.PrivilegesOfProfilesOnDatabasesDatabaseNameColumnName, SystemeConstants.DefaultDatabaseName), Operator.equal);
-            select.whereClause.AddCritery(new Tuple<string, string>(SystemeConstants.PrivilegesOfProfilesOnDatabasesPrivilegeColumnName, SystemeConstants.CreatePrivilegeName), Operator.equal);
+            select.whereClause.AddCritery(SystemeConstants.PrivilegesOfProfilesOnDatabasesProfileColumnName, SystemeConstants.DefaultProfile, Operator.equal);
+            select.whereClause.AddCritery(SystemeConstants.PrivilegesOfProfilesOnDatabasesDatabaseNameColumnName, SystemeConstants.DefaultDatabaseName, Operator.equal);
+            select.whereClause.AddCritery(SystemeConstants.PrivilegesOfProfilesOnDatabasesPrivilegeColumnName, SystemeConstants.CreatePrivilegeName, Operator.equal);
             select.ValidateParameters();
             select.Execute();
             Assert.AreEqual(1, select.GetAfectedRowCount());

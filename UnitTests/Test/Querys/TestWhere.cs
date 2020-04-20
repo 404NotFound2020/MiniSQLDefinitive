@@ -21,7 +21,7 @@ namespace UnitTests.Test.Querys
             Row row = table.CreateRowDefinition();
             Cell cell = row.GetCell(column.columnName);
             cell.data = "aaaa";
-            where.AddCritery(new Tuple<string, string>(column.columnName, cell.data), Operator.equal);
+            where.AddCritery(column.columnName, cell.data, Operator.equal);
             Assert.IsTrue(where.IsSelected(row));
         }
 
@@ -35,7 +35,7 @@ namespace UnitTests.Test.Querys
             Row row = table.CreateRowDefinition();
             Cell cell = row.GetCell(column.columnName);
             cell.data = "1";
-            where.AddCritery(new Tuple<string, string>(column.columnName, cell.data), Operator.equal);
+            where.AddCritery(column.columnName, cell.data, Operator.equal);
             Assert.IsTrue(where.IsSelected(row));
         }
 
@@ -49,7 +49,7 @@ namespace UnitTests.Test.Querys
             Row row = table.CreateRowDefinition();
             Cell cell = row.GetCell(column.columnName);
             cell.data = "1.3";
-            where.AddCritery(new Tuple<string, string>(column.columnName, cell.data), Operator.equal);
+            where.AddCritery(column.columnName, cell.data, Operator.equal);
             Assert.IsTrue(where.IsSelected(row));
         }
 
@@ -63,7 +63,7 @@ namespace UnitTests.Test.Querys
             Row row = table.CreateRowDefinition();
             Cell cell = row.GetCell(column.columnName);
             cell.data = "aaa";
-            where.AddCritery(new Tuple<string, string>(column.columnName, cell.data + "b"), Operator.equal);
+            where.AddCritery(column.columnName, cell.data + "b", Operator.equal);
             Assert.IsFalse(where.IsSelected(row));
         }
 
@@ -78,7 +78,7 @@ namespace UnitTests.Test.Querys
             Cell cell = row.GetCell(column.columnName);
             cell.data = "1";
             Assert.IsTrue(int.TryParse(cell.data, out int value));
-            where.AddCritery(new Tuple<string, string>(column.columnName, (value + 1) + ""), Operator.equal);
+            where.AddCritery(column.columnName, (value + 1) + "", Operator.equal);
             Assert.IsFalse(where.IsSelected(row));
         }
 
@@ -93,7 +93,7 @@ namespace UnitTests.Test.Querys
             Cell cell = row.GetCell(column.columnName);
             cell.data = "1.3";
             Assert.IsTrue(double.TryParse(cell.data, out double value));
-            where.AddCritery(new Tuple<string, string>(column.columnName, value + 1 + ""), Operator.equal);
+            where.AddCritery(column.columnName, value + 1 + "", Operator.equal);
             Assert.IsFalse(where.IsSelected(row));
         }
 
