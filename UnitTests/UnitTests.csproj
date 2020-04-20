@@ -103,6 +103,7 @@
     <Compile Include="Test\SaveDataFormatManagers\TestNothingToDoManager.cs" />
     <Compile Include="Test\SaveDataFormatManagers\StringEscapedManager.cs" />
     <Compile Include="Test\TableRestrictions\TestPrimaryKey.cs" />
+    <Compile Include="Test\TestObjectsContructor\ShittyUtilities.cs" />
     <Compile Include="Test\TestObjectsContructor\DatabaseContainer.cs" />
     <Compile Include="Test\TestObjectsContructor\DummyPrivilegeModule.cs" />
     <Compile Include="Test\TestObjectsContructor\DummySysteme.cs" />
