@@ -25,6 +25,7 @@ namespace MiniSQL.Querys
         {
             bool b;
             if (b = !this.GetContainer().ExistDatabase(this.targetDatabase)) this.SaveTheError(QuerysStringResultConstants.DatabaseDoesntExist(this.targetDatabase));
+            else if (!this.GetPrivilegeModule().CheckProfileDatabasePrivileges(this.username, this.targetDatabase, this.GetNeededExecutePrivilege())) this.SaveTheError("Not enougth privileges");
             return !b;
         }
 

@@ -117,19 +117,30 @@ namespace MiniSQL.SystemeClasses
             Column privilegesOfProfileColumn = systemDatabase.GetTable(SystemeConstants.PrivilegesOfProfilesOnTablesTableName).GetColumn(SystemeConstants.PrivilegesOfProfilesOnTablesPrivilegeColumnName);
             if (privilegesOfProfileColumn.ExistCells(privilegeType))
             {
-                List<Cell> cellList = systemDatabase.GetTable(SystemeConstants.PrivilegesOfProfilesOnTablesTableName).GetColumn(SystemeConstants.PrivilegesOfProfilesOnTablesPrivilegeColumnName).GetCells(privilegeType);
+                List<Cell> cellList = privilegesOfProfileColumn.GetCells(privilegeType);
                 Dictionary<string, string> keysAndValues = new Dictionary<string, string>();
                 keysAndValues.Add(SystemeConstants.PrivilegesOfProfilesOnTablesProfileColumnName, this.GetUserProfile(username, systemDatabase));
                 keysAndValues.Add(SystemeConstants.PrivilegesOfProfilesOnTablesDatabaseNameColumnName, databaseName);
                 keysAndValues.Add(SystemeConstants.PrivilegesOfProfilesOnTablesTableNameColumnName, tableName);
-                b = this.FastSearch(cellList, keysAndValues, 0, false);
+                b = this.FastSearch(cellList, keysAndValues, 0, b);
             }
             return b;
         }
 
-        public bool CheckProfileDatabasePrivileges(string username, string database, string privilegeType)
+        public bool CheckProfileDatabasePrivileges(string username, string databaseName, string privilegeType)
         {
-            return true;
+            bool b = false;
+            IDatabase systemDatabase = ((ISystemeDatabaseModule)this.systeme.GetSystemeModule(SystemeConstants.SystemeDatabaseModule)).GetDatabase(SystemeConstants.SystemDatabaseName);
+            Column privilegesOfProfileColumn = systemDatabase.GetTable(SystemeConstants.PrivilegesOfProfilesOnDatabasesTableName).GetColumn(SystemeConstants.PrivilegesOfProfilesOnDatabasesPrivilegeColumnName);
+            if (privilegesOfProfileColumn.ExistCells(privilegeType))
+            {
+                List<Cell> cellList = privilegesOfProfileColumn.GetCells(privilegeType);
+                Dictionary<string, string> keysAndValues = new Dictionary<string, string>();
+                keysAndValues.Add(SystemeConstants.PrivilegesOfProfilesOnDatabasesProfileColumnName, this.GetUserProfile(username, systemDatabase));
+                keysAndValues.Add(SystemeConstants.PrivilegesOfProfilesOnDatabasesDatabaseNameColumnName, databaseName);
+                b = this.FastSearch(cellList, keysAndValues, 0, b);
+            }
+            return b;
         }
 
         public bool CheckIsAutorizedToExecuteSecurityQuery(string username)

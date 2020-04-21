@@ -23,7 +23,7 @@ namespace MiniSQL.Interfaces
         public override bool ValidateParameters()
         {
             if (!this.GetContainer().ExistDatabase(this.targetDatabase)) this.SaveTheError(QuerysStringResultConstants.DatabaseDoesntExist(this.targetDatabase));
-            else if (!this.GetPrivilegeModule().CheckProfileDatabasePrivileges(this.username, this.targetDatabase, this.GetNeededExecutePrivilege())) this.SaveTheError("Not enougth parameters");
+            else if (!this.GetPrivilegeModule().CheckProfileDatabasePrivileges(this.username, this.targetDatabase, this.GetNeededExecutePrivilege())) this.SaveTheError("Not enougth privileges");
             else this.ValidateParameters(this.GetContainer().GetDatabase(this.targetDatabase));
             return this.GetIsValidQuery();
         }
