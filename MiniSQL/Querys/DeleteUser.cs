@@ -37,6 +37,7 @@ namespace MiniSQL.Querys
             }
             rowEnumerator.Dispose();
             table.DestroyRow(i);
+            this.SetResult(QuerysStringResultConstants.SecurityUserDeleted);
         }
 
         public override string GetNeededExecutePrivilege()

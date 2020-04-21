@@ -144,7 +144,7 @@ namespace MiniSQL.Initializer
             table.primaryKey.AddKey(databaseNameColumn);//Se podria crear una tabla para guardar datos de las tablas y otras para los datos de las databases, pero bueno, no me ha dado la gana de hacerlo.
             table.primaryKey.AddKey(tableNameColumn);
             table.primaryKey.AddKey(privilegeNameColumn);
-            table.foreignKey.AddForeignKey(profilesNameColumn, profilesTable.GetColumn(SystemeConstants.UserProfilesProfileColumnName));
+            table.foreignKey.AddForeignKey(profilesNameColumn, profilesTable.GetColumn(SystemeConstants.ProfileNameColumn));
             table.foreignKey.AddForeignKey(privilegeNameColumn, privilegesTable.GetColumn(SystemeConstants.PrivilegesPrivilegeNameColumnName));
             return table;
         }
@@ -162,7 +162,7 @@ namespace MiniSQL.Initializer
             table.primaryKey.AddKey(profilesNameColumn);
             table.primaryKey.AddKey(databaseNameColumn);
             table.primaryKey.AddKey(privilegeNameColumn);
-            table.foreignKey.AddForeignKey(profilesNameColumn, profilesTable.GetColumn(SystemeConstants.UserProfilesProfileColumnName));
+            table.foreignKey.AddForeignKey(profilesNameColumn, profilesTable.GetColumn(SystemeConstants.ProfileNameColumn));
             table.foreignKey.AddForeignKey(privilegeNameColumn, privilegesTable.GetColumn(SystemeConstants.DatabasesPrivilegesPrivilegeNameColumnName));
             return table;
         }

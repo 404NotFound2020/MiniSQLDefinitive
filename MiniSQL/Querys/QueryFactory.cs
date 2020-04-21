@@ -26,7 +26,7 @@ namespace MiniSQL.Querys
             return queryFactory;
         }
 
-        public AbstractQuery GetQuery(Request request)
+        public AbstractQuery GetQuery(Request request, IUserThread thread)
         {
             IDatabaseContainer container = ((ISystemeDatabaseModule)this.systeme.GetSystemeModule(SystemeConstants.SystemeDatabaseModule)).GetDatabaseContainer();
             AbstractQuery query = null;
@@ -80,7 +80,11 @@ namespace MiniSQL.Querys
                 case RequestAndRegexConstants.revokeTablePrivilegeQueryIdentificator:
                     query = CreateRevoquePrivilege(request, container);
                     break;
+                case RequestAndRegexConstants.loginQueryIdentificator:
+                    query = CreateLogin(request, container, thread);
+                    break;
             }
+            query.username = thread.username;
             return query;
         }
 
@@ -234,6 +238,15 @@ namespace MiniSQL.Querys
             revokePrivilege.targetTableName = SystemeConstants.PrivilegesOfProfilesOnTablesTableName;
             revokePrivilege.SetData(request.GetElementsContentByTagName(RequestAndRegexConstants.securityProfileTag)[0], this.GetTargetDatabase(request), request.GetElementsContentByTagName(RequestAndRegexConstants.tableTagName)[0], request.GetElementsContentByTagName(RequestAndRegexConstants.privilegeTag)[0]);
             return revokePrivilege;
+        }
+
+        private Login CreateLogin(Request request, IDatabaseContainer container, IUserThread thread)
+        {
+            Login login = new Login(container, thread);
+            login.targetDatabase = SystemeConstants.SystemDatabaseName;
+            login.targetTableName = SystemeConstants.UsersTableName;
+            login.SetData(request.GetElementsContentByTagName(RequestAndRegexConstants.usernameTagName)[0], request.GetElementsContentByTagName(RequestAndRegexConstants.passwordTagName)[0]);
+            return login;
         }
 
         private Where CreateWhereClause(Request request)

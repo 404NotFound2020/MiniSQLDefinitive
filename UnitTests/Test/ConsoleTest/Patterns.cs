@@ -381,5 +381,31 @@ namespace UnitTests.Test.ConsoleTest
             Assert.IsTrue(regularExpresion.Matches("REVOKE ;").Count == 0);
         }
 
+        [TestMethod]
+        public void TestLogin()
+        {
+            string login = RequestAndRegexConstants.login;
+            Regex regularExpresion = new Regex(login);
+            //GOOD
+            Assert.IsTrue(regularExpresion.Matches("LOGIN 'AAAAA', 'asdsasa';").Count == 1);
+            Assert.IsTrue(regularExpresion.Matches("LOGIN '3432', '4323';").Count == 1);
+            //BADS
+            Assert.IsTrue(regularExpresion.Matches("LOGIN 'AAAAA', 'asdsasa'").Count == 0);
+            Assert.IsTrue(regularExpresion.Matches("LOGIN 'AAAAA','asdsasa';").Count == 0);
+            Assert.IsTrue(regularExpresion.Matches("LOGIN 'AAAAA', asdsasa';").Count == 0);
+            Assert.IsTrue(regularExpresion.Matches("LOGI 'AAAAA', 'asdsasa;").Count == 0);
+            Assert.IsTrue(regularExpresion.Matches("LOGIN 'AAAAA' 'asdsasa';").Count == 0);
+            Assert.IsTrue(regularExpresion.Matches("LOGIN 'AAAAA',  'asdsasa';").Count == 0);
+            Assert.IsTrue(regularExpresion.Matches("LOGIN 'AAAAA, 'asdsasa';").Count == 0);
+            Assert.IsTrue(regularExpresion.Matches("LOGIN AAAAA', 'asdsasa';").Count == 0);
+            Assert.IsTrue(regularExpresion.Matches("LOGIN 'AAAAA', 'asdsasa', 'asdsas';").Count == 0);
+            Assert.IsTrue(regularExpresion.Matches("LOGIN 'AAAAA', 'asdsasa', 'as'sas';").Count == 0);
+            Assert.IsTrue(regularExpresion.Matches("LOGIN'AAAAA', 'asdsasa', 'as'sas';").Count == 0);
+            Assert.IsTrue(regularExpresion.Matches("LOGIN 'AAAAA',;").Count == 0);
+            Assert.IsTrue(regularExpresion.Matches("LOGIN 'AAAAA';").Count == 0);
+            Assert.IsTrue(regularExpresion.Matches("LOGIN;").Count == 0);
+        }
+
+
     }
 }

@@ -25,7 +25,7 @@ namespace MiniSQL.Querys
             IEnumerator<string> keyEnumerator = this.values.Keys.GetEnumerator();
             while (keyEnumerator.MoveNext()) row.GetCell(keyEnumerator.Current).data = this.values[keyEnumerator.Current];
             table.AddRow(row);
-            this.SetResult("Created user");
+            this.SetResult(QuerysStringResultConstants.SecurityUserCreated);
         }
 
         public override string GetNeededExecutePrivilege()

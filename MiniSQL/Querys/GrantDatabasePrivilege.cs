@@ -12,7 +12,7 @@ namespace MiniSQL.Querys
     public class GrantDatabasePrivilege : PrivilegeManipulationQuery
     {
         private Dictionary<string, string> values;
-        //We didnt want to do the herency form GrantPrivilege
+        
         public GrantDatabasePrivilege(IDatabaseContainer container) : base(container)
         {
             this.values = new Dictionary<string, string>();
@@ -38,6 +38,7 @@ namespace MiniSQL.Querys
             IEnumerator<string> keyEnumerator = this.values.Keys.GetEnumerator();
             while (keyEnumerator.MoveNext()) row.GetCell(keyEnumerator.Current).data = this.values[keyEnumerator.Current];
             table.AddRow(row);
+            this.SetResult(QuerysStringResultConstants.SecurityPrivilegeGranted);
         }
 
         public override string GetNeededExecutePrivilege()

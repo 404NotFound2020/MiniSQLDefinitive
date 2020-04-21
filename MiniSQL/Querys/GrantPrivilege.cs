@@ -40,6 +40,7 @@ namespace MiniSQL.Querys
             IEnumerator<string> keyEnumerator = this.values.Keys.GetEnumerator();
             while (keyEnumerator.MoveNext()) row.GetCell(keyEnumerator.Current).data = this.values[keyEnumerator.Current];
             table.AddRow(row);
+            this.SetResult(QuerysStringResultConstants.SecurityPrivilegeGranted);
         }
 
         public override string GetNeededExecutePrivilege()
@@ -54,10 +55,5 @@ namespace MiniSQL.Querys
             this.values.Add(SystemeConstants.PrivilegesOfProfilesOnTablesDatabaseNameColumnName, databaseName);
             this.values.Add(SystemeConstants.PrivilegesOfProfilesOnTablesTableNameColumnName, tableName);
         }
-
-        /**
-         * 
-         * 
-         * */
     }
 }

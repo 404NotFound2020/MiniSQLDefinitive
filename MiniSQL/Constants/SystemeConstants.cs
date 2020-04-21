@@ -29,12 +29,6 @@ namespace MiniSQL.Constants
         public const string AdminUser = "admin";
         public const string AdminPassword = "admin";
         public const string DefaultProfile = "admin";
-        public const string UserProfilesTableName = "userProfiles";
-        public const string NoRemovableUserProfilesTableName = "defaultUsersProfiles";
-        public const string UserProfilesUsernameColumnName = UsersNameColumnName;
-        public const string UserProfilesUsernameColumnType = UsersNameColumnType;
-        public const string UserProfilesProfileColumnName = ProfileNameColumn;
-        public const string UserProfilesProfileColumnType = ProfileNameColumnType;
         //Table privileges table
         public const string PrivilegesTableName = "tablePrivileges";
         public const string PrivilegesPrivilegeNameColumnName = "privilegeName";

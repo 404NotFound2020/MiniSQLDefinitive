@@ -24,6 +24,7 @@ namespace MiniSQL.Constants
         public const string revokeDatabasePrivilegeQueryIdentificator = "REVOKE DATABASE PRIVILEGE";
         public const string grantTablePrivilegeQueryIdentificator = "GRANT";
         public const string revokeTablePrivilegeQueryIdentificator = "REVOKE";
+        public const string loginQueryIdentificator = "LOGIN";
 
         public static string queryTagName = "query";
         public static string databaseTagName = "database";
@@ -86,7 +87,7 @@ namespace MiniSQL.Constants
         public static string revokeDatabasePrivilege = "^(" + queryGroup + revokeDatabasePrivilegeQueryIdentificator + ") '(" + privilegeGroup + "[^']+)' ON (" + databaseGroup + NAINCG + "+) TO '(" + securityProfileGroup + "[^']+)';$";
         public static string grantTablePrivilege = "^(" + queryGroup + grantTablePrivilegeQueryIdentificator + ") '(" + privilegeGroup + "[^']+)' ON " + databaseRegexPart + "(" + tableGroup + NAINCG + "+) TO '(" + securityProfileGroup + "[^']+)';$";
         public static string revokeTablePrivilege = "^(" + queryGroup + revokeTablePrivilegeQueryIdentificator + ") '(" + privilegeGroup + "[^']+)' ON " + databaseRegexPart + "(" + tableGroup + NAINCG + "+) TO '(" + securityProfileGroup + "[^']+)';$";
-
+        public static string login = "^(" + queryGroup + loginQueryIdentificator + ") '(" + usernameGroup + "[^']+)', '(" + passwordGroup + "[^']+)'" + ";$";
 
     }
 }

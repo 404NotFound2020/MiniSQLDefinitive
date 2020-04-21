@@ -11,37 +11,37 @@ namespace UnitTests.Test.Querys
         [TestMethod]
         public void RequestSelectQuery() 
         {
-            Assert.AreEqual(GetQueryFactory().GetQuery(ObjectConstructor.GetSelectRequest()).GetType(), typeof(Select));
+            Assert.AreEqual(GetQueryFactory().GetQuery(ObjectConstructor.GetSelectRequest(), ObjectConstructor.GetFakeUserThread()).GetType(), typeof(Select));
         }
 
         [TestMethod]
         public void RequestInsertQuery()
         {
-            Assert.AreEqual(GetQueryFactory().GetQuery(ObjectConstructor.GetInsertRequest()).GetType(), typeof(Insert));
+            Assert.AreEqual(GetQueryFactory().GetQuery(ObjectConstructor.GetInsertRequest(), ObjectConstructor.GetFakeUserThread()).GetType(), typeof(Insert));
         }
 
         [TestMethod]
         public void RequestDropTableQuery()
         {
-            Assert.AreEqual(GetQueryFactory().GetQuery(ObjectConstructor.GetDropTableRequest()).GetType(), typeof(Drop));
+            Assert.AreEqual(GetQueryFactory().GetQuery(ObjectConstructor.GetDropTableRequest(), ObjectConstructor.GetFakeUserThread()).GetType(), typeof(Drop));
         }
 
         [TestMethod]
         public void RequestCreateTableQuery()
         {
-            Assert.AreEqual(GetQueryFactory().GetQuery(ObjectConstructor.GetCreateTableRequest()).GetType(), typeof(Create));
+            Assert.AreEqual(GetQueryFactory().GetQuery(ObjectConstructor.GetCreateTableRequest(), ObjectConstructor.GetFakeUserThread()).GetType(), typeof(Create));
         }
 
         [TestMethod]
         public void RequestDeleteTableQuery()
         {
-            Assert.AreEqual(GetQueryFactory().GetQuery(ObjectConstructor.GetDeleteRequest()).GetType(), typeof(Delete));
+            Assert.AreEqual(GetQueryFactory().GetQuery(ObjectConstructor.GetDeleteRequest(), ObjectConstructor.GetFakeUserThread()).GetType(), typeof(Delete));
         }
 
         [TestMethod]
         public void RequestUpdateTableQuery()
         {
-            Assert.AreEqual(GetQueryFactory().GetQuery(ObjectConstructor.GetUpdateRequest()).GetType(), typeof(Update));
+            Assert.AreEqual(GetQueryFactory().GetQuery(ObjectConstructor.GetUpdateRequest(), ObjectConstructor.GetFakeUserThread()).GetType(), typeof(Update));
         }
 
         public static QueryFactory GetQueryFactory() 

@@ -162,6 +162,11 @@ namespace UnitTests.Test.TestObjectsContructor
             return databaseName;
         }
 
+        public static IUserThread GetFakeUserThread()
+        {
+            return new FakeUserThread();
+        }
+
         public static DummySysteme CreateDummySysteme() {
             DummySysteme dummySysteme = new DummySysteme();
             dummySysteme.SetActiveModule(new DatabaseContainer());

@@ -12,10 +12,10 @@ using System.Threading.Tasks;
 
 namespace MiniSQL.ServerFacade
 {
-    public class FakeServer
-    {
+    public class FakeServer : IUserThread
+    {        
+        public string username { get; set; }
         private static FakeServer fakeServer;
-        private string logedUser;
 
         private FakeServer() 
         {
@@ -48,11 +48,11 @@ namespace MiniSQL.ServerFacade
 
         public string[] ReturnRegex() 
         { 
-            return new string[]{ RequestAndRegexConstants.selectPattern, RequestAndRegexConstants.insertPattern, RequestAndRegexConstants.updatePattern, RequestAndRegexConstants.createPattern, RequestAndRegexConstants.deletePattern, RequestAndRegexConstants.dropPattern, RequestAndRegexConstants.createDatabasePattern, RequestAndRegexConstants.dropDatabasePattern, RequestAndRegexConstants.deleteUser, RequestAndRegexConstants.createUser, RequestAndRegexConstants.grantDatabasePrivilege, RequestAndRegexConstants.grantTablePrivilege, RequestAndRegexConstants.revokeTablePrivilege, RequestAndRegexConstants.revokeDatabasePrivilege, RequestAndRegexConstants.createSecurityProfile, RequestAndRegexConstants.dropSecurityProfile };
+            return new string[]{ RequestAndRegexConstants.selectPattern, RequestAndRegexConstants.insertPattern, RequestAndRegexConstants.updatePattern, RequestAndRegexConstants.createPattern, RequestAndRegexConstants.deletePattern, RequestAndRegexConstants.dropPattern, RequestAndRegexConstants.createDatabasePattern, RequestAndRegexConstants.dropDatabasePattern, RequestAndRegexConstants.deleteUser, RequestAndRegexConstants.createUser, RequestAndRegexConstants.grantDatabasePrivilege, RequestAndRegexConstants.grantTablePrivilege, RequestAndRegexConstants.revokeTablePrivilege, RequestAndRegexConstants.revokeDatabasePrivilege, RequestAndRegexConstants.createSecurityProfile, RequestAndRegexConstants.dropSecurityProfile, RequestAndRegexConstants.login };
         }
 
         public string ReceiveRequest(string request) {
-            AbstractQuery query = QueryFactory.GetQueryFactory().GetQuery(new Request(request));
+            AbstractQuery query = QueryFactory.GetQueryFactory().GetQuery(new Request(request), this);
             query.ValidateParameters();
             query.Execute();            
             return query.GetResult();        

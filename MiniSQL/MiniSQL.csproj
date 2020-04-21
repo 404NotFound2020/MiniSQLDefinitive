@@ -49,7 +49,10 @@
     <Compile Include="Interfaces\ISystemeModule.cs" />
     <Compile Include="Interfaces\ISystemePrivilegeModule.cs" />
     <Compile Include="Interfaces\PrivilegeManipulationQuery.cs" />
+    <Compile Include="Interfaces\UserManipulationQuery.cs" />
+    <Compile Include="Interfaces\IUserThread.cs" />
     <Compile Include="Querys\GrantDatabasePrivilege.cs" />
+    <Compile Include="Querys\Login.cs" />
     <Compile Include="Querys\RevokeDatabasePrivilege.cs" />
     <Compile Include="SystemeClasses\DatabaseBin.cs" />
     <Compile Include="SystemeClasses\DatabaseProxy.cs" />

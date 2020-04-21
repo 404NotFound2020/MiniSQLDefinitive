@@ -20,6 +20,13 @@ namespace MiniSQL.Constants
         public const string ForeignKeyError = "Foreign key error";
         public const string RowDeleted = "The row was deleted";
         public const string NothingDeleted = "Nothing was deleted because nothing fulfill the parameters";
+        public const string SecurityPrivilegeGranted = "Security privilege granted";
+        public const string SecurityPrivilegeRevoked = "Security privilege revoked";
+        public const string SecurityProfileCreated = "Security profile created";
+        public const string SecurityUserCreated = "Security user created";
+        public const string SecurityProfileDeleted = "Security profile deleted";
+        public const string SecurityUserDeleted = "Security user deleted";
+        public const string UserLogged = "Logged";
 
         public static string WhereClauseColumnDoensExist(string columnName) 
         {

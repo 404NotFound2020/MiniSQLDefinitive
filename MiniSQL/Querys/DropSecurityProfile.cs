@@ -44,6 +44,7 @@ namespace MiniSQL.Querys
                 i = i + 1;
             }
             table.DestroyRow(i);
+            this.SetResult(QuerysStringResultConstants.SecurityProfileDeleted);
         }
 
         private void DeleteProfileTablePrivileges()

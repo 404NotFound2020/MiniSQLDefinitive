@@ -28,18 +28,11 @@ namespace MiniSQL.Querys
         {
             Dictionary<string, string> columnValuesPair = new Dictionary<string, string>();
             columnValuesPair.Add(SystemeConstants.ProfileNameColumn, this.profileName);
-            if (!this.GetContainer().GetDatabase(this.targetDatabase).GetTable(this.targetTableName).primaryKey.Evaluate(columnValuesPair))
-            {
-                this.SaveTheError("The profile exist");
-
-            }
-
+            if (!this.GetContainer().GetDatabase(this.targetDatabase).GetTable(this.targetTableName).primaryKey.Evaluate(columnValuesPair)) this.SaveTheError("The profile exist");
             return this.GetIsValidQuery();
-
         }
 
         public void SetProfileName(string profileName) {
-
             this.profileName = profileName;
         }
 
@@ -49,8 +42,7 @@ namespace MiniSQL.Querys
             Row row = table.CreateRowDefinition();
             row.GetCell(SystemeConstants.ProfileNameColumn).data = this.profileName;
             table.AddRow(row);
-            this.SetResult("Created security profile");
-
+            this.SetResult(QuerysStringResultConstants.SecurityProfileCreated);
         }
     }
 }
