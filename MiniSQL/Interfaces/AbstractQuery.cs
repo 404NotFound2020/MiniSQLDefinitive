@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MiniSQL.Querys;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,12 +14,14 @@ namespace MiniSQL.Interfaces
         public string targetTableName;
         private int errorCount;
         private IDatabaseContainer container;
+        private ISystemePrivilegeModule privilegeModule;
         public string username;
 
         public AbstractQuery(IDatabaseContainer container) 
         {
             this.container = container;
             this.errorCount = 0;
+            this.privilegeModule = NoCheckPrivilegeModule.GetNoCheckPrivilegeModule();
         }
 
         public string GetResult() 
@@ -59,8 +62,17 @@ namespace MiniSQL.Interfaces
             return errorCount;
         }
 
+        public void SetPrivilegeModule(ISystemePrivilegeModule systemePrivilegeModule)
+        {
+            this.privilegeModule = systemePrivilegeModule;
+        }
+
+        protected ISystemePrivilegeModule GetPrivilegeModule()
+        {
+            return this.privilegeModule;
+        }
+
         public abstract bool ValidateParameters();
-        public abstract bool ValidatePrivileges(ISystemePrivilegeModule privilegeModule);
         public abstract string GetNeededExecutePrivilege();
         //public abstract bool CheckPrivileges();
         public abstract void Execute();

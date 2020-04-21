@@ -16,12 +16,11 @@ namespace MiniSQL.Querys
         {
         }
 
-        public override bool ValidateParameters()
+        protected override void Validate()
         {
             Column column = this.GetContainer().GetDatabase(this.targetDatabase).GetTable(this.targetTableName).GetColumn(SystemeConstants.ProfileNameColumn);
             if (!column.ExistCells(this.targetSecurityProfile)) this.SaveTheError("The security profile doenst exist");
             else if(this.GetContainer().GetDatabase(SystemeConstants.SystemDatabaseName).GetTable(SystemeConstants.NoRemovableProfilesTableName).GetColumn(SystemeConstants.ProfileNameColumn).ExistCells(this.targetSecurityProfile)) this.SaveTheError("This profile is not removable");
-            return this.GetIsValidQuery();  
         }
 
         public override void ExecuteParticularQueryAction()

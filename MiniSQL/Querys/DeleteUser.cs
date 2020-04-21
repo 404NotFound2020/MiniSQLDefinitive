@@ -16,12 +16,11 @@ namespace MiniSQL.Querys
         {
         }
 
-        public override bool ValidateParameters()
+        protected override void Validate()
         {
             Column column = this.GetContainer().GetDatabase(this.targetDatabase).GetTable(this.targetTableName).GetColumn(SystemeConstants.UsersNameColumnName);
             if (!column.ExistCells(this.targetUsername)) this.SaveTheError("The username doenst exist");
             else if (!column.GetCells(this.targetUsername)[0].row.CheckIfRowCouldBeChanged()) this.SaveTheError("The username can not delete, check if there any fk reference to this username");
-            return this.GetIsValidQuery();
         }
 
         public override void ExecuteParticularQueryAction()

@@ -33,12 +33,11 @@ namespace MiniSQL.Querys
             return SystemeConstants.CreateUserPrivilege;
         }
 
-        public override bool ValidateParameters()
+        protected override void Validate()
         {
             ITable targetTable = this.GetContainer().GetDatabase(this.targetDatabase).GetTable(this.targetTableName);
             if (!targetTable.foreignKey.Evaluate(values)) this.SaveTheError("The profile doesnt exist");
-            else if (!targetTable.primaryKey.Evaluate(values)) this.SaveTheError("The user exist");
-            return this.GetIsValidQuery();
+            else if (!targetTable.primaryKey.Evaluate(values)) this.SaveTheError("The user exist");            
         }
 
         public void SetUser(string newUsername, string password, string profileName)

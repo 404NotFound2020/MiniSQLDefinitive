@@ -24,12 +24,11 @@ namespace MiniSQL.Querys
             return SystemeConstants.CreateUserPrivilege;
         }
 
-        public override bool ValidateParameters()
+        protected override void Validate()
         {
             Dictionary<string, string> columnValuesPair = new Dictionary<string, string>();
             columnValuesPair.Add(SystemeConstants.ProfileNameColumn, this.profileName);
             if (!this.GetContainer().GetDatabase(this.targetDatabase).GetTable(this.targetTableName).primaryKey.Evaluate(columnValuesPair)) this.SaveTheError("The profile exist");
-            return this.GetIsValidQuery();
         }
 
         public void SetProfileName(string profileName) {

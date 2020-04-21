@@ -18,7 +18,7 @@ namespace MiniSQL.Querys
             this.values = new Dictionary<string, string>();
         }
 
-        public override bool ValidateParameters()
+        protected override void Validate()
         {
             IDatabase database = this.GetContainer().GetDatabase(this.targetDatabase);
             if (!this.GetContainer().ExistDatabase(this.values[SystemeConstants.PrivilegesOfProfilesOnTablesDatabaseNameColumnName])) this.SaveTheError("The database doesnt exist");
@@ -26,7 +26,6 @@ namespace MiniSQL.Querys
             else if (!database.GetTable(SystemeConstants.ProfilesTableName).GetColumn(SystemeConstants.ProfileNameColumn).ExistCells(this.values[SystemeConstants.PrivilegesOfProfilesOnTablesProfileColumnName])) this.SaveTheError("The profile doenst exist");
             else if (!database.GetTable(SystemeConstants.PrivilegesTableName).GetColumn(SystemeConstants.PrivilegesPrivilegeNameColumnName).ExistCells(this.values[SystemeConstants.PrivilegesOfProfilesOnTablesPrivilegeColumnName])) this.SaveTheError("The privilege doens exist");
             else if (database.GetTable(this.targetTableName).primaryKey.Evaluate(this.values)) this.SaveTheError("The values combination of profile, database, table and privilege is not in table");
-            return this.GetIsValidQuery();
         }
 
         public override void ExecuteParticularQueryAction()

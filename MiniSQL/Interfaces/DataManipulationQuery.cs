@@ -48,6 +48,7 @@ namespace MiniSQL.Interfaces
             {
                 IDatabase targetDatabaseObject = container.GetDatabase(this.targetDatabase);
                 if (!targetDatabaseObject.ExistTable(this.targetTableName)) this.SaveTheError(QuerysStringResultConstants.TableDoensExist(this.targetDatabase, this.targetTableName));
+                else if(!this.GetPrivilegeModule().CheckProfileTablePrivileges(this.username, this.targetDatabase, this.targetTableName, this.GetNeededExecutePrivilege())) this.SaveTheError("Not enought privileges");
                 else this.DoTheOtherValidations(targetDatabaseObject.GetTable(this.targetTableName));
             }
             return this.GetIsValidQuery();
@@ -73,16 +74,9 @@ namespace MiniSQL.Interfaces
                 }
             }
         }
-
-        public override bool ValidatePrivileges(ISystemePrivilegeModule privilegeModule)
-        {
-            if (!privilegeModule.CheckProfileTablePrivileges(this.username, this.targetDatabase, this.targetTableName, this.GetNeededExecutePrivilege())) this.SaveTheError("Not enought privileges");
-            return this.GetIsValidQuery();
-        }
-
+       
         protected abstract void ValidateParameters(ITable table);
         public abstract void ExecuteParticularQueryAction(ITable table);
-
 
     }
 }

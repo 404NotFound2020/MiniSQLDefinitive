@@ -18,7 +18,7 @@ namespace MiniSQL.Querys
             this.values = new Dictionary<string, string>();
         }
 
-        public override bool ValidateParameters()
+        protected override void Validate()
         {
             string databaseName = this.values[SystemeConstants.PrivilegesOfProfilesOnDatabasesDatabaseNameColumnName];
             if (!this.GetContainer().ExistDatabase(databaseName)) this.SaveTheError(QuerysStringResultConstants.DatabaseDoesntExist(databaseName));
@@ -28,7 +28,6 @@ namespace MiniSQL.Querys
                 if (!table.foreignKey.Evaluate(this.values)) this.SaveTheError(QuerysStringResultConstants.ForeignKeyError);
                 else if (!table.primaryKey.Evaluate(this.values)) this.SaveTheError(QuerysStringResultConstants.PrimaryKeyError);
             }
-            return this.GetIsValidQuery();
         }
 
         public override void ExecuteParticularQueryAction()

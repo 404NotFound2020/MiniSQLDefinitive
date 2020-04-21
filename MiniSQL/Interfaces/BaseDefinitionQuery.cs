@@ -22,11 +22,6 @@ namespace MiniSQL.Interfaces
             throw new NotImplementedException();
         }
 
-        public override bool ValidatePrivileges(ISystemePrivilegeModule privilegeModule)
-        {
-            throw new NotImplementedException();
-        }
-
         public abstract void ExecuteParticularQueryAction();
     }
 }

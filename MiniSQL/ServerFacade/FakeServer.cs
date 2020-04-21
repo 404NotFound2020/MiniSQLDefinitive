@@ -55,7 +55,7 @@ namespace MiniSQL.ServerFacade
         public string ReceiveRequest(string request) {
             AbstractQuery query = QueryFactory.GetQueryFactory().GetQuery(new Request(request), this);           
             query.ValidateParameters();
-            query.ValidatePrivileges((ISystemePrivilegeModule) Systeme.GetSystem().GetSystemeModule(SystemeConstants.SystemePrivilegeModule));            
+            //query.ValidatePrivileges((ISystemePrivilegeModule) Systeme.GetSystem().GetSystemeModule(SystemeConstants.SystemePrivilegeModule));            
             query.Execute();            
             return query.GetResult();        
         }

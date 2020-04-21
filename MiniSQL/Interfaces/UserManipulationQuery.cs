@@ -14,11 +14,6 @@ namespace MiniSQL.Interfaces
             this.userThread = userThread;
         }
 
-        public override bool ValidatePrivileges(ISystemePrivilegeModule privilegeModule)
-        {
-            return true;
-        }
-
         public override void Execute()
         {
             if (this.GetErrorCount() == 0) this.ExecuteParticularQueryAction();

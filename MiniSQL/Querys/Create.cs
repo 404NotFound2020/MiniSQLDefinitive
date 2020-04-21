@@ -19,11 +19,9 @@ namespace MiniSQL.Querys
             this.columnsAndTypes = new Dictionary<string, string>();
         }
 
-        public override bool ValidateParameters()
-        {
-            if (!this.GetContainer().ExistDatabase(this.targetDatabase)) this.SaveTheError(QuerysStringResultConstants.DatabaseDoesntExist(this.targetDatabase));
-            else if (this.GetContainer().GetDatabase(this.targetDatabase).ExistTable(this.targetTableName)) this.SaveTheError(QuerysStringResultConstants.TheTableAlreadyExists(this.targetTableName));
-            return this.GetIsValidQuery();
+        protected override void ValidateParameters(IDatabase database)
+        {           
+            if (database.ExistTable(this.targetTableName)) this.SaveTheError(QuerysStringResultConstants.TheTableAlreadyExists(this.targetTableName));            
         }
 
         public override void ExecuteParticularQueryAction()

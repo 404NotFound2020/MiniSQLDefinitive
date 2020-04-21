@@ -13,12 +13,14 @@ namespace MiniSQL.Interfaces
         {
 
         }
-
-        public override bool ValidatePrivileges(ISystemePrivilegeModule privilegeModule)
+        public override bool ValidateParameters()
         {
-            if (!privilegeModule.CheckIsAutorizedToExecuteSecurityQuery(this.username)) this.SaveTheError(QuerysStringResultConstants.NotSpecialProfileUserToExecuteSecurityQuery);
+            if (!this.GetPrivilegeModule().CheckIsAutorizedToExecuteSecurityQuery(this.username)) this.SaveTheError(QuerysStringResultConstants.NotSpecialProfileUserToExecuteSecurityQuery);
+            else this.Validate();
             return this.GetIsValidQuery();
         }
+
+        protected abstract void Validate();
 
         public override void Execute()
         {

@@ -56,6 +56,7 @@
     <Compile Include="Querys\RevokeDatabasePrivilege.cs" />
     <Compile Include="SystemeClasses\DatabaseBin.cs" />
     <Compile Include="SystemeClasses\DatabaseProxy.cs" />
+    <Compile Include="SystemeClasses\NoCheckPrivilegeModule.cs" />
     <Compile Include="SystemeClasses\SystemeDatabaseContainerModule.cs" />
     <Compile Include="SystemeClasses\SystemeDataInicializationModule.cs" />
     <Compile Include="SystemeClasses\SystemePrivilegeModule.cs" />

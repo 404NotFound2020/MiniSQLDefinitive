@@ -85,6 +85,7 @@ namespace MiniSQL.Querys
                     break;
             }
             query.username = thread.username;
+            query.SetPrivilegeModule((ISystemePrivilegeModule)this.systeme.GetSystemeModule(SystemeConstants.SystemePrivilegeModule));
             return query;
         }
 
