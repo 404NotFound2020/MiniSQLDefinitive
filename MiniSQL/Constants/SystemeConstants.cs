@@ -43,6 +43,7 @@ namespace MiniSQL.Constants
         public const string DatabasesPrivilegesPrivilegeColumnType = TypesKeyConstants.StringTypeKey;
         public const string CreatePrivilegeName = "CREATE";
         public const string DropPrivilegeName = "DROP";
+        public const string DropDatabasePrivilegeName = "DROP DATABASE";
         //Profile privileges on tables table
         public const string PrivilegesOfProfilesOnTablesTableName = "profilesTablePrivileges";
         public const string PrivilegesOfProfilesOnTablesProfileColumnName = "profile";

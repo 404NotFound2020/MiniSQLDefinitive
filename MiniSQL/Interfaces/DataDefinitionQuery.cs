@@ -21,7 +21,7 @@ namespace MiniSQL.Interfaces
 
         public override bool ValidatePrivileges(ISystemePrivilegeModule privilegeModule)
         {
-            return true;
+            return privilegeModule.CheckProfileDatabasePrivileges(this.username, this.targetDatabase, this.GetNeededExecutePrivilege());
         }
 
         public abstract void ExecuteParticularQueryAction();

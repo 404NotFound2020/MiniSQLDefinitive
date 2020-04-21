@@ -30,7 +30,7 @@ namespace MiniSQL.Querys
 
         public override string GetNeededExecutePrivilege()
         {
-            throw new NotImplementedException();
+            return SystemeConstants.DropDatabasePrivilegeName;
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MiniSQL.Constants;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,7 +16,8 @@ namespace MiniSQL.Interfaces
 
         public override bool ValidatePrivileges(ISystemePrivilegeModule privilegeModule)
         {
-            return true;
+            if (!privilegeModule.CheckIsAutorizedToExecuteSecurityQuery(this.username)) this.SaveTheError(QuerysStringResultConstants.NotSpecialProfileUserToExecuteSecurityQuery);
+            return this.GetIsValidQuery();
         }
 
         public override void Execute()

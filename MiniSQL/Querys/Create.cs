@@ -30,13 +30,9 @@ namespace MiniSQL.Querys
         {
             Table newTable = new Table(this.targetTableName);
             IEnumerator<KeyValuePair<string, string>> enumerator = columnsAndTypes.GetEnumerator();
-            while (enumerator.MoveNext())
-            {
-                newTable.AddColumn(new Column(enumerator.Current.Key, DataTypesFactory.GetDataTypesFactory().GetDataType(enumerator.Current.Value)));
-            }
+            while (enumerator.MoveNext()) newTable.AddColumn(new Column(enumerator.Current.Key, DataTypesFactory.GetDataTypesFactory().GetDataType(enumerator.Current.Value)));
             IDatabase afectedDatabase = this.GetContainer().GetDatabase(this.targetDatabase);
             afectedDatabase.AddTable(newTable);
-            //this.GetContainer().SaveTable(afectedDatabase, newTable);
             this.SetResult(QuerysStringResultConstants.TableWasCreated(this.targetDatabase, this.targetTableName));
         }
 
@@ -48,7 +44,7 @@ namespace MiniSQL.Querys
 
         public override string GetNeededExecutePrivilege()
         {
-            throw new NotImplementedException();
+            return SystemeConstants.CreatePrivilegeName;
         }
     }
 }

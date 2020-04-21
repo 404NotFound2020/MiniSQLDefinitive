@@ -37,6 +37,16 @@ namespace UnitTests.Test.TestObjectsContructor
             
         }
 
+        public bool CheckIsAutorizedToExecuteSecurityQuery(string username)
+        {
+            return true;
+        }
+
+        public bool CheckProfileDatabasePrivileges(string username, string database, string privilegeType)
+        {
+            return true;
+        }
+
         public bool CheckProfileTablePrivileges(string username, string databaseName, string tableName, string privilegeType)
         {
             return true;

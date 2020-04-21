@@ -82,13 +82,13 @@ namespace MiniSQL.SystemeClasses
 
         public void ActToRemove(IDatabase database)
         {
-            Delete delete = new Delete(((ISystemeDatabaseModule)this.systeme.GetSystemeModule(SystemeConstants.SystemeDatabaseModule)).GetDatabaseContainer());
+            Delete delete = new Delete(((ISystemeDatabaseModule) this.systeme.GetSystemeModule(SystemeConstants.SystemeDatabaseModule)).GetDatabaseContainer());
             delete.targetDatabase = SystemeConstants.SystemDatabaseName;
             delete.targetTableName = SystemeConstants.PrivilegesOfProfilesOnTablesTableName;
             delete.whereClause.AddCritery(SystemeConstants.PrivilegesOfProfilesOnTablesDatabaseNameColumnName, database.databaseName, Operator.equal);
             delete.Execute();
 
-            delete = new Delete(((ISystemeDatabaseModule)this.systeme.GetSystemeModule(SystemeConstants.SystemeDatabaseModule)).GetDatabaseContainer());
+            delete = new Delete(((ISystemeDatabaseModule) this.systeme.GetSystemeModule(SystemeConstants.SystemeDatabaseModule)).GetDatabaseContainer());
             delete.targetDatabase = SystemeConstants.SystemDatabaseName;
             delete.targetTableName = SystemeConstants.PrivilegesOfProfilesOnDatabasesTableName;
             delete.whereClause.AddCritery(SystemeConstants.PrivilegesOfProfilesOnDatabasesDatabaseNameColumnName, database.databaseName, Operator.equal);
@@ -112,8 +112,47 @@ namespace MiniSQL.SystemeClasses
 
         public bool CheckProfileTablePrivileges(string username, string databaseName, string tableName, string privilegeType)
         {
-            bool b = true;
+            bool b = false;
+            IDatabase systemDatabase = ((ISystemeDatabaseModule)this.systeme.GetSystemeModule(SystemeConstants.SystemeDatabaseModule)).GetDatabase(SystemeConstants.SystemDatabaseName);
+            Column privilegesOfProfileColumn = systemDatabase.GetTable(SystemeConstants.PrivilegesOfProfilesOnTablesTableName).GetColumn(SystemeConstants.PrivilegesOfProfilesOnTablesPrivilegeColumnName);
+            if (privilegesOfProfileColumn.ExistCells(privilegeType))
+            {
+                List<Cell> cellList = systemDatabase.GetTable(SystemeConstants.PrivilegesOfProfilesOnTablesTableName).GetColumn(SystemeConstants.PrivilegesOfProfilesOnTablesPrivilegeColumnName).GetCells(privilegeType);
+                Dictionary<string, string> keysAndValues = new Dictionary<string, string>();
+                keysAndValues.Add(SystemeConstants.PrivilegesOfProfilesOnTablesProfileColumnName, this.GetUserProfile(username, systemDatabase));
+                keysAndValues.Add(SystemeConstants.PrivilegesOfProfilesOnTablesDatabaseNameColumnName, databaseName);
+                keysAndValues.Add(SystemeConstants.PrivilegesOfProfilesOnTablesTableNameColumnName, tableName);
+                b = this.FastSearch(cellList, keysAndValues, 0, false);
+            }
+            return b;
+        }
 
+        public bool CheckProfileDatabasePrivileges(string username, string database, string privilegeType)
+        {
+            return true;
+        }
+
+        public bool CheckIsAutorizedToExecuteSecurityQuery(string username)
+        {
+            IDatabase systemDatabase = ((ISystemeDatabaseModule) this.systeme.GetSystemeModule(SystemeConstants.SystemeDatabaseModule)).GetDatabase(SystemeConstants.SystemDatabaseName);
+            return systemDatabase.GetTable(SystemeConstants.NoRemovableProfilesTableName).GetColumn(SystemeConstants.ProfileNameColumn).ExistCells(this.GetUserProfile(username, systemDatabase));
+        }
+
+        private string GetUserProfile(string username, IDatabase systemDatabase)
+        {
+            return systemDatabase.GetTable(SystemeConstants.UsersTableName).GetColumn(SystemeConstants.UsersNameColumnName).GetCells(username)[0].row.GetCell(SystemeConstants.UsersProfileColumnName).data;
+        }
+
+        private bool FastSearch(List<Cell> cellsRows, Dictionary<string, string> keyValuePairs, int numOfRow, bool b) {
+            if (!(numOfRow == cellsRows.Count) && !b)
+            {
+                Row row = cellsRows[numOfRow].row;
+                IEnumerator<string> keysEnum = keyValuePairs.Keys.GetEnumerator();
+                bool c = true;
+                while (keysEnum.MoveNext() && c) c = row.GetCell(keysEnum.Current).data.Equals(keyValuePairs[keysEnum.Current]);
+                keysEnum.Dispose();
+                b = FastSearch(cellsRows, keyValuePairs, numOfRow + 1, c);
+            } 
             return b;
         }
 
@@ -136,5 +175,7 @@ namespace MiniSQL.SystemeClasses
         {
             return this.systeme;
         }
+
+
     }
 }

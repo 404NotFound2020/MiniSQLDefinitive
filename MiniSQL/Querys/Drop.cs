@@ -25,17 +25,17 @@ namespace MiniSQL.Querys
             this.SetResult(QuerysStringResultConstants.TableSucesfullyDeleted(table.tableName));
         }
 
-        public override string GetNeededExecutePrivilege()
-        {
-            throw new NotImplementedException();
-        }
-
         public override bool ValidateParameters()
         {
             if (!this.GetContainer().ExistDatabase(this.targetDatabase)) this.SaveTheError(QuerysStringResultConstants.DatabaseDoesntExist(this.targetDatabase));
             else if (!this.GetContainer().GetDatabase(this.targetDatabase).ExistTable(this.targetTableName)) this.SaveTheError(QuerysStringResultConstants.TableDoensExist(this.targetDatabase, this.targetTableName));
             else if (!this.GetContainer().GetDatabase(this.targetDatabase).GetTable(this.targetTableName).IsDropable()) this.SaveTheError("Cannot drop, " + QuerysStringResultConstants.ForeignKeyError);
             return this.GetIsValidQuery();
+        }
+
+        public override string GetNeededExecutePrivilege()
+        {
+            return SystemeConstants.DropPrivilegeName;
         }
 
     }

@@ -27,6 +27,7 @@ namespace MiniSQL.Constants
         public const string SecurityProfileDeleted = "Security profile deleted";
         public const string SecurityUserDeleted = "Security user deleted";
         public const string UserLogged = "Logged";
+        public const string NotSpecialProfileUserToExecuteSecurityQuery = "You cannot execute this";
 
         public static string WhereClauseColumnDoensExist(string columnName) 
         {

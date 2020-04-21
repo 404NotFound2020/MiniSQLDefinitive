@@ -117,7 +117,7 @@ namespace MiniSQL.Initializer
             Column privilegesNameColumn = new Column(SystemeConstants.DatabasesPrivilegesPrivilegeNameColumnName, DataTypesFactory.GetDataTypesFactory().GetDataType(SystemeConstants.DatabasesPrivilegesPrivilegeColumnType));
             table.AddColumn(privilegesNameColumn);
             table.primaryKey.AddKey(privilegesNameColumn);
-            string[] privilegesList = new string[] { SystemeConstants.CreatePrivilegeName, SystemeConstants.DropPrivilegeName };
+            string[] privilegesList = new string[] { SystemeConstants.CreatePrivilegeName, SystemeConstants.DropPrivilegeName, SystemeConstants.DropDatabasePrivilegeName };
             Row row;
             for(int i = 0; i < privilegesList.Length; i++)
             {

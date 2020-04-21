@@ -28,6 +28,7 @@ namespace MiniSQL.Querys
         {
             this.userThread.username = this.targetUsername;
             this.SetResult(QuerysStringResultConstants.UserLogged);
+            this.SetResult(this.username);
         }
 
         public override string GetNeededExecutePrivilege()

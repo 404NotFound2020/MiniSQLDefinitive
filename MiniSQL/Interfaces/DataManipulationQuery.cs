@@ -76,7 +76,8 @@ namespace MiniSQL.Interfaces
 
         public override bool ValidatePrivileges(ISystemePrivilegeModule privilegeModule)
         {
-            return true;
+            if (!privilegeModule.CheckProfileTablePrivileges(this.username, this.targetDatabase, this.targetTableName, this.GetNeededExecutePrivilege())) this.SaveTheError("Not enought privileges");
+            return this.GetIsValidQuery();
         }
 
         protected abstract void ValidateParameters(ITable table);
