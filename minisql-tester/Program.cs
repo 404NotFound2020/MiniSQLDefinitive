@@ -69,6 +69,7 @@ namespace minisql_tester
             result = result + "TOTAL TIME:" + seconds + "s";
             File.WriteAllText(outFilePath, result);
             Console.WriteLine(result);
+            FakeServer.GetFakeServer().SaveShit();
         }
         
         private static double GetDiffAndAct(DateTime date, DateTime date2)
