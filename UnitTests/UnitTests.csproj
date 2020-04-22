@@ -100,6 +100,7 @@
     <Compile Include="Test\Querys\TestRevokeDatabasePrivilege.cs" />
     <Compile Include="Test\Querys\TestRevokePrivilege.cs" />
     <Compile Include="Test\Querys\TestCreateUser.cs" />
+    <Compile Include="Test\Querys\TestLogin.cs" />
     <Compile Include="Test\SaveDataFormatManagers\TestNothingToDoManager.cs" />
     <Compile Include="Test\SaveDataFormatManagers\StringEscapedManager.cs" />
     <Compile Include="Test\TableRestrictions\TestPrimaryKey.cs" />
