@@ -51,7 +51,7 @@ namespace MiniSQL.SystemeClasses
         private void CreateSystemDatabases(ISystemeDatabaseModule databaseModule)
         {
             IDatabaseContainer databaseContainer = databaseModule.GetDatabaseContainer();
-            if (!databaseContainer.ExistDatabase(SystemeConstants.SystemDatabaseName)) databaseContainer.AddDatabase(DefaultDataConstructor.CreateSystemDatabase());
+            if (!databaseContainer.ExistDatabase(SystemeConstants.SystemDatabaseName)) databaseModule.AddDatabase(DefaultDataConstructor.CreateSystemDatabase());
             else { DefaultDataConstructor.CompleteSystemDatabase(databaseModule.GetDatabaseContainer().GetDatabase(SystemeConstants.SystemDatabaseName)); }
         }
 

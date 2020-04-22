@@ -21,6 +21,7 @@ namespace MiniSQL.Initializer
             systemDatabase.AddTable(CreateUsersTable(profilesTable));          
             systemDatabase.AddTable(CreateNoRemovableUsersTable(systemDatabase.GetTable(SystemeConstants.UsersTableName)));
             systemDatabase.AddTable(CreateNoRemovableProfilesTable(profilesTable));
+            systemDatabase.AddTable(CreateOrdinaryNoRemovableProfilesTable(profilesTable));
             systemDatabase.AddTable(CreatePrivilegesTable());
             systemDatabase.AddTable(CreatePrivilegesOfProfilesTable(profilesTable, systemDatabase.GetTable(SystemeConstants.PrivilegesTableName)));
             systemDatabase.AddTable(CreateDatabasesPrivilegesTable());
@@ -34,6 +35,7 @@ namespace MiniSQL.Initializer
             if (!database.ExistTable(SystemeConstants.UsersTableName)) database.AddTable(DefaultDataConstructor.CreateUsersTable(database.GetTable(SystemeConstants.ProfilesTableName)));
             if (!database.ExistTable(SystemeConstants.NoRemovableUsersTableName)) database.AddTable(DefaultDataConstructor.CreateNoRemovableUsersTable(database.GetTable(SystemeConstants.UsersTableName)));
             if (!database.ExistTable(SystemeConstants.NoRemovableProfilesTableName)) database.AddTable(DefaultDataConstructor.CreateNoRemovableProfilesTable(database.GetTable(SystemeConstants.ProfilesTableName)));
+            if (!database.ExistTable(SystemeConstants.OrdinaryNoRemovableProfilesTableName)) database.AddTable(DefaultDataConstructor.CreateOrdinaryNoRemovableProfilesTable(database.GetTable(SystemeConstants.ProfilesTableName)));
             if (!database.ExistTable(SystemeConstants.PrivilegesTableName)) database.AddTable(DefaultDataConstructor.CreatePrivilegesTable());
             if (!database.ExistTable(SystemeConstants.PrivilegesOfProfilesOnTablesTableName)) database.AddTable(DefaultDataConstructor.CreatePrivilegesOfProfilesTable(database.GetTable(SystemeConstants.ProfilesTableName), database.GetTable(SystemeConstants.PrivilegesTableName)));
             if (!database.ExistTable(SystemeConstants.DatabasesPrivilegesTableName)) database.AddTable(DefaultDataConstructor.CreateDatabasesPrivilegesTable());
@@ -56,6 +58,11 @@ namespace MiniSQL.Initializer
             row.GetCell(SystemeConstants.UsersPasswordColumnName).data = SystemeConstants.AdminPassword;
             row.GetCell(profileColumn.columnName).data = SystemeConstants.DefaultProfile;
             table.AddRow(row);
+            row = table.CreateRowDefinition();
+            row.GetCell(userColumn.columnName).data = SystemeConstants.AnonimousUser;
+            row.GetCell(SystemeConstants.UsersPasswordColumnName).data = SystemeConstants.AnonimousPassword;
+            row.GetCell(profileColumn.columnName).data = SystemeConstants.AnonimousProfile;
+            table.AddRow(row);
             return table;
         }
 
@@ -67,7 +74,10 @@ namespace MiniSQL.Initializer
             table.foreignKey.AddForeignKey(table.GetColumn(SystemeConstants.UsersNameColumnName), usersTable.GetColumn(SystemeConstants.UsersNameColumnName));                
             Row row = table.CreateRowDefinition();
             row.GetCell(SystemeConstants.UsersNameColumnName).data = SystemeConstants.AdminUser;
-            table.AddRow(row);           
+            table.AddRow(row);
+            row = table.CreateRowDefinition();
+            row.GetCell(SystemeConstants.UsersNameColumnName).data = SystemeConstants.AnonimousUser;
+            table.AddRow(row);
             return table;
         }
 
@@ -78,6 +88,9 @@ namespace MiniSQL.Initializer
             table.primaryKey.AddKey(table.GetColumn(SystemeConstants.ProfileNameColumn));
             Row row = table.CreateRowDefinition();
             row.GetCell(SystemeConstants.ProfileNameColumn).data = SystemeConstants.DefaultProfile;
+            table.AddRow(row);
+            row = table.CreateRowDefinition();
+            row.GetCell(SystemeConstants.ProfileNameColumn).data = SystemeConstants.AnonimousProfile;
             table.AddRow(row);
             return table;
         }
@@ -90,6 +103,18 @@ namespace MiniSQL.Initializer
             table.foreignKey.AddForeignKey(table.GetColumn(SystemeConstants.ProfileNameColumn), profilesTable.GetColumn(SystemeConstants.ProfileNameColumn));
             Row row = table.CreateRowDefinition();
             row.GetCell(SystemeConstants.ProfileNameColumn).data = SystemeConstants.DefaultProfile;
+            table.AddRow(row);
+            return table;
+        }
+
+        public static Table CreateOrdinaryNoRemovableProfilesTable(ITable profilesTable)
+        {
+            Table table = new Table(SystemeConstants.OrdinaryNoRemovableProfilesTableName);
+            table.AddColumn(new Column(SystemeConstants.ProfileNameColumn, DataTypesFactory.GetDataTypesFactory().GetDataType(SystemeConstants.ProfileNameColumnType)));
+            table.primaryKey.AddKey(table.GetColumn(SystemeConstants.ProfileNameColumn));
+            table.foreignKey.AddForeignKey(table.GetColumn(SystemeConstants.ProfileNameColumn), profilesTable.GetColumn(SystemeConstants.ProfileNameColumn));
+            Row row = table.CreateRowDefinition();
+            row.GetCell(SystemeConstants.ProfileNameColumn).data = SystemeConstants.AnonimousProfile;
             table.AddRow(row);
             return table;
         }

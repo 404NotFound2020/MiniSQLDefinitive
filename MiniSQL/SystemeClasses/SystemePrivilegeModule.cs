@@ -32,7 +32,7 @@ namespace MiniSQL.SystemeClasses
         }
 
         public void ActToAdd(IDatabase database)
-        {
+        {            
             ISystemeDatabaseModule databaseModule = (ISystemeDatabaseModule)this.systeme.GetSystemeModule(SystemeConstants.SystemeDatabaseModule);
             IDatabase systemDatabase = databaseModule.GetDatabaseContainer().GetDatabase(SystemeConstants.SystemDatabaseName);
             ITable profilesPrivilegesOnDatabasesTable = systemDatabase.GetTable(SystemeConstants.PrivilegesOfProfilesOnDatabasesTableName);
