@@ -35,5 +35,16 @@ steps:
       cd Bundler/bin/Release
       Bundler.exe
 
+- task: GitHubRelease@1
+  inputs:
+    gitHubConnection: 'github.com_AitorIs'
+    repositoryName: '$(Build.Repository.Name)'
+    action: 'edit'
+    target: '$(Build.SourceVersion)'
+    tag: '$(Build.BuildNumber)'
+    title: 'MiniSQL'
+    assets: '$(Build.SourcesDirectory)/*.zip'
+    changeLogCompareToRelease: 'lastFullRelease'
+    changeLogType: 'commitBased'
 
 
