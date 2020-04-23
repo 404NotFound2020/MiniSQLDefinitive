@@ -11,6 +11,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "UnitTests\Unit
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "minisql-tester", "minisql-tester\minisql-tester.csproj", "{A638EBDE-7228-4BE6-9237-57BA2772FD38}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "instalers", "instalers", "{28B45BF4-8A5A-4D8C-BD44-192730E2C440}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bundler", "Bundler\Bundler.csproj", "{69405534-7229-4A57-913E-A89C080914EC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,9 +37,16 @@ Global
 		{A638EBDE-7228-4BE6-9237-57BA2772FD38}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A638EBDE-7228-4BE6-9237-57BA2772FD38}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A638EBDE-7228-4BE6-9237-57BA2772FD38}.Release|Any CPU.Build.0 = Release|Any CPU
+		{69405534-7229-4A57-913E-A89C080914EC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{69405534-7229-4A57-913E-A89C080914EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{69405534-7229-4A57-913E-A89C080914EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{69405534-7229-4A57-913E-A89C080914EC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{69405534-7229-4A57-913E-A89C080914EC} = {28B45BF4-8A5A-4D8C-BD44-192730E2C440}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D9D8B5D7-17EF-4E18-9428-FC828C0A2BAD}

@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // La información general de un ensamblado se controla mediante el siguiente 
 // conjunto de atributos. Cambie estos valores de atributo para modificar la información
 // asociada a un ensamblado.
-[assembly: AssemblyTitle("minisql-tester")]
+[assembly: AssemblyTitle("Bundler")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("minisql-tester")]
+[assembly: AssemblyProduct("Bundler")]
 [assembly: AssemblyCopyright("Copyright ©  2020")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // El siguiente GUID sirve como id. de typelib si este proyecto se expone a COM.
-[assembly: Guid("a638ebde-7228-4be6-9237-57ba2772fd38")]
+[assembly: Guid("69405534-7229-4a57-913e-a89c080914ec")]
 
 // La información de versión de un ensamblado consta de los cuatro valores siguientes:
 //
@@ -33,5 +33,4 @@ using System.Runtime.InteropServices;
 // utilizando el carácter "*", como se muestra a continuación:
 // [assembly: AssemblyVersion("1.0.*")]
 [assembly: AssemblyVersion("1.0.0.0")]
-[assembly: AssemblyFileVersion("0.0.0.1")]
-[assembly: AssemblyInformationalVersion("0.0.0.1")]
+[assembly: AssemblyFileVersion("1.0.0.0")]
