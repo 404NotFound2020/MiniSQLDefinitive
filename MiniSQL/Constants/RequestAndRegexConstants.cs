@@ -77,8 +77,8 @@ namespace MiniSQL.Constants
         public static string deletePattern = "^(" + queryGroup + deleteQueryIdentificator + ") " + fromPattern + "?;$";
         public static string updatePattern = "^(" + queryGroup + updateQueryIdentificator + ") " + databaseRegexPart + "(" + tableGroup + NAINCG + "+) SET (" + updatedColumnGroup + NAINCG + "+)=(?:" + updateValueRegexPart + ")(?:, (" + updatedColumnGroup + NAINCG + "+)=(?:" + updateValueRegexPart + "))* " + wherePatern + ";$";
         public static string createPattern = "^(" + queryGroup + createTableQueryIdentificator + ") " + databaseRegexPart + "(" + tableGroup + NAINCG + "+) \\((" + columnGroup + NAINCG + "+) (" + columnTypeGroup + columnsTypes + ")(?:, (" + columnGroup + NAINCG + "+) (" + columnTypeGroup + columnsTypes + "))*\\);$";
-        public static string createDatabasePattern = "^(" + queryGroup + createDatabaseQueryIdentificator + ") (" + databaseGroup + NAINCG + "+);";
-        public static string dropDatabasePattern = "^(" + queryGroup + dropDatabaseQueryIdentificator + ") (" + databaseGroup + NAINCG + "+);";
+        public static string createDatabasePattern = "^(" + queryGroup + createDatabaseQueryIdentificator + ") (" + databaseGroup + NAINCG + "+);$";
+        public static string dropDatabasePattern = "^(" + queryGroup + dropDatabaseQueryIdentificator + ") (" + databaseGroup + NAINCG + "+);$";
         public static string createSecurityProfile = "^(" + queryGroup + createSecurityProfileQueryIdentificator + ") '(" + valueGroup + "[^']+)';$";
         public static string dropSecurityProfile = "^(" + queryGroup + dropSecurityProfileQueryIdentificator + ") '(" + valueGroup + "[^']+)';$";
         public static string deleteUser = "^(" + queryGroup + deleteUserQueryIdentificator + ") '(" + usernameGroup + "[^']+)';$";
