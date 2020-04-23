@@ -31,7 +31,9 @@ steps:
 
 - task: CmdLine@2
   inputs:
-    script: 'dir'
+    script: |
+      cd Bundler/bin/Release
+      Bundler.exe
 
 
 
