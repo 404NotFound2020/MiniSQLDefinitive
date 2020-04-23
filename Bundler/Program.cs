@@ -25,7 +25,7 @@ namespace Bundler
             files.Add(RelPathToSolutionRootFolder + morePath + "minisql-tester.exe");
             files.Add(RelPathToSolutionRootFolder + morePath + "ClientConsole.exe");
             files.Add(RelPathToSolutionRootFolder + morePath + "MiniSQL.dll");
-            string outputFile = RelPathToSolutionRootFolder + "TesterReleases/" + "404-" + version + ".zip";
+            string outputFile = RelPathToSolutionRootFolder + "404-" + version + ".zip";
             Console.WriteLine("Compressing files");
             Compress(outputFile, files);
             Console.WriteLine("Finished");
