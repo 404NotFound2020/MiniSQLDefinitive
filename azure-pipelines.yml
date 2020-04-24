@@ -29,22 +29,5 @@ steps:
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
 
-- task: CmdLine@2
-  inputs:
-    script: |
-      cd Bundler/bin/Release
-      Bundler.exe
-
-- task: GitHubRelease@1
-  inputs:
-    gitHubConnection: 'github.com_AitorIs'
-    repositoryName: '$(Build.Repository.Name)'
-    action: 'edit'
-    target: '$(Build.SourceVersion)'
-    tag: '$(Build.BuildNumber)'
-    title: 'MiniSQL'
-    assets: '$(Build.SourcesDirectory)/*.zip'
-    changeLogCompareToRelease: 'lastFullRelease'
-    changeLogType: 'commitBased'
 
 
