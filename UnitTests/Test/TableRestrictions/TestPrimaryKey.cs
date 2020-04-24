@@ -9,7 +9,7 @@ using UnitTests.Test.TestObjectsContructor;
 namespace UnitTests.Test.TableRestrictions
 {
     [TestClass]
-    public class UnitTest1
+    public class TestPrimaryKey
     {
         private static string[] testTableColumns = new string[] { "c1", "c2", "c3" };
         private static string tableName = "testTable";
