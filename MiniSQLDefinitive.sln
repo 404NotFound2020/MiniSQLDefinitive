@@ -15,6 +15,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "instalers", "instalers", "{
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bundler", "Bundler\Bundler.csproj", "{69405534-7229-4A57-913E-A89C080914EC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TCPServer", "TCPServer\TCPServer.csproj", "{2297C7EF-FCCF-4E73-B110-342400E4CC89}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -41,6 +43,10 @@ Global
 		{69405534-7229-4A57-913E-A89C080914EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{69405534-7229-4A57-913E-A89C080914EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{69405534-7229-4A57-913E-A89C080914EC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2297C7EF-FCCF-4E73-B110-342400E4CC89}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2297C7EF-FCCF-4E73-B110-342400E4CC89}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2297C7EF-FCCF-4E73-B110-342400E4CC89}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2297C7EF-FCCF-4E73-B110-342400E4CC89}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
