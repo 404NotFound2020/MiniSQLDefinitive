@@ -3,6 +3,7 @@ using MiniSQL.Interfaces;
 using MiniSQL.Querys;
 using MiniSQL.ServerFacade;
 using MiniSQL.SystemeClasses;
+using NetworkUtilities.Requests;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,7 +26,7 @@ namespace TCPServer
             regexMessage = CreateRegexXmlMessage(new string[] { RequestAndRegexConstants.selectPattern, RequestAndRegexConstants.insertPattern, RequestAndRegexConstants.updatePattern, RequestAndRegexConstants.createPattern, RequestAndRegexConstants.deletePattern, RequestAndRegexConstants.dropPattern, RequestAndRegexConstants.createDatabasePattern, RequestAndRegexConstants.dropDatabasePattern, RequestAndRegexConstants.deleteUser, RequestAndRegexConstants.createUser, RequestAndRegexConstants.grantDatabasePrivilege, RequestAndRegexConstants.grantTablePrivilege, RequestAndRegexConstants.revokeTablePrivilege, RequestAndRegexConstants.revokeDatabasePrivilege, RequestAndRegexConstants.createSecurityProfile, RequestAndRegexConstants.dropSecurityProfile, RequestAndRegexConstants.login, RequestAndRegexConstants.exit });
             InitializeSysteme();
             QueryFactory.GetQueryFactory().SetSysteme(Systeme.GetSystem());
-            InitialiceListener("127.0.0.1", 8374);
+            InitialiceListener("127.0.0.1", 8088);
             RunServer();
 
         }
@@ -58,6 +59,7 @@ namespace TCPServer
             tcpListener.Start();
             while (true) {
                 UserThread userThread = new UserThread(tcpListener.AcceptTcpClient());
+                Console.WriteLine("conectaroc");
                 userThread.SendMessage(regexMessage);
                 userThread.Run();
                
@@ -76,7 +78,7 @@ namespace TCPServer
 
         public static string ReceiveRequest(UserThread thread, string request)
         {
-            AbstractQuery query = QueryFactory.GetQueryFactory().GetQuery(new Request(request), thread);
+            AbstractQuery query = QueryFactory.GetQueryFactory().GetQuery(new XmlMessage(request), thread);
             Console.WriteLine(thread.username);
             query.ValidateParameters();
             query.Execute();

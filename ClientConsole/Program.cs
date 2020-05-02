@@ -1,6 +1,7 @@
 ﻿using ClientConsole.ConsoleStuff;
 using MiniSQL.Initializer;
 using MiniSQL.ServerFacade;
+using NetworkUtilities.Requests;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -27,6 +28,8 @@ namespace ClientConsole
             tcpClient = new TcpClient(ip, port);
             NetworkStream stream = tcpClient.GetStream();
             string regexResponse = ReceiveMessage(stream, 256);
+            //Console.WriteLine(regexResponse);
+            //Console.ReadLine();
             SetRegex(regexResponse);
             StartConsole(stream);
         }
@@ -59,10 +62,10 @@ namespace ClientConsole
         {
             Byte[] data = new Byte[bufferSize];
             Int32 bytes;
-            string responseData = "";
+            string responseData = "";           
             do
-            {
-                bytes = stream.Read(data, 0, data.Length);
+            {                
+                bytes = stream.Read(data, 0, data.Length);                
                 responseData = responseData + System.Text.Encoding.ASCII.GetString(data, 0, bytes);
             }
             while (stream.DataAvailable);
@@ -71,7 +74,7 @@ namespace ClientConsole
 
         private static void SetRegex(string message)
         {
-            Request request = new Request(message);
+            XmlMessage request = new XmlMessage(message);
             QueryVerifier queryVerifier = QueryVerifier.GetQueryVerifier();
             string[] regex = request.GetElementsContentByTagName("regex");
             for (int i = 0; i < regex.Length; i++)
@@ -92,19 +95,17 @@ namespace ClientConsole
                 {
                     msg = System.Text.Encoding.ASCII.GetBytes(TransactionCreator.GetTransactionCreator().CreateGroupDependingXML(QueryVerifier.GetQueryVerifier().queryMatch));
                     stream.Write(msg, 0, msg.Length);
-                    message = (new Request(ReceiveMessage(stream, 256))).GetElementsContentByTagName("message")[0];
+                    message = (new XmlMessage(ReceiveMessage(stream, 256))).GetElementsContentByTagName("message")[0];
                 }
                 Console.WriteLine(message);
             }
             QueryVerifier.GetQueryVerifier().EvaluateQuery(lineOfCocain);
             msg = System.Text.Encoding.ASCII.GetBytes(TransactionCreator.GetTransactionCreator().CreateGroupDependingXML(QueryVerifier.GetQueryVerifier().queryMatch));
             stream.Write(msg, 0, msg.Length);
-            message = (new Request(ReceiveMessage(stream, 256))).GetElementsContentByTagName("message")[0];
+            message = (new XmlMessage(ReceiveMessage(stream, 256))).GetElementsContentByTagName("message")[0];
             Console.WriteLine(message);
             tcpClient.Close();
         }
-
-
 
     }
 }

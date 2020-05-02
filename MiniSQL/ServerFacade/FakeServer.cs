@@ -3,6 +3,7 @@ using MiniSQL.Initializer;
 using MiniSQL.Interfaces;
 using MiniSQL.Querys;
 using MiniSQL.SystemeClasses;
+using NetworkUtilities.Requests;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -53,7 +54,7 @@ namespace MiniSQL.ServerFacade
         }
 
         public string ReceiveRequest(string request) {
-            AbstractQuery query = QueryFactory.GetQueryFactory().GetQuery(new Request(request), this);           
+            AbstractQuery query = QueryFactory.GetQueryFactory().GetQuery(new XmlMessage(request), this);           
             query.ValidateParameters();      
             query.Execute();            
             return query.GetResult();        

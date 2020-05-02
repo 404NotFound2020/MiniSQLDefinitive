@@ -2,6 +2,7 @@
 using MiniSQL.Initializer;
 using MiniSQL.Interfaces;
 using MiniSQL.ServerFacade;
+using NetworkUtilities.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,7 +27,7 @@ namespace MiniSQL.Querys
             return queryFactory;
         }
 
-        public AbstractQuery GetQuery(Request request, IUserThread thread)
+        public AbstractQuery GetQuery(IMessage request, IUserThread thread)
         {
             IDatabaseContainer container = ((ISystemeDatabaseModule)this.systeme.GetSystemeModule(SystemeConstants.SystemeDatabaseModule)).GetDatabaseContainer();
             AbstractQuery query = null;
@@ -88,13 +89,12 @@ namespace MiniSQL.Querys
                     query = CreateExit(container, thread, (ISystemeDatabaseModule) systeme.GetSystemeModule(SystemeConstants.SystemeDatabaseModule));
                     break;
             }
-            Console.WriteLine(queryTag);
             query.username = thread.username;
             query.SetPrivilegeModule((ISystemePrivilegeModule)this.systeme.GetSystemeModule(SystemeConstants.SystemePrivilegeModule));
             return query;
         }
 
-        private Select CreateSelectQuery(Request request, IDatabaseContainer container)
+        private Select CreateSelectQuery(IMessage request, IDatabaseContainer container)
         {
             Select select = new Select(container);
             this.SetDatabaseAndTableTarget(request, select);
@@ -107,7 +107,7 @@ namespace MiniSQL.Querys
             return select;
         }
 
-        private Insert CreateInsertQuery(Request request, IDatabaseContainer container)
+        private Insert CreateInsertQuery(IMessage request, IDatabaseContainer container)
         {
             Insert insert = new Insert(container);
             this.SetDatabaseAndTableTarget(request, insert);
@@ -119,7 +119,7 @@ namespace MiniSQL.Querys
             return insert;
         }
 
-        private Update CreateUpdateQuery(Request request, IDatabaseContainer container)
+        private Update CreateUpdateQuery(IMessage request, IDatabaseContainer container)
         {
             Update update = new Update(container);
             this.SetDatabaseAndTableTarget(request, update);
@@ -133,7 +133,7 @@ namespace MiniSQL.Querys
             return update;
         }
 
-        private Delete CreateDeleteQuery(Request request, IDatabaseContainer container)
+        private Delete CreateDeleteQuery(IMessage request, IDatabaseContainer container)
         {
             Delete delete = new Delete(container);
             this.SetDatabaseAndTableTarget(request, delete);
@@ -141,14 +141,14 @@ namespace MiniSQL.Querys
             return delete;
         }
 
-        private Drop CreateDropTableQuery(Request request, IDatabaseContainer container)
+        private Drop CreateDropTableQuery(IMessage request, IDatabaseContainer container)
         {
             Drop drop = new Drop(container);
             this.SetDatabaseAndTableTarget(request, drop);
             return drop;
         }
 
-        private Create CreateCreateTableQuery(Request request, IDatabaseContainer container)
+        private Create CreateCreateTableQuery(IMessage request, IDatabaseContainer container)
         {
             Create create = new Create(container);
             this.SetDatabaseAndTableTarget(request, create);
@@ -161,21 +161,21 @@ namespace MiniSQL.Querys
             return create;
         }
 
-        private CreateDatabase CreateDatabaseQuery(Request request, IDatabaseContainer container)
+        private CreateDatabase CreateDatabaseQuery(IMessage request, IDatabaseContainer container)
         {
             CreateDatabase createDatabase = new CreateDatabase(container);
             createDatabase.targetDatabase = request.GetElementsContentByTagName(RequestAndRegexConstants.databaseTagName)[0];
             return createDatabase;
         }
 
-        private DropDatabase DropDatabaseQuery(Request request, IDatabaseContainer container)
+        private DropDatabase DropDatabaseQuery(IMessage request, IDatabaseContainer container)
         {
             DropDatabase dropDatabase = new DropDatabase(container);
             dropDatabase.targetDatabase = request.GetElementsContentByTagName(RequestAndRegexConstants.databaseTagName)[0];
             return dropDatabase;
         }
 
-        private CreateSecurityProfile CreateSecurityProfileQuery(Request request, IDatabaseContainer container)
+        private CreateSecurityProfile CreateSecurityProfileQuery(IMessage request, IDatabaseContainer container)
         {
             CreateSecurityProfile createSecurityProfile = new CreateSecurityProfile(container);
             createSecurityProfile.targetDatabase = SystemeConstants.SystemDatabaseName;
@@ -184,7 +184,7 @@ namespace MiniSQL.Querys
             return createSecurityProfile;
         }
 
-        private CreateUser CreateUserQuery(Request request, IDatabaseContainer container)
+        private CreateUser CreateUserQuery(IMessage request, IDatabaseContainer container)
         {
             CreateUser createUser = new CreateUser(container);
             createUser.targetDatabase = SystemeConstants.SystemDatabaseName;
@@ -193,7 +193,7 @@ namespace MiniSQL.Querys
             return createUser;
         }
 
-        private DeleteUser CreateDeleteUserQuery(Request request, IDatabaseContainer container)
+        private DeleteUser CreateDeleteUserQuery(IMessage request, IDatabaseContainer container)
         {
             DeleteUser deleteUser = new DeleteUser(container);
             deleteUser.targetDatabase = SystemeConstants.SystemDatabaseName;
@@ -202,7 +202,7 @@ namespace MiniSQL.Querys
             return deleteUser;
         }
 
-        private GrantDatabasePrivilege CreateGrantDatabasePrivilege(Request request, IDatabaseContainer container)
+        private GrantDatabasePrivilege CreateGrantDatabasePrivilege(IMessage request, IDatabaseContainer container)
         {
             GrantDatabasePrivilege grantDatabasePrivilege = new GrantDatabasePrivilege(container);
             grantDatabasePrivilege.targetDatabase = SystemeConstants.SystemDatabaseName;
@@ -211,7 +211,7 @@ namespace MiniSQL.Querys
             return grantDatabasePrivilege;
         }
 
-        private RevokeDatabasePrivilege CreateRevoqueDatabasePrivilege(Request request, IDatabaseContainer container)
+        private RevokeDatabasePrivilege CreateRevoqueDatabasePrivilege(IMessage request, IDatabaseContainer container)
         {
             RevokeDatabasePrivilege revokeDatabasePrivilege = new RevokeDatabasePrivilege(container);
             revokeDatabasePrivilege.targetDatabase = SystemeConstants.SystemDatabaseName;
@@ -220,7 +220,7 @@ namespace MiniSQL.Querys
             return revokeDatabasePrivilege;
         }
 
-        private DropSecurityProfile CreateDropSecurityProfile(Request request, IDatabaseContainer container) {
+        private DropSecurityProfile CreateDropSecurityProfile(IMessage request, IDatabaseContainer container) {
             DropSecurityProfile dropSecurityProfile = new DropSecurityProfile(container);
             dropSecurityProfile.targetDatabase = SystemeConstants.SystemDatabaseName;
             dropSecurityProfile.targetTableName = SystemeConstants.ProfilesTableName;
@@ -228,7 +228,7 @@ namespace MiniSQL.Querys
             return dropSecurityProfile;
         }
 
-        private GrantPrivilege CreateGrantPrivilege(Request request, IDatabaseContainer container)
+        private GrantPrivilege CreateGrantPrivilege(IMessage request, IDatabaseContainer container)
         {
             GrantPrivilege grantPrivilege = new GrantPrivilege(container);
             grantPrivilege.targetDatabase = SystemeConstants.SystemDatabaseName;
@@ -237,7 +237,7 @@ namespace MiniSQL.Querys
             return grantPrivilege;
         }
 
-        private RevoquePrivilege CreateRevoquePrivilege(Request request, IDatabaseContainer container)
+        private RevoquePrivilege CreateRevoquePrivilege(IMessage request, IDatabaseContainer container)
         {
             RevoquePrivilege revokePrivilege = new RevoquePrivilege(container);
             revokePrivilege.targetDatabase = SystemeConstants.SystemDatabaseName;
@@ -246,7 +246,7 @@ namespace MiniSQL.Querys
             return revokePrivilege;
         }
 
-        private Login CreateLogin(Request request, IDatabaseContainer container, IUserThread thread)
+        private Login CreateLogin(IMessage request, IDatabaseContainer container, IUserThread thread)
         {
             Login login = new Login(container, thread);
             login.targetDatabase = SystemeConstants.SystemDatabaseName;
@@ -260,7 +260,7 @@ namespace MiniSQL.Querys
             return new Exit(container, thread, databaseModule);
         }
 
-        private Where CreateWhereClause(Request request)
+        private Where CreateWhereClause(IMessage request)
         {
             Where where = new Where();
             string[] columnToEvaluate = request.GetElementsContentByTagName(RequestAndRegexConstants.toEvaluateColumnTagName);
@@ -274,13 +274,13 @@ namespace MiniSQL.Querys
             return where;
         }
 
-        private void SetDatabaseAndTableTarget(Request request, AbstractQuery query)
+        private void SetDatabaseAndTableTarget(IMessage request, AbstractQuery query)
         {
             query.targetDatabase = this.GetTargetDatabase(request);
             query.targetTableName = request.GetElementsContentByTagName(RequestAndRegexConstants.tableTagName)[0];
         }
 
-        private string GetTargetDatabase(Request request)
+        private string GetTargetDatabase(IMessage request)
         {
             string defaultDatabase = ((ISystemeDatabaseModule)this.systeme.GetSystemeModule(SystemeConstants.SystemeDatabaseModule)).GetDefaultDatabaseName();
             string[] databaseGroups = request.GetElementsContentByTagName(RequestAndRegexConstants.databaseTagName);

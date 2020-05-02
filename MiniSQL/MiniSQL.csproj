@@ -134,6 +134,11 @@
     <Compile Include="TableRestrictions\PrimaryKey.cs" />
     <Compile Include="UbicationManagers\FirstUbicationManager.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\NetworkUtilities\NetworkUtilities.csproj">
+      <Project>{14ed567e-a8ee-469e-aeef-0b1d9e0feed4}</Project>
+      <Name>NetworkUtilities</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

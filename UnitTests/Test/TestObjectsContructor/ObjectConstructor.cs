@@ -4,6 +4,8 @@ using MiniSQL.DataTypes;
 using MiniSQL.Initializer;
 using MiniSQL.Interfaces;
 using MiniSQL.ServerFacade;
+using NetworkUtilities.Interfaces;
+using NetworkUtilities.Requests;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -122,34 +124,34 @@ namespace UnitTests.Test.TestObjectsContructor
             return new DatabaseContainer();
         }
 
-        public static Request GetSelectRequest()
+        public static IMessage GetSelectRequest()
         {
-            return new Request("<transaction><fullQuery><![CDATA[SELECT * FROM test.aaaa;]]></fullQuery><query><![CDATA[SELECT]]></query><selectedColumn><![CDATA[*]]></selectedColumn><database><![CDATA[test]]></database><table><![CDATA[aaaa]]></table></transaction>");
+            return new XmlMessage("<transaction><fullQuery><![CDATA[SELECT * FROM test.aaaa;]]></fullQuery><query><![CDATA[SELECT]]></query><selectedColumn><![CDATA[*]]></selectedColumn><database><![CDATA[test]]></database><table><![CDATA[aaaa]]></table></transaction>");
         }
 
-        public static Request GetInsertRequest()
+        public static IMessage GetInsertRequest()
         {
-            return new Request("<transaction><fullQuery><![CDATA[INSERT INTO aaa.bbb VALUES(a);]]></fullQuery><query><![CDATA[INSERT]]></query><database><![CDATA[aaa]]></database><table><![CDATA[bbb]]></table><value><![CDATA[a]]></value></transaction>");
+            return new XmlMessage("<transaction><fullQuery><![CDATA[INSERT INTO aaa.bbb VALUES(a);]]></fullQuery><query><![CDATA[INSERT]]></query><database><![CDATA[aaa]]></database><table><![CDATA[bbb]]></table><value><![CDATA[a]]></value></transaction>");
         }
 
-        public static Request GetUpdateRequest()
+        public static IMessage GetUpdateRequest()
         {
-            return new Request("<transaction><fullQuery><![CDATA[UPDATE aaaa.aaa SET a=1 WHERE a=12;]]></fullQuery><query><![CDATA[UPDATE]]></query><database><![CDATA[aaaa]]></database><table><![CDATA[aaa]]></table><updatedColumn><![CDATA[a]]></updatedColumn><toValue><![CDATA[1]]></toValue><toEvalColumn><![CDATA[a]]></toEvalColumn><operator><![CDATA[=]]></operator><evalValue><![CDATA[12]]></evalValue></transaction>");
+            return new XmlMessage("<transaction><fullQuery><![CDATA[UPDATE aaaa.aaa SET a=1 WHERE a=12;]]></fullQuery><query><![CDATA[UPDATE]]></query><database><![CDATA[aaaa]]></database><table><![CDATA[aaa]]></table><updatedColumn><![CDATA[a]]></updatedColumn><toValue><![CDATA[1]]></toValue><toEvalColumn><![CDATA[a]]></toEvalColumn><operator><![CDATA[=]]></operator><evalValue><![CDATA[12]]></evalValue></transaction>");
         }
 
-        public static Request GetDeleteRequest()
+        public static IMessage GetDeleteRequest()
         {
-            return new Request("<transaction><fullQuery><![CDATA[DELETE FROM aaaa.nbbb WHERE a=1;]]></fullQuery><query><![CDATA[DELETE]]></query><database><![CDATA[aaaa]]></database><table><![CDATA[nbbb]]></table><toEvalColumn><![CDATA[a]]></toEvalColumn><operator><![CDATA[=]]></operator><evalValue><![CDATA[1]]></evalValue></transaction>");
+            return new XmlMessage("<transaction><fullQuery><![CDATA[DELETE FROM aaaa.nbbb WHERE a=1;]]></fullQuery><query><![CDATA[DELETE]]></query><database><![CDATA[aaaa]]></database><table><![CDATA[nbbb]]></table><toEvalColumn><![CDATA[a]]></toEvalColumn><operator><![CDATA[=]]></operator><evalValue><![CDATA[1]]></evalValue></transaction>");
         }
 
-        public static Request GetCreateTableRequest()
+        public static IMessage GetCreateTableRequest()
         {
-            return new Request("<transaction><fullQuery><![CDATA[CREATE TABLE aaa.aaa (a INT);]]></fullQuery><query><![CDATA[CREATE TABLE]]></query><database><![CDATA[aaa]]></database><table><![CDATA[aaa]]></table><column><![CDATA[a]]></column><columnType><![CDATA[INT]]></columnType></transaction>");
+            return new XmlMessage("<transaction><fullQuery><![CDATA[CREATE TABLE aaa.aaa (a INT);]]></fullQuery><query><![CDATA[CREATE TABLE]]></query><database><![CDATA[aaa]]></database><table><![CDATA[aaa]]></table><column><![CDATA[a]]></column><columnType><![CDATA[INT]]></columnType></transaction>");
         }
 
-        public static Request GetDropTableRequest()
+        public static IMessage GetDropTableRequest()
         {
-            return new Request("<transaction><fullQuery><![CDATA[DROP TABLE aaa.aaa;]]></fullQuery><query><![CDATA[DROP TABLE]]></query><database><![CDATA[aaa]]></database><table><![CDATA[aaa]]></table></transaction>");
+            return new XmlMessage("<transaction><fullQuery><![CDATA[DROP TABLE aaa.aaa;]]></fullQuery><query><![CDATA[DROP TABLE]]></query><database><![CDATA[aaa]]></database><table><![CDATA[aaa]]></table></transaction>");
         }
 
         public static string NewDatabaseName(IDatabaseContainer container)
