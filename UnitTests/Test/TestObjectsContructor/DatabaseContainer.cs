@@ -105,6 +105,9 @@ namespace UnitTests.Test.TestObjectsContructor
             return this.systeme;
         }
 
-
+        public void SaveAll()
+        {
+            
+        }
     }
 }

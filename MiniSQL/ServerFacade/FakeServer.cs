@@ -61,8 +61,12 @@ namespace MiniSQL.ServerFacade
 
         public void SaveShit() 
         {
-           ((SystemeDatabaseContainerModule) Systeme.GetSystem().GetSystemeModule(SystemeConstants.SystemeDatabaseModule)).SaveAll();
+           ((ISystemeDatabaseModule) Systeme.GetSystem().GetSystemeModule(SystemeConstants.SystemeDatabaseModule)).SaveAll();
         }
 
+        public void Close()
+        {
+            
+        }
     }
 }

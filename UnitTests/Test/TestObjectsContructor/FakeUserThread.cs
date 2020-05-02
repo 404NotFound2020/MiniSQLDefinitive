@@ -14,5 +14,10 @@ namespace UnitTests.Test.TestObjectsContructor
         public FakeUserThread() {
             this.username = "anonimous";
         }
+
+        public void Close()
+        {
+            
+        }
     }
 }

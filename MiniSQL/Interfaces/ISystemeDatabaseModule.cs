@@ -14,5 +14,6 @@ namespace MiniSQL.Interfaces
         string GetDefaultDatabaseName();
         IDatabase GetDatabase(string databaseName);
         void AddDatabase(IDatabase database);
+        void SaveAll();
     }
 }

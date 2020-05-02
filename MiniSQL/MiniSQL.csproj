@@ -51,6 +51,7 @@
     <Compile Include="Interfaces\PrivilegeManipulationQuery.cs" />
     <Compile Include="Interfaces\UserManipulationQuery.cs" />
     <Compile Include="Interfaces\IUserThread.cs" />
+    <Compile Include="Querys\Exit.cs" />
     <Compile Include="Querys\GrantDatabasePrivilege.cs" />
     <Compile Include="Querys\Login.cs" />
     <Compile Include="Querys\RevokeDatabasePrivilege.cs" />

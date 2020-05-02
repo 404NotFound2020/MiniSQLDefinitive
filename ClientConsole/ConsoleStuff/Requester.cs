@@ -16,7 +16,6 @@ namespace ClientConsole.ConsoleStuff
         
         }
 
-
         public string SendRequest(string query) {
             return FakeServer.GetFakeServer().ReceiveRequest(query);                    
         }
@@ -26,8 +25,6 @@ namespace ClientConsole.ConsoleStuff
             if (requester == null) requester = new Requester();
             return requester;
         }
-
-
 
     }
 }

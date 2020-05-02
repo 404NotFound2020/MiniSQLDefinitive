@@ -30,7 +30,8 @@ namespace MiniSQL.Querys
         {
             IDatabaseContainer container = ((ISystemeDatabaseModule)this.systeme.GetSystemeModule(SystemeConstants.SystemeDatabaseModule)).GetDatabaseContainer();
             AbstractQuery query = null;
-            switch (request.GetElementsContentByTagName(RequestAndRegexConstants.queryTagName)[0])
+            string queryTag = request.GetElementsContentByTagName(RequestAndRegexConstants.queryTagName)[0];
+            switch (queryTag)
             {
                 case RequestAndRegexConstants.selectQueryIdentificator:
                     query = this.CreateSelectQuery(request, container);
@@ -83,7 +84,11 @@ namespace MiniSQL.Querys
                 case RequestAndRegexConstants.loginQueryIdentificator:
                     query = CreateLogin(request, container, thread);
                     break;
+                case RequestAndRegexConstants.exitIdentificator:
+                    query = CreateExit(container, thread, (ISystemeDatabaseModule) systeme.GetSystemeModule(SystemeConstants.SystemeDatabaseModule));
+                    break;
             }
+            Console.WriteLine(queryTag);
             query.username = thread.username;
             query.SetPrivilegeModule((ISystemePrivilegeModule)this.systeme.GetSystemeModule(SystemeConstants.SystemePrivilegeModule));
             return query;
@@ -250,6 +255,11 @@ namespace MiniSQL.Querys
             return login;
         }
 
+        private Exit CreateExit(IDatabaseContainer container, IUserThread thread, ISystemeDatabaseModule databaseModule)
+        {
+            return new Exit(container, thread, databaseModule);
+        }
+
         private Where CreateWhereClause(Request request)
         {
             Where where = new Where();
@@ -282,6 +292,8 @@ namespace MiniSQL.Querys
         {
             this.systeme = systeme;
         }
+
+
 
     }
 }

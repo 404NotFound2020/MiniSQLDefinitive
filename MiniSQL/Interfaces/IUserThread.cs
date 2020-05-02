@@ -9,6 +9,6 @@ namespace MiniSQL.Interfaces
     public interface IUserThread
     {
         string username { get; set; }
-
+        void Close();
     }
 }

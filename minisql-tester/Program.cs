@@ -1,5 +1,6 @@
 ﻿using ClientConsole.ConsoleStuff;
 using MiniSQL.ServerFacade;
+using minisql_tester.SomeTestStuff;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -49,7 +50,7 @@ namespace minisql_tester
                     if (QueryVerifier.GetQueryVerifier().EvaluateQuery(textLine))
                     {
                         date = DateTime.Now;
-                        result = result + Requester.GetRequester().SendRequest(TransactionCreator.GetTransactionCreator().CreateGroupDependingXML(QueryVerifier.GetQueryVerifier().queryMatch));
+                        result = result + DirectRequester.GetRequester().SendRequest(TransactionCreator.GetTransactionCreator().CreateGroupDependingXML(QueryVerifier.GetQueryVerifier().queryMatch));
                         diff = GetDiffAndAct(date, DateTime.Now);
                         result = result + " (" + diff + "s)\n";
                         seconds = seconds + diff;
