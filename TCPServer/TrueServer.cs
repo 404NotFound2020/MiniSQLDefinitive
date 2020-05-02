@@ -26,7 +26,7 @@ namespace TCPServer
             regexMessage = CreateRegexXmlMessage(new string[] { RequestAndRegexConstants.selectPattern, RequestAndRegexConstants.insertPattern, RequestAndRegexConstants.updatePattern, RequestAndRegexConstants.createPattern, RequestAndRegexConstants.deletePattern, RequestAndRegexConstants.dropPattern, RequestAndRegexConstants.createDatabasePattern, RequestAndRegexConstants.dropDatabasePattern, RequestAndRegexConstants.deleteUser, RequestAndRegexConstants.createUser, RequestAndRegexConstants.grantDatabasePrivilege, RequestAndRegexConstants.grantTablePrivilege, RequestAndRegexConstants.revokeTablePrivilege, RequestAndRegexConstants.revokeDatabasePrivilege, RequestAndRegexConstants.createSecurityProfile, RequestAndRegexConstants.dropSecurityProfile, RequestAndRegexConstants.login, RequestAndRegexConstants.exit });
             InitializeSysteme();
             QueryFactory.GetQueryFactory().SetSysteme(Systeme.GetSystem());
-            InitialiceListener("127.0.0.1", 8088);
+            InitialiceListener("192.168.0.10", 8088);
             RunServer();
 
         }
@@ -59,20 +59,15 @@ namespace TCPServer
             tcpListener.Start();
             while (true) {
                 UserThread userThread = new UserThread(tcpListener.AcceptTcpClient());
-                Console.WriteLine("conectaroc");
                 userThread.SendMessage(regexMessage);
-                userThread.Run();
-               
+                userThread.Run();               
             }
         }
 
         private static string CreateRegexXmlMessage(string[] regexList)
         {
             string xmlRegexPartMessage = "";
-            for (int i = 0; i < regexList.Length; i++)
-            {
-                xmlRegexPartMessage = xmlRegexPartMessage + "<regex><![CDATA[" + regexList[i] + "]]></regex>\n";
-            }
+            for (int i = 0; i < regexList.Length; i++) xmlRegexPartMessage = xmlRegexPartMessage + XmlMessage.CreateTextNode("regex", regexList[i]);
             return xmlRegexPartMessage;
         }
 

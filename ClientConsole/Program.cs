@@ -28,8 +28,6 @@ namespace ClientConsole
             tcpClient = new TcpClient(ip, port);
             NetworkStream stream = tcpClient.GetStream();
             string regexResponse = ReceiveMessage(stream, 256);
-            //Console.WriteLine(regexResponse);
-            //Console.ReadLine();
             SetRegex(regexResponse);
             StartConsole(stream);
         }
@@ -62,13 +60,16 @@ namespace ClientConsole
         {
             Byte[] data = new Byte[bufferSize];
             Int32 bytes;
-            string responseData = "";           
-            do
-            {                
-                bytes = stream.Read(data, 0, data.Length);                
+            string responseData = "";                                         
+            bytes = stream.Read(data, 0, data.Length);                
+            responseData = responseData + System.Text.Encoding.ASCII.GetString(data, 0, bytes);
+            int packageSize = XmlMessage.GetPackageSize(responseData);
+            int actualBufferPosition = bufferSize;
+            while (actualBufferPosition < packageSize) {
+                bytes = stream.Read(data, 0, data.Length);
                 responseData = responseData + System.Text.Encoding.ASCII.GetString(data, 0, bytes);
+                actualBufferPosition = actualBufferPosition + bufferSize;
             }
-            while (stream.DataAvailable);
             return responseData;
         }
 
