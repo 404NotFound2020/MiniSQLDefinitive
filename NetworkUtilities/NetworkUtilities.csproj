@@ -44,6 +44,7 @@
     <Compile Include="Interfaces\IMessage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Requests\XmlMessage.cs" />
+    <Compile Include="Transactions\SendAndReceive.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

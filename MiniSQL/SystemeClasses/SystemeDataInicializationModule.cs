@@ -45,13 +45,14 @@ namespace MiniSQL.SystemeClasses
                 databaseModule.AcoplateTheModule();
                 this.CreateSystemDatabases(databaseModule);
                 this.CreateDefaultDatabase(databaseModule);
+                databaseModule.ActToAdd(databaseModule.GetDatabase(SystemeConstants.SystemDatabaseName));
                 this.isAcoplated = true;
             }
         }
         private void CreateSystemDatabases(ISystemeDatabaseModule databaseModule)
         {
             IDatabaseContainer databaseContainer = databaseModule.GetDatabaseContainer();
-            if (!databaseContainer.ExistDatabase(SystemeConstants.SystemDatabaseName)) databaseModule.AddDatabase(DefaultDataConstructor.CreateSystemDatabase());
+            if (!databaseContainer.ExistDatabase(SystemeConstants.SystemDatabaseName)) databaseModule.AddDatabase(DefaultDataConstructor.CreateSystemDatabase()); 
             else { DefaultDataConstructor.CompleteSystemDatabase(databaseModule.GetDatabaseContainer().GetDatabase(SystemeConstants.SystemDatabaseName)); }
         }
 

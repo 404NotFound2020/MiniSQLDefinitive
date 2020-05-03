@@ -2,6 +2,7 @@
 using MiniSQL.Initializer;
 using MiniSQL.ServerFacade;
 using NetworkUtilities.Requests;
+using NetworkUtilities.Transactions;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -19,7 +20,7 @@ namespace ClientConsole
 
         static void Main(string[] args)
         {
-            ConnectToServer(AskServerIP().ToString(), AskServerPort());
+            ConnectToServer(ServerCredentialsFunctions.AskServerIP().ToString(), ServerCredentialsFunctions.AskServerPort());
             Console.ReadLine();
         }
         
@@ -27,50 +28,29 @@ namespace ClientConsole
         {
             tcpClient = new TcpClient(ip, port);
             NetworkStream stream = tcpClient.GetStream();
-            string regexResponse = ReceiveMessage(stream, 256);
+            string regexResponse = SendAndReceive.ReceiveMessage(stream, 256);
             SetRegex(regexResponse);
             StartConsole(stream);
         }
 
-        private static IPAddress AskServerIP()
+        private static void StartConsole(NetworkStream stream)
         {
-            IPAddress address;
-            string ip = null;          
-            do
+            string lineOfCocain;
+            string message;
+            while (!(lineOfCocain = Console.ReadLine()).Equals("EXIT;"))
             {
-                Console.WriteLine("Give a good ip");
-                ip = Console.ReadLine();
+                message = "Go to fuck yourself stupid shitty idiot";
+                if (QueryVerifier.GetQueryVerifier().EvaluateQuery(lineOfCocain))
+                {
+                    SendAndReceive.SendMessage(stream, TransactionCreator.GetTransactionCreator().CreateGroupDependingXML(QueryVerifier.GetQueryVerifier().queryMatch));
+                    message = (new XmlMessage(SendAndReceive.ReceiveMessage(stream, 256))).GetElementsContentByTagName("payload")[0];
+                }
             }
-            while (!IPAddress.TryParse(ip, out address));
-            return address;
-        }
-
-        private static int AskServerPort()
-        {
-            int port;          
-            do {
-                Console.WriteLine("Give a good port");
-                if (!int.TryParse(Console.ReadLine(), out port)) port = -1;               
-            }
-            while (port < 0 || port > 65554);
-            return port;
-        }
-
-        private static string ReceiveMessage(NetworkStream stream, int bufferSize)
-        {
-            Byte[] data = new Byte[bufferSize];
-            Int32 bytes;
-            string responseData = "";                                         
-            bytes = stream.Read(data, 0, data.Length);                
-            responseData = responseData + System.Text.Encoding.ASCII.GetString(data, 0, bytes);
-            int packageSize = XmlMessage.GetPackageSize(responseData);
-            int actualBufferPosition = bufferSize;
-            while (actualBufferPosition < packageSize) {
-                bytes = stream.Read(data, 0, data.Length);
-                responseData = responseData + System.Text.Encoding.ASCII.GetString(data, 0, bytes);
-                actualBufferPosition = actualBufferPosition + bufferSize;
-            }
-            return responseData;
+            QueryVerifier.GetQueryVerifier().EvaluateQuery(lineOfCocain);
+            SendAndReceive.SendMessage(stream, TransactionCreator.GetTransactionCreator().CreateGroupDependingXML(QueryVerifier.GetQueryVerifier().queryMatch));
+            message = (new XmlMessage(SendAndReceive.ReceiveMessage(stream, 256))).GetElementsContentByTagName("payload")[0];
+            Console.WriteLine(message);
+            tcpClient.Close();
         }
 
         private static void SetRegex(string message)
@@ -78,34 +58,7 @@ namespace ClientConsole
             XmlMessage request = new XmlMessage(message);
             QueryVerifier queryVerifier = QueryVerifier.GetQueryVerifier();
             string[] regex = request.GetElementsContentByTagName("regex");
-            for (int i = 0; i < regex.Length; i++)
-            {
-                queryVerifier.AddPattern(regex[i]);
-            }
-        }
-
-        private static void StartConsole(NetworkStream stream)
-        {
-            string lineOfCocain;
-            string message;
-            byte[] msg;
-            while (!(lineOfCocain = Console.ReadLine()).Equals("EXIT;"))
-            {
-                message = "Go to fuck yourself stupid shitty idiot";
-                if (QueryVerifier.GetQueryVerifier().EvaluateQuery(lineOfCocain))
-                {
-                    msg = System.Text.Encoding.ASCII.GetBytes(TransactionCreator.GetTransactionCreator().CreateGroupDependingXML(QueryVerifier.GetQueryVerifier().queryMatch));
-                    stream.Write(msg, 0, msg.Length);
-                    message = (new XmlMessage(ReceiveMessage(stream, 256))).GetElementsContentByTagName("message")[0];
-                }
-                Console.WriteLine(message);
-            }
-            QueryVerifier.GetQueryVerifier().EvaluateQuery(lineOfCocain);
-            msg = System.Text.Encoding.ASCII.GetBytes(TransactionCreator.GetTransactionCreator().CreateGroupDependingXML(QueryVerifier.GetQueryVerifier().queryMatch));
-            stream.Write(msg, 0, msg.Length);
-            message = (new XmlMessage(ReceiveMessage(stream, 256))).GetElementsContentByTagName("message")[0];
-            Console.WriteLine(message);
-            tcpClient.Close();
+            for (int i = 0; i < regex.Length; i++) queryVerifier.AddPattern(regex[i]);
         }
 
     }

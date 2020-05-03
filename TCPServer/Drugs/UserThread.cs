@@ -1,6 +1,7 @@
 ﻿using MiniSQL.Constants;
 using MiniSQL.Interfaces;
 using NetworkUtilities.Requests;
+using NetworkUtilities.Transactions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -45,16 +46,15 @@ namespace TCPServer.Drugs
                     responseData = responseData + System.Text.Encoding.ASCII.GetString(data, 0, bytes);
                 }
                 while (stream.DataAvailable);
-                this.SendMessage(XmlMessage.CreateTextNode("message", TrueServer.ReceiveRequest(this, responseData)));
+                Console.WriteLine(responseData);
+                this.SendMessage(XmlMessage.CreateTextNode("payload", TrueServer.ReceiveRequest(this, responseData)));
             }
             client.Close();
         }
 
         public void SendMessage(string message)
         {
-            NetworkStream stream = client.GetStream();
-            byte[] msg = System.Text.Encoding.ASCII.GetBytes(XmlMessage.Protocole("response", message));
-            stream.Write(msg, 0, msg.Length);
+            SendAndReceive.SendMessage(client.GetStream(), message);
         }
 
         public void Close()

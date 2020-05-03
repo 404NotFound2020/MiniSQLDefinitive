@@ -79,10 +79,7 @@ namespace TCPServer
             query.Execute();
             return query.GetResult();
         }
-
         
-
-
 
     }
 }
