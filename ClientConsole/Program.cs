@@ -1,6 +1,4 @@
 ﻿using ClientConsole.ConsoleStuff;
-using MiniSQL.Initializer;
-using MiniSQL.ServerFacade;
 using NetworkUtilities.Requests;
 using NetworkUtilities.Transactions;
 using System;
@@ -44,7 +42,9 @@ namespace ClientConsole
                 {
                     SendAndReceive.SendMessage(stream, TransactionCreator.GetTransactionCreator().CreateGroupDependingXML(QueryVerifier.GetQueryVerifier().queryMatch));
                     message = (new XmlMessage(SendAndReceive.ReceiveMessage(stream, 256))).GetElementsContentByTagName("payload")[0];
+                    
                 }
+                Console.WriteLine(message);
             }
             QueryVerifier.GetQueryVerifier().EvaluateQuery(lineOfCocain);
             SendAndReceive.SendMessage(stream, TransactionCreator.GetTransactionCreator().CreateGroupDependingXML(QueryVerifier.GetQueryVerifier().queryMatch));

@@ -23,12 +23,17 @@ namespace TCPServer
 
         static void Main(string[] args)
         {
+            StartServer();
+        }
+
+        public static void StartServer()
+        {
+            clients = new List<UserThread>();
             regexMessage = CreateRegexXmlMessage(new string[] { RequestAndRegexConstants.selectPattern, RequestAndRegexConstants.insertPattern, RequestAndRegexConstants.updatePattern, RequestAndRegexConstants.createPattern, RequestAndRegexConstants.deletePattern, RequestAndRegexConstants.dropPattern, RequestAndRegexConstants.createDatabasePattern, RequestAndRegexConstants.dropDatabasePattern, RequestAndRegexConstants.deleteUser, RequestAndRegexConstants.createUser, RequestAndRegexConstants.grantDatabasePrivilege, RequestAndRegexConstants.grantTablePrivilege, RequestAndRegexConstants.revokeTablePrivilege, RequestAndRegexConstants.revokeDatabasePrivilege, RequestAndRegexConstants.createSecurityProfile, RequestAndRegexConstants.dropSecurityProfile, RequestAndRegexConstants.login, RequestAndRegexConstants.exit });
             InitializeSysteme();
             QueryFactory.GetQueryFactory().SetSysteme(Systeme.GetSystem());
             InitialiceListener("192.168.0.10", 8088);
             RunServer();
-
         }
 
         private static void InitializeSysteme()
@@ -60,7 +65,8 @@ namespace TCPServer
             while (true) {
                 UserThread userThread = new UserThread(tcpListener.AcceptTcpClient());
                 userThread.SendMessage(regexMessage);
-                userThread.Run();               
+                userThread.Run();
+                clients.Add(userThread);
             }
         }
 
@@ -80,6 +86,10 @@ namespace TCPServer
             return query.GetResult();
         }
         
+        public static void CloseServer()
+        {
+            tcpListener.Stop();
+        }
 
     }
 }
