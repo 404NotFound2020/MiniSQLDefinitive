@@ -1,4 +1,5 @@
 ﻿using ClientConsole.ConsoleStuff;
+using NetworkUtilities.Credentials;
 using NetworkUtilities.Requests;
 using NetworkUtilities.Transactions;
 using System;

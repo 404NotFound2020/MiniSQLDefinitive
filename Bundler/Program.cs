@@ -14,20 +14,35 @@ namespace Bundler
     {
         public static string RelPathToSolutionRootFolder = "../../../";
         public static string morePath = "minisql-tester/bin/Release/";
+        public static string serverPath = "TCPServer/bin/Release/";
+        public static string clientPath= "ClientConsole/bin/Release/";
+
         public static string RootFolderInZip;
 
         public static void Main()
         {
             List<string> files = new List<string>();
+            List<string> serverFiles = new List<string>();
+            List<string> clientFiles = new List<string>();
             string version;
             version = GetVersion(RelPathToSolutionRootFolder + morePath + "minisql-tester.exe");
-            RootFolderInZip = "OurShit/";
+            RootFolderInZip = "All/";
+            string TesterFolder = "PhaseTwoTester/";
+            string ServerFolder = "Server/";
+            string ClientFolder = "Client/";
             files.Add(RelPathToSolutionRootFolder + morePath + "minisql-tester.exe");
             files.Add(RelPathToSolutionRootFolder + morePath + "ClientConsole.exe");
             files.Add(RelPathToSolutionRootFolder + morePath + "MiniSQL.dll");
+
+            serverFiles.Add(RelPathToSolutionRootFolder + serverPath + "MiniSQL.dll");
+            serverFiles.Add(RelPathToSolutionRootFolder + serverPath + "NetworkUtilities.dll");
+            serverFiles.Add(RelPathToSolutionRootFolder + serverPath + "TCPServer.exe");
+
+            clientFiles.Add(RelPathToSolutionRootFolder + clientPath+ "NetworkUtilities.dll");
+            clientFiles.Add(RelPathToSolutionRootFolder + clientPath + "ClientConsole.exe");
             string outputFile = RelPathToSolutionRootFolder + "404-" + version + ".zip";
             Console.WriteLine("Compressing files");
-            Compress(outputFile, files);
+            Compress(new List<string> { RootFolderInZip + TesterFolder, RootFolderInZip + ServerFolder, RootFolderInZip + ClientFolder }, outputFile, new List<List<string>> {files, serverFiles, clientFiles }, new List<string> { morePath, serverPath, clientPath});
             Console.WriteLine("Finished");
         }
 
@@ -68,26 +83,31 @@ namespace Bundler
             return files;
         }
 
-        public static void Compress(string outputFilename, List<string> files)
+        public static void Compress(List<string> dirNames, string outputFilename, List<List<string>> fileList, List<string> otherPath)
         {
-            uint numFilesAdded = 0;
-            double totalNumFiles = (double)files.Count;
+            uint numFilesAdded = 0;           
             using (FileStream zipToOpen = new FileStream(outputFilename, FileMode.Create))
             {
                 using (ZipArchive archive = new ZipArchive(zipToOpen, ZipArchiveMode.Update))
                 {
-                    foreach (string file in files)
+                    List<string> files;
+                    for (int i = 0; i < fileList.Count; i++)
                     {
-                        if (System.IO.File.Exists(file))
+                        files = fileList[i];
+                        double totalNumFiles = (double)files.Count;
+                        foreach (string file in files)
                         {
-                            archive.CreateEntryFromFile(file, RootFolderInZip + file.Substring((RelPathToSolutionRootFolder + morePath).Length));//a lo chapuzas lo de morepath
-                            numFilesAdded++;
-                        }
-                        else Console.WriteLine("Couldn't find file: {0}", file);
+                            if (System.IO.File.Exists(file))
+                            {
+                                archive.CreateEntryFromFile(file, dirNames[i] + file.Substring((RelPathToSolutionRootFolder + otherPath[i]).Length));//a lo chapuzas lo de morepath
+                                numFilesAdded++;
+                            }
+                            else Console.WriteLine("Couldn't find file: {0}", file);
 
-                        Console.Write("\rProgress: {0:F2}%", 100.0 * ((double)numFilesAdded) / totalNumFiles);
+                            Console.Write("\rProgress: {0:F2}%", 100.0 * ((double)numFilesAdded) / totalNumFiles);
+                        }
+                        Console.WriteLine("\nSaving {0} files in  {1}", numFilesAdded, Path.GetFullPath(outputFilename));
                     }
-                    Console.WriteLine("\nSaving {0} files in  {1}", numFilesAdded, Path.GetFullPath(outputFilename));
                 }
             }
         }

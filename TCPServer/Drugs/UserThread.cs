@@ -23,7 +23,7 @@ namespace TCPServer.Drugs
         public UserThread(TcpClient client) {
             this.client = client;
             this.username = SystemeConstants.AnonimousUser;
-            Console.Write(((IPEndPoint)client.Client.RemoteEndPoint).Address.ToString()); //FUCKING RUSSIANS, IF YOU DIDNT USE VPN I WILL KNOW HOW ARE YOU
+            Console.WriteLine(((IPEndPoint)client.Client.RemoteEndPoint).Address.ToString()); //FUCKING RUSSIANS, IF YOU DIDNT USE VPN I WILL KNOW HOW ARE YOU
         }
 
         public void Run()

@@ -3,6 +3,7 @@ using MiniSQL.Interfaces;
 using MiniSQL.Querys;
 using MiniSQL.ServerFacade;
 using MiniSQL.SystemeClasses;
+using NetworkUtilities.Credentials;
 using NetworkUtilities.Requests;
 using System;
 using System.Collections.Generic;
@@ -32,7 +33,7 @@ namespace TCPServer
             regexMessage = CreateRegexXmlMessage(new string[] { RequestAndRegexConstants.selectPattern, RequestAndRegexConstants.insertPattern, RequestAndRegexConstants.updatePattern, RequestAndRegexConstants.createPattern, RequestAndRegexConstants.deletePattern, RequestAndRegexConstants.dropPattern, RequestAndRegexConstants.createDatabasePattern, RequestAndRegexConstants.dropDatabasePattern, RequestAndRegexConstants.deleteUser, RequestAndRegexConstants.createUser, RequestAndRegexConstants.grantDatabasePrivilege, RequestAndRegexConstants.grantTablePrivilege, RequestAndRegexConstants.revokeTablePrivilege, RequestAndRegexConstants.revokeDatabasePrivilege, RequestAndRegexConstants.createSecurityProfile, RequestAndRegexConstants.dropSecurityProfile, RequestAndRegexConstants.login, RequestAndRegexConstants.exit });
             InitializeSysteme();
             QueryFactory.GetQueryFactory().SetSysteme(Systeme.GetSystem());
-            InitialiceListener("192.168.0.10", 8088);
+            InitialiceListener(ServerCredentialsFunctions.AskServerIP().ToString(), ServerCredentialsFunctions.AskServerPort());
             RunServer();
         }
 

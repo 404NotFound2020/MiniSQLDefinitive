@@ -43,7 +43,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ConsoleStuff\ServerCredentialsFunctions.cs" />
     <Compile Include="ConsoleStuff\QueryVerifier.cs" />
     <Compile Include="ConsoleStuff\TransactionCreator.cs" />
     <Compile Include="Program.cs" />
