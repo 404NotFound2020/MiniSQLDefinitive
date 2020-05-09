@@ -29,6 +29,12 @@ steps:
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
 
+- task: CmdLine@2
+  inputs:
+    script: |
+      cd Bundler/bin/Release
+      Bundler.exe
+
 - task: GitHubRelease@1
   inputs:
     gitHubConnection: 'github.com_AitorIs'
