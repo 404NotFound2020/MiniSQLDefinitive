@@ -36,6 +36,7 @@ steps:
       Bundler.exe
 
 - task: GitHubRelease@1
+  condition: eq(variables['build.sourceBranch'], 'refs/heads/master')
   inputs:
     gitHubConnection: 'github.com_AitorIs'
     repositoryName: '$(Build.Repository.Name)'
